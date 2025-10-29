@@ -1,0 +1,21 @@
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+  height: 4rem;
+  width: 4rem;
+  border-top-width: 4px;
+  border-bottom-width: 4px;
+  border-top-color: var(--primary);
+  border-bottom-color: var(--primary);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-style: solid;
+}

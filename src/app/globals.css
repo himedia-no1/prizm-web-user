@@ -1,33 +1,42 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Import theme variables */
+@import '../styles/variables.css';
+@import '../styles/themes/light.css';
+@import '../styles/themes/dark.css';
+
+/* Base Styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+#root,
+.app-container,
+.workspace-page,
+.login-page,
+.settings-page,
+.admin-page {
+  height: 100%;
+  width: 100%;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
+}
+
+h1, h2, h3, h4, p {
   margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
 
 a {
@@ -35,8 +44,180 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Animations */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Workspace Dropdown */
+.ws-dropdown {
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background-color: var(--card-bg);
+  box-shadow: 0 4px 12px var(--shadow);
+  border: 1px solid var(--border);
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0.5rem;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+}
+
+.ws-dropdown__current-ws {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.ws-dropdown__settings-button {
+  margin-left: auto;
+  padding: 0.25rem;
+  border-radius: 0.375rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.ws-dropdown__settings-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+}
+
+[data-theme='dark'] .ws-dropdown__settings-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.ws-dropdown__button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.ws-dropdown__button:hover {
+  background-color: var(--primary-light);
+}
+
+.ws-dropdown__button-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ws-dropdown__button-name {
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-dropdown__divider {
+  border-top: 1px solid var(--border);
+  margin: 0.5rem 0;
+}
+
+.ws-dropdown__new-ws,
+.ws-dropdown__action-button {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  padding-left: 0.75rem;
+}
+
+.ws-dropdown__new-ws svg,
+.ws-dropdown__action-button svg {
+  color: var(--text-secondary);
+  margin-right: 0.5rem;
+}
+
+.ws-dropdown__new-ws:hover,
+.ws-dropdown__action-button:hover {
+  color: var(--text);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ws-dropdown__new-ws:hover svg,
+.ws-dropdown__action-button:hover svg {
+  color: var(--text);
+}
+
+[data-theme='dark'] .ws-dropdown__new-ws:hover,
+[data-theme='dark'] .ws-dropdown__action-button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Workspace Page */
+.workspace-page {
+  display: flex;
+  background-color: var(--bg);
+  color: var(--text);
+  position: relative;
+}
+
+.workspace-page.left-sidebar-collapsed .left-sidebar {
+  width: 0;
+  padding: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+.sidebar-open-button {
+  position: absolute;
+  left: 0;
+  top: 0.75rem;
+  z-index: 30;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: none;
+  padding: 0.5rem 0.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  box-shadow: 2px 0 5px var(--shadow);
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.sidebar-open-button:hover {
+  background-color: var(--bg);
+  color: var(--text);
 }

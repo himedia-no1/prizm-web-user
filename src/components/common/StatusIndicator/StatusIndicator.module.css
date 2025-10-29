@@ -1,0 +1,19 @@
+.status-indicator {
+  display: block;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+  border: 2px solid var(--card-bg);
+}
+
+.status-indicator.online {
+  background-color: #22c55e;
+}
+
+.status-indicator.offline {
+  background-color: #9ca3af;
+}
+
+[data-theme='dark'] .status-indicator {
+  border-color: var(--card-bg);
+}
