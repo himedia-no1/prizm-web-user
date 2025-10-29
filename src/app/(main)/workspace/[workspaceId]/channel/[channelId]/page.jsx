@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useApp } from '@/contexts/AppContext';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
 import { MessageInput } from '@/components/chat/MessageInput';
@@ -11,6 +12,7 @@ import { mockMessages, mockUsers, mockThreadMessages } from '@/mocks';
 import './channel.css';
 
 export default function ChannelPage({ params }) {
+  const { openModal } = useApp();
   const [currentThread, setCurrentThread] = useState(null);
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
 
@@ -29,7 +31,11 @@ export default function ChannelPage({ params }) {
   };
 
   const handleOpenUserProfile = (userId) => {
-    console.log('Open user profile:', userId);
+    openModal('userProfile', { userId });
+  };
+
+  const handleOpenGenericModal = (type) => {
+    openModal('generic', { type });
   };
 
   return (
@@ -37,7 +43,7 @@ export default function ChannelPage({ params }) {
       <main className="main-chat-area">
         <ChatHeader
           channel={channel}
-          onOpenModal={(type) => console.log('Open modal:', type)}
+          onOpenModal={handleOpenGenericModal}
           onOpenUserProfile={handleOpenUserProfile}
         />
 
@@ -52,7 +58,7 @@ export default function ChannelPage({ params }) {
         <MessageInput
           channelName={channel.name}
           onToggleAI={() => console.log('Toggle AI')}
-          onOpenModal={(type) => console.log('Open modal:', type)}
+          onOpenModal={handleOpenGenericModal}
         />
 
         <AIFab onClick={() => console.log('Open AI')} />

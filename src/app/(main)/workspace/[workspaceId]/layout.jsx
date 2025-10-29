@@ -2,6 +2,7 @@
 
 import { useState, createContext } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { useApp } from '@/contexts/AppContext';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
 import { mockWorkspaces, mockCategories, mockDMs, mockUsers } from '@/mocks';
@@ -12,8 +13,8 @@ export const WorkspaceContext = createContext(null);
 export default function WorkspaceLayout({ children, params }) {
   const router = useRouter();
   const pathname = usePathname();
+  const { openModal, isDarkMode, toggleDarkMode } = useApp();
 
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
   const [currentChannelId, setCurrentChannelId] = useState('c1');
   const [currentView, setCurrentView] = useState('dashboard');
@@ -36,14 +37,15 @@ export default function WorkspaceLayout({ children, params }) {
     router.push(`/workspace/${workspaceId}/dashboard`);
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.dataset.theme = !isDarkMode ? 'dark' : 'light';
+  const handleOpenProfileModal = () => {
+    openModal('profileSettings', { user: currentUser });
+  };
+
+  const handleOpenGenericModal = (type) => {
+    openModal('generic', { type });
   };
 
   const contextValue = {
-    isDarkMode,
-    toggleDarkMode,
     currentWorkspace,
     currentUser,
   };
@@ -73,11 +75,11 @@ export default function WorkspaceLayout({ children, params }) {
           onSelectChannel={handleSelectChannel}
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}
-          onOpenProfileModal={() => console.log('Open profile modal')}
-          onNavigateToSettings={() => router.push('/settings/workspace/' + params.workspaceId)}
-          onNavigateToUserSettings={() => router.push('/settings/user')}
+          onOpenProfileModal={handleOpenProfileModal}
+          onNavigateToSettings={() => router.push(`/workspace/${params.workspaceId}/settings`)}
+          onNavigateToUserSettings={() => router.push('/settings')}
           onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
-          onOpenModal={(type) => console.log('Open modal:', type)}
+          onOpenModal={handleOpenGenericModal}
           onCollapse={() => setIsLeftSidebarCollapsed(true)}
           onToggleDarkMode={toggleDarkMode}
         />

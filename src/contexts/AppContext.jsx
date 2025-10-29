@@ -12,6 +12,8 @@ export const AppProvider = ({ children }) => {
     }
     return false;
   });
+  const [modalType, setModalType] = useState(null);
+  const [modalProps, setModalProps] = useState({});
 
   useEffect(() => {
     // Apply theme to document
@@ -27,9 +29,23 @@ export const AppProvider = ({ children }) => {
     setIsDarkMode(prev => !prev);
   };
 
+  const openModal = (type, props = {}) => {
+    setModalType(type);
+    setModalProps(props);
+  };
+
+  const closeModal = () => {
+    setModalType(null);
+    setModalProps({});
+  };
+
   const value = {
     isDarkMode,
     toggleDarkMode,
+    modalType,
+    modalProps,
+    openModal,
+    closeModal,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

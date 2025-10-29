@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, LinkIcon, Image, FileText } from '@/components/common/icons';
+import { X, Link, Image, FileText } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/mocks';
 
 export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
