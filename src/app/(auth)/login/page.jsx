@@ -9,6 +9,8 @@ import SocialButton from '@/components/auth/SocialButton';
 import { Github, Gitlab, Sun, Moon } from 'lucide-react';
 import styles from './SocialAuthPage.module.css';
 
+import { strings } from '@/constants/strings';
+
 const GoogleIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
@@ -34,7 +36,7 @@ export default function SocialAuthPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { login, isAuthenticated } = useAuthStore();
-    const { isDarkMode, toggleDarkMode } = useStore();
+    const { isDarkMode, toggleDarkMode, language, toggleLanguage } = useStore();
 
     useEffect(() => {
         const code = searchParams.get('code');
@@ -47,14 +49,21 @@ export default function SocialAuthPage() {
 
     useEffect(() => {
         if (isAuthenticated) {
-            router.push('/workspace');
+            router.push('/');
         }
     }, [isAuthenticated, router]);
 
     const theme = isDarkMode ? "dark" : "light";
 
+    const s = strings[language];
+
     return (
         <div className={`${styles.page} ${styles[theme]}`}>
+            <div className={styles.languageToggle}>
+                <button onClick={toggleLanguage} className={language === 'ko' ? styles.active : ''}>{s.korean}</button>
+                <button onClick={toggleLanguage} className={language === 'en' ? styles.active : ''}>{s.english}</button>
+            </div>
+
             <button
                 className={styles.themeToggle}
                 onClick={toggleDarkMode}
@@ -66,8 +75,8 @@ export default function SocialAuthPage() {
             <div className={styles.card}>
                 <div className={styles.header}>
                     <Image src="/icon.png" alt="Prizm Logo" width={48} height={48} />
-                    <h1>환영합니다</h1>
-                    <p>소셜 계정으로 간편하게 시작하세요</p>
+                    <h1>{s.welcome}</h1>
+                    <p>{s.startWithSocial}</p>
                 </div>
 
                 <div className={styles.socialButtons}>
@@ -78,16 +87,15 @@ export default function SocialAuthPage() {
 
                 <div className={styles.footer}>
                     <p>
-                        계속 진행하시면{" "}
+                        {s.terms.split('서비스 약관')[0]}
                         <a href="#" className={styles.link}>
                             서비스 약관
-                        </a>{" "}
-                        및{" "}
+                        </a>
+                        {s.terms.split('서비스 약관')[1].split('개인정보 처리방침')[0]}
                         <a href="#" className={styles.link}>
                             개인정보 처리방침
                         </a>
-                        에<br />
-                        동의하는 것으로 간주됩니다.
+                        {s.terms.split('개인정보 처리방침')[1]}
                     </p>
                 </div>
             </div>

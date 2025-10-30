@@ -9,6 +9,9 @@ import { DMList } from '@/components/layout/LeftSidebar/DMList';
 import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import './LeftSidebar.module.css';
 
+import useStore from '@/store/useStore';
+import { strings } from '@/constants/strings';
+
 export const LeftSidebar = ({
   currentWorkspace,
   workspaces,
@@ -31,6 +34,8 @@ export const LeftSidebar = ({
   onToggleDarkMode
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
+  const { language } = useStore();
+  const s = strings[language];
 
   return (
     <aside className="left-sidebar">
@@ -66,7 +71,7 @@ export const LeftSidebar = ({
       <nav className="sidebar-nav">
         <div className="nav-group">
           <div className="nav-group__header">
-            <span>Channels</span>
+            <span>{s.channels}</span>
           </div>
           {categories.map(category => (
             <CategorySection

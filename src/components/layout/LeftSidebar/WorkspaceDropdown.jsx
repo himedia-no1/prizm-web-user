@@ -1,4 +1,6 @@
 import { Settings, Plus, Mail } from '@/components/common/icons';
+import useStore from '@/store/useStore';
+import { strings } from '@/constants/strings';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,
@@ -10,6 +12,9 @@ export const WorkspaceDropdown = ({
   onNavigateToCreateWorkspace,
   onOpenModal
 }) => {
+  const { language } = useStore();
+  const s = strings[language];
+
   if (!isOpen) return null;
 
   return (
@@ -36,7 +41,7 @@ export const WorkspaceDropdown = ({
         }}
       >
         <Plus size={16} />
-        <span>카테고리 만들기</span>
+        <span>{s.createCategory}</span>
       </button>
 
       <button
@@ -47,7 +52,7 @@ export const WorkspaceDropdown = ({
         }}
       >
         <Mail size={16} />
-        <span>멤버 초대하기</span>
+        <span>{s.inviteMembers}</span>
       </button>
 
       <div className="ws-dropdown__divider"></div>
@@ -78,7 +83,7 @@ export const WorkspaceDropdown = ({
         }}
       >
         <Plus size={16} />
-        <span>새 워크스페이스 생성</span>
+        <span>{s.createNewWorkspace}</span>
       </button>
     </div>
   );

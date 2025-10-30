@@ -1,10 +1,15 @@
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
+import useStore from '@/store/useStore';
+import { strings } from '@/constants/strings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
+  const { language } = useStore();
+  const s = strings[language];
+
   const menuItems = [
-    { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { id: 'search', icon: Search, label: 'Search' },
-    { id: 'directory', icon: Users, label: 'Directory' },
+    { id: 'dashboard', icon: LayoutDashboard, label: s.dashboard },
+    { id: 'search', icon: Search, label: s.search },
+    { id: 'directory', icon: Users, label: s.directory },
   ];
 
   return (

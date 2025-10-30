@@ -23,5 +23,13 @@ export const mockCategories = [
       { id: 'c6', name: 'random', unread: 0 },
       { id: 'c7', name: 'gaming', unread: 0 },
     ]
+  },
+  {
+    id: 'cat4',
+    name: '🔌 APP CONNECT',
+    channels: [
+      { id: 'ac1', name: 'jira', unread: 0 },
+      { id: 'ac2', name: 'github', unread: 0 },
+    ]
   }
 ];
