@@ -4,6 +4,8 @@ import { useState, useRef } from 'react';
 import { Paperclip, AtSign, Smile, Send } from '@/components/common/icons';
 import './MessageInput.module.css';
 
+import { FileUploadButton } from './FileUploadButton';
+
 export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onOpenModal, onOpenEmojiPicker }) => {
   const textareaRef = useRef(null);
 
@@ -20,12 +22,7 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
   return (
     <div className="message-input-container">
       <div className="message-input-wrapper">
-        <button
-          className="message-input__attach-button"
-          onClick={() => onOpenModal('fileUpload')}
-        >
-          <Paperclip size={22} />
-        </button>
+        <FileUploadButton />
 
         <div className="message-input__textarea-wrapper">
           <textarea
