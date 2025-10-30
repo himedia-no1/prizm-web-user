@@ -1,10 +1,12 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { X, MessageSquare } from '@/components/common/icons';
 import { mockUsers } from '@/mocks';
 
 export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
+    const router = useRouter();
     const user = mockUsers[userId];
     if (!user) return null;
 
@@ -63,8 +65,7 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                     <button
                         className="profile-modal__save-button user-profile-modal__dm-button"
                         onClick={() => {
-                            onCreateDM(user.id);
-                            onClose();
+                            onCreateDM(user.id, router);
                         }}
                     >
                         <MessageSquare size={16} />

@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { X, Link, Image, FileText } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/mocks';
 
+import './Modals.css';
+
 export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
     const [activeFileTab, setActiveFileTab] = useState('links');
 
@@ -86,10 +88,10 @@ export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
             case 'threads':
                 const threadMessages = mockMessages.filter((m) => m.threadId);
                 return (
-                    <div className="channel-modal__list">
+                    <div className="channel-modal__list thread-gallery">
                         {threadMessages.length > 0 ? (
                             threadMessages.map((msg) => (
-                                <div key={msg.id} className="channel-modal__list-item message">
+                                <div key={msg.id} className="channel-modal__list-item message thread-card">
                                     <img src={mockUsers[msg.userId].avatar} alt={mockUsers[msg.userId].name} />
                                     <div className="message-item__content">
                                         <span className="message-item__username">{mockUsers[msg.userId].name}</span>
@@ -180,7 +182,7 @@ export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
                                 className={activeFileTab === 'links' ? 'active' : ''}
                                 onClick={() => setActiveFileTab('links')}
                             >
-                                <LinkIcon size={16} />
+                                <Link size={16} />
                                 링크
                             </button>
                             <button

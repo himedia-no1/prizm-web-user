@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { ChevronsLeft } from '@/components/common/icons';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
-import { NavigationMenu } from './NavigationMenu';
-import { CategorySection } from './CategorySection';
-import { DMList } from './DMList';
-import { SidebarFooter } from './SidebarFooter';
+import { WorkspaceDropdown } from '@/components/layout/LeftSidebar/WorkspaceDropdown';
+import { NavigationMenu } from '@/components/layout/LeftSidebar/NavigationMenu';
+import { CategorySection } from '@/components/layout/LeftSidebar/CategorySection';
+import { DMList } from '@/components/layout/LeftSidebar/DMList';
+import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import './LeftSidebar.module.css';
 
 export const LeftSidebar = ({

@@ -54,7 +54,7 @@ export const MessageContextMenu = ({
       key: 'react',
       icon: <Smile size={18} />,
       handler: () => {
-        console.log('Open Emoji Picker');
+        onReactEmoji(message);
         onClose();
       }
     },

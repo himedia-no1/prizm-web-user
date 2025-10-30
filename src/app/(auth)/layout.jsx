@@ -1,6 +1,9 @@
+import AuthHeader from '@/components/auth/AuthHeader';
+
 export default function AuthLayout({ children }) {
   return (
-    <div className="login-page">
+    <div className="auth-container">
+      <AuthHeader />
       {children}
     </div>
   );

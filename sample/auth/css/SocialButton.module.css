@@ -1,0 +1,40 @@
+/* 혹시 전역 리셋이 버튼을 망치면 복구 */
+.button {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 2px solid var(--border);
+    background-color: var(--card-bg);
+    color: var(--text);
+    box-shadow: 0 2px 8px var(--shadow);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    padding: 16px 24px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ✅ “전체 보라색”을 확실히 보장 */
+.button:hover {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(140, 101, 209, 0.4);
+}
+
+/* 포커스/액티브도 자연스럽게 */
+.button:active {
+    transform: translateY(-1px) scale(0.998);
+}
+
+.button:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}

@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, createContext } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { useApp } from '@/contexts/AppContext';
+import { useState, createContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import useStore from '@/store/useStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
 import { mockWorkspaces, mockCategories, mockDMs, mockUsers } from '@/mocks';
@@ -12,8 +12,7 @@ export const WorkspaceContext = createContext(null);
 
 export default function WorkspaceLayout({ children, params }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const { openModal, isDarkMode, toggleDarkMode } = useApp();
+  const { openModal, isDarkMode, toggleDarkMode, setCurrentWorkspace } = useStore();
 
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
   const [currentChannelId, setCurrentChannelId] = useState('c1');
@@ -21,6 +20,16 @@ export default function WorkspaceLayout({ children, params }) {
 
   const currentWorkspace = mockWorkspaces.find(ws => ws.id === params.workspaceId) || mockWorkspaces[0];
   const currentUser = mockUsers['u1'];
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = isDarkMode ? 'dark' : 'light';
+  }, [isDarkMode]);
+
+  useEffect(() => {
+    if (currentWorkspace) {
+      setCurrentWorkspace(currentWorkspace);
+    }
+  }, [currentWorkspace, setCurrentWorkspace]);
 
   const handleSelectChannel = (channelId) => {
     setCurrentChannelId(channelId);

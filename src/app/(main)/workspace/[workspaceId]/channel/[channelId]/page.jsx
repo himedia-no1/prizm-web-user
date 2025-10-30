@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useApp } from '@/contexts/AppContext';
+import useStore from '@/store/useStore';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
 import { MessageInput } from '@/components/chat/MessageInput';
@@ -9,17 +9,19 @@ import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
 import { AIFab } from '@/components/chat/AIAssistant/AIFab';
 import { mockMessages, mockUsers, mockThreadMessages } from '@/mocks';
+import EmojiPicker from 'emoji-picker-react';
 import './channel.css';
 
 export default function ChannelPage({ params }) {
-  const { openModal } = useApp();
-  const [currentThread, setCurrentThread] = useState(null);
+  const { openModal, currentThread, openThread, closeThread } = useStore();
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
+  const [message, setMessage] = useState('');
+
 
   const channel = { id: params.channelId, name: params.channelId };
 
   const handleStartThread = (message) => {
-    setCurrentThread(message);
+    openThread(message);
   };
 
   const handleOpenContextMenu = (message, position) => {
@@ -32,6 +34,35 @@ export default function ChannelPage({ params }) {
 
   const handleOpenUserProfile = (userId) => {
     openModal('userProfile', { userId });
+  };
+
+  const handleOpenEmojiPicker = (message) => {
+    openModal('emojiPicker', { onEmojiSelect: (emoji) => handleEmojiSelect(emoji, message) });
+  };
+
+
+  const handleEmojiSelect = (emoji, message) => {
+    // In a real app, you would send the reaction to the server.
+    // For now, we'll just update the mock data in the state.
+    if (message) {
+      const updatedMessages = mockMessages.map((m) => {
+        if (m.id === message.id) {
+          const reactions = { ...m.reactions };
+          reactions[emoji.emoji] = (reactions[emoji.emoji] || 0) + 1;
+          return { ...m, reactions };
+        }
+        return m;
+      });
+      // This is not ideal, as it mutates the mock data.
+      // In a real app, you would have a proper state management for messages.
+      Object.assign(mockMessages, updatedMessages);
+    }
+    closeModal();
+  };
+
+  const handleEmojiSelectForInput = (emoji) => {
+    setMessage((prevMessage) => prevMessage + emoji.emoji);
+    closeModal();
   };
 
   const handleOpenGenericModal = (type) => {
@@ -57,11 +88,14 @@ export default function ChannelPage({ params }) {
 
         <MessageInput
           channelName={channel.name}
+          message={message}
+          setMessage={setMessage}
           onToggleAI={() => console.log('Toggle AI')}
           onOpenModal={handleOpenGenericModal}
+          onOpenEmojiPicker={() => openModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })}
         />
 
-        <AIFab onClick={() => console.log('Open AI')} />
+        <AIFab onClick={() => openModal('aiAssistant')} />
       </main>
 
       {currentThread && (
@@ -69,7 +103,7 @@ export default function ChannelPage({ params }) {
           threadMessage={currentThread}
           threadReplies={mockThreadMessages[currentThread.threadId] || []}
           users={mockUsers}
-          onClose={() => setCurrentThread(null)}
+          onClose={closeThread}
         />
       )}
 
@@ -86,12 +120,13 @@ export default function ChannelPage({ params }) {
           onShare={() => console.log('Share')}
           onEdit={() => console.log('Edit')}
           onDelete={() => console.log('Delete')}
-          onReactEmoji={() => console.log('React')}
+          onReactEmoji={handleOpenEmojiPicker}
           onTranslate={() => console.log('Translate')}
           onAnalyze={() => console.log('Analyze')}
           onReport={() => console.log('Report')}
         />
       )}
+
     </>
   );
 }

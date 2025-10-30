@@ -4,9 +4,8 @@ import { useState, useRef } from 'react';
 import { Paperclip, AtSign, Smile, Send } from '@/components/common/icons';
 import './MessageInput.module.css';
 
-export const MessageInput = ({ channelName, onToggleAI, onOpenModal }) => {
+export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onOpenModal, onOpenEmojiPicker }) => {
   const textareaRef = useRef(null);
-  const [message, setMessage] = useState('');
 
   const handleInput = (e) => {
     setMessage(e.target.value);
@@ -45,7 +44,7 @@ export const MessageInput = ({ channelName, onToggleAI, onOpenModal }) => {
             >
               <AtSign size={20} />
             </button>
-            <button>
+            <button onClick={onOpenEmojiPicker}>
               <Smile size={20} />
             </button>
             <button className="message-input__send-button" disabled={!message.trim()}>

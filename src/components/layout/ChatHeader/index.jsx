@@ -20,7 +20,7 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenUserProfile }) => {
         <button onClick={() => onOpenModal('search')}>
           <Search size={20} />
         </button>
-        <button onClick={() => onOpenUserProfile('u2')}>
+        <button onClick={() => onOpenModal('members')}>
           <Users size={20} />
         </button>
         <button onClick={() => onOpenModal('pinned')}>

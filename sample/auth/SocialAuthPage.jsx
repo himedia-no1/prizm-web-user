@@ -1,13 +1,7 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Image from 'next/image';
-import { useAuthStore } from '@/store/authStore';
-import useStore from '@/store/useStore';
-import SocialButton from '@/components/auth/SocialButton';
-import { Github, Gitlab, Sun, Moon } from 'lucide-react';
-import styles from './SocialAuthPage.module.css';
+import React, { useState, useEffect } from "react";
+import { Github, Gitlab, Sun, Moon } from "lucide-react";
+import SocialButton from "@/features/auth/components/SocialButton";
+import styles from "./css/SocialAuthPage.module.css";
 
 const GoogleIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -30,42 +24,37 @@ const GoogleIcon = () => (
     </svg>
 );
 
+const MicrosoftIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M11.4 11.4H2V2h9.4v9.4z" fill="#F25022" />
+        <path d="M22 11.4h-9.4V2H22v9.4z" fill="#7FBA00" />
+        <path d="M11.4 22H2v-9.4h9.4V22z" fill="#00A4EF" />
+        <path d="M22 22h-9.4v-9.4H22V22z" fill="#FFB900" />
+    </svg>
+);
+
 export default function SocialAuthPage() {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const { login, isAuthenticated } = useAuthStore();
-    const { isDarkMode, toggleDarkMode } = useStore();
+    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
-        const code = searchParams.get('code');
-        const provider = searchParams.get('provider');
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDark(prefersDark);
+    }, []);
 
-        if (code && provider) {
-            login(provider, code);
-        }
-    }, [searchParams, login]);
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            router.push('/workspace');
-        }
-    }, [isAuthenticated, router]);
-
-    const theme = isDarkMode ? "dark" : "light";
+    const theme = isDark ? "dark" : "light";
 
     return (
         <div className={`${styles.page} ${styles[theme]}`}>
             <button
                 className={styles.themeToggle}
-                onClick={toggleDarkMode}
+                onClick={() => setIsDark(!isDark)}
                 aria-label="테마 전환"
             >
-                {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
+                {isDark ? <Sun size={22} /> : <Moon size={22} />}
             </button>
 
             <div className={styles.card}>
                 <div className={styles.header}>
-                    <Image src="/icon.png" alt="Prizm Logo" width={48} height={48} />
                     <h1>환영합니다</h1>
                     <p>소셜 계정으로 간편하게 시작하세요</p>
                 </div>

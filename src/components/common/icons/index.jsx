@@ -51,6 +51,7 @@ export { AlertTriangle } from './AlertTriangle';
 export { GitHub } from './GitHub';
 export { Google } from './Google';
 export { Microsoft } from './Microsoft';
+export { Gitlab } from './Gitlab';
 
 // Admin Icons
 export { ShieldCheck } from './ShieldCheck';
