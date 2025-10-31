@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import { mockWorkspaces } from '@/mocks/workspaces';
-import { mockCategories } from '@/mocks/categories';
-import { mockUsers } from '@/mocks/users';
-import { mockMessages, mockThreadMessages, mockDMs } from '@/mocks/messages';
+import { mockWorkspaces } from '@/__mocks__/workspaces';
+import { mockCategories } from '@/__mocks__/categories';
+import { mockUsers } from '@/__mocks__/users';
+import { mockMessages, mockThreadMessages, mockDMs } from '@/__mocks__/messages';
 
 const useDataStore = create((set) => ({
     workspaces: mockWorkspaces,

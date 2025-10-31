@@ -1,4 +1,4 @@
-import { mockUsers } from '@/mocks';
+import { mockUsers } from '@/__mocks__';
 
 const testApi = {
     loginWithProvider: async (provider, code) => {

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { mockCategories } from '@/mocks';
+import { mockCategories } from '@/__mocks__';
 import { CategorySection } from './CategorySection';
 import { DMList } from './DMList';
 import styles from './LeftSidebar.module.css';

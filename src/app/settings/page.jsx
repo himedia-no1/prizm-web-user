@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { User, ArrowLeft, Google, GitHub, Microsoft } from '@/components/common/icons';
-import { mockUsers } from '@/mocks';
+import { mockUsers } from '@/__mocks__';
 
 const UserSettingsPage = () => {
     const user = mockUsers['u1'];

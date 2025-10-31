@@ -1,7 +1,7 @@
 'use client';
 
 import { DirectoryView } from '@/components/directory/DirectoryView';
-import { mockUsers } from '@/mocks';
+import { mockUsers } from '@/__mocks__';
 
 export default function DirectoryPage() {
   const handleOpenUserProfile = (userId) => {

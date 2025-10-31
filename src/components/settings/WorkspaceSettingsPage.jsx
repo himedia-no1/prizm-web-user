@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowLeft, Settings, Users, CreditCard } from '@/components/common/icons';
-import { mockUsers } from '@/mocks';
+import { mockUsers } from '@/__mocks__';
 
 export const WorkspaceSettingsPage = ({ onBack }) => {
     const [selectedSetting, setSelectedSetting] = useState('overview');

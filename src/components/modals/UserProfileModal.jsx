@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { X, MessageSquare } from '@/components/common/icons';
-import { mockUsers } from '@/mocks';
+import { mockUsers } from '@/__mocks__';
 
 export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
     const router = useRouter();

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Link, Image, FileText } from '@/components/common/icons';
-import { mockUsers, mockMessages } from '@/mocks';
+import { mockUsers, mockMessages } from '@/__mocks__';
 
 import './Modals.css';
 

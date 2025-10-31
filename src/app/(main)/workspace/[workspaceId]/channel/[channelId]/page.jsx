@@ -8,7 +8,7 @@ import { MessageInput } from '@/components/chat/MessageInput';
 import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
 import { AIFab } from '@/components/chat/AIAssistant/AIFab';
-import { mockMessages, mockUsers, mockThreadMessages } from '@/mocks';
+import { mockMessages, mockUsers, mockThreadMessages } from '@/__mocks__';
 import EmojiPicker from 'emoji-picker-react';
 import './channel.css';
 

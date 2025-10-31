@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import useStore from '@/store/useStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
-import { mockWorkspaces, mockCategories, mockDMs, mockUsers } from '@/mocks';
+import { mockWorkspaces, mockCategories, mockDMs, mockUsers } from '@/__mocks__';
 import './workspace-layout.css';
 
 export const WorkspaceContext = createContext(null);
