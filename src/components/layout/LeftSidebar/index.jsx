@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronsLeft } from '@/components/common/icons';
+import { ChevronsLeft, Plus } from '@/components/common/icons';
 import { WorkspaceDropdown } from '@/components/layout/LeftSidebar/WorkspaceDropdown';
 import { NavigationMenu } from '@/components/layout/LeftSidebar/NavigationMenu';
+import { CategorySection } from '@/components/layout/LeftSidebar/CategorySection';
 import { CategoryGroup } from '@/components/layout/LeftSidebar/CategoryGroup';
 import { DMList } from '@/components/layout/LeftSidebar/DMList';
 import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
@@ -74,13 +75,23 @@ export const LeftSidebar = ({
       <NavigationMenu currentView={currentView} onSelectView={onSelectView} />
 
       <nav className="sidebar-nav">
-        <CategoryGroup
-          title={s.channels}
-          categories={channelCategories}
-          currentChannelId={currentChannelId}
-          currentView={currentView}
-          onSelectChannel={onSelectChannel}
-        />
+        <div className="nav-group">
+          <div className="nav-group__header">
+            <span>{s.channels}</span>
+            <button className="nav-category__add-button" onClick={() => onOpenModal('createCategory')}>
+              <Plus size={14} />
+            </button>
+          </div>
+          {channelCategories.map(category => (
+            <CategorySection
+              key={category.id}
+              category={category}
+              currentChannelId={currentChannelId}
+              currentView={currentView}
+              onSelectChannel={onSelectChannel}
+            />
+          ))}
+        </div>
 
         <DMList
           dms={dms}

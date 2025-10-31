@@ -33,16 +33,6 @@ export const WorkspaceDropdown = ({
         </button>
       </div>
 
-      <button
-        className="ws-dropdown__button ws-dropdown__action-button"
-        onClick={() => {
-          onOpenModal('createCategory');
-          onClose();
-        }}
-      >
-        <Plus size={16} />
-        <span>{s.createCategory}</span>
-      </button>
 
       <button
         className="ws-dropdown__button ws-dropdown__action-button"
