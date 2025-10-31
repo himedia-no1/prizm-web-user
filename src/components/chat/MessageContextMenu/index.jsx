@@ -34,8 +34,6 @@ export const MessageContextMenu = ({
   onAnalyze,
   onReport
 }) => {
-  if (!position) return null;
-
   const menuRef = useRef(null);
   const [showFullMenu, setShowFullMenu] = useState(false);
 
@@ -48,6 +46,10 @@ export const MessageContextMenu = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
+
+  if (!position) {
+    return null;
+  }
 
   const commonActions = [
     {

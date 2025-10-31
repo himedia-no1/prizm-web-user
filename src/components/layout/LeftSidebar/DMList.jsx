@@ -1,11 +1,11 @@
+'use client';
+
 import { Plus } from '@/components/common/icons';
 import { StatusIndicator } from '@/components/common/StatusIndicator';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStrings from '@/hooks/useStrings';
 
 export const DMList = ({ dms, users, currentChannelId, currentView, onSelectChannel }) => {
-  const { language } = useStore();
-  const s = strings[language];
+  const s = useStrings();
   return (
     <div className="nav-group">
       <div className="nav-group__header">

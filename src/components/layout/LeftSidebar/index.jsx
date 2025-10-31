@@ -4,13 +4,12 @@ import { useState } from 'react';
 import { ChevronsLeft } from '@/components/common/icons';
 import { WorkspaceDropdown } from '@/components/layout/LeftSidebar/WorkspaceDropdown';
 import { NavigationMenu } from '@/components/layout/LeftSidebar/NavigationMenu';
-import { CategorySection } from '@/components/layout/LeftSidebar/CategorySection';
+import { CategoryGroup } from '@/components/layout/LeftSidebar/CategoryGroup';
 import { DMList } from '@/components/layout/LeftSidebar/DMList';
 import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import './LeftSidebar.module.css';
 
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStrings from '@/hooks/useStrings';
 
 export const LeftSidebar = ({
   currentWorkspace,
@@ -34,8 +33,14 @@ export const LeftSidebar = ({
   onToggleDarkMode
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
-  const { language } = useStore();
-  const s = strings[language];
+  const s = useStrings();
+  const categoryList = Array.isArray(categories) ? categories : [];
+  const channelCategories = categoryList.filter(
+    (category) => category.section !== 'appConnect',
+  );
+  const appConnectCategories = categoryList.filter(
+    (category) => category.section === 'appConnect',
+  );
 
   return (
     <aside className="left-sidebar">
@@ -69,24 +74,25 @@ export const LeftSidebar = ({
       <NavigationMenu currentView={currentView} onSelectView={onSelectView} />
 
       <nav className="sidebar-nav">
-        <div className="nav-group">
-          <div className="nav-group__header">
-            <span>{s.channels}</span>
-          </div>
-          {categories.map(category => (
-            <CategorySection
-              key={category.id}
-              category={category}
-              currentChannelId={currentChannelId}
-              currentView={currentView}
-              onSelectChannel={onSelectChannel}
-            />
-          ))}
-        </div>
+        <CategoryGroup
+          title={s.channels}
+          categories={channelCategories}
+          currentChannelId={currentChannelId}
+          currentView={currentView}
+          onSelectChannel={onSelectChannel}
+        />
 
         <DMList
           dms={dms}
           users={users}
+          currentChannelId={currentChannelId}
+          currentView={currentView}
+          onSelectChannel={onSelectChannel}
+        />
+
+        <CategoryGroup
+          title={s.appConnect}
+          categories={appConnectCategories}
           currentChannelId={currentChannelId}
           currentView={currentView}
           onSelectChannel={onSelectChannel}
