@@ -12,6 +12,10 @@
   border-radius: 0.375rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
 }
 
 .directory-item:hover {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import useStore from '@/store/useStore';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
@@ -12,13 +13,14 @@ import { mockMessages, mockUsers, mockThreadMessages } from '@/__mocks__';
 import EmojiPicker from 'emoji-picker-react';
 import './channel.css';
 
-export default function ChannelPage({ params }) {
+export default function ChannelPage() {
   const { openModal, currentThread, openThread, closeThread } = useStore();
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
-
-
-  const channel = { id: params.channelId, name: params.channelId };
+  const params = useParams();
+  const channelParam = Array.isArray(params.channelId) ? params.channelId[0] : params.channelId;
+  const channelId = channelParam ?? 'general';
+  const channel = { id: channelId, name: channelId };
 
   const handleStartThread = (message) => {
     openThread(message);

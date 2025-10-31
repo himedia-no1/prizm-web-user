@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, createContext, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import useStore from '@/store/useStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
@@ -10,7 +10,10 @@ import './workspace-layout.css';
 
 export const WorkspaceContext = createContext(null);
 
-export default function WorkspaceLayout({ children, params }) {
+export default function WorkspaceLayout({ children }) {
+  const params = useParams();
+  const workspaceParam = Array.isArray(params.workspaceId) ? params.workspaceId[0] : params.workspaceId;
+  const workspaceId = workspaceParam ?? mockWorkspaces[0].id;
   const router = useRouter();
   const { openModal, isDarkMode, toggleDarkMode, setCurrentWorkspace } = useStore();
 
@@ -18,7 +21,7 @@ export default function WorkspaceLayout({ children, params }) {
   const [currentChannelId, setCurrentChannelId] = useState('c1');
   const [currentView, setCurrentView] = useState('dashboard');
 
-  const currentWorkspace = mockWorkspaces.find(ws => ws.id === params.workspaceId) || mockWorkspaces[0];
+  const currentWorkspace = mockWorkspaces.find((ws) => ws.id === workspaceId) || mockWorkspaces[0];
   const currentUser = mockUsers['u1'];
 
   useEffect(() => {
@@ -34,12 +37,12 @@ export default function WorkspaceLayout({ children, params }) {
   const handleSelectChannel = (channelId) => {
     setCurrentChannelId(channelId);
     setCurrentView('channel');
-    router.push(`/workspace/${params.workspaceId}/channel/${channelId}`);
+    router.push(`/workspace/${workspaceId}/channel/${channelId}`);
   };
 
   const handleSelectView = (view) => {
     setCurrentView(view);
-    router.push(`/workspace/${params.workspaceId}/${view}`);
+    router.push(`/workspace/${workspaceId}/${view}`);
   };
 
   const handleSwitchWorkspace = (workspaceId) => {
@@ -85,7 +88,7 @@ export default function WorkspaceLayout({ children, params }) {
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}
           onOpenProfileModal={handleOpenProfileModal}
-          onNavigateToSettings={() => router.push(`/workspace/${params.workspaceId}/settings`)}
+          onNavigateToSettings={() => router.push(`/workspace/${workspaceId}/settings`)}
           onNavigateToUserSettings={() => router.push('/settings')}
           onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
           onOpenModal={handleOpenGenericModal}
