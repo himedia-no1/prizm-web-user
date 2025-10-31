@@ -99,7 +99,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}
           onOpenProfileModal={handleOpenProfileModal}
-          onNavigateToSettings={() => router.push(`/workspace/${workspaceId}/settings`)}
+          onNavigateToSettings={() => router.push(`/settings/workspace/${workspaceId}`)}
           onNavigateToUserSettings={() => router.push('/settings')}
           onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
           onOpenModal={handleOpenGenericModal}
