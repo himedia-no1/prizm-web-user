@@ -1,62 +1,222 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import useStore from '@/store/useStore';
+import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon, Sparkles } from '@/components/common/icons';
 import SearchResultsList from '../SearchResultsList';
 import styles from './SearchView.module.css';
 
-const TABS = ['All', 'Messages', 'Files', 'Users'];
+const TAB_ITEMS = [
+  { id: 'All', label: '전체', icon: LayoutGrid },
+  { id: 'Messages', label: '메시지', icon: MessageSquare },
+  { id: 'Files', label: '파일', icon: FileText },
+  { id: 'Users', label: '멤버', icon: UsersIcon },
+];
+
+const DEFAULT_RECENT_QUERIES = ['프로젝트 일정', 'OKR 정리', '디자인 가이드'];
+
+const typeMap = {
+  Messages: 'message',
+  Files: 'file',
+  Users: 'user',
+};
 
 export const SearchView = () => {
   const { isAiSearchEnabled, toggleAiSearch } = useStore();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState(TABS[0]);
+  const [activeTab, setActiveTab] = useState(TAB_ITEMS[0].id);
+  const [recentQueries, setRecentQueries] = useState(DEFAULT_RECENT_QUERIES);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
-      if (query) {
-        setLoading(true);
-        // Mock search results
-        setTimeout(() => {
-          const allResults = [
-            { id: 1, type: 'message', source: '#general', timestamp: '2025-11-04', title: 'Search Result 1', content: `This is a mock search result for <strong>${query}</strong>.` },
-            { id: 2, type: 'file', source: 'document.pdf', timestamp: '2025-11-03', title: 'Search Result 2', content: `This is another mock search result for <strong>${query}</strong>.` },
-            { id: 3, type: 'user', source: 'User 1', timestamp: '2025-11-02', title: 'User 1', content: `This is a user search result for <strong>${query}</strong>.` },
-          ];
-
-          const filteredResults = activeTab === 'All' 
-            ? allResults 
-            : allResults.filter(r => r.type === activeTab.toLowerCase().slice(0, -1));
-
-          setResults(filteredResults);
-          setLoading(false);
-        }, 500);
+      if (!query.trim()) {
+        setResults([]);
+        setLoading(false);
+        return;
       }
-    }, 300); // 300ms debounce
+
+      setLoading(true);
+
+      setTimeout(() => {
+        const allResults = [
+          { id: 1, type: 'message', source: '#general', timestamp: '2025-11-04', title: 'Search Result 1', content: `This is a mock search result for <strong>${query}</strong>.` },
+          { id: 2, type: 'file', source: 'document.pdf', timestamp: '2025-11-03', title: 'Search Result 2', content: `This is another mock search result for <strong>${query}</strong>.` },
+          { id: 3, type: 'user', source: 'User 1', timestamp: '2025-11-02', title: 'User 1', content: `This is a user search result for <strong>${query}</strong>.` },
+        ];
+
+        const filteredResults = activeTab === 'All'
+          ? allResults
+          : allResults.filter((result) => result.type === typeMap[activeTab]);
+
+        setResults(filteredResults);
+        setLoading(false);
+      }, 500);
+    }, 280);
 
     return () => clearTimeout(debounceTimeout);
   }, [query, activeTab]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const trimmed = query.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    setRecentQueries((prev) => {
+      const filtered = prev.filter((item) => item !== trimmed);
+      return [trimmed, ...filtered].slice(0, 5);
+    });
+  };
+
+  const handleFillRecentQuery = (value) => {
+    setQuery(value);
+  };
+
+  const statusText = useMemo(() => {
+    if (loading) {
+      return '결과를 불러오고 있어요...';
+    }
+
+    if (!query.trim()) {
+      return '검색어를 입력하거나 최근 검색어를 눌러 빠르게 시작해보세요.';
+    }
+
+    if (results.length === 0) {
+      return '일치하는 결과가 없어요. 다른 키워드나 필터를 시도해보세요.';
+    }
+
+    return `${results.length}개의 결과가 준비됐어요.`;
+  }, [loading, query, results.length]);
+
+  const renderResults = () => {
+    if (loading) {
+      return (
+        <div className={styles.emptyState}>
+          <Sparkles size={28} />
+          <h3>검색 중이에요</h3>
+          <p>AI가 팀의 지식을 살펴보고 있어요. 잠시만 기다려주세요.</p>
+        </div>
+      );
+    }
+
+    if (!query.trim()) {
+      return (
+        <div className={styles.emptyState}>
+          <SearchIcon size={28} />
+          <h3>필요한 정보를 찾아보세요</h3>
+          <p>팀 대화와 파일, 멤버 정보를 통합 검색으로 한 번에 찾을 수 있어요.</p>
+        </div>
+      );
+    }
+
+    if (results.length === 0) {
+      return (
+        <div className={styles.emptyState}>
+          <SearchIcon size={28} />
+          <h3>검색 결과가 없어요</h3>
+          <p>키워드나 필터를 변경해 다시 시도해보세요.</p>
+        </div>
+      );
+    }
+
+    return <SearchResultsList results={results} />;
+  };
+
   return (
     <main className={`main-view ${styles.searchView}`}>
-      <header className="view-header">
-        <div className={styles.searchBar}>
-            <input type="text" placeholder={isAiSearchEnabled ? "AI 기반으로 검색..." : "워크스페이스 전체에서 메시지, 파일 검색..."} value={query} onChange={(e) => setQuery(e.target.value)} />
-            <div className={styles.aiToggle}>
-                <label htmlFor="ai-search-toggle">AI 검색</label>
-                <input id="ai-search-toggle" type="checkbox" checked={isAiSearchEnabled} onChange={toggleAiSearch} />
+      <section className={styles.heroSection}>
+        <div className={styles.heroTopRow}>
+          <div className={styles.heroCopy}>
+            <span className={styles.heroPill}>
+              <Sparkles size={14} />
+              통합 검색
+            </span>
+            <h1 className={styles.heroTitle}>필요한 대화와 파일을 한 번에 찾아보세요</h1>
+            <p className={styles.heroDescription}>
+              스마트 제안과 필터로 워크스페이스의 모든 정보를 빠르게 탐색할 수 있어요.
+            </p>
+          </div>
+          <label
+            className={`${styles.aiToggle} ${isAiSearchEnabled ? styles.aiToggleActive : ''}`}
+            htmlFor="ai-search-toggle"
+          >
+            <input
+              id="ai-search-toggle"
+              type="checkbox"
+              checked={isAiSearchEnabled}
+              onChange={toggleAiSearch}
+            />
+            <span className={styles.aiToggleTrack}>
+              <Sparkles size={16} />
+              AI 검색
+            </span>
+            <span className={styles.aiToggleThumb} />
+          </label>
+        </div>
+        <form className={styles.searchForm} onSubmit={handleSubmit}>
+          <div className={styles.searchField}>
+            <SearchIcon size={18} />
+            <input
+              type="text"
+              placeholder={isAiSearchEnabled ? 'AI가 요약한 검색 결과를 받아보세요...' : '워크스페이스 전체에서 메시지, 파일, 멤버를 검색해보세요'}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            <div className={styles.kbdHint}>
+              <kbd>⌘</kbd>
+              <span>F</span>
             </div>
+          </div>
+          <button type="submit" className={styles.submitButton}>
+            검색
+          </button>
+        </form>
+        <div className={styles.metaRow}>
+          <div className={styles.tabGroup}>
+            {TAB_ITEMS.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  className={`${styles.filterChip} ${activeTab === tab.id ? styles.filterChipActive : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <Icon size={14} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className={styles.recentGroup}>
+            <span className={styles.recentLabel}>최근 검색</span>
+            <div className={styles.recentList}>
+              {recentQueries.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  className={styles.recentButton}
+                  onClick={() => handleFillRecentQuery(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className={styles.tabs}>
-            {TABS.map(tab => (
-                <button key={tab} className={`${styles.tab} ${activeTab === tab ? styles.activeTab : ''}`} onClick={() => setActiveTab(tab)}>{tab}</button>
-            ))}
-        </div>
-      </header>
-      <div className={styles.content}>
-        {loading && <p>Loading...</p>}
-        <SearchResultsList results={results} />
-      </div>
+      </section>
+      <section className={styles.resultsSection}>
+        <header className={styles.resultsHeader}>
+          <div>
+            <h2 className={styles.resultsTitle}>검색 결과</h2>
+            <p className={styles.resultsMeta}>{statusText}</p>
+          </div>
+          <span className={styles.resultsTag}>{TAB_ITEMS.find((tab) => tab.id === activeTab)?.label}</span>
+        </header>
+        <div className={styles.resultsBody}>{renderResults()}</div>
+      </section>
     </main>
   );
 };
