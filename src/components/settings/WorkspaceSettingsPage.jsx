@@ -25,7 +25,6 @@ const navItems = [
   { id: 'overview', icon: LayoutGrid, labelKey: 'navDashboard' },
   { id: 'members', icon: Users, labelKey: 'navMembers' },
   { id: 'channels', icon: Hash, labelKey: 'navChannels' },
-  { id: 'permissions', icon: ShieldCheck, labelKey: 'navPermissions' },
   { id: 'integrations', icon: Link, labelKey: 'navIntegrations' },
   { id: 'security', icon: Lock, labelKey: 'navSecurity' },
   { id: 'audit', icon: FileText, labelKey: 'navAuditLog' },
@@ -181,35 +180,6 @@ const WorkspaceSettingsPage = ({ onBack }) => {
     </div>
   );
 
-  const renderPermissions = () => (
-    <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.permissionsTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
-        {s.workspaceAdmin.permissionsDescription}
-      </p>
-      <div className="settings-form-group">
-        <label>
-          <input type="checkbox" defaultChecked /> {s.workspaceAdmin.permissionCreateChannels}
-        </label>
-      </div>
-      <div className="settings-form-group">
-        <label>
-          <input type="checkbox" /> {s.workspaceAdmin.permissionPrivateChannels}
-        </label>
-      </div>
-      <div className="settings-form-group">
-        <label>
-          <input type="checkbox" defaultChecked /> {s.workspaceAdmin.permissionManageIntegrations}
-        </label>
-      </div>
-      <div className="settings-form-group">
-        <label>
-          <input type="checkbox" /> {s.workspaceAdmin.permissionManageBilling}
-        </label>
-      </div>
-      <button className="profile-modal__save-button">{s.workspaceAdmin.saveChanges}</button>
-    </div>
-  );
 
   const renderIntegrations = () => (
     <div>
@@ -307,8 +277,6 @@ const WorkspaceSettingsPage = ({ onBack }) => {
         return renderMembers();
       case 'channels':
         return renderChannels();
-      case 'permissions':
-        return renderPermissions();
       case 'integrations':
         return renderIntegrations();
       case 'security':
