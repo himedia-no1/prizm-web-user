@@ -1,0 +1,38 @@
+.container {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.container:hover {
+    background-color: var(--bg);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.type {
+    font-weight: 600;
+}
+
+.source {
+    color: var(--primary);
+}
+
+.timestamp {
+    margin-left: auto;
+}
+
+.content p {
+    margin: 0;
+}
+
+.content p strong {
+    color: var(--primary);
+}
