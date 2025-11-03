@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Link, Image, FileText } from '@/components/common/icons';
+import { X, Link, Image, FileText, Hash, Star, StarOff } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/__mocks__';
 import { mockAppConnect } from '@/__mocks__/appConnect';
 import useStrings from '@/hooks/useStrings';
+import useStore from '@/store/useStore';
 
 import './Modals.css';
 
@@ -20,6 +21,9 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
     const addChannelStrings = modalStrings.addChannel ?? {};
     const addDMStrings = modalStrings.addDM ?? {};
     const addAppStrings = modalStrings.addApp ?? {};
+    const addFavoriteStrings = modalStrings.addFavorite ?? {};
+    const favoriteChannels = useStore((state) => state.favoriteChannels);
+    const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
 
     const [activeFileTab, setActiveFileTab] = useState('links');
 
@@ -38,6 +42,7 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
         addChannel: '채널 추가',
         addDM: 'DM 추가',
         addApp: '앱 추가',
+        addFavorite: '즐겨찾기 관리',
     };
 
     const getTitle = () => {
@@ -344,6 +349,52 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                     </div>
                 );
 
+            case 'addFavorite': {
+                const channels = modalProps.channels || [];
+                return (
+                    <div>
+                        {addFavoriteStrings.description && (
+                            <p className="channel-modal__helper-text">{addFavoriteStrings.description}</p>
+                        )}
+                        {channels.length === 0 ? (
+                            <p>{addFavoriteStrings.empty ?? 'No channels available.'}</p>
+                        ) : (
+                            <div className="favorite-selector-list">
+                                {channels.map((channel) => {
+                                    const isFavorite = favoriteChannels.includes(channel.id);
+                                    return (
+                                        <button
+                                            key={channel.id}
+                                            type="button"
+                                            className={`favorite-selector ${isFavorite ? 'active' : ''}`}
+                                            onClick={() => toggleFavoriteChannel(channel.id)}
+                                        >
+                                            <span className="favorite-selector__info">
+                                                <Hash size={14} />
+                                                <span className="favorite-selector__name">{channel.name}</span>
+                                                {channel.categoryName && (
+                                                    <span className="favorite-selector__category">
+                                                        {channel.categoryName}
+                                                    </span>
+                                                )}
+                                            </span>
+                                            <span className="favorite-selector__action">
+                                                {isFavorite ? <Star size={16} /> : <StarOff size={16} />}
+                                                <span>
+                                                    {isFavorite
+                                                        ? addFavoriteStrings.remove ?? 'Remove from favourites'
+                                                        : addFavoriteStrings.add ?? 'Add to favourites'}
+                                                </span>
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+
             default:
                 return null;
         }
@@ -351,7 +402,7 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
 
     const getModalStyle = () => {
         let maxWidth = '520px';
-        if (['invite', 'createCategory', 'notifications', 'mention', 'fileUpload'].includes(modalType)) {
+        if (['invite', 'createCategory', 'notifications', 'mention', 'fileUpload', 'addFavorite'].includes(modalType)) {
             maxWidth = '440px';
         }
         if (modalType === 'channelFiles') {

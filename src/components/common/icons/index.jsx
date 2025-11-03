@@ -46,6 +46,8 @@ export { MoreVertical } from './MoreVertical';
 export { Share } from './Share';
 export { Translate } from './Translate';
 export { AlertTriangle } from './AlertTriangle';
+export { Star } from './Star';
+export { StarOff } from './StarOff';
 
 // Social Login Icons
 export { GitHub } from './GitHub';
