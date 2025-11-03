@@ -11,7 +11,7 @@ import {
   Link,
   Lock,
   FileText,
-  Sparkles,
+  AIIcon,
   Search,
 } from '@/components/common/icons';
 import { mockUsers, mockRecentActivities } from '@/__mocks__/users';
@@ -27,8 +27,8 @@ const navItems = [
   { id: 'integrations', icon: Link, labelKey: 'navIntegrations' },
   { id: 'security', icon: Lock, labelKey: 'navSecurity' },
   { id: 'audit', icon: FileText, labelKey: 'navAuditLog' },
-  { id: 'ai-assistant', icon: Sparkles, labelKey: 'navAiAssistant' },
-  { id: 'ai-search', icon: Search, labelKey: 'navAiSearch' },
+  { id: 'ai-assistant', icon: AIIcon, labelKey: 'navAiAssistant' },
+  { id: 'ai-search', icon: AIIcon, labelKey: 'navAiSearch' },
 ];
 
 const mockInvitations = [

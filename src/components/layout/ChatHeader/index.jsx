@@ -1,10 +1,14 @@
-import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info } from '@/components/common/icons';
+'use client';
+
+import { useState } from 'react';
+import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
 import './ChatHeader.module.css';
 
 export const ChatHeader = ({ channel, onOpenModal, onOpenUserProfile }) => {
-  if (!channel) return null;
+  const isDirectMessage = channel?.name?.startsWith('dm-');
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const isDirectMessage = channel.name?.startsWith('dm-');
+  if (!channel) return null;
 
   return (
     <header className="chat-header">
@@ -17,6 +21,15 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenUserProfile }) => {
       </div>
 
       <div className="chat-header__actions">
+        <button
+          type="button"
+          className={`chat-header__notification-button ${notificationsEnabled ? '' : 'muted'}`}
+          onClick={() => setNotificationsEnabled((prev) => !prev)}
+          aria-pressed={!notificationsEnabled}
+          aria-label={notificationsEnabled ? '알림 끄기' : '알림 켜기'}
+        >
+          <Bell size={20} />
+        </button>
         <button onClick={() => onOpenModal('search')}>
           <Search size={20} />
         </button>

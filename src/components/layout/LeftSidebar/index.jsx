@@ -23,7 +23,6 @@ export const LeftSidebar = ({
   currentUser,
   currentChannelId,
   currentView,
-  isDarkMode,
   onSelectChannel,
   onSelectView,
   onSwitchWorkspace,
@@ -33,7 +32,6 @@ export const LeftSidebar = ({
   onNavigateToCreateWorkspace,
   onOpenModal,
   onCollapse,
-  onToggleDarkMode
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const s = useStrings();
@@ -150,11 +148,9 @@ export const LeftSidebar = ({
 
       <SidebarFooter
         currentUser={currentUser}
-        isDarkMode={isDarkMode}
         onOpenProfileModal={onOpenProfileModal}
         onNavigateToUserSettings={onNavigateToUserSettings}
         onOpenModal={onOpenModal}
-        onToggleDarkMode={onToggleDarkMode}
       />
     </aside>
   );

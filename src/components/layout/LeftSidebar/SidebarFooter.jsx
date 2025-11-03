@@ -1,14 +1,12 @@
-import { Settings, Bell, Moon, Sun } from '@/components/common/icons';
+import { Settings, Inbox } from '@/components/common/icons';
 import useStore from '@/store/useStore';
 import { strings } from '@/constants/strings';
 
 export const SidebarFooter = ({
   currentUser,
-  isDarkMode,
   onOpenProfileModal,
   onNavigateToUserSettings,
   onOpenModal,
-  onToggleDarkMode
 }) => {
   const { language } = useStore();
   const s = strings[language];
@@ -30,11 +28,8 @@ export const SidebarFooter = ({
         <button onClick={onNavigateToUserSettings} className="profile-action-button">
           <Settings size={18} />
         </button>
-        <button onClick={() => onOpenModal('notifications')} className="profile-action-button">
-          <Bell size={18} />
-        </button>
-        <button onClick={onToggleDarkMode} className="theme-toggle-button">
-          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+        <button onClick={() => onOpenModal('notifications')} className="profile-action-button" aria-label="수신함 열기">
+          <Inbox size={18} />
         </button>
       </div>
     </div>

@@ -50,3 +50,23 @@
 [data-theme='dark'] .chat-header__actions button:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
+
+.chat-header__notification-button {
+  position: relative;
+}
+
+.chat-header__notification-button.muted {
+  color: var(--text-tertiary, var(--text-secondary));
+}
+
+.chat-header__notification-button.muted::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 120%;
+  background-color: currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}

@@ -11,7 +11,7 @@ import {
   Edit,
   Trash,
   Translate,
-  Sparkles,
+  AIIcon,
   AlertTriangle,
   MoreVertical
 } from '@/components/common/icons';
@@ -97,7 +97,7 @@ export const MessageContextMenu = ({
         { key: 'share', icon: <Share size={16} />, text: '공유', handler: () => { onShare(message); onClose(); } },
         { divider: true },
         { key: 'translate', icon: <Translate size={16} />, text: '번역하기', handler: () => { onTranslate(message); onClose(); } },
-        { key: 'analyze', icon: <Sparkles size={16} />, text: 'AI로 분석', handler: () => { onAnalyze(message); onClose(); } },
+        { key: 'analyze', icon: <AIIcon size={16} />, text: 'AI로 분석', handler: () => { onAnalyze(message); onClose(); } },
         { divider: true },
         { key: 'report', icon: <AlertTriangle size={16} />, text: '신고하기', danger: true, handler: () => { onReport(message); onClose(); } },
       ];

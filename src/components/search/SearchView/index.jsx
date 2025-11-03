@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import useStore from '@/store/useStore';
-import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon, Sparkles } from '@/components/common/icons';
+import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon, AIIcon } from '@/components/common/icons';
 import SearchResultsList from '../SearchResultsList';
 import styles from './SearchView.module.css';
 
@@ -94,7 +94,7 @@ export const SearchView = () => {
     if (loading) {
       return (
         <div className={styles.emptyState}>
-          <Sparkles size={28} />
+          <AIIcon size={28} />
           <h3>검색 중이에요</h3>
           <p>AI가 팀의 지식을 살펴보고 있어요. 잠시만 기다려주세요.</p>
         </div>
@@ -130,7 +130,7 @@ export const SearchView = () => {
         <div className={styles.heroTopRow}>
           <div className={styles.heroCopy}>
             <span className={styles.heroPill}>
-              <Sparkles size={14} />
+              <AIIcon size={14} />
               통합 검색
             </span>
             <h1 className={styles.heroTitle}>필요한 대화와 파일을 한 번에 찾아보세요</h1>
@@ -149,7 +149,7 @@ export const SearchView = () => {
               onChange={toggleAiSearch}
             />
             <span className={styles.aiToggleTrack}>
-              <Sparkles size={16} />
+              <AIIcon size={16} />
               AI 검색
             </span>
             <span className={styles.aiToggleThumb} />

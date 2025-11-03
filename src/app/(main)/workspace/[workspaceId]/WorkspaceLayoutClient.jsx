@@ -21,7 +21,6 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
   const router = useRouter();
   const openModal = useStore((state) => state.openModal);
   const isDarkMode = useStore((state) => state.isDarkMode);
-  const toggleDarkMode = useStore((state) => state.toggleDarkMode);
   const setCurrentWorkspace = useStore((state) => state.setCurrentWorkspace);
 
   const workspaceId = resolveWorkspaceId(workspaceParam);
@@ -116,7 +115,6 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           currentUser={currentUser}
           currentChannelId={currentChannelId}
           currentView={currentView}
-          isDarkMode={isDarkMode}
           onSelectChannel={handleSelectChannel}
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}
@@ -126,7 +124,6 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
           onOpenModal={handleOpenModal}
           onCollapse={() => setIsLeftSidebarCollapsed(true)}
-          onToggleDarkMode={toggleDarkMode}
         />
 
         {children}
