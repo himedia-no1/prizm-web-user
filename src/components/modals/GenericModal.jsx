@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import { X, Link, Image, FileText } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/__mocks__';
+import { mockAppConnect } from '@/__mocks__/appConnect';
 
 import './Modals.css';
 
-export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
+export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread }) => {
     const [activeFileTab, setActiveFileTab] = useState('links');
 
     const getTitle = () => {
@@ -223,6 +224,94 @@ export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
                                 <span>{user.name}</span>
                             </button>
                         ))}
+                    </div>
+                );
+
+            case 'addChannel': {
+                const targetCategoryName = modalProps.categoryName || modalProps.category?.name;
+                return (
+                    <div>
+                        {targetCategoryName && (
+                            <p className="channel-modal__helper-text">
+                                {`${targetCategoryName} 카테고리에 새 채널을 추가합니다.`}
+                            </p>
+                        )}
+                        <div className="settings-form-group">
+                            <label htmlFor="channel-name">채널 이름</label>
+                            <input id="channel-name" type="text" placeholder="예: design-review" />
+                        </div>
+                        <div className="settings-form-group">
+                            <label htmlFor="channel-purpose">설명</label>
+                            <textarea
+                                id="channel-purpose"
+                                placeholder="채널의 목적을 간단히 작성하세요."
+                                rows={3}
+                            ></textarea>
+                        </div>
+                        <div className="settings-form-group">
+                            <label htmlFor="channel-privacy">공개 범위</label>
+                            <select id="channel-privacy" defaultValue="public">
+                                <option value="public">모든 멤버가 볼 수 있는 공개 채널</option>
+                                <option value="private">초대한 멤버만 접근 가능한 비공개 채널</option>
+                            </select>
+                        </div>
+                        <button className="profile-modal__save-button">채널 만들기</button>
+                    </div>
+                );
+            }
+
+            case 'addDM': {
+                const excludedUserIds = [
+                    ...(modalProps.excludeUserIds || []),
+                    ...(modalProps.existingDMUserIds || []),
+                ];
+                const availableUsers = Object.values(mockUsers).filter(
+                    (user) => !excludedUserIds.includes(user.id),
+                );
+
+                return (
+                    <div>
+                        <div className="settings-form-group">
+                            <label htmlFor="dm-search">사용자 검색</label>
+                            <input id="dm-search" type="text" placeholder="이름 또는 이메일로 검색하세요." />
+                        </div>
+                        <div className="channel-modal__list mention-list">
+                            {availableUsers.map((user) => (
+                                <button key={user.id} className="channel-modal__list-item member mention-item">
+                                    <img src={user.avatar} alt={user.name} />
+                                    <span>{user.name}</span>
+                                    <span
+                                        className={`dm-button__status ${
+                                            user.status === 'online' ? 'online' : 'offline'
+                                        }`}
+                                        style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
+                                    ></span>
+                                </button>
+                            ))}
+                            {availableUsers.length === 0 && <p>초대할 사용자가 없습니다.</p>}
+                        </div>
+                    </div>
+                );
+            }
+
+            case 'addApp':
+                return (
+                    <div className="channel-modal__list app-list">
+                        {mockAppConnect.map((app) => (
+                            <div key={app.id} className="channel-modal__list-item app-list__item">
+                                <div className="app-list__meta">
+                                    <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
+                                    <div>
+                                        <span className="app-list__name">{app.name}</span>
+                                        <p className="app-list__description">워크스페이스에 앱을 연동하세요.</p>
+                                    </div>
+                                </div>
+                                <button className="profile-modal__save-button" style={{ padding: '0.4rem 1rem' }}>
+                                    추가
+                                </button>
+                            </div>
+                        ))}
+                        {mockAppConnect.length === 0 && <p>추가 가능한 앱이 없습니다.</p>}
                     </div>
                 );
 

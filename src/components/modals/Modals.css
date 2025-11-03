@@ -9,3 +9,41 @@
     border-radius: 0.5rem;
     padding: 1rem;
 }
+
+.channel-modal__helper-text {
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.app-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.app-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.app-list__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.app-list__name {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.app-list__description {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+}

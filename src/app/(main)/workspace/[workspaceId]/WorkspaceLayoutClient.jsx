@@ -64,8 +64,29 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
     openModal('profileSettings', { user: currentUser });
   };
 
-  const handleOpenModal = (type) => {
-    openModal(type);
+  const handleOpenModal = (type, props = {}) => {
+    const genericModalTypes = new Set([
+      'search',
+      'members',
+      'pinned',
+      'threads',
+      'info',
+      'notifications',
+      'createCategory',
+      'fileUpload',
+      'channelFiles',
+      'mention',
+      'addChannel',
+      'addDM',
+      'addApp',
+    ]);
+
+    if (genericModalTypes.has(type)) {
+      openModal('generic', { type, ...props });
+      return;
+    }
+
+    openModal(type, props);
   };
 
   const contextValue = useMemo(

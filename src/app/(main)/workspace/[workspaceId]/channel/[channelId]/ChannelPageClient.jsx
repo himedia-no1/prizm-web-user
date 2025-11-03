@@ -77,8 +77,29 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
     openModal('emojiPicker', { onEmojiSelect: (emoji) => handleEmojiSelect(emoji, selectedMessage) });
   };
 
-  const handleOpenModal = (type) => {
-    openModal(type);
+  const handleOpenModal = (type, props = {}) => {
+    const genericModalTypes = new Set([
+      'search',
+      'members',
+      'pinned',
+      'threads',
+      'info',
+      'notifications',
+      'createCategory',
+      'fileUpload',
+      'channelFiles',
+      'mention',
+      'addChannel',
+      'addDM',
+      'addApp',
+    ]);
+
+    if (genericModalTypes.has(type)) {
+      openModal('generic', { type, ...props });
+      return;
+    }
+
+    openModal(type, props);
   };
 
   return (

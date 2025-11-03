@@ -3,14 +3,17 @@
 import { Plus } from '@/components/common/icons';
 import useDataStore from '@/store/dataStore';
 
-export const AppConnectList = () => {
+export const AppConnectList = ({ onOpenModal }) => {
     const { appConnect } = useDataStore();
 
     return (
         <div className="nav-group">
             <div className="nav-group__header">
                 <span>App Connect</span>
-                <button className="nav-category__add-button">
+                <button
+                    className="nav-category__add-button"
+                    onClick={() => onOpenModal?.('addApp')}
+                >
                     <Plus size={14} />
                 </button>
             </div>

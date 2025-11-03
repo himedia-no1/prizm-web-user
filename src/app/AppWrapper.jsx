@@ -11,7 +11,14 @@ const AppModals = () => {
   if (!modalType) return null;
 
   const modals = {
-    generic: <GenericModal modalType={modalProps.type} onClose={closeModal} onOpenThread={openThread} />,
+    generic: (
+      <GenericModal
+        modalType={modalProps.type}
+        modalProps={modalProps}
+        onClose={closeModal}
+        onOpenThread={openThread}
+      />
+    ),
     profileSettings: <ProfileSettingsModal {...modalProps} onClose={closeModal} />,
     userProfile: <UserProfileModal {...modalProps} onClose={closeModal} onCreateDM={createDM} />,
     aiAssistant: <AIAssistantModal {...modalProps} onClose={closeModal} />,

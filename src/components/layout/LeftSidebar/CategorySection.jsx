@@ -5,7 +5,8 @@ export const CategorySection = ({
   category,
   currentChannelId,
   currentView,
-  onSelectChannel
+  onSelectChannel,
+  onOpenModal
 }) => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -22,7 +23,16 @@ export const CategorySection = ({
           />
           <span>{category.name}</span>
         </button>
-        <button className="nav-category__add-channel-button">
+        <button
+          className="nav-category__add-channel-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenModal?.('addChannel', {
+              categoryId: category.id,
+              categoryName: category.name,
+            });
+          }}
+        >
           <Plus size={12} />
         </button>
       </div>

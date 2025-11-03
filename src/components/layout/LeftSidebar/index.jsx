@@ -89,6 +89,7 @@ export const LeftSidebar = ({
               currentChannelId={currentChannelId}
               currentView={currentView}
               onSelectChannel={onSelectChannel}
+              onOpenModal={onOpenModal}
             />
           ))}
         </div>
@@ -96,12 +97,14 @@ export const LeftSidebar = ({
         <DMList
           dms={dms}
           users={users}
+          currentUser={currentUser}
           currentChannelId={currentChannelId}
           currentView={currentView}
           onSelectChannel={onSelectChannel}
+          onOpenModal={onOpenModal}
         />
 
-        <AppConnectList />
+        <AppConnectList onOpenModal={onOpenModal} />
       </nav>
 
       <SidebarFooter
