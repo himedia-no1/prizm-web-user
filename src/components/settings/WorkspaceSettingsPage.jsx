@@ -13,11 +13,13 @@ import {
   Lock,
   FileText,
   Sparkles,
+  Search,
 } from '@/components/common/icons';
 import { mockUsers, mockRecentActivities } from '@/__mocks__/users';
 import { mockWorkspaceStats } from '@/__mocks__/workspaces';
 
-import AiManagementPage from '@/app/settings/workspace/[workspaceId]/ai/page';
+import AiAssistantPage from '@/app/settings/workspace/[workspaceId]/ai-assistant/ai-assistant.page';
+import AiSearchSettingsPage from '@/app/settings/workspace/[workspaceId]/ai-search/page';
 
 const navItems = [
   { id: 'overview', icon: LayoutGrid, labelKey: 'navDashboard' },
@@ -27,7 +29,8 @@ const navItems = [
   { id: 'integrations', icon: Link, labelKey: 'navIntegrations' },
   { id: 'security', icon: Lock, labelKey: 'navSecurity' },
   { id: 'audit', icon: FileText, labelKey: 'navAuditLog' },
-  { id: 'ai', icon: Sparkles, labelKey: 'navAi' },
+  { id: 'ai-assistant', icon: Sparkles, labelKey: 'navAiAssistant' },
+  { id: 'ai-search', icon: Search, labelKey: 'navAiSearch' },
 ];
 
 const WorkspaceSettingsPage = ({ onBack }) => {
@@ -312,8 +315,10 @@ const WorkspaceSettingsPage = ({ onBack }) => {
         return renderSecurity();
       case 'audit':
         return renderAudit();
-      case 'ai':
-        return <AiManagementPage />;
+      case 'ai-assistant':
+        return <AiAssistantPage />;
+      case 'ai-search':
+        return <AiSearchSettingsPage />;
       default:
         return renderOverview();
     }

@@ -8,6 +8,8 @@ export default function LearningControl() {
     const [progress, setProgress] = useState(0);
     const [lastTrained, setLastTrained] = useState('2025-11-03 02:00');
 
+    const [nextScheduledRun, setNextScheduledRun] = useState('내일 새벽 4:00');
+
     const handleRunLearning = () => {
         setLearningStatus('처리중');
         // Simulate learning progress
@@ -45,6 +47,7 @@ export default function LearningControl() {
                 <div className={styles.statusText}>{learningStatus}</div>
             </div>
             <div className={styles.timestamp}>최근 학습 일시: {lastTrained}</div>
+            <div className={styles.timestamp}>다음 학습 예정: {nextScheduledRun}</div>
         </div>
     );
 }

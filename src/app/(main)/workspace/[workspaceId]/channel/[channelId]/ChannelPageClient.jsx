@@ -85,6 +85,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
     <>
       <main className="main-chat-area">
         <ChatHeader
+          channel={channel}
           onOpenModal={handleOpenModal}
           onOpenUserProfile={handleOpenUserProfile}
         />

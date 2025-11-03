@@ -24,6 +24,12 @@ export default function LogsHistory() {
         URL.revokeObjectURL(url);
     };
 
+    // const handleRollback = (id) => {
+    //     if (confirm(`Are you sure you want to rollback to this version?`)) {
+    //         console.log(`Rolling back to version ${id}`);
+    //     }
+    // };
+
     return (
         <div className={styles.container}>
             <table className={styles.table}>
@@ -43,6 +49,7 @@ export default function LogsHistory() {
                             <td>{log.duration}</td>
                             <td>
                                 <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>세부 로그 보기</button>
+                                {/* <button onClick={() => handleRollback(log.id)} className={styles.rollbackButton}>롤백</button> */}
                             </td>
                         </tr>
                     ))}

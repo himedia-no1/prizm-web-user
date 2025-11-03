@@ -30,6 +30,10 @@ const useStore = create((set, get) => ({
     }
   },
 
+  // AI Search state
+  isAiSearchEnabled: false,
+  toggleAiSearch: () => set((state) => ({ isAiSearchEnabled: !state.isAiSearchEnabled })),
+
   // Language state
   language: 'ko',
   toggleLanguage: () => set((state) => ({ language: state.language === 'ko' ? 'en' : 'ko' })),
