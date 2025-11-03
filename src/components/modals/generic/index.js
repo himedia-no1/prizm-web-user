@@ -9,3 +9,6 @@ export * from './InviteModalContent';
 export * from './FileUploadModalContent';
 export * from './ChannelFilesModalContent';
 export * from './MentionModalContent';
+export * from './AddChannelModalContent';
+export * from './AddDMModalContent';
+export * from './AddAppModalContent';

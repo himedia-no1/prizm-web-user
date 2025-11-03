@@ -33,6 +33,12 @@ export const GenericModal = ({ modalType, onClose, onOpenThread }) => {
                 return '채널 파일';
             case 'mention':
                 return '@ 사용자 언급하기';
+            case 'addChannel':
+                return '채널 추가';
+            case 'addDM':
+                return 'DM 추가';
+            case 'addApp':
+                return '앱 추가';
             default:
                 return '';
         }

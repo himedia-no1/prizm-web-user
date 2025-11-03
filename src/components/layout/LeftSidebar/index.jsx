@@ -5,8 +5,8 @@ import { ChevronsLeft, Plus } from '@/components/common/icons';
 import { WorkspaceDropdown } from '@/components/layout/LeftSidebar/WorkspaceDropdown';
 import { NavigationMenu } from '@/components/layout/LeftSidebar/NavigationMenu';
 import { CategorySection } from '@/components/layout/LeftSidebar/CategorySection';
-import { CategoryGroup } from '@/components/layout/LeftSidebar/CategoryGroup';
 import { DMList } from '@/components/layout/LeftSidebar/DMList';
+import { AppConnectList } from '@/components/layout/LeftSidebar/AppConnectList';
 import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import './LeftSidebar.module.css';
 
@@ -101,13 +101,7 @@ export const LeftSidebar = ({
           onSelectChannel={onSelectChannel}
         />
 
-        <CategoryGroup
-          title={s.appConnect}
-          categories={appConnectCategories}
-          currentChannelId={currentChannelId}
-          currentView={currentView}
-          onSelectChannel={onSelectChannel}
-        />
+        <AppConnectList />
       </nav>
 
       <SidebarFooter
