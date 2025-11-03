@@ -14,6 +14,14 @@
   background-color: #9ca3af;
 }
 
+.status-indicator.away {
+  background-color: #f97316;
+}
+
+.status-indicator.busy {
+  background-color: #ef4444;
+}
+
 [data-theme='dark'] .status-indicator {
   border-color: var(--card-bg);
 }

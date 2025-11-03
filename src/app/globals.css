@@ -214,9 +214,13 @@ button { font-family: inherit; }
 
 .dm-button__status { position: absolute; bottom: -2px; right: -2px; display: block; width: 0.6rem; height: 0.6rem; border-radius: 9999px; border: 2px solid var(--card-bg); /* Use card-bg for contrast */ }
 
-.dm-button__status.online { background-color: #22c55e; } 
+.dm-button__status.online { background-color: #22c55e; }
 
-.dm-button__status.offline { background-color: #9ca3af; } 
+.dm-button__status.offline { background-color: #9ca3af; }
+
+.dm-button__status.away { background-color: #f97316; }
+
+.dm-button__status.busy { background-color: #ef4444; }
 
 [data-theme='dark'] .dm-button__status { border-color: var(--card-bg); }
 
@@ -240,7 +244,7 @@ button { font-family: inherit; }
 
 .profile-info__name { font-weight: 600; font-size: 0.875rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.profile-info__status { font-size: 0.75rem; color: #22c55e; display: block; }
+.profile-info__status { font-size: 0.75rem; color: var(--text-secondary); display: block; }
 
 .profile-actions { display: flex; align-items: center; gap: 0.25rem; }
 

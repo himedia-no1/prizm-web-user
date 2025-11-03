@@ -38,6 +38,16 @@ const sortComparators = {
 export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
   const s = useStrings();
   const directoryStrings = s.directory ?? {};
+  const statusLabels = s.statusLabels ?? {};
+  const fallbackStatusText = {
+    online: s.online,
+    offline: s.offline,
+  };
+
+  const getStatusLabel = (status) => {
+    if (!status) return '';
+    return statusLabels[status] ?? fallbackStatusText[status] ?? status.charAt(0).toUpperCase() + status.slice(1);
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
   const [sortKey, setSortKey] = useState('nameAsc');
@@ -203,13 +213,7 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
                     <td>
                       <div className="directory-status-cell">
                         <StatusIndicator status={user.status} className="directory-status-indicator" />
-                        <span>
-                          {user.status === 'online'
-                            ? s.online
-                            : user.status === 'offline'
-                              ? s.offline
-                              : (user.status ?? '').charAt(0).toUpperCase() + (user.status ?? '').slice(1)}
-                        </span>
+                        <span>{getStatusLabel(user.status) || '-'}</span>
                       </div>
                     </td>
                   </tr>

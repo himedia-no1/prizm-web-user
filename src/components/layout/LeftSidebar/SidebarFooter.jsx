@@ -12,13 +12,17 @@ export const SidebarFooter = ({
 }) => {
   const { language } = useStore();
   const s = strings[language];
+  const statusLabels = s.statusLabels ?? {};
+  const statusText =
+    (currentUser?.status && statusLabels[currentUser.status]) ||
+    (currentUser?.status === 'offline' ? s.offline : s.online);
   return (
     <div className="sidebar-footer">
       <button className="profile-info-button" onClick={onOpenProfileModal}>
         <img src={currentUser.avatar} alt="My Avatar" className="profile-info__avatar" />
         <div>
           <span className="profile-info__name">{currentUser.name}</span>
-          <span className="profile-info__status">{s.online}</span>
+          <span className="profile-info__status">{statusText}</span>
         </div>
       </button>
 

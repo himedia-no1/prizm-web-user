@@ -18,6 +18,12 @@ export const strings = {
     appConnect: 'App Connect',
     online: 'Online',
     offline: 'Offline',
+    statusLabels: {
+      online: 'Online',
+      offline: 'Offline',
+      away: 'Away',
+      busy: 'Do not disturb',
+    },
     modals: {
       titles: {
         search: 'Search in Channel',
@@ -150,6 +156,12 @@ export const strings = {
     appConnect: '앱 커넥트',
     online: '온라인',
     offline: '오프라인',
+    statusLabels: {
+      online: '온라인',
+      offline: '오프라인',
+      away: '자리비움',
+      busy: '방해 금지',
+    },
     modals: {
       titles: {
         search: '채널 내 검색',
