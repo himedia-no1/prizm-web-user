@@ -79,6 +79,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
       'addChannel',
       'addDM',
       'addApp',
+      'addFavorite',
     ]);
 
     if (genericModalTypes.has(type)) {

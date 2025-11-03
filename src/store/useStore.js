@@ -11,6 +11,18 @@ const useStore = create((set, get) => ({
   openModal: (type, props = {}) => set({ modalType: type, modalProps: props }),
   closeModal: () => set({ modalType: null, modalProps: {} }),
 
+  // Favorite channels
+  favoriteChannels: ['c1', 'c3'],
+  toggleFavoriteChannel: (channelId) =>
+    set((state) => {
+      const isFavorite = state.favoriteChannels.includes(channelId);
+      return {
+        favoriteChannels: isFavorite
+          ? state.favoriteChannels.filter((id) => id !== channelId)
+          : [...state.favoriteChannels, channelId],
+      };
+    }),
+
   // Thread state
   currentThread: null,
   openThread: (thread) => set({ currentThread: thread, modalType: null }),

@@ -9,6 +9,9 @@ export const strings = {
     korean: '한국어',
     english: 'English',
     channels: 'Channels',
+    categories: 'Categories',
+    favorites: 'Favorites',
+    favoritesEmpty: 'No favourite channels yet.',
     createCategory: 'Create Category',
     inviteMembers: 'Invite Members',
     createNewWorkspace: 'Create New Workspace',
@@ -40,6 +43,7 @@ export const strings = {
         addChannel: 'Add Channel',
         addDM: 'Start a DM',
         addApp: 'Add App',
+        addFavorite: 'Manage Favorites',
       },
       addChannel: {
         description: 'Add a new channel to {{category}}.',
@@ -59,6 +63,12 @@ export const strings = {
         addButton: 'Add',
         empty: 'No apps available.',
         itemDescription: 'Keep your favourite tools in sync.',
+      },
+      addFavorite: {
+        description: 'Choose which channels should appear in your favourites.',
+        add: 'Add to favourites',
+        remove: 'Remove from favourites',
+        empty: 'No channels available.',
       },
     },
     directory: {
@@ -147,6 +157,9 @@ export const strings = {
     korean: '한국어',
     english: 'English',
     channels: '채널',
+    categories: '카테고리',
+    favorites: '즐겨찾기',
+    favoritesEmpty: '즐겨찾기한 채널이 없습니다.',
     createCategory: '카테고리 만들기',
     inviteMembers: '멤버 초대하기',
     createNewWorkspace: '새 워크스페이스 생성',
@@ -178,6 +191,7 @@ export const strings = {
         addChannel: '채널 추가',
         addDM: 'DM 추가',
         addApp: '앱 추가',
+        addFavorite: '즐겨찾기 관리',
       },
       addChannel: {
         description: '{{category}} 카테고리에 새 채널을 추가합니다.',
@@ -197,6 +211,12 @@ export const strings = {
         addButton: '추가',
         empty: '추가 가능한 앱이 없습니다.',
         itemDescription: '즐겨 사용하는 도구를 연동해보세요.',
+      },
+      addFavorite: {
+        description: '즐겨찾기에 표시할 채널을 선택하세요.',
+        add: '즐겨찾기 추가',
+        remove: '즐겨찾기 해제',
+        empty: '추가할 채널이 없습니다.',
       },
     },
     directory: {

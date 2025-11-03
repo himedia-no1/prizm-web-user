@@ -92,6 +92,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       'addChannel',
       'addDM',
       'addApp',
+      'addFavorite',
     ]);
 
     if (genericModalTypes.has(type)) {

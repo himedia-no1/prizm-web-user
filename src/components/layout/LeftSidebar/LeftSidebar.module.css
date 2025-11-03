@@ -196,30 +196,34 @@
 
 .nav-category__add-channel-button,
 .nav-category__add-button {
-  padding: 0.25rem;
+  padding: 0.35rem;
   border-radius: 0.375rem;
   color: var(--text-secondary);
   background: none;
   border: none;
   cursor: pointer;
   flex-shrink: 0;
-  display: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
 .nav-category__header-wrapper:hover .nav-category__add-channel-button,
 .nav-group__header:hover .nav-category__add-button {
-  display: block;
+  opacity: 1;
 }
 
 .nav-category__add-channel-button:hover,
 .nav-category__add-button:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.08);
   color: var(--text);
 }
 
 [data-theme='dark'] .nav-category__add-channel-button:hover,
 [data-theme='dark'] .nav-category__add-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .nav-category__list {
@@ -231,6 +235,12 @@
   gap: 2px;
   padding-left: 0.5rem;
   margin-top: 2px;
+}
+
+.channel-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .channel-button {
@@ -269,6 +279,13 @@
   overflow: hidden;
 }
 
+.channel-button__trail {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
 .channel-button__name span {
   white-space: nowrap;
   overflow: hidden;
@@ -282,6 +299,44 @@
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 9999px;
+}
+
+.channel-favorite-button {
+  border: none;
+  background: none;
+  color: var(--text-tertiary, var(--text-secondary));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.channel-favorite-button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  color: var(--text);
+}
+
+.channel-favorite-button.active {
+  color: var(--primary);
+}
+
+[data-theme='dark'] .channel-favorite-button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.favorites-empty {
+  margin: 0;
+  padding: 0 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary, var(--text-secondary));
+}
+
+.favorite-category-label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary, var(--text-secondary));
 }
 
 /* DM Button */
