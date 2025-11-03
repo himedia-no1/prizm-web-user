@@ -8,7 +8,9 @@ export const mockUsers = {
     avatar: 'https://placehold.co/80x80/8C65D1/FFFFFF?text=A',
     status: 'online',
     role: 'Owner',
-    socialProvider: 'Google'
+    socialProvider: 'Google',
+    group: 'Leadership',
+    joinedAt: '2022-03-15'
   },
   'u2': {
     id: 'u2',
@@ -19,7 +21,9 @@ export const mockUsers = {
     avatar: 'https://placehold.co/40x40/D946EF/FFFFFF?text=B',
     status: 'online',
     role: 'Member',
-    socialProvider: 'GitHub'
+    socialProvider: 'GitHub',
+    group: 'Engineering',
+    joinedAt: '2022-07-09'
   },
   'u3': {
     id: 'u3',
@@ -30,7 +34,9 @@ export const mockUsers = {
     avatar: 'https://placehold.co/40x40/FDB022/FFFFFF?text=C',
     status: 'offline',
     role: 'Member',
-    socialProvider: 'Microsoft'
+    socialProvider: 'Microsoft',
+    group: 'Design',
+    joinedAt: '2021-11-22'
   },
   'u4': {
     id: 'u4',
@@ -41,7 +47,9 @@ export const mockUsers = {
     avatar: 'https://placehold.co/40x40/10B981/FFFFFF?text=D',
     status: 'online',
     role: 'Guest',
-    socialProvider: 'Google'
+    socialProvider: 'Google',
+    group: 'Contractors',
+    joinedAt: '2023-02-01'
   },
   'u5': {
     id: 'u5',
@@ -52,7 +60,9 @@ export const mockUsers = {
     avatar: 'https://placehold.co/40x40/344054/FFFFFF?text=E',
     status: 'online',
     role: 'Manager',
-    socialProvider: 'GitHub'
+    socialProvider: 'GitHub',
+    group: 'Product',
+    joinedAt: '2020-09-30'
   },
 };
 

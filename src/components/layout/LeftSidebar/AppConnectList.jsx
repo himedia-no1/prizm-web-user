@@ -2,14 +2,16 @@
 
 import { Plus } from '@/components/common/icons';
 import useDataStore from '@/store/dataStore';
+import useStrings from '@/hooks/useStrings';
 
 export const AppConnectList = ({ onOpenModal }) => {
+    const s = useStrings();
     const { appConnect } = useDataStore();
 
     return (
         <div className="nav-group">
             <div className="nav-group__header">
-                <span>App Connect</span>
+                <span>{s.appConnect ?? 'App Connect'}</span>
                 <button
                     className="nav-category__add-button"
                     onClick={() => onOpenModal?.('addApp')}

@@ -4,45 +4,44 @@ import React, { useState } from 'react';
 import { X, Link, Image, FileText } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/__mocks__';
 import { mockAppConnect } from '@/__mocks__/appConnect';
+import useStrings from '@/hooks/useStrings';
 
 import './Modals.css';
 
+const formatTemplate = (template, replacements = {}) => {
+    if (!template) return undefined;
+    return template.replace(/\{\{(\w+)\}\}/g, (_, key) => replacements[key] ?? '');
+};
+
 export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread }) => {
+    const s = useStrings();
+    const modalStrings = s.modals ?? {};
+    const titles = modalStrings.titles ?? {};
+    const addChannelStrings = modalStrings.addChannel ?? {};
+    const addDMStrings = modalStrings.addDM ?? {};
+    const addAppStrings = modalStrings.addApp ?? {};
+
     const [activeFileTab, setActiveFileTab] = useState('links');
 
+    const fallbackTitles = {
+        search: '채널 내 검색',
+        members: '멤버 목록',
+        pinned: '고정된 메시지',
+        threads: '스레드 목록',
+        info: '채널 정보',
+        notifications: '알림',
+        createCategory: '새 카테고리 만들기',
+        invite: '멤버 초대하기',
+        fileUpload: '파일 업로드',
+        channelFiles: '채널 파일',
+        mention: '@ 사용자 언급하기',
+        addChannel: '채널 추가',
+        addDM: 'DM 추가',
+        addApp: '앱 추가',
+    };
+
     const getTitle = () => {
-        switch (modalType) {
-            case 'search':
-                return '채널 내 검색';
-            case 'members':
-                return '멤버 목록';
-            case 'pinned':
-                return '고정된 메시지';
-            case 'threads':
-                return '스레드 목록';
-            case 'info':
-                return '채널 정보';
-            case 'notifications':
-                return '알림';
-            case 'createCategory':
-                return '새 카테고리 만들기';
-            case 'invite':
-                return '멤버 초대하기';
-            case 'fileUpload':
-                return '파일 업로드';
-            case 'channelFiles':
-                return '채널 파일';
-            case 'mention':
-                return '@ 사용자 언급하기';
-            case 'addChannel':
-                return '채널 추가';
-            case 'addDM':
-                return 'DM 추가';
-            case 'addApp':
-                return '앱 추가';
-            default:
-                return '';
-        }
+        return titles[modalType] ?? fallbackTitles[modalType] ?? '';
     };
 
     const renderContent = () => {
@@ -229,33 +228,44 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
 
             case 'addChannel': {
                 const targetCategoryName = modalProps.categoryName || modalProps.category?.name;
+                const descriptionTemplate = addChannelStrings.description;
+                const description = targetCategoryName
+                    ? formatTemplate(descriptionTemplate, { category: targetCategoryName }) ??
+                      `Add a new channel to ${targetCategoryName}.`
+                    : formatTemplate(descriptionTemplate, { category: '' });
                 return (
                     <div>
                         {targetCategoryName && (
                             <p className="channel-modal__helper-text">
-                                {`${targetCategoryName} 카테고리에 새 채널을 추가합니다.`}
+                                {description}
                             </p>
                         )}
                         <div className="settings-form-group">
-                            <label htmlFor="channel-name">채널 이름</label>
-                            <input id="channel-name" type="text" placeholder="예: design-review" />
+                            <label htmlFor="channel-name">
+                                {addChannelStrings.nameLabel ?? 'Channel name'}
+                            </label>
+                            <input
+                                id="channel-name"
+                                type="text"
+                                placeholder={addChannelStrings.namePlaceholder ?? 'e.g. design-review'}
+                            />
                         </div>
                         <div className="settings-form-group">
-                            <label htmlFor="channel-purpose">설명</label>
+                            <label htmlFor="channel-purpose">
+                                {addChannelStrings.descLabel ?? 'Description'}
+                            </label>
                             <textarea
                                 id="channel-purpose"
-                                placeholder="채널의 목적을 간단히 작성하세요."
+                                placeholder={
+                                    addChannelStrings.descPlaceholder ??
+                                    'Briefly describe the purpose of this channel.'
+                                }
                                 rows={3}
                             ></textarea>
                         </div>
-                        <div className="settings-form-group">
-                            <label htmlFor="channel-privacy">공개 범위</label>
-                            <select id="channel-privacy" defaultValue="public">
-                                <option value="public">모든 멤버가 볼 수 있는 공개 채널</option>
-                                <option value="private">초대한 멤버만 접근 가능한 비공개 채널</option>
-                            </select>
-                        </div>
-                        <button className="profile-modal__save-button">채널 만들기</button>
+                        <button className="profile-modal__save-button">
+                            {addChannelStrings.submit ?? 'Create channel'}
+                        </button>
                     </div>
                 );
             }
@@ -272,8 +282,14 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                 return (
                     <div>
                         <div className="settings-form-group">
-                            <label htmlFor="dm-search">사용자 검색</label>
-                            <input id="dm-search" type="text" placeholder="이름 또는 이메일로 검색하세요." />
+                            <label htmlFor="dm-search">
+                                {addDMStrings.searchLabel ?? 'Search members'}
+                            </label>
+                            <input
+                                id="dm-search"
+                                type="text"
+                                placeholder={addDMStrings.searchPlaceholder ?? 'Find by name or email'}
+                            />
                         </div>
                         <div className="channel-modal__list mention-list">
                             {availableUsers.map((user) => (
@@ -288,7 +304,9 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                                     ></span>
                                 </button>
                             ))}
-                            {availableUsers.length === 0 && <p>초대할 사용자가 없습니다.</p>}
+                            {availableUsers.length === 0 && (
+                                <p>{addDMStrings.empty ?? 'No additional members available.'}</p>
+                            )}
                         </div>
                     </div>
                 );
@@ -296,22 +314,33 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
 
             case 'addApp':
                 return (
-                    <div className="channel-modal__list app-list">
-                        {mockAppConnect.map((app) => (
-                            <div key={app.id} className="channel-modal__list-item app-list__item">
-                                <div className="app-list__meta">
-                                    <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
-                                    <div>
-                                        <span className="app-list__name">{app.name}</span>
-                                        <p className="app-list__description">워크스페이스에 앱을 연동하세요.</p>
+                    <div>
+                        {(addAppStrings.description ?? '').length > 0 && (
+                            <p className="channel-modal__helper-text">
+                                {addAppStrings.description ?? 'Connect apps to your workspace.'}
+                            </p>
+                        )}
+                        <div className="channel-modal__list app-list">
+                            {mockAppConnect.map((app) => (
+                                <div key={app.id} className="channel-modal__list-item app-list__item">
+                                    <div className="app-list__meta">
+                                        <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
+                                        <div>
+                                            <span className="app-list__name">{app.name}</span>
+                                            <p className="app-list__description">
+                                                {addAppStrings.itemDescription ?? 'Keep your favourite tools in sync.'}
+                                            </p>
+                                        </div>
                                     </div>
+                                    <button className="profile-modal__save-button" style={{ padding: '0.4rem 1rem' }}>
+                                        {addAppStrings.addButton ?? 'Add'}
+                                    </button>
                                 </div>
-                                <button className="profile-modal__save-button" style={{ padding: '0.4rem 1rem' }}>
-                                    추가
-                                </button>
-                            </div>
-                        ))}
-                        {mockAppConnect.length === 0 && <p>추가 가능한 앱이 없습니다.</p>}
+                            ))}
+                            {mockAppConnect.length === 0 && (
+                                <p>{addAppStrings.empty ?? 'No apps available.'}</p>
+                            )}
+                        </div>
                     </div>
                 );
 

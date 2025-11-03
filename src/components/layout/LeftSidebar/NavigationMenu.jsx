@@ -6,10 +6,12 @@ export const NavigationMenu = ({ currentView, onSelectView }) => {
   const { language } = useStore();
   const s = strings[language];
 
+  const directoryLabel = typeof s.directory === 'object' ? s.directory.title : s.directory;
+
   const menuItems = [
     { id: 'dashboard', icon: LayoutDashboard, label: s.dashboard },
     { id: 'search', icon: Search, label: s.search },
-    { id: 'directory', icon: Users, label: s.directory },
+    { id: 'directory', icon: Users, label: directoryLabel || 'Directory' },
   ];
 
   return (

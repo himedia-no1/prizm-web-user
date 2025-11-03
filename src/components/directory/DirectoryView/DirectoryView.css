@@ -1,54 +1,16 @@
-.directory-list {
+.directory-controls {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 }
 
-.directory-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  border: none;
-  background: none;
-  text-align: left;
-  width: 100%;
+.directory-search {
+  flex: 1 1 240px;
 }
 
-.directory-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-[data-theme='dark'] .directory-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.directory-item img {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-}
-
-.directory-item span {
-  font-size: 0.9rem;
-  color: var(--text);
-}
-
-.directory-item__status {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-width: 1px;
-  margin-left: auto;
-}
-
-.settings-form-group {
-  margin-bottom: 1rem;
-}
-
-.settings-form-group input {
+.directory-search input {
   width: 100%;
   padding: 0.625rem 0.75rem;
   border: 1px solid var(--border);
@@ -59,7 +21,155 @@
   outline: none;
 }
 
-.settings-form-group input:focus {
+.directory-search input:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.directory-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.directory-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.directory-field select {
+  min-width: 160px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.directory-field select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.directory-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background-color: var(--bg-secondary, var(--bg));
+}
+
+.directory-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.directory-table th,
+.directory-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.directory-table thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  background-color: var(--bg);
+}
+
+.directory-table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+[data-theme='dark'] .directory-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.directory-member-cell {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.directory-member-cell img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.directory-member-name {
+  display: block;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.directory-member-handle {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.directory-status-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.directory-status-indicator {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-width: 1px;
+}
+
+.directory-empty-row td {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+}
+
+.directory-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.directory-pagination button {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.directory-pagination button:hover:not(:disabled) {
+  background-color: var(--primary-light, rgba(79, 70, 229, 0.15));
+  border-color: var(--primary);
+}
+
+.directory-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.directory-pagination__summary {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
 }
