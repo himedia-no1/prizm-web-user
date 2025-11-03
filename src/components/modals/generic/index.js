@@ -5,7 +5,7 @@ export * from './ThreadsModalContent';
 export * from './InfoModalContent';
 export * from './NotificationsModalContent';
 export * from './CreateCategoryModalContent';
-export * from './InviteModalContent';
+
 export * from './FileUploadModalContent';
 export * from './ChannelFilesModalContent';
 export * from './MentionModalContent';

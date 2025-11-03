@@ -1,7 +1,7 @@
 'use client';
 
 import useStore from '@/store/useStore';
-import { GenericModal, ProfileSettingsModal, UserProfileModal } from '@/components/modals';
+import { GenericModal, ProfileSettingsModal, UserProfileModal, InviteMemberModal } from '@/components/modals';
 import AIAssistantModal from '@/components/modals/AIAssistantModal';
 import EmojiPickerModal from '@/components/modals/EmojiPickerModal';
 
@@ -16,6 +16,7 @@ const AppModals = () => {
     userProfile: <UserProfileModal {...modalProps} onClose={closeModal} onCreateDM={createDM} />,
     aiAssistant: <AIAssistantModal {...modalProps} onClose={closeModal} />,
     emojiPicker: <EmojiPickerModal {...modalProps} onClose={closeModal} />,
+    invite: <InviteMemberModal isOpen={true} onClose={closeModal} />,
   };
 
   return modals[modalType] || null;

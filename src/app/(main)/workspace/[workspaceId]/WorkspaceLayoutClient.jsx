@@ -64,8 +64,8 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
     openModal('profileSettings', { user: currentUser });
   };
 
-  const handleOpenGenericModal = (type) => {
-    openModal('generic', { type });
+  const handleOpenModal = (type) => {
+    openModal(type);
   };
 
   const contextValue = useMemo(
@@ -102,7 +102,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           onNavigateToSettings={() => router.push(`/settings/workspace/${workspaceId}`)}
           onNavigateToUserSettings={() => router.push('/settings')}
           onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
-          onOpenModal={handleOpenGenericModal}
+          onOpenModal={handleOpenModal}
           onCollapse={() => setIsLeftSidebarCollapsed(true)}
           onToggleDarkMode={toggleDarkMode}
         />

@@ -77,16 +77,15 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
     openModal('emojiPicker', { onEmojiSelect: (emoji) => handleEmojiSelect(emoji, selectedMessage) });
   };
 
-  const handleOpenGenericModal = (type) => {
-    openModal('generic', { type });
+  const handleOpenModal = (type) => {
+    openModal(type);
   };
 
   return (
     <>
       <main className="main-chat-area">
         <ChatHeader
-          channel={channel}
-          onOpenModal={handleOpenGenericModal}
+          onOpenModal={handleOpenModal}
           onOpenUserProfile={handleOpenUserProfile}
         />
 
@@ -103,7 +102,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           message={message}
           setMessage={setMessage}
           onToggleAI={() => console.log('Toggle AI')}
-          onOpenModal={handleOpenGenericModal}
+          onOpenModal={handleOpenModal}
           onOpenEmojiPicker={() => openModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })}
         />
 
