@@ -6,7 +6,7 @@ import './MessageInput.module.css';
 
 import { FileUploadButton } from './FileUploadButton';
 
-export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onOpenModal, onOpenEmojiPicker }) => {
+export const MessageInput = ({ channelName, message, setMessage, onSendMessage, onOpenModal, onOpenEmojiPicker }) => {
   const textareaRef = useRef(null);
 
   const handleInput = (e) => {
@@ -16,6 +16,24 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
       textarea.style.height = 'auto';
       const scrollHeight = textarea.scrollHeight;
       textarea.style.height = `${Math.min(scrollHeight, 200)}px`;
+    }
+  };
+
+  const handleSend = () => {
+    if (message.trim()) {
+      onSendMessage(message);
+      setMessage('');
+      const textarea = textareaRef.current;
+      if (textarea) {
+        textarea.style.height = 'auto';
+      }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
   };
 
@@ -30,6 +48,7 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
             rows="1"
             value={message}
             onInput={handleInput}
+            onKeyDown={handleKeyDown}
             placeholder={`Message #${channelName}`}
             className="message-input__textarea"
             style={{ minHeight: '50px' }}
@@ -44,7 +63,7 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
             <button onClick={onOpenEmojiPicker}>
               <Smile size={20} />
             </button>
-            <button className="message-input__send-button" disabled={!message.trim()}>
+            <button onClick={handleSend} className="message-input__send-button" disabled={!message.trim()}>
               <Send size={20} />
             </button>
           </div>
