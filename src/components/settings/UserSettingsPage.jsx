@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowLeft, User, Google, GitHub, Microsoft } from '@/components/common/icons';
+import { NotificationPreferences, ThemePreferences, LanguagePreferences } from '@/components/settings/prefs';
 import { mockUsers } from '@/__mocks__';
 
 export const UserSettingsPage = ({ onBack }) => {
@@ -9,6 +10,14 @@ export const UserSettingsPage = ({ onBack }) => {
     const [selectedSetting, setSelectedSetting] = useState('profile');
     const [username, setUsername] = useState(user.realName);
     const [email, setEmail] = useState(user.email);
+
+    const handleBack = () => {
+        if (onBack) {
+            onBack();
+        } else if (typeof window !== 'undefined') {
+            window.history.back();
+        }
+    };
 
     const renderSettingContent = () => {
         switch (selectedSetting) {
@@ -71,7 +80,11 @@ export const UserSettingsPage = ({ onBack }) => {
                 return (
                     <div>
                         <h2 className="settings-content__header">환경 설정</h2>
-                        <p>알림, 테마, 언어 등을 설정합니다.</p>
+                        <div style={{ display: 'grid', gap: '1.25rem' }}>
+                            <NotificationPreferences />
+                            <ThemePreferences />
+                            <LanguagePreferences />
+                        </div>
                     </div>
                 );
 
@@ -83,7 +96,7 @@ export const UserSettingsPage = ({ onBack }) => {
     return (
         <div className="settings-page">
             <aside className="settings-sidebar">
-                <button onClick={onBack} className="settings-sidebar__back-button">
+                <button onClick={handleBack} className="settings-sidebar__back-button">
                     <ArrowLeft size={16} />
                     <span>워크스페이스로 돌아가기</span>
                 </button>
@@ -116,3 +129,5 @@ export const UserSettingsPage = ({ onBack }) => {
         </div>
     );
 };
+
+export default UserSettingsPage;
