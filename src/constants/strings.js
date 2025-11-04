@@ -42,6 +42,7 @@ export const strings = {
         createCategory: 'Create Category',
         inviteMember: 'Invite member',
         inviteGuest: 'Invite guest',
+        inviteResult: 'Invitation summary',
         fileUpload: 'Upload Files',
         channelFiles: 'Channel Files',
         mention: 'Mention',
@@ -76,7 +77,7 @@ export const strings = {
         empty: 'No channels available.',
       },
       inviteMember: {
-        description: 'Invite teammates by email or share a configurable invite link.',
+        description: 'Invite teammates by email or share a time-bound invite link.',
         tabs: {
           direct: 'Invite by email',
           link: 'Generate invite link',
@@ -92,7 +93,7 @@ export const strings = {
           copyLink: 'Copy invite link',
         },
         link: {
-          description: 'Control how long the invite stays active and whether approval is required.',
+          description: 'Configure expiration and usage limits before sharing.',
           expirationLabel: 'Expiration',
           expirationOptions: {
             '24h': '24 hours',
@@ -108,11 +109,6 @@ export const strings = {
             '50': '50 uses',
             unlimited: 'Unlimited',
             single: '1 use',
-          },
-          approvalLabel: 'Join requirement',
-          approvalOptions: {
-            auto: 'Allow automatic join',
-            approval: 'Require approval',
           },
           generateButton: 'Generate invite link',
           copyButton: 'Copy link',
@@ -128,7 +124,7 @@ export const strings = {
         },
       },
       inviteGuest: {
-        description: 'Invite guests to {{channel}} or generate a link with fine-grained access.',
+        description: 'Invite guests to {{channel}} or generate a time-bound guest link.',
         tabs: {
           direct: 'Invite by email',
           link: 'Generate guest link',
@@ -137,14 +133,13 @@ export const strings = {
           searchLabel: 'Search guest email',
           searchPlaceholder: 'Enter a guest email address',
           emptySelection: 'No guests selected.',
-          channelLabel: 'Channel access',
           sendButton: 'Send guest invites',
           successTitle: 'Guest invitations sent',
           successSubtitle: 'Guests can join via the personalised link below.',
           copyLink: 'Copy guest link',
         },
         link: {
-          description: 'Configure expiration, usage limits, and approval before sharing.',
+          description: 'Configure expiration and usage limits before sharing.',
           expirationLabel: 'Expiration',
           expirationOptions: {
             '24h': '24 hours',
@@ -160,11 +155,6 @@ export const strings = {
             '50': '50 uses',
             unlimited: 'Unlimited',
             single: '1 use',
-          },
-          approvalLabel: 'Join requirement',
-          approvalOptions: {
-            auto: 'Allow automatic join',
-            approval: 'Require approval',
           },
           generateButton: 'Generate guest link',
           copyButton: 'Copy link',
@@ -184,6 +174,15 @@ export const strings = {
       },
       members: {
         inviteGuestButton: 'Invite guest to channel',
+      },
+      inviteResult: {
+        title: 'Invitation summary',
+        memberDescription: 'The following teammates received invite emails with unique links.',
+        guestDescription: 'The following guests received invite emails with unique links.',
+        linkDescription: 'Share this link with anyone who should join.',
+        close: 'Close',
+        codeLabel: 'Code',
+        createdLabel: 'Created',
       },
     },
     directory: {
@@ -295,6 +294,7 @@ export const strings = {
       backToWorkspace: 'Back to workspace',
       navDashboard: 'Overview',
       navMembers: 'Members',
+      navInviteManagement: 'Invite management',
       navChannels: 'Channels',
       navGroups: 'Groups',
       navPermissions: 'Permissions',
@@ -341,6 +341,16 @@ export const strings = {
       membersHistoryActionLeave: 'left the workspace',
       membersHistoryActionInvited: 'was invited',
       inviteMember: 'Invite member',
+      inviteManagementTitle: 'Invite management',
+      inviteManagementDescription: 'Track pending invites and manage reusable invite links.',
+      inviteManagementPendingTitle: 'Pending invitations',
+      inviteManagementLinksTitle: 'Reusable invite links',
+      inviteManagementLinksEmpty: 'No active invite links yet.',
+      inviteManagementLinkMember: 'Member link',
+      inviteManagementLinkGuest: 'Guest link',
+      inviteManagementCopy: 'Copy link',
+      inviteManagementCopied: 'Copied!',
+      inviteManagementLinksDescription: 'Review reusable links shared with teammates or guests.',
       roleOwner: 'Owner',
       roleAdmin: 'Admin',
       roleMember: 'Member',
@@ -413,6 +423,7 @@ export const strings = {
         createCategory: '새 카테고리 만들기',
         inviteMember: '멤버 초대하기',
         inviteGuest: '게스트 초대하기',
+        inviteResult: '초대 완료 안내',
         fileUpload: '파일 업로드',
         channelFiles: '채널 파일',
         mention: '@ 사용자 언급하기',
@@ -447,7 +458,7 @@ export const strings = {
         empty: '추가할 채널이 없습니다.',
       },
       inviteMember: {
-        description: '이메일이나 초대 링크로 팀원을 초대하세요.',
+        description: '이메일이나 유효 기간이 있는 초대 링크로 팀원을 초대하세요.',
         tabs: {
           direct: '이메일로 초대',
           link: '초대 링크 생성',
@@ -463,7 +474,7 @@ export const strings = {
           copyLink: '초대 링크 복사',
         },
         link: {
-          description: '링크 만료, 사용 제한, 승인 여부를 설정하세요.',
+          description: '링크 만료와 사용 제한을 설정하세요.',
           expirationLabel: '만료 시간',
           expirationOptions: {
             '24h': '24시간',
@@ -479,11 +490,6 @@ export const strings = {
             '50': '50회',
             unlimited: '무제한',
             single: '1회',
-          },
-          approvalLabel: '가입 방식',
-          approvalOptions: {
-            auto: '바로 가입',
-            approval: '승인 필요',
           },
           generateButton: '초대 링크 생성',
           copyButton: '링크 복사',
@@ -499,7 +505,7 @@ export const strings = {
         },
       },
       inviteGuest: {
-        description: '{{channel}} 채널에 게스트를 초대하거나 제한된 링크를 생성하세요.',
+        description: '{{channel}} 채널에 게스트를 초대하거나 유효 기간이 있는 링크를 생성하세요.',
         tabs: {
           direct: '이메일로 초대',
           link: '게스트 링크 생성',
@@ -508,14 +514,13 @@ export const strings = {
           searchLabel: '게스트 이메일 검색',
           searchPlaceholder: '게스트 이메일을 입력하세요',
           emptySelection: '선택된 게스트가 없습니다.',
-          channelLabel: '접근 허용 채널',
           sendButton: '초대 보내기',
           successTitle: '게스트 초대를 전송했습니다.',
           successSubtitle: '전용 링크를 통해 게스트가 채널에 참여할 수 있습니다.',
           copyLink: '게스트 링크 복사',
         },
         link: {
-          description: '만료, 사용 제한, 승인 여부를 설정한 뒤 링크를 공유하세요.',
+          description: '만료와 사용 제한을 설정한 뒤 링크를 공유하세요.',
           expirationLabel: '만료 시간',
           expirationOptions: {
             '24h': '24시간',
@@ -531,11 +536,6 @@ export const strings = {
             '50': '50회',
             unlimited: '무제한',
             single: '1회',
-          },
-          approvalLabel: '가입 방식',
-          approvalOptions: {
-            auto: '바로 가입',
-            approval: '승인 필요',
           },
           generateButton: '게스트 링크 생성',
           copyButton: '링크 복사',
@@ -555,6 +555,15 @@ export const strings = {
       },
       members: {
         inviteGuestButton: '게스트 초대',
+      },
+      inviteResult: {
+        title: '초대 완료 안내',
+        memberDescription: '다음 팀원에게 고유한 초대 링크가 포함된 이메일을 보냈습니다.',
+        guestDescription: '다음 게스트에게 고유한 초대 링크가 포함된 이메일을 보냈습니다.',
+        linkDescription: '필요한 사람에게 이 링크를 공유하세요.',
+        close: '닫기',
+        codeLabel: '코드',
+        createdLabel: '생성일',
       },
     },
     directory: {
@@ -666,6 +675,7 @@ export const strings = {
       backToWorkspace: '워크스페이스로 돌아가기',
       navDashboard: '개요 대시보드',
       navMembers: '멤버 관리',
+      navInviteManagement: '초대 관리',
       navChannels: '채널 관리',
       navGroups: '그룹 관리',
       navPermissions: '권한 설정',
@@ -712,6 +722,16 @@ export const strings = {
       membersHistoryActionLeave: '워크스페이스를 떠났습니다.',
       membersHistoryActionInvited: '워크스페이스 초대를 받았습니다.',
       inviteMember: '멤버 초대',
+      inviteManagementTitle: '초대 관리',
+      inviteManagementDescription: '초대 현황을 확인하고 재사용 가능한 초대 링크를 관리하세요.',
+      inviteManagementPendingTitle: '대기 중인 초대',
+      inviteManagementLinksTitle: '재사용 가능한 초대 링크',
+      inviteManagementLinksEmpty: '활성화된 초대 링크가 아직 없습니다.',
+      inviteManagementLinkMember: '멤버 초대 링크',
+      inviteManagementLinkGuest: '게스트 초대 링크',
+      inviteManagementCopy: '링크 복사',
+      inviteManagementCopied: '복사됨',
+      inviteManagementLinksDescription: '멤버 또는 게스트와 공유 중인 재사용 링크를 확인하세요.',
       roleOwner: '소유자',
       roleAdmin: '관리자',
       roleMember: '멤버',

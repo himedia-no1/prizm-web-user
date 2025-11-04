@@ -11,8 +11,6 @@ const TAB_ITEMS = [
   { id: 'Users', label: '멤버', icon: UsersIcon },
 ];
 
-const DEFAULT_RECENT_QUERIES = ['프로젝트 일정', 'OKR 정리', '디자인 가이드'];
-
 const typeMap = {
   Messages: 'message',
   Files: 'file',
@@ -25,7 +23,6 @@ export const SearchView = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(TAB_ITEMS[0].id);
-  const [recentQueries, setRecentQueries] = useState(DEFAULT_RECENT_QUERIES);
 
   useEffect(() => {
     const debounceTimeout = setTimeout(() => {
@@ -64,14 +61,6 @@ export const SearchView = () => {
       return;
     }
 
-    setRecentQueries((prev) => {
-      const filtered = prev.filter((item) => item !== trimmed);
-      return [trimmed, ...filtered].slice(0, 5);
-    });
-  };
-
-  const handleFillRecentQuery = (value) => {
-    setQuery(value);
   };
 
   const statusText = useMemo(() => {
@@ -80,7 +69,7 @@ export const SearchView = () => {
     }
 
     if (!query.trim()) {
-      return '검색어를 입력하거나 최근 검색어를 눌러 빠르게 시작해보세요.';
+      return '검색어를 입력해 검색을 시작하세요.';
     }
 
     if (results.length === 0) {
@@ -189,21 +178,6 @@ export const SearchView = () => {
                 </button>
               );
             })}
-          </div>
-          <div className={styles.recentGroup}>
-            <span className={styles.recentLabel}>최근 검색</span>
-            <div className={styles.recentList}>
-              {recentQueries.map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  className={styles.recentButton}
-                  onClick={() => handleFillRecentQuery(item)}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </section>

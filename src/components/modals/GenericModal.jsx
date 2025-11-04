@@ -7,6 +7,7 @@ import { mockAppConnect } from '@/__mocks__/appConnect';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
 import { InviteFlowContent } from './InviteFlowContent';
+import { InviteResultContent } from './InviteResultContent';
 
 import './Modals.css';
 
@@ -47,6 +48,7 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
         addDM: 'DM 추가',
         addApp: '앱 추가',
         addFavorite: '즐겨찾기 관리',
+        inviteResult: '초대 완료',
     };
 
     const getTitle = () => {
@@ -178,6 +180,17 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                         mode="guest"
                         channelId={modalProps.channelId}
                         channelName={modalProps.channelName}
+                    />
+                );
+
+            case 'inviteResult':
+                return (
+                    <InviteResultContent
+                        mode={modalProps.mode}
+                        resultType={modalProps.resultType}
+                        entries={modalProps.entries}
+                        link={modalProps.link}
+                        onClose={onClose}
                     />
                 );
 

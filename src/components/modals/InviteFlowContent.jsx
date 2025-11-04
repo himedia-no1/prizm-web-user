@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { mockUsers } from '@/__mocks__/users';
 import useStrings from '@/hooks/useStrings';
-import { Search, Link as LinkIcon, Users as UsersIcon, Hash as HashIcon, Share, ShieldCheck, X } from '@/components/common/icons';
+import { Search, Link as LinkIcon, Users as UsersIcon, Hash as HashIcon, Share, X } from '@/components/common/icons';
+import useStore from '@/store/useStore';
 import styles from './InviteFlowContent.module.css';
 
 const MOCK_GROUPS = [
@@ -56,6 +57,7 @@ const useInviteStrings = (mode) => {
 
 export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) => {
   const { invite: s, copy: copyStrings } = useInviteStrings(mode);
+  const openModal = useStore((state) => state.openModal);
   const [activeTab, setActiveTab] = useState('direct');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -66,12 +68,10 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
     }
     return [];
   });
-  const [lastResult, setLastResult] = useState(null);
   const [generatedLinks, setGeneratedLinks] = useState([]);
   const [linkSettings, setLinkSettings] = useState({
     expiration: '7d',
     usage: 'unlimited',
-    joinRule: 'auto',
   });
   const formattedDescription = useMemo(() => {
     if (!s.description) {
@@ -151,19 +151,18 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
         createdAt: new Date().toISOString(),
       };
     });
-    setLastResult({ type: 'direct', invites });
-    setGeneratedLinks((prev) => [...prev, ...invites.map(({ link, createdAt }) => ({
-      id: link.id,
-      url: link.url,
-      code: link.code,
-      createdAt,
-      expiration: null,
-      usage: 'single',
-      joinRule: 'auto',
-      targets: selectedTargets.slice(),
-      origin: 'direct',
-    }))]);
     resetSelections();
+    openModal('generic', {
+      type: 'inviteResult',
+      mode,
+      resultType: 'direct',
+      entries: invites.map(({ user, link }) => ({
+        email: user.email,
+        name: user.name,
+        url: link.url,
+        code: link.id,
+      })),
+    });
   };
 
   const handleGenerateLink = () => {
@@ -175,21 +174,22 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
       createdAt: new Date().toISOString(),
       expiration: linkSettings.expiration,
       usage: linkSettings.usage,
-      joinRule: linkSettings.joinRule,
       targets: selectedTargets.slice(),
       origin: 'link',
     };
     setGeneratedLinks((prev) => [record, ...prev]);
-    setLastResult({ type: 'link', link: record });
-  };
-
-  const handleCopy = async (text, callback) => {
-    try {
-      await navigator.clipboard?.writeText(text);
-      if (callback) callback(true);
-    } catch (error) {
-      if (callback) callback(false);
-    }
+    openModal('generic', {
+      type: 'inviteResult',
+      mode,
+      resultType: 'link',
+      link: {
+        url: record.url,
+        code: record.id,
+        expiration: record.expiration,
+        usage: record.usage,
+        createdAt: record.createdAt,
+      },
+    });
   };
 
   const renderSelectedUsers = () => (
@@ -209,27 +209,33 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
     </div>
   );
 
-  const renderTargets = () => (
-    <div className={styles.targets}>
-      <span className={styles.targetsLabel}>{inviteTargetsLabel}</span>
-      <div className={styles.targetGrid}>
-        {selectableTargets.map((target) => {
-          const isSelected = selectedTargets.includes(target.id);
-          return (
-            <button
-              key={target.id}
-              type="button"
-              className={`${styles.targetOption} ${isSelected ? styles.targetOptionActive : ''}`}
-              onClick={() => toggleTarget(target.id)}
-            >
-              {mode === 'guest' ? <HashIcon size={14} /> : <UsersIcon size={14} />}
-              <span>{target.name}</span>
-            </button>
-          );
-        })}
+  const renderTargets = () => {
+    if (mode === 'guest') {
+      return null;
+    }
+
+    return (
+      <div className={styles.targets}>
+        <span className={styles.targetsLabel}>{inviteTargetsLabel}</span>
+        <div className={styles.targetGrid}>
+          {selectableTargets.map((target) => {
+            const isSelected = selectedTargets.includes(target.id);
+            return (
+              <button
+                key={target.id}
+                type="button"
+                className={`${styles.targetOption} ${isSelected ? styles.targetOptionActive : ''}`}
+                onClick={() => toggleTarget(target.id)}
+              >
+                <UsersIcon size={14} />
+                <span>{target.name}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderDirectTab = () => (
     <div className={styles.tabPane}>
@@ -269,34 +275,6 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
       >
         {s.email?.sendButton ?? '초대 보내기'}
       </button>
-
-      {lastResult?.type === 'direct' && (
-        <div className={styles.resultCard}>
-          <div className={styles.resultHeader}>
-            <ShieldCheck size={16} />
-            <div>
-              <strong>{s.email?.successTitle ?? '초대가 전송되었습니다.'}</strong>
-              <p>{s.email?.successSubtitle ?? '아래 링크를 확인하여 전송 내역을 추적할 수 있습니다.'}</p>
-            </div>
-          </div>
-          <ul className={styles.resultList}>
-            {lastResult.invites.map(({ user, link }) => (
-              <li key={link.id}>
-                <div>
-                  <span className={styles.resultName}>{user.email}</span>
-                  <span className={styles.resultCode}>{link.id}</span>
-                </div>
-                  <CopyableLink
-                    label={s.email?.copyLink ?? '링크 복사'}
-                    url={link.url}
-                    copiedLabel={copyStrings?.copied ?? '복사됨'}
-                    copyLabel={copyStrings?.copy ?? '복사'}
-                  />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 
@@ -351,46 +329,10 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
         </div>
       </div>
 
-      <div className={styles.inlineField}>
-        <label htmlFor="invite-join-rule">{s.link?.approvalLabel ?? '가입 방식'}</label>
-        <select
-          id="invite-join-rule"
-          value={linkSettings.joinRule}
-          onChange={(event) =>
-            setLinkSettings((prev) => ({ ...prev, joinRule: event.target.value }))
-          }
-        >
-          <option value="auto">
-            {optionLabel('auto', s.link?.approvalOptions, { auto: '바로 가입' })}
-          </option>
-          <option value="approval">
-            {optionLabel('approval', s.link?.approvalOptions, { approval: '가입 승인 필요' })}
-          </option>
-        </select>
-      </div>
-
       <button type="button" className={styles.primaryAction} onClick={handleGenerateLink}>
         <Share size={16} />
         <span>{s.link?.generateButton ?? '초대 링크 생성'}</span>
       </button>
-
-      {lastResult?.type === 'link' && (
-        <div className={styles.resultCard}>
-          <div className={styles.resultHeader}>
-            <ShieldCheck size={16} />
-            <div>
-              <strong>{s.link?.successTitle ?? '초대 링크가 생성되었습니다.'}</strong>
-              <p>{s.link?.successSubtitle ?? '필요한 사용자에게 링크를 공유하세요.'}</p>
-            </div>
-          </div>
-          <CopyableLink
-            label={s.link?.copyButton ?? '링크 복사'}
-            url={lastResult.link.url}
-            copiedLabel={copyStrings?.copied ?? '복사됨'}
-            copyLabel={copyStrings?.copy ?? '복사'}
-          />
-        </div>
-      )}
 
       <div className={styles.history}>
         <h4>{s.history?.title ?? '생성된 초대 링크'}</h4>
@@ -481,7 +423,7 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
   );
 };
 
-const CopyableLink = ({ url, label, copyLabel, copiedLabel }) => {
+export const CopyableLink = ({ url, label, copyLabel, copiedLabel }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
