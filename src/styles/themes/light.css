@@ -1,0 +1,11 @@
+/* Light Theme Variables */
+[data-theme='light'] {
+  --bg: #f4f2f2;
+  --card-bg: #ffffff;
+  --text: #746b6c;
+  --text-secondary: #8c8585;
+  --primary: #8c65d1;
+  --primary-light: rgba(140, 101, 209, 0.08);
+  --border: #e5e1e1;
+  --shadow: rgba(0, 0, 0, 0.08);
+}

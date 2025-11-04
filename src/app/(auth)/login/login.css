@@ -1,0 +1,28 @@
+.login-card {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.login-icon {
+  margin: 0 auto;
+  color: var(--primary);
+}
+
+.login-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 1rem;
+}
+
+.login-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
