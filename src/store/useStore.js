@@ -4,6 +4,7 @@ const useStore = create((set, get) => ({
   // Dark mode state
   isDarkMode: false,
   toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
+  setTheme: (mode) => set({ isDarkMode: mode === 'dark' }),
 
   // Modal state
   modalType: null,
@@ -49,6 +50,7 @@ const useStore = create((set, get) => ({
   // Language state
   language: 'ko',
   toggleLanguage: () => set((state) => ({ language: state.language === 'ko' ? 'en' : 'ko' })),
+  setLanguage: (lang) => set({ language: lang }),
 }));
 
 
