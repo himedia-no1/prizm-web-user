@@ -79,6 +79,8 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
       'addDM',
       'addApp',
       'addFavorite',
+      'inviteMember',
+      'inviteGuest',
     ]);
 
     if (genericModalTypes.has(type)) {

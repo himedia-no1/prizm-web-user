@@ -93,10 +93,19 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       'addDM',
       'addApp',
       'addFavorite',
+      'inviteMember',
+      'inviteGuest',
     ]);
 
     if (genericModalTypes.has(type)) {
-      openModal('generic', { type, ...props });
+      const channelContext = channel
+        ? {
+            channelId: channel.id,
+            channelName: channel.name,
+          }
+        : {};
+
+      openModal('generic', { type, ...channelContext, ...props });
       return;
     }
 

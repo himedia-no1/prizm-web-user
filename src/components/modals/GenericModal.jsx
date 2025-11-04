@@ -6,6 +6,7 @@ import { mockUsers, mockMessages } from '@/__mocks__';
 import { mockAppConnect } from '@/__mocks__/appConnect';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
+import { InviteFlowContent } from './InviteFlowContent';
 
 import './Modals.css';
 
@@ -22,8 +23,10 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
     const addDMStrings = modalStrings.addDM ?? {};
     const addAppStrings = modalStrings.addApp ?? {};
     const addFavoriteStrings = modalStrings.addFavorite ?? {};
+    const membersStrings = modalStrings.members ?? {};
     const favoriteChannels = useStore((state) => state.favoriteChannels);
     const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
+    const openModalFromStore = useStore((state) => state.openModal);
 
     const [activeFileTab, setActiveFileTab] = useState('links');
 
@@ -35,7 +38,8 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
         info: '채널 정보',
         notifications: '알림',
         createCategory: '새 카테고리 만들기',
-        invite: '멤버 초대하기',
+        inviteMember: '멤버 초대하기',
+        inviteGuest: '게스트 초대하기',
         fileUpload: '파일 업로드',
         channelFiles: '채널 파일',
         mention: '@ 사용자 언급하기',
@@ -62,18 +66,36 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
 
             case 'members':
                 return (
-                    <div className="channel-modal__list">
-                        {Object.values(mockUsers).map((user) => (
-                            <div key={user.id} className="channel-modal__list-item member">
-                                <img src={user.avatar} alt={user.name} />
-                                <span>{user.name}</span>
-                                <span
-                                    className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'}`}
-                                    style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
-                                ></span>
-                            </div>
-                        ))}
-                    </div>
+                    <>
+                        <div className="channel-modal__list">
+                            {Object.values(mockUsers).map((user) => (
+                                <div key={user.id} className="channel-modal__list-item member">
+                                    <img src={user.avatar} alt={user.name} />
+                                    <span>{user.name}</span>
+                                    <span
+                                        className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'}`}
+                                        style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
+                                    ></span>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{ marginTop: '1.25rem', textAlign: 'right' }}>
+                            <button
+                                type="button"
+                                className="profile-modal__save-button"
+                                style={{ width: 'auto' }}
+                                onClick={() => {
+                                    openModalFromStore('generic', {
+                                        type: 'inviteGuest',
+                                        channelId: modalProps.channelId,
+                                        channelName: modalProps.channelName,
+                                    });
+                                }}
+                            >
+                                {membersStrings?.inviteGuestButton ?? '게스트 초대'}
+                            </button>
+                        </div>
+                    </>
                 );
 
             case 'pinned':
@@ -147,25 +169,16 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                     </div>
                 );
 
-            case 'invite':
+            case 'inviteMember':
+                return <InviteFlowContent mode="member" />;
+
+            case 'inviteGuest':
                 return (
-                    <div>
-                        <div className="settings-form-group">
-                            <label htmlFor="invite-email">이메일 주소</label>
-                            <input id="invite-email" type="email" placeholder="teammate@example.com" />
-                        </div>
-                        <button className="profile-modal__save-button" style={{ marginTop: 0 }}>
-                            초대 보내기
-                        </button>
-                        <div className="ws-dropdown__divider"></div>
-                        <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>또는</p>
-                        <button
-                            className="social-button"
-                            style={{ marginTop: '1rem', fontSize: '14px', padding: '12px 18px' }}
-                        >
-                            초대 링크 복사하기
-                        </button>
-                    </div>
+                    <InviteFlowContent
+                        mode="guest"
+                        channelId={modalProps.channelId}
+                        channelName={modalProps.channelName}
+                    />
                 );
 
             case 'fileUpload':

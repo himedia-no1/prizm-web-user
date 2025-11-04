@@ -37,7 +37,7 @@ export const WorkspaceDropdown = ({
       <button
         className="ws-dropdown__button ws-dropdown__action-button"
         onClick={() => {
-          onOpenModal('invite');
+          onOpenModal('inviteMember');
           onClose();
         }}
       >
