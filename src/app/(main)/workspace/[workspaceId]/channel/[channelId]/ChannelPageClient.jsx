@@ -2,13 +2,15 @@
 
 import { useMemo, useState } from 'react';
 import useStore from '@/store/useStore';
+import { useAuthStore } from '@/store/authStore';
+import { useChat } from '@/hooks/useChat';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
 import { MessageInput } from '@/components/chat/MessageInput';
 import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
 import { AIFab } from '@/components/chat/AIAssistant/AIFab';
-import { mockMessages, mockUsers, mockThreadMessages } from '@/__mocks__';
+import { mockUsers, mockThreadMessages } from '@/__mocks__';
 import './channel.css';
 
 const resolveChannelId = (channelId) => {
@@ -24,10 +26,13 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const currentThread = useStore((state) => state.currentThread);
   const openThread = useStore((state) => state.openThread);
   const closeThread = useStore((state) => state.closeThread);
+  const user = useAuthStore((state) => state.user);
 
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
   const channelId = resolveChannelId(channelParam);
+
+  const { messages, sendMessage } = useChat(channelId);
 
   const channel = useMemo(
     () => ({
@@ -36,6 +41,29 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
     }),
     [channelId],
   );
+
+  const userNameToIdMap = useMemo(() =>
+    Object.values(mockUsers).reduce((acc, user) => {
+      acc[user.name] = user.id;
+      return acc;
+    }, {}),
+  []);
+
+  const transformedMessages = useMemo(() =>
+    messages.map((msg, index) => ({
+      id: msg.id || `msg-${Date.now()}-${index}`,
+      userId: userNameToIdMap[msg.sender],
+      text: msg.content,
+      timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      reactions: msg.reactions || {},
+    })),
+  [messages, userNameToIdMap]);
+
+  const handleSendMessage = (msg) => {
+    if (user) {
+      sendMessage(msg, user.name);
+    }
+  };
 
   const handleStartThread = (selectedMessage) => {
     openThread(selectedMessage);
@@ -55,15 +83,8 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
 
   const handleEmojiSelect = (emoji, selectedMessage) => {
     if (selectedMessage) {
-      const updatedMessages = mockMessages.map((m) => {
-        if (m.id === selectedMessage.id) {
-          const reactions = { ...m.reactions };
-          reactions[emoji.emoji] = (reactions[emoji.emoji] || 0) + 1;
-          return { ...m, reactions };
-        }
-        return m;
-      });
-      Object.assign(mockMessages, updatedMessages);
+      // This logic needs to be updated to work with real data
+      console.log('Emoji select for message not implemented with real data yet');
     }
     closeModal();
   };
@@ -91,7 +112,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
         />
 
         <MessageList
-          messages={mockMessages}
+          messages={transformedMessages}
           users={mockUsers}
           onStartThread={handleStartThread}
           onOpenUserProfile={handleOpenUserProfile}
@@ -102,6 +123,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           channelName={channel.name}
           message={message}
           setMessage={setMessage}
+          onSendMessage={handleSendMessage}
           onToggleAI={() => console.log('Toggle AI')}
           onOpenModal={handleOpenModal}
           onOpenEmojiPicker={() => openModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })}
@@ -122,7 +144,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       {contextMenu.visible && (
         <MessageContextMenu
           message={contextMenu.message}
-          isMyMessage={contextMenu.message?.userId === 'u1'}
+          isMyMessage={contextMenu.message?.userId === user?.id}
           position={contextMenu.position}
           onClose={handleCloseContextMenu}
           onPin={() => console.log('Pin')}

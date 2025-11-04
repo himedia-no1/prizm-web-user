@@ -15,17 +15,22 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
     onOpenContextMenu(message, { x: rect.left, y: rect.top - 40 });
   };
 
+  // Fallback for missing user
+  const safeUser = user || { id: 'unknown', name: '알 수 없는 사용자', avatar: 'https://placehold.co/40x40/cccccc/FFFFFF?text=?' };
+
   return (
     <div className="message-container" onClick={handleClick}>
       <img
-        src={user.avatar}
-        alt={user.name}
+        src={safeUser.avatar}
+        alt={safeUser.name}
         className="message__avatar"
         onClick={(e) => {
           e.stopPropagation();
-          onOpenUserProfile(user.id);
+          if (safeUser.id !== 'unknown') {
+            onOpenUserProfile(safeUser.id);
+          }
         }}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: safeUser.id !== 'unknown' ? 'pointer' : 'default' }}
       />
       <div className="message__content">
         <div className="message__header">
@@ -33,11 +38,13 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
             className="message__username"
             onClick={(e) => {
               e.stopPropagation();
-              onOpenUserProfile(user.id);
+              if (safeUser.id !== 'unknown') {
+                onOpenUserProfile(safeUser.id);
+              }
             }}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: safeUser.id !== 'unknown' ? 'pointer' : 'default' }}
           >
-            {user.name}
+            {safeUser.name}
           </span>
           <span className="message__timestamp">{message.timestamp}</span>
         </div>
