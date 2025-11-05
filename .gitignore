@@ -39,9 +39,6 @@ out/
 *.eslintcache
 
 venv/
-.env
-.env.*
-.envrc
 instance/
 .mypy_cache/
 .pytest_cache/

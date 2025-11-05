@@ -6,17 +6,14 @@ RUN corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 COPY . .
-RUN pnpm run build && pnpm exec next export
+RUN pnpm run build
 
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
 
-RUN addgroup -S nginx && adduser -S nginx -G nginx
-RUN chown -R nginx:nginx /usr/share/nginx /var/cache/nginx /var/run
+RUN corepack prepare pnpm@latest --activate
+COPY --from=builder /app ./
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /app/out ./
-
-USER nginx
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["pnpm", "start"]
