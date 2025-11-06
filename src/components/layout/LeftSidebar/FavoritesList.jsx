@@ -1,6 +1,8 @@
 'use client';
 
 import { Hash, Star, StarOff, Plus } from '@/components/common/icons';
+import { UnreadBadge } from '@/components/common/UnreadBadge';
+import useStore from '@/store/useStore';
 
 export const FavoritesList = ({
   channelsIndex,
@@ -13,6 +15,7 @@ export const FavoritesList = ({
   label,
   emptyLabel = '즐겨찾기한 채널이 없습니다.',
 }) => {
+  const { unreadCounts } = useStore();
   const favorites = favoriteChannels
     .map((id) => channelsIndex[id])
     .filter(Boolean);
@@ -36,6 +39,7 @@ export const FavoritesList = ({
         <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
           {favorites.map((channel) => {
             const isActive = currentView === 'channel' && currentChannelId === channel.id;
+            const unreadCount = unreadCounts[channel.id] || 0;
             return (
               <li key={channel.id} className="channel-row">
                 <button
@@ -47,6 +51,7 @@ export const FavoritesList = ({
                     <span>{channel.name}</span>
                   </span>
                   <div className="channel-button__trail">
+                    <UnreadBadge count={unreadCount} />
                     <span className="favorite-category-label">{channel.categoryName}</span>
                   </div>
                 </button>

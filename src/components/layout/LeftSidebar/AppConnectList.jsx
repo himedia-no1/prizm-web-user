@@ -1,12 +1,15 @@
 'use client';
 
 import { Plus } from '@/components/common/icons';
+import { UnreadBadge } from '@/components/common/UnreadBadge';
 import useDataStore from '@/store/dataStore';
 import useStrings from '@/hooks/useStrings';
+import useStore from '@/store/useStore';
 
 export const AppConnectList = ({ onOpenModal, canManage = false }) => {
     const s = useStrings();
     const { appConnect } = useDataStore();
+    const { unreadCounts } = useStore();
 
     return (
         <div className="nav-group">
@@ -22,16 +25,22 @@ export const AppConnectList = ({ onOpenModal, canManage = false }) => {
                 )}
             </div>
             <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
-                {appConnect.map(app => (
-                    <li key={app.id}>
-                        <button className="channel-button">
-                            <span className="channel-button__name">
-                                <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
-                                <span>{app.name}</span>
-                            </span>
-                        </button>
-                    </li>
-                ))}
+                {appConnect.map(app => {
+                    const unreadCount = unreadCounts[app.id] || 0;
+                    return (
+                        <li key={app.id}>
+                            <button className="channel-button">
+                                <span className="channel-button__name">
+                                    <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
+                                    <span>{app.name}</span>
+                                </span>
+                                <div className="channel-button__trail">
+                                    <UnreadBadge count={unreadCount} />
+                                </div>
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

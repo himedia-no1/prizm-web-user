@@ -2,7 +2,9 @@
 
 import { Plus } from '@/components/common/icons';
 import { StatusIndicator } from '@/components/common/StatusIndicator';
+import { UnreadBadge } from '@/components/common/UnreadBadge';
 import useStrings from '@/hooks/useStrings';
+import useStore from '@/store/useStore';
 
 export const DMList = ({
   dms,
@@ -14,6 +16,7 @@ export const DMList = ({
   onOpenModal,
 }) => {
   const s = useStrings();
+  const { unreadCounts } = useStore();
   const existingDMUserIds = dms.map((dm) => dm.userId);
   const excludeUserIds = currentUser?.id ? [currentUser.id] : [];
 
@@ -37,6 +40,7 @@ export const DMList = ({
         {dms.map(dm => {
           const user = users[dm.userId];
           const isActive = currentView === 'channel' && currentChannelId === dm.id;
+          const unreadCount = unreadCounts[dm.id] || 0;
 
           return (
             <li key={dm.id}>
@@ -54,6 +58,9 @@ export const DMList = ({
                   </div>
                   <span>{user.name}</span>
                 </span>
+                <div className="channel-button__trail">
+                  <UnreadBadge count={unreadCount} />
+                </div>
               </button>
             </li>
           );

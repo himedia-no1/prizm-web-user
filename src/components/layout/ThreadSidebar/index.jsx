@@ -1,12 +1,29 @@
 'use client';
 
-import { useRef } from 'react';
-import { X, Send } from '@/components/common/icons';
+import { useRef, useState } from 'react';
+import { X, Send, Smile } from '@/components/common/icons';
+import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import './ThreadSidebar.module.css';
 
-export const ThreadSidebar = ({ threadMessage, threadReplies, users, onClose }) => {
+export const ThreadSidebar = ({ 
+  threadMessage, 
+  threadReplies, 
+  users, 
+  onClose, 
+  onOpenEmojiPicker, 
+  currentUserId,
+  onPin,
+  onStartThread,
+  onReply,
+  onForward,
+  onEdit,
+  onDelete,
+  onReactEmoji,
+  onTranslate,
+}) => {
   const textareaRef = useRef(null);
   const originalUser = users[threadMessage.userId];
+  const [contextMenu, setContextMenu] = useState(null);
 
   const handleInput = (e) => {
     const textarea = textareaRef.current;
@@ -45,8 +62,20 @@ export const ThreadSidebar = ({ threadMessage, threadReplies, users, onClose }) 
       <div className="thread-replies">
         {threadReplies.map(reply => {
           const replyUser = users[reply.userId];
+          const isMyMessage = reply.userId === currentUserId;
           return (
-            <div key={reply.id} className="thread-reply">
+            <div 
+              key={reply.id} 
+              className="thread-reply"
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setContextMenu({
+                  message: reply,
+                  position: { x: e.clientX, y: e.clientY },
+                  isMyMessage,
+                });
+              }}
+            >
               <img src={replyUser.avatar} alt={replyUser.name} className="message__avatar" />
               <div>
                 <div className="message__header">
@@ -60,6 +89,23 @@ export const ThreadSidebar = ({ threadMessage, threadReplies, users, onClose }) 
         })}
       </div>
 
+      {contextMenu && (
+        <MessageContextMenu
+          message={contextMenu.message}
+          isMyMessage={contextMenu.isMyMessage}
+          position={contextMenu.position}
+          onClose={() => setContextMenu(null)}
+          onPin={onPin}
+          onStartThread={onStartThread}
+          onReply={onReply}
+          onForward={onForward}
+          onEdit={onEdit}
+          onDelete={onDelete}
+          onReactEmoji={onReactEmoji}
+          onTranslate={onTranslate}
+        />
+      )}
+
       <div className="thread-reply-input-container">
         <div className="thread-reply-input-wrapper">
           <textarea
@@ -70,9 +116,14 @@ export const ThreadSidebar = ({ threadMessage, threadReplies, users, onClose }) 
             style={{ minHeight: '48px' }}
             onInput={handleInput}
           />
-          <button className="thread-reply-input__send-button">
-            <Send size={18} />
-          </button>
+          <div className="thread-reply-input__buttons">
+            <button onClick={onOpenEmojiPicker}>
+              <Smile size={18} />
+            </button>
+            <button className="thread-reply-input__send-button">
+              <Send size={18} />
+            </button>
+          </div>
         </div>
       </div>
     </aside>
