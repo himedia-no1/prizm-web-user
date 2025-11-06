@@ -1,126 +1,18 @@
 import { create } from 'zustand';
+import { createModalSlice } from './slices/modalSlice';
+import { createWorkspaceSlice } from './slices/workspaceSlice';
+import { createChatSlice } from './slices/chatSlice';
+import { createUISlice } from './slices/uiSlice';
+import { createNotificationSlice } from './slices/notificationSlice';
+import { createProfileSlice } from './slices/profileSlice';
 
-const useStore = create((set, get) => ({
-  // Dark mode state
-  isDarkMode: false,
-  toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
-  setTheme: (mode) => set({ isDarkMode: mode === 'dark' }),
-
-  // Modal state
-  modalType: null,
-  modalProps: {},
-  openModal: (type, props = {}) => set({ modalType: type, modalProps: props }),
-  closeModal: () => set({ modalType: null, modalProps: {} }),
-
-  // Favorite channels
-  favoriteChannels: ['c1', 'c3'],
-  toggleFavoriteChannel: (channelId) =>
-    set((state) => {
-      const isFavorite = state.favoriteChannels.includes(channelId);
-      return {
-        favoriteChannels: isFavorite
-          ? state.favoriteChannels.filter((id) => id !== channelId)
-          : [...state.favoriteChannels, channelId],
-      };
-    }),
-
-  // Thread state
-  currentThread: null,
-  openThread: (thread) => set({ currentThread: thread, modalType: null }),
-  closeThread: () => set({ currentThread: null }),
-
-  // Workspace state
-  currentWorkspace: null,
-  setCurrentWorkspace: (workspace) => set({ currentWorkspace: workspace }),
-  currentWorkspaceRole: null,
-  setCurrentWorkspaceRole: (role) => set({ currentWorkspaceRole: role }),
-  workspaceMemberships: {},
-  setWorkspaceMemberships: (workspaceId, memberships) =>
-    set((state) => ({
-      workspaceMemberships: {
-        ...state.workspaceMemberships,
-        [workspaceId]: memberships,
-      },
-    })),
-
-  // DM state
-  createDM: (userId, router) => {
-    const dmId = `dm-${userId}`;
-    const workspaceId = get().currentWorkspace?.id;
-    if (workspaceId) {
-      router.push(`/workspace/${workspaceId}/channel/${dmId}`);
-      set({ modalType: null, modalProps: {} });
-    }
-  },
-
-  // AI Search state
-  isAiSearchEnabled: false,
-  toggleAiSearch: () => set((state) => ({ isAiSearchEnabled: !state.isAiSearchEnabled })),
-
-  // Language state
-  language: 'ko',
-  toggleLanguage: () => set((state) => ({ language: state.language === 'ko' ? 'en' : 'ko' })),
-  setLanguage: (lang) => set({ language: lang }),
-
-  // Auto translation
-  autoTranslateEnabled: true,
-  toggleAutoTranslate: () => set((state) => ({ autoTranslateEnabled: !state.autoTranslateEnabled })),
-  setAutoTranslate: (enabled) => set({ autoTranslateEnabled: enabled }),
-
-  // Unread messages count by channel/DM
-  unreadCounts: {},
-  setUnreadCount: (channelId, count) =>
-    set((state) => ({
-      unreadCounts: { ...state.unreadCounts, [channelId]: count },
-    })),
-  incrementUnreadCount: (channelId) =>
-    set((state) => ({
-      unreadCounts: {
-        ...state.unreadCounts,
-        [channelId]: (state.unreadCounts[channelId] || 0) + 1,
-      },
-    })),
-  clearUnreadCount: (channelId) =>
-    set((state) => {
-      const newCounts = { ...state.unreadCounts };
-      delete newCounts[channelId];
-      return { unreadCounts: newCounts };
-    }),
-
-  // Notifications/Inbox
-  notifications: [],
-  addNotification: (notification) =>
-    set((state) => ({
-      notifications: [notification, ...state.notifications],
-    })),
-  markNotificationAsRead: (notificationId) =>
-    set((state) => ({
-      notifications: state.notifications.map((n) =>
-        n.id === notificationId ? { ...n, read: true } : n
-      ),
-    })),
-  deleteNotification: (notificationId) =>
-    set((state) => ({
-      notifications: state.notifications.filter((n) => n.id !== notificationId),
-    })),
-  markAllNotificationsAsRead: () =>
-    set((state) => ({
-      notifications: state.notifications.map((n) => ({ ...n, read: true })),
-    })),
-  clearNotifications: () => set({ notifications: [] }),
-
-  // Workspace profiles (per-workspace user profiles)
-  workspaceProfiles: {},
-  setWorkspaceProfile: (workspaceId, profile) =>
-    set((state) => ({
-      workspaceProfiles: {
-        ...state.workspaceProfiles,
-        [workspaceId]: profile,
-      },
-    })),
-  getWorkspaceProfile: (workspaceId) => get().workspaceProfiles[workspaceId] || null,
+export const useStore = create((set, get) => ({
+  ...createModalSlice(set, get),
+  ...createWorkspaceSlice(set, get),
+  ...createChatSlice(set, get),
+  ...createUISlice(set, get),
+  ...createNotificationSlice(set, get),
+  ...createProfileSlice(set, get),
 }));
-
-
 
 export default useStore;
