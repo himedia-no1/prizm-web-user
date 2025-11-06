@@ -48,3 +48,5 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
         </div>
     );
 };
+
+export default ProfileSettingsModal;

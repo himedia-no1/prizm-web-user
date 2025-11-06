@@ -202,3 +202,5 @@ export const InboxModal = ({ isOpen, onClose }) => {
     </div>
   );
 };
+
+export default InboxModal;

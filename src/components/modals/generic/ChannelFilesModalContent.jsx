@@ -1,42 +1,49 @@
 'use client';
 
-import { useState } from 'react';
-import { Link, Image, FileText } from '@/components/common/icons';
+import React, { useState } from 'react';
 import useStrings from '@/hooks/useStrings';
+import { FileText } from '@/components/common/icons';
 
-export const ChannelFilesModalContent = () => {
+export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     const s = useStrings();
-    const [activeFileTab, setActiveFileTab] = useState('links');
+    const [activeFileTab, setActiveFileTab] = useState('files');
+    const strings = s.modals.genericModal.channelFiles;
 
     return (
         <div className="channel-files-modal">
             <div className="channel-files-tabs">
                 <button
-                    className={activeFileTab === 'links' ? 'active' : ''}
-                    onClick={() => setActiveFileTab('links')}
-                >
-                    <Link size={16} />
-                    {s.channelFilesTabLinks}
-                </button>
-                <button
-                    className={activeFileTab === 'media' ? 'active' : ''}
-                    onClick={() => setActiveFileTab('media')}
-                >
-                    <Image size={16} />
-                    {s.channelFilesTabMedia}
-                </button>
-                <button
-                    className={activeFileTab === 'docs' ? 'active' : ''}
-                    onClick={() => setActiveFileTab('docs')}
+                    className={activeFileTab === 'files' ? 'active' : ''}
+                    onClick={() => setActiveFileTab('files')}
                 >
                     <FileText size={16} />
-                    {s.channelFilesTabDocs}
+                    {strings.filesTab}
                 </button>
             </div>
             <div className="channel-files-content">
-                {activeFileTab === 'links' && <p>{s.channelFilesEmptyLinks}</p>}
-                {activeFileTab === 'media' && <p>{s.channelFilesEmptyMedia}</p>}
-                {activeFileTab === 'docs' && <p>{s.channelFilesEmptyDocs}</p>}
+                {files.length > 0 ? (
+                    <div className="channel-files-grid">
+                        {files.map((file) => {
+                            const uploader = users[file.uploadedBy];
+                            return (
+                                <div key={file.id} className="channel-file-card">
+                                    <div className="channel-file-icon">
+                                        <FileText size={18} />
+                                    </div>
+                                    <div className="channel-file-info">
+                                        <span className="channel-file-title">{file.name}</span>
+                                        <p className="channel-file-meta">
+                                            {strings.uploadedBy} {uploader?.name ?? strings.unknownUser} • {file.size}
+                                        </p>
+                                    </div>
+                                    <button className="channel-file-action">{strings.download}</button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <p>{strings.noFiles}</p>
+                )}
             </div>
         </div>
     );

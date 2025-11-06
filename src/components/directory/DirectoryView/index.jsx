@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { StatusIndicator } from '@/components/common/StatusIndicator';
 import useStrings from '@/hooks/useStrings';
-import './DirectoryView.css';
+import styles from './DirectoryView.module.css';
 
 const formatTemplate = (template, replacements = {}) => {
   if (!template) return '';
@@ -126,14 +126,14 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
   });
 
   return (
-    <main className="main-view directory-view">
+    <main className={`main-view ${styles.directoryView}`}>
       <header className="view-header">
         <h2>{directoryStrings.title ?? 'Directory'}</h2>
       </header>
 
       <div className="view-content">
-        <div className="directory-controls">
-          <div className="directory-search">
+        <div className={styles.directoryControls}>
+          <div className={styles.directorySearch}>
             <input
               type="text"
               value={searchTerm}
@@ -142,8 +142,8 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
             />
           </div>
 
-          <div className="directory-actions">
-            <label className="directory-field">
+          <div className={styles.directoryActions}>
+            <label className={styles.directoryField}>
               <span>{directoryStrings.sortLabel ?? 'Sort'}</span>
               <select value={sortKey} onChange={handleSortChange}>
                 {Object.entries(directoryStrings.sortOptions ?? {}).map(([value, label]) => (
@@ -162,7 +162,7 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
               </select>
             </label>
 
-            <label className="directory-field">
+            <label className={styles.directoryField}>
               <span>{directoryStrings.pageSizeLabel ?? 'Rows per page'}</span>
               <select value={pageSize} onChange={handlePageSizeChange}>
                 {[10, 25, 50].map((size) => (
@@ -175,8 +175,8 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
           </div>
         </div>
 
-        <div className="directory-table-container">
-          <table className="directory-table">
+        <div className={styles.directoryTableContainer}>
+          <table className={styles.directoryTable}>
             <thead>
               <tr>
                 <th>{directoryStrings.columns?.name ?? 'Member'}</th>
@@ -193,15 +193,15 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
                 paginatedUsers.map((user) => (
                   <tr
                     key={user.id}
-                    className="directory-row"
+                    className={styles.directoryRow}
                     onClick={() => handleOpenUser(user.id)}
                   >
                     <td>
-                      <div className="directory-member-cell">
+                      <div className={styles.directoryMemberCell}>
                         <img src={user.avatar} alt={user.name} />
                         <div>
-                          <span className="directory-member-name">{user.realName || user.name}</span>
-                          <span className="directory-member-handle">{user.name}</span>
+                          <span className={styles.directoryMemberName}>{user.realName || user.name}</span>
+                          <span className={styles.directoryMemberHandle}>{user.name}</span>
                         </div>
                       </div>
                     </td>
@@ -211,15 +211,15 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
                     <td>{user.group || '-'}</td>
                     <td>{user.role || '-'}</td>
                     <td>
-                      <div className="directory-status-cell">
-                        <StatusIndicator status={user.status} className="directory-status-indicator" />
+                      <div className={styles.directoryStatusCell}>
+                        <StatusIndicator status={user.status} className={styles.directoryStatusIndicator} />
                         <span>{getStatusLabel(user.status) || '-'}</span>
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
-                <tr className="directory-empty-row">
+                <tr className={styles.directoryEmptyRow}>
                   <td colSpan={7}>{directoryStrings.empty ?? 'No members found.'}</td>
                 </tr>
               )}
@@ -227,7 +227,7 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
           </table>
         </div>
 
-        <div className="directory-pagination">
+        <div className={styles.directoryPagination}>
           <button
             type="button"
             onClick={() => handlePageChange(-1)}
@@ -235,7 +235,7 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
           >
             {directoryStrings.pagination?.previous ?? 'Previous'}
           </button>
-          <span className="directory-pagination__summary">
+          <span className={styles.directoryPaginationSummary}>
             {summaryText ||
               formatTemplate('Showing {{from}}-{{to}} of {{total}} members', {
                 from: totalMembers === 0 ? 0 : pageStartIndex + 1,
