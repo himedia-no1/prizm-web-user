@@ -1,9 +1,9 @@
 import { Message } from '@/components/chat/MessageList/Message';
-import './MessageList.module.css';
+import styles from './MessageList.module.css';
 
 export const MessageList = ({ messages, users, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {
   return (
-    <div className="message-list">
+    <div className={styles.messageList}>
       {messages.map(msg => (
         <Message
           key={msg.id}

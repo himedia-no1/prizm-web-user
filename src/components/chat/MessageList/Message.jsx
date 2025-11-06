@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useStore from '@/store/useStore';
 import testApi from '@/api/test.api';
 import { strings } from '@/constants/strings';
-import './Message.css';
+import styles from './Message.module.css';
 
 const getTranslationText = (translation) => {
   if (!translation) {
@@ -93,20 +93,20 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
   };
 
   return (
-    <div className="message-container" onClick={handleClick}>
+    <div className={styles.messageContainer} onClick={handleClick}>
       <img
         src={user.avatar}
         alt={user.name}
-        className="message__avatar clickable"
+        className={`${styles.avatar} ${styles.clickable}`}
         onClick={(e) => {
           e.stopPropagation();
           onOpenUserProfile(user.id);
         }}
       />
-      <div className="message__content">
-        <div className="message__header">
+      <div className={styles.content}>
+        <div className={styles.header}>
           <span
-            className="message__username clickable"
+            className={`${styles.username} ${styles.clickable}`}
             onClick={(e) => {
               e.stopPropagation();
               onOpenUserProfile(user.id);
@@ -114,18 +114,18 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
           >
             {user.name}
           </span>
-          <span className="message__timestamp">{message.timestamp}</span>
+          <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
-        <p className={`message__text${showTranslationAsPrimary ? ' message__text--translated' : ''}`}>
+        <p className={`${styles.text}${showTranslationAsPrimary ? ` ${styles.textTranslated}` : ''}`}>
           {primaryText}
         </p>
 
         {showTranslationAsPrimary && (
-          <div className="message__translation-meta">
+          <div className={styles.translationMeta}>
             <span>{messageStrings.translationNotice ?? 'Translated automatically.'}</span>
             <button
               type="button"
-              className="message__translation-toggle"
+              className={styles.translationToggle}
               onClick={(event) => {
                 event.stopPropagation();
                 setIsOriginalVisible((prev) => !prev);
@@ -139,25 +139,25 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
         )}
 
         {showTranslationAsPrimary && isOriginalVisible && (
-          <div className="message__original">
+          <div className={styles.original}>
             <span>{message.text}</span>
           </div>
         )}
 
         {!showTranslationAsPrimary && shouldTranslate && translationState === 'loading' && (
-          <div className="message__translation">
-            <span className="message__translation-loading">
+          <div className={styles.translation}>
+            <span className={styles.translationLoading}>
               {messageStrings.translating ?? 'Translating...'}
             </span>
           </div>
         )}
 
         {Object.keys(message.reactions || {}).length > 0 && (
-          <div className="message__reactions">
+          <div className={styles.reactions}>
             {Object.entries(message.reactions).map(([emoji, count]) => (
-              <button key={emoji} className="reaction-button">
+              <button key={emoji} className={styles.reactionButton}>
                 <span>{emoji}</span>
-                <span className="reaction-button__count">{count}</span>
+                <span className={styles.reactionButtonCount}>{count}</span>
               </button>
             ))}
           </div>
@@ -169,7 +169,7 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
               e.stopPropagation();
               onStartThread(message);
             }}
-            className="message__thread-reply"
+            className={styles.threadReply}
           >
             {replyCount} {replyCount > 1 ? 'replies' : 'reply'}
           </button>

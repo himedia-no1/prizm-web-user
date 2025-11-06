@@ -5,7 +5,7 @@ import { X, Check, Trash2, CheckCheck } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
 import testApi from '@/api/test.api';
-import './InboxModal.css';
+import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {
   const s = useStrings();
@@ -105,38 +105,38 @@ export const InboxModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="inbox-modal-overlay" onClick={onClose}>
-      <div className="inbox-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="inbox-modal-header">
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
           <h2>{s.modals.inbox.title}</h2>
-          <button onClick={onClose} className="inbox-close-button">
+          <button onClick={onClose} className={styles.closeButton}>
             <X size={20} />
           </button>
         </div>
 
-        <div className="inbox-tabs">
+        <div className={styles.tabs}>
           <button
-            className={activeTab === 'all' ? 'inbox-tab active' : 'inbox-tab'}
+            className={`${styles.tab} ${activeTab === 'all' ? styles.active : ''}`}
             onClick={() => setActiveTab('all')}
           >
             {s.modals.inbox.tabs.all}
           </button>
           <button
-            className={activeTab === 'important' ? 'inbox-tab active' : 'inbox-tab'}
+            className={`${styles.tab} ${activeTab === 'important' ? styles.active : ''}`}
             onClick={() => setActiveTab('important')}
           >
             {s.modals.inbox.tabs.important}
           </button>
           <button
-            className={activeTab === 'byWorkspace' ? 'inbox-tab active' : 'inbox-tab'}
+            className={`${styles.tab} ${activeTab === 'byWorkspace' ? styles.active : ''}`}
             onClick={() => setActiveTab('byWorkspace')}
           >
             {s.modals.inbox.tabs.byWorkspace}
           </button>
         </div>
 
-        <div className="inbox-toolbar">
-          <label className="inbox-filter">
+        <div className={styles.toolbar}>
+          <label className={styles.filter}>
             <input
               type="checkbox"
               checked={showUnreadOnly}
@@ -145,54 +145,54 @@ export const InboxModal = ({ isOpen, onClose }) => {
             {s.modals.inbox.filters.unreadOnly}
           </label>
 
-          <div className="inbox-actions">
+          <div className={styles.actions}>
             {selectedIds.length > 0 && (
               <>
-                <button onClick={handleMarkAsRead} className="inbox-action-btn">
+                <button onClick={handleMarkAsRead} className={styles.actionBtn}>
                   <Check size={16} />
                   {s.modals.inbox.actions.markAsRead}
                 </button>
-                <button onClick={handleDelete} className="inbox-action-btn delete">
+                <button onClick={handleDelete} className={`${styles.actionBtn} ${styles.delete}`}>
                   <Trash2 size={16} />
                   {s.modals.inbox.actions.delete}
                 </button>
               </>
             )}
-            <button onClick={handleMarkAllRead} className="inbox-action-btn">
+            <button onClick={handleMarkAllRead} className={styles.actionBtn}>
               <CheckCheck size={16} />
               {s.modals.inbox.actions.markAllRead}
             </button>
           </div>
         </div>
 
-        <div className="inbox-list">
+        <div className={styles.list}>
           {loading ? (
-            <div className="inbox-loading">
+            <div className={styles.loading}>
               <div className="spinner" />
             </div>
           ) : filteredNotifications.length === 0 ? (
-            <div className="inbox-empty">{s.modals.inbox.empty}</div>
+            <div className={styles.empty}>{s.modals.inbox.empty}</div>
           ) : (
             filteredNotifications.map((notif) => (
               <div
                 key={notif.id}
-                className={`inbox-item ${notif.read ? 'read' : 'unread'} ${
-                  selectedIds.includes(notif.id) ? 'selected' : ''
+                className={`${styles.item} ${notif.read ? styles.read : styles.unread} ${
+                  selectedIds.includes(notif.id) ? styles.selected : ''
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={selectedIds.includes(notif.id)}
                   onChange={() => toggleSelection(notif.id)}
-                  className="inbox-checkbox"
+                  className={styles.checkbox}
                 />
-                <div className="inbox-item-content">
-                  <div className="inbox-item-header">
+                <div className={styles.itemContent}>
+                  <div className={styles.itemHeader}>
                     <strong>{notif.title}</strong>
-                    {notif.important && <span className="inbox-badge-important">!</span>}
+                    {notif.important && <span className={styles.badgeImportant}>!</span>}
                   </div>
-                  <div className="inbox-item-message">{notif.message}</div>
-                  <div className="inbox-item-meta">{formatTimestamp(notif.timestamp)}</div>
+                  <div className={styles.itemMessage}>{notif.message}</div>
+                  <div className={styles.itemMeta}>{formatTimestamp(notif.timestamp)}</div>
                 </div>
               </div>
             ))
