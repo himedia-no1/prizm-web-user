@@ -23,6 +23,7 @@ export const LeftSidebar = ({
   currentUser,
   currentChannelId,
   currentView,
+  permissions = {},
   onSelectChannel,
   onSelectView,
   onSwitchWorkspace,
@@ -37,14 +38,16 @@ export const LeftSidebar = ({
   const s = useStrings();
   const favoriteChannels = useStore((state) => state.favoriteChannels);
   const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
+  const {
+    canManageWorkspace = false,
+    canInviteMembers = false,
+    canManageCategories = false,
+    canManageAppConnect = false,
+  } = permissions;
   const categoryList = Array.isArray(categories) ? categories : [];
   const channelCategories = categoryList.filter(
     (category) => category.section !== 'appConnect',
   );
-  const appConnectCategories = categoryList.filter(
-    (category) => category.section === 'appConnect',
-  );
-
   const channelsIndex = useMemo(() => {
     const map = {};
     channelCategories.forEach((category) => {
@@ -95,6 +98,7 @@ export const LeftSidebar = ({
         onSwitchWorkspace={onSwitchWorkspace}
         onNavigateToCreateWorkspace={onNavigateToCreateWorkspace}
         onOpenModal={onOpenModal}
+        permissions={{ canManageWorkspace, canInviteMembers }}
       />
 
       <NavigationMenu currentView={currentView} onSelectView={onSelectView} />
@@ -115,9 +119,14 @@ export const LeftSidebar = ({
         <div className="nav-group">
           <div className="nav-group__header">
             <span>{s.categories ?? s.channels}</span>
-            <button className="nav-category__add-button" onClick={() => onOpenModal('createCategory')}>
-              <Plus size={14} />
-            </button>
+            {canManageCategories && (
+              <button
+                className="nav-category__add-button"
+                onClick={() => onOpenModal('createCategory')}
+              >
+                <Plus size={14} />
+              </button>
+            )}
           </div>
           {channelCategories.map(category => (
             <CategorySection
@@ -129,6 +138,7 @@ export const LeftSidebar = ({
               onOpenModal={onOpenModal}
               favoriteChannels={favoriteChannels}
               onToggleFavorite={toggleFavoriteChannel}
+              canManage={canManageCategories}
             />
           ))}
         </div>
@@ -143,7 +153,7 @@ export const LeftSidebar = ({
           onOpenModal={onOpenModal}
         />
 
-        <AppConnectList onOpenModal={onOpenModal} />
+        <AppConnectList onOpenModal={onOpenModal} canManage={canManageAppConnect} />
       </nav>
 
       <SidebarFooter

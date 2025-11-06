@@ -10,10 +10,12 @@ export const WorkspaceDropdown = ({
   onNavigateToSettings,
   onSwitchWorkspace,
   onNavigateToCreateWorkspace,
-  onOpenModal
+  onOpenModal,
+  permissions = {},
 }) => {
   const { language } = useStore();
   const s = strings[language];
+  const { canManageWorkspace = false, canInviteMembers = false } = permissions;
 
   if (!isOpen) return null;
 
@@ -22,28 +24,32 @@ export const WorkspaceDropdown = ({
       <div className="ws-dropdown__current-ws">
         <span className="ws-dropdown__button-icon">{currentWorkspace.icon}</span>
         <span className="ws-dropdown__button-name">{currentWorkspace.name}</span>
-        <button
-          className="ws-dropdown__settings-button"
-          onClick={() => {
-            onNavigateToSettings();
-            onClose();
-          }}
-        >
-          <Settings size={16} />
-        </button>
+        {canManageWorkspace && (
+          <button
+            className="ws-dropdown__settings-button"
+            onClick={() => {
+              onNavigateToSettings();
+              onClose();
+            }}
+          >
+            <Settings size={16} />
+          </button>
+        )}
       </div>
 
 
-      <button
-        className="ws-dropdown__button ws-dropdown__action-button"
-        onClick={() => {
-          onOpenModal('inviteMember');
-          onClose();
-        }}
-      >
-        <Mail size={16} />
-        <span>{s.inviteMembers}</span>
-      </button>
+      {canInviteMembers && (
+        <button
+          className="ws-dropdown__button ws-dropdown__action-button"
+          onClick={() => {
+            onOpenModal('inviteMember', { workspaceId: currentWorkspace.id });
+            onClose();
+          }}
+        >
+          <Mail size={16} />
+          <span>{s.inviteMembers}</span>
+        </button>
+      )}
 
       <div className="ws-dropdown__divider"></div>
 

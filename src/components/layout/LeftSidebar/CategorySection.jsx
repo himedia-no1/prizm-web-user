@@ -11,6 +11,7 @@ export const CategorySection = ({
   onOpenModal,
   favoriteChannels = [],
   onToggleFavorite,
+  canManage = false,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const { unreadCounts } = useStore();
@@ -28,18 +29,20 @@ export const CategorySection = ({
           />
           <span>{category.name}</span>
         </button>
-        <button
-          className="nav-category__add-channel-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onOpenModal?.('addChannel', {
-              categoryId: category.id,
-              categoryName: category.name,
-            });
-          }}
-        >
-          <Plus size={12} />
-        </button>
+        {canManage && (
+          <button
+            className="nav-category__add-channel-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenModal?.('addChannel', {
+                categoryId: category.id,
+                categoryName: category.name,
+              });
+            }}
+          >
+            <Plus size={12} />
+          </button>
+        )}
       </div>
 
       {isOpen && (

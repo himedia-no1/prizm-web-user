@@ -1,24 +1,19 @@
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { mockUsers } from '@/__mocks__/users';
+import { mockCategories } from '@/__mocks__/categories';
+import { mockWorkspaceGroups } from '@/__mocks__/workspaces';
 import useStrings from '@/hooks/useStrings';
 import { Search, Link as LinkIcon, Users as UsersIcon, Hash as HashIcon, Share, X } from '@/components/common/icons';
 import useStore from '@/store/useStore';
 import styles from './InviteFlowContent.module.css';
+import { WorkspaceContext } from '@/app/(main)/workspace/[workspaceId]/WorkspaceLayoutClient';
 
-const MOCK_GROUPS = [
+const FALLBACK_GROUPS = [
   { id: 'lead', name: 'Leadership' },
   { id: 'eng', name: 'Engineering' },
   { id: 'design', name: 'Design' },
   { id: 'product', name: 'Product' },
   { id: 'marketing', name: 'Marketing' },
-];
-
-const MOCK_CHANNELS = [
-  { id: 'general', name: '#general' },
-  { id: 'design', name: '#design-review' },
-  { id: 'support', name: '#support' },
-  { id: 'handover', name: '#handover' },
-  { id: 'launch', name: '#launch-war-room' },
 ];
 
 const EXPIRATION_OPTIONS = ['24h', '7d', '30d', 'never'];
@@ -55,9 +50,18 @@ const useInviteStrings = (mode) => {
   };
 };
 
-export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) => {
+export const InviteFlowContent = ({ mode = 'member', channelId, channelName, workspaceId: workspaceIdProp }) => {
   const { invite: s, copy: copyStrings } = useInviteStrings(mode);
   const openModal = useStore((state) => state.openModal);
+  const workspaceMemberships = useStore((state) => state.workspaceMemberships);
+  const fallbackWorkspace = useStore((state) => state.currentWorkspace);
+  const workspaceContext = useContext(WorkspaceContext);
+  const workspace = workspaceContext?.currentWorkspace ?? fallbackWorkspace;
+  const workspaceId = workspaceIdProp ?? workspace?.id;
+  const currentMembershipMap =
+    workspaceContext?.workspaceMembers ??
+    (workspaceId ? workspaceMemberships[workspaceId] ?? {} : {});
+  const currentUserId = workspaceContext?.currentUser?.id;
   const [activeTab, setActiveTab] = useState('direct');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -86,6 +90,24 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
   }, [channelName, mode, s.description]);
 
   const allUsers = useMemo(() => Object.values(mockUsers), []);
+  const existingMemberIds = useMemo(() => Object.keys(currentMembershipMap ?? {}), [currentMembershipMap]);
+  const workspaceGroups = useMemo(() => {
+    if (workspaceId && mockWorkspaceGroups[workspaceId]) {
+      return mockWorkspaceGroups[workspaceId];
+    }
+    return FALLBACK_GROUPS;
+  }, [workspaceId]);
+  const workspaceChannels = useMemo(() => {
+    const baseChannels = mockCategories
+      .filter((category) => category.section !== 'appConnect')
+      .flatMap((category) =>
+        (category.channels || []).map((channel) => ({
+          id: channel.id,
+          name: `#${channel.name}`,
+        })),
+      );
+    return baseChannels;
+  }, []);
 
   const availableUsers = useMemo(() => {
     if (!searchTerm.trim()) return [];
@@ -93,11 +115,13 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
     return allUsers
       .filter(
         (user) =>
+          user.id !== currentUserId &&
+          !existingMemberIds.includes(user.id) &&
           !selectedUsers.find((selected) => selected.id === user.id) &&
           (user.email?.toLowerCase().includes(lowered) || user.name?.toLowerCase().includes(lowered)),
       )
       .slice(0, 8);
-  }, [allUsers, searchTerm, selectedUsers]);
+  }, [allUsers, searchTerm, selectedUsers, existingMemberIds, currentUserId]);
 
   const inviteTargetsLabel =
     mode === 'guest'
@@ -105,7 +129,7 @@ export const InviteFlowContent = ({ mode = 'member', channelId, channelName }) =
       : s.email?.groupLabel ?? '그룹 설정';
 
   const selectableTargets = useMemo(() => {
-    const base = mode === 'guest' ? MOCK_CHANNELS : MOCK_GROUPS;
+    const base = mode === 'guest' ? workspaceChannels : workspaceGroups;
     if (mode !== 'guest' || !channelId) {
       return base;
     }

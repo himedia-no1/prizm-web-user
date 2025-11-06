@@ -172,7 +172,7 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                 );
 
             case 'inviteMember':
-                return <InviteFlowContent mode="member" />;
+                return <InviteFlowContent mode="member" workspaceId={modalProps.workspaceId} />;
 
             case 'inviteGuest':
                 return (
@@ -180,6 +180,7 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                         mode="guest"
                         channelId={modalProps.channelId}
                         channelName={modalProps.channelName}
+                        workspaceId={modalProps.workspaceId}
                     />
                 );
 

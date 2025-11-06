@@ -1,4 +1,4 @@
-export { mockWorkspaces, mockWorkspaceStats } from './workspaces';
+export { mockWorkspaces, mockWorkspaceStats, mockWorkspaceMembers, mockWorkspaceGroups } from './workspaces';
 export { mockCategories } from './categories';
 export { mockUsers, mockRecentActivities } from './users';
 export { mockMessages, mockThreadMessages, mockDMs } from './messages';

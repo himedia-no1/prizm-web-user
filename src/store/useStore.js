@@ -32,6 +32,16 @@ const useStore = create((set, get) => ({
   // Workspace state
   currentWorkspace: null,
   setCurrentWorkspace: (workspace) => set({ currentWorkspace: workspace }),
+  currentWorkspaceRole: null,
+  setCurrentWorkspaceRole: (role) => set({ currentWorkspaceRole: role }),
+  workspaceMemberships: {},
+  setWorkspaceMemberships: (workspaceId, memberships) =>
+    set((state) => ({
+      workspaceMemberships: {
+        ...state.workspaceMemberships,
+        [workspaceId]: memberships,
+      },
+    })),
 
   // DM state
   createDM: (userId, router) => {

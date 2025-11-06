@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import useStore from '@/store/useStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
-import { mockWorkspaces, mockCategories, mockDMs, mockUsers } from '@/__mocks__';
+import { mockWorkspaces, mockWorkspaceMembers, mockCategories, mockDMs, mockUsers } from '@/__mocks__';
 import './workspace-layout.css';
 
 export const WorkspaceContext = createContext(null);
@@ -22,6 +22,8 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
   const openModal = useStore((state) => state.openModal);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const setCurrentWorkspace = useStore((state) => state.setCurrentWorkspace);
+  const setWorkspaceMemberships = useStore((state) => state.setWorkspaceMemberships);
+  const setCurrentWorkspaceRole = useStore((state) => state.setCurrentWorkspaceRole);
 
   const workspaceId = resolveWorkspaceId(workspaceParam);
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
@@ -33,6 +35,19 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
     [workspaceId],
   );
   const currentUser = mockUsers['u1'];
+  const workspaceMembers = mockWorkspaceMembers[workspaceId] ?? {};
+  const currentMembership = workspaceMembers[currentUser.id] ?? { role: 'member' };
+  const permissionFlags = useMemo(() => {
+    const role = currentMembership.role ?? 'member';
+    const isPrivileged = role === 'owner' || role === 'manager';
+    return {
+      role,
+      canManageWorkspace: isPrivileged,
+      canInviteMembers: isPrivileged,
+      canManageCategories: isPrivileged,
+      canManageAppConnect: isPrivileged,
+    };
+  }, [currentMembership]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = isDarkMode ? 'dark' : 'light';
@@ -43,6 +58,17 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
       setCurrentWorkspace(currentWorkspace);
     }
   }, [currentWorkspace, setCurrentWorkspace]);
+
+  useEffect(() => {
+    setWorkspaceMemberships(workspaceId, workspaceMembers);
+    setCurrentWorkspaceRole(currentMembership.role ?? null);
+  }, [
+    workspaceId,
+    workspaceMembers,
+    currentMembership.role,
+    setWorkspaceMemberships,
+    setCurrentWorkspaceRole,
+  ]);
 
   const handleSelectChannel = (channelId) => {
     setCurrentChannelId(channelId);
@@ -64,6 +90,10 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
   };
 
   const handleOpenModal = (type, props = {}) => {
+    const enhancedProps = { ...props };
+    if ((type === 'inviteMember' || type === 'inviteGuest') && !enhancedProps.workspaceId) {
+      enhancedProps.workspaceId = workspaceId;
+    }
     const genericModalTypes = new Set([
       'search',
       'members',
@@ -84,19 +114,22 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
     ]);
 
     if (genericModalTypes.has(type)) {
-      openModal('generic', { type, ...props });
+      openModal('generic', { type, ...enhancedProps });
       return;
     }
 
-    openModal(type, props);
+    openModal(type, enhancedProps);
   };
 
   const contextValue = useMemo(
     () => ({
       currentWorkspace,
       currentUser,
+      currentMembership,
+      permissions: permissionFlags,
+      workspaceMembers,
     }),
-    [currentWorkspace, currentUser],
+    [currentWorkspace, currentUser, currentMembership, permissionFlags, workspaceMembers],
   );
 
   return (
@@ -117,6 +150,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           currentUser={currentUser}
           currentChannelId={currentChannelId}
           currentView={currentView}
+          permissions={permissionFlags}
           onSelectChannel={handleSelectChannel}
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}

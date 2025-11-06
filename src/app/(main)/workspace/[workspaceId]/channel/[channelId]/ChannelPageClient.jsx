@@ -24,6 +24,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const currentThread = useStore((state) => state.currentThread);
   const openThread = useStore((state) => state.openThread);
   const closeThread = useStore((state) => state.closeThread);
+  const currentWorkspace = useStore((state) => state.currentWorkspace);
 
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
@@ -105,7 +106,8 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           }
         : {};
 
-      openModal('generic', { type, ...channelContext, ...props });
+      const workspaceContext = currentWorkspace?.id ? { workspaceId: currentWorkspace.id } : {};
+      openModal('generic', { type, ...workspaceContext, ...channelContext, ...props });
       return;
     }
 
