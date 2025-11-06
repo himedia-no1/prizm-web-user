@@ -30,7 +30,7 @@ import styles from './workspace/WorkspaceSettings.module.css';
 
 export default function WorkspaceSettingsPage({ workspaceId, workspaceName = 'My Workspace' }) {
   const router = useRouter();
-  const s = useStrings();
+  const workspaceStrings = useStrings('workspaceAdmin');
   const [activeTab, setActiveTab] = useState('overview');
   const { setActiveWorkspaceId } = useWorkspaceSettingsStore();
 
@@ -39,7 +39,7 @@ export default function WorkspaceSettingsPage({ workspaceId, workspaceName = 'My
   };
 
   const renderTabContent = () => {
-    const settingsStrings = s.settings || {};
+    const settingsStrings = workspaceStrings ?? {};
 
     switch (activeTab) {
       case 'overview':
@@ -87,13 +87,13 @@ export default function WorkspaceSettingsPage({ workspaceId, workspaceName = 'My
         <WorkspaceHeader
           workspaceName={workspaceName}
           onBack={handleBack}
-          title={s.settings?.workspaceSettings ?? '워크스페이스 설정'}
+          title={workspaceStrings?.dashboardTitle ?? '워크스페이스 설정'}
         />
         <WorkspaceNav
           items={navItems}
           activeTab={activeTab}
           onTabChange={setActiveTab}
-          strings={s.settings || {}}
+          strings={workspaceStrings || {}}
         />
       </div>
       <main className={styles.main}>

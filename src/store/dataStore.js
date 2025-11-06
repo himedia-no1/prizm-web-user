@@ -3,6 +3,7 @@ import { mockWorkspaces } from '@/__mocks__/workspaces';
 import { mockCategories } from '@/__mocks__/categories';
 import { mockUsers } from '@/__mocks__/users';
 import { mockMessages, mockThreadMessages, mockDMs } from '@/__mocks__/messages';
+import { mockChannelDetails } from '@/__mocks__/channelDetails';
 import { mockAppConnect } from '@/__mocks__/appConnect';
 
 const useDataStore = create((set) => ({
@@ -13,6 +14,7 @@ const useDataStore = create((set) => ({
     threadMessages: mockThreadMessages,
     dms: mockDMs,
     appConnect: mockAppConnect,
+    channelDetails: mockChannelDetails,
 }));
 
 export default useDataStore;

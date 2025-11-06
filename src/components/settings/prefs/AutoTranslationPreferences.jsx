@@ -27,7 +27,7 @@ export const AutoTranslationPreferences = () => {
           type="checkbox"
           checked={autoTranslateEnabled}
           onChange={(e) => setAutoTranslateEnabled(e.target.checked)}
-          style={{ width: 'auto' }}
+          className={styles.autoWidth}
         />
       </div>
 

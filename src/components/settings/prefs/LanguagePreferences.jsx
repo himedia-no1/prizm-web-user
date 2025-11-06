@@ -24,7 +24,7 @@ export const LanguagePreferences = () => {
         <h3 className={styles.title}>{languageStrings?.title ?? '언어 설정'}</h3>
         <p className={styles.description}>{languageStrings?.description ?? '인터페이스 언어를 변경합니다.'}</p>
         <div className={styles.optionRow}>
-          <label htmlFor="language-select" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+          <label htmlFor="language-select" className={styles.labelSmall}>
             {languageStrings?.label ?? '언어'}
           </label>
           <select
@@ -60,7 +60,7 @@ export const LanguagePreferences = () => {
             <span className={styles.toggleSlider}></span>
           </div>
         </div>
-        <p className={styles.hint} style={{ marginTop: '0.75rem', fontSize: '0.8rem' }}>
+        <p className={`${styles.hint} ${styles.hintMarginTop}`}>
           {autoTranslateEnabled 
             ? (translationStrings?.enabled ?? '자동 번역 켜짐')
             : (translationStrings?.disabled ?? '자동 번역 꺼짐')

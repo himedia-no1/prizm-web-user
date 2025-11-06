@@ -88,6 +88,15 @@ export const workspaceAdminStrings = {
       groupsChannelsLabel: 'Channel access',
       groupsAllChannels: 'Workspace channels',
       groupsSave: 'Save changes',
+      overview: {
+        statsTitle: 'Workspace metrics',
+        totalMembers: 'Members',
+        totalChannels: 'Channels',
+        totalMessages: 'Messages',
+        activeToday: 'Active today',
+        recentActivity: 'Recent activity',
+        noActivity: 'No recent activity.',
+      },
     },
   },
   ko: {
@@ -179,6 +188,15 @@ export const workspaceAdminStrings = {
       groupsChannelsLabel: '채널 접근 권한',
       groupsAllChannels: '워크스페이스 채널',
       groupsSave: '변경사항 저장',
+      overview: {
+        statsTitle: '워크스페이스 통계',
+        totalMembers: '멤버',
+        totalChannels: '채널',
+        totalMessages: '메시지',
+        activeToday: '오늘 활동',
+        recentActivity: '최근 활동',
+        noActivity: '최근 활동이 없습니다.',
+      },
     },
   },
 };

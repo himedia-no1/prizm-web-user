@@ -122,6 +122,20 @@
   align-items: center;
 }
 
+.activityAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.activityDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
 .activityUser {
   font-weight: 500;
 }
@@ -134,4 +148,10 @@
 .activityTime {
   font-size: 0.875rem;
   color: var(--text-tertiary);
+}
+
+.activityEmpty {
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--text-secondary);
 }

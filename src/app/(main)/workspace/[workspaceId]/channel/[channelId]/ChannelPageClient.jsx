@@ -36,6 +36,25 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const channelId = resolveChannelId(channelParam);
 
   const channelDetails = useMemo(() => getChannelDetails(channelId), [channelId]);
+  const pinnedMessages = useMemo(
+    () =>
+      mockMessages.filter(
+        (message) =>
+          message.pinned &&
+          (!channelDetails ||
+            message.channelId === channelDetails.id ||
+            channelDetails.pinnedMessageIds?.includes(message.id)),
+      ),
+    [channelDetails],
+  );
+  const channelFiles = channelDetails?.files ?? [];
+  const channelThreadMessages = useMemo(
+    () =>
+      mockMessages.filter(
+        (message) => message.threadId && (!channelDetails || message.channelId === channelDetails.id),
+      ),
+    [channelDetails],
+  );
 
   const channel = useMemo(() => {
     if (channelDetails) {
@@ -135,14 +154,48 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       const workspaceContextProps = workspaceId ? { workspaceId } : {};
       const permissionContext = Object.keys(permissions).length > 0 ? { permissions } : {};
       const membersContext = Object.keys(workspaceMembers ?? {}).length > 0 ? { workspaceMembers } : {};
-      openModal('generic', {
+      let enhancedProps = {
         type,
         ...workspaceContextProps,
         ...permissionContext,
         ...membersContext,
         ...channelContext,
         ...props,
-      });
+      };
+
+      switch (type) {
+        case 'members':
+          enhancedProps = {
+            ...enhancedProps,
+            channelId: channel.id,
+          };
+          break;
+        case 'pinned':
+          enhancedProps = {
+            ...enhancedProps,
+            pinnedMessages,
+            users: mockUsers,
+          };
+          break;
+        case 'threads':
+          enhancedProps = {
+            ...enhancedProps,
+            threadMessages: channelThreadMessages,
+            users: mockUsers,
+          };
+          break;
+        case 'channelFiles':
+          enhancedProps = {
+            ...enhancedProps,
+            files: channelFiles,
+            users: mockUsers,
+          };
+          break;
+        default:
+          break;
+      }
+
+      openModal('generic', enhancedProps);
       return;
     }
 

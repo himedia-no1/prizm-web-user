@@ -38,6 +38,7 @@ const ModalManager = () => {
     const closeModal = useStore((state) => state.closeModal);
     const openThread = useStore((state) => state.openThread);
     const createDM = useStore((state) => state.createDM);
+    const openModal = useStore((state) => state.openModal);
 
     if (!modalType) {
         return null;
@@ -63,6 +64,20 @@ const ModalManager = () => {
     }
 
     // Content-only modals that are rendered within the GenericModal shell
+    const buildInviteGuestHandler = () => {
+        if (!modalProps.channelId || !modalProps.workspaceId) {
+            return undefined;
+        }
+        return () => {
+            openModal('generic', {
+                type: 'inviteGuest',
+                channelId: modalProps.channelId,
+                channelName: modalProps.channelName,
+                workspaceId: modalProps.workspaceId,
+            });
+        };
+    };
+
     const contentModals = {
         addChannel: <AddChannelModalContent {...modalProps} />,
         pinned: <PinnedModalContent {...modalProps} />,
@@ -71,7 +86,12 @@ const ModalManager = () => {
         inviteMember: <InviteFlowContent mode="member" {...modalProps} />,
         inviteGuest: <InviteFlowContent mode="guest" {...modalProps} />,
         inviteResult: <InviteResultContent {...modalProps} onClose={closeModal} />,
-        members: <MembersModalContent {...modalProps} />,
+        members: (
+            <MembersModalContent
+                {...modalProps}
+                onInviteGuest={modalProps.permissions?.canInviteMembers ? buildInviteGuestHandler() : undefined}
+            />
+        ),
         search: <SearchModalContent {...modalProps} />,
         createCategory: <CreateCategoryModalContent {...modalProps} />,
         fileUpload: <FileUploadModalContent {...modalProps} />,

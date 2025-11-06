@@ -97,22 +97,20 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
       <img
         src={user.avatar}
         alt={user.name}
-        className="message__avatar"
+        className="message__avatar clickable"
         onClick={(e) => {
           e.stopPropagation();
           onOpenUserProfile(user.id);
         }}
-        style={{ cursor: 'pointer' }}
       />
       <div className="message__content">
         <div className="message__header">
           <span
-            className="message__username"
+            className="message__username clickable"
             onClick={(e) => {
               e.stopPropagation();
               onOpenUserProfile(user.id);
             }}
-            style={{ cursor: 'pointer' }}
           >
             {user.name}
           </span>
