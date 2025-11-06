@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, User, Google, GitHub, Microsoft, X } from '@/components/common/icons';
 import { NotificationPreferences, ThemePreferences, LanguagePreferences } from '@/components/settings/prefs';
 import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
 import useStrings from '@/hooks/useStrings';
 import { mockUsers } from '@/__mocks__';
+import { useAuthStore } from '@/store/authStore';
 
 export const UserSettingsPage = ({ onBack }) => {
     const user = mockUsers['u1'];
@@ -16,6 +18,9 @@ export const UserSettingsPage = ({ onBack }) => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showDeactivateModal, setShowDeactivateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const logout = useAuthStore((state) => state.logout);
+    const router = useRouter();
     const deviceSessions = [
         {
             id: 'device-1',
@@ -47,6 +52,21 @@ export const UserSettingsPage = ({ onBack }) => {
             window.history.back();
         }
     };
+
+    const handleLogoutConfirm = useCallback(async () => {
+        if (isLoggingOut) {
+            return;
+        }
+
+        setIsLoggingOut(true);
+        try {
+            await logout();
+            setShowLogoutModal(false);
+            router.replace('/login');
+        } finally {
+            setIsLoggingOut(false);
+        }
+    }, [isLoggingOut, logout, router]);
 
     const renderSettingContent = () => {
         switch (selectedSetting) {
@@ -287,13 +307,13 @@ export const UserSettingsPage = ({ onBack }) => {
                                 <button
                                     type="button"
                                     className="profile-modal__save-button"
-                                    style={{ width: 'auto', backgroundColor: '#ef4444' }}
-                                    onClick={() => {
-                                        console.log('Logged out');
-                                        setShowLogoutModal(false);
-                                    }}
+                                    style={{ width: 'auto', backgroundColor: '#ef4444', opacity: isLoggingOut ? 0.7 : 1 }}
+                                    onClick={handleLogoutConfirm}
+                                    disabled={isLoggingOut}
                                 >
-                                    {s.userSettings?.logout?.confirm ?? '로그아웃'}
+                                    {isLoggingOut
+                                        ? (s.userSettings?.logout?.inProgress ?? '로그아웃 중...')
+                                        : (s.userSettings?.logout?.confirm ?? '로그아웃')}
                                 </button>
                             </div>
                         </div>

@@ -3,7 +3,6 @@ export const strings = {
     welcome: 'Welcome',
     startWithSocial: 'Get started easily with your social account',
     github: 'Continue with GitHub',
-    gitlab: 'Continue with GitLab',
     google: 'Continue with Google',
     terms: 'By continuing, you agree to our Terms of Service and Privacy Policy.',
     termsOfService: 'Terms of Service',
@@ -327,6 +326,7 @@ export const strings = {
         modalDescription: 'You can always sign back in. Unsaved changes may be lost.',
         confirm: 'Log out',
         cancel: 'Cancel',
+        inProgress: 'Signing out...',
       },
       preferences: {
         notifications: {
@@ -468,7 +468,6 @@ export const strings = {
     welcome: '환영합니다',
     startWithSocial: '소셜 계정으로 간편하게 시작하세요',
     github: 'GitHub으로 계속하기',
-    gitlab: 'GitLab으로 계속하기',
     google: 'Google로 계속하기',
     terms: '계속 진행하시면 서비스 약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다.',
     termsOfService: '서비스 약관',
@@ -792,6 +791,7 @@ export const strings = {
         modalDescription: '언제든 다시 로그인할 수 있습니다. 저장되지 않은 변경사항은 사라질 수 있습니다.',
         confirm: '로그아웃',
         cancel: '취소',
+        inProgress: '로그아웃 중...',
       },
       preferences: {
         notifications: {
