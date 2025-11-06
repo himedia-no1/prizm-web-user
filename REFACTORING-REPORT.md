@@ -1,248 +1,231 @@
-# Prizm Web User - 리팩토링 완료 보고서
+# UI 리팩토링 완료 보고서
 
-## 📋 작업 개요
-
-시나리오 요구사항에 맞춰 프론트엔드 애플리케이션을 전면 리팩토링하였습니다.
+날짜: 2025-11-06
 
 ---
 
 ## ✅ 완료된 작업
 
-### 1. **다국어 지원 확장**
-- `strings.js`에 누락된 문자열 추가
-  - 수신함 (Inbox) 관련 문자열
-  - 워크스페이스 프로필 관련 문자열
-  - 계정 관리 (비활성화/삭제) 문자열
-  - 메시지 액션 (번역, 전달 등) 문자열
-  - 워크스페이스 생성/참여 문자열
-- 한국어/영어 완전 지원
+### 1. MessageContextMenu.jsx - 복사하기 기능 추가
+**변경 사항**:
+- ✅ Copy 아이콘 컴포넌트 생성 (`/src/components/common/icons/Copy.jsx`)
+- ✅ Action Bar에 "복사하기" 버튼 추가 (맨 앞에 배치)
+- ✅ `navigator.clipboard.writeText`로 메시지 복사 기능 구현
 
-### 2. **Zustand Store 확장**
-- **미확인 메시지 카운터 시스템**
-  - `unreadCounts`: 채널/DM별 미확인 메시지 개수
-  - `setUnreadCount`, `incrementUnreadCount`, `clearUnreadCount`
-  
-- **알림 시스템**
-  - `notifications`: 전역 알림 배열
-  - `addNotification`, `markNotificationAsRead`, `deleteNotification`
-  - `markAllNotificationsAsRead`, `clearNotifications`
+**제거된 기능**:
+- ❌ "공유" 버튼 제거
+- ❌ "AI로 분석" 버튼 제거 (AI 어시스턴트와 중복)
+- ❌ "신고하기" 버튼 제거
 
-- **워크스페이스 프로필**
-  - `workspaceProfiles`: 워크스페이스별 사용자 프로필
-  - `setWorkspaceProfile`, `getWorkspaceProfile`
+**최종 메뉴 구성**:
 
-### 3. **Mock 데이터 확장**
-- `mockNotifications.js`: 알림 샘플 데이터 추가
-- 다양한 유형의 알림 (멘션, 답글, DM, 워크스페이스, 채널)
+**Action Bar (기본 표시)**:
+1. 복사하기 (Copy)
+2. 이모지 반응 (Smile)
+3. 답글 (CornerDownRight)
+4. 스레드 시작 (MessageSquare)
+5. 번역하기 (Translate) - 타인 메시지만
+6. 더보기 (MoreVertical)
 
-### 4. **Test API 확장**
-새로운 엔드포인트 추가:
+**Full Menu (더보기 클릭)**:
+
+*내 메시지*:
+1. 고정하기
+2. 스레드 시작
+3. 답글달기
+4. 전달하기
+5. --- (구분선) ---
+6. 수정
+7. 삭제 (위험 스타일)
+
+*타인 메시지*:
+1. 고정하기
+2. 스레드 시작
+3. 답글달기
+4. 전달하기
+5. --- (구분선) ---
+6. 번역하기
+
+---
+
+### 2. MessageInput.jsx - AI 어시스턴트 버튼 추가 및 멘션 개선
+
+**추가된 기능**:
+- ✅ AI 어시스턴트 버튼 추가 (AIIcon)
+- ✅ `@` 입력 시 자동으로 멘션 모달 열기
+  ```javascript
+  // @ 입력 감지
+  const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+  if (lastAtIndex !== -1 && cursorPosition - lastAtIndex === 1) {
+    onOpenModal?.('mention');
+  }
+  ```
+
+**제거된 기능**:
+- ❌ @멘션 버튼 제거 (AtSign 아이콘)
+
+**최종 버튼 구성** (왼쪽부터):
+1. 파일 첨부 (FileUploadButton)
+2. 입력창 (Textarea)
+3. AI 어시스턴트 (AIIcon)
+4. 이모지 픽커 (Smile)
+5. 전송 (Send)
+
+---
+
+### 3. AutoTranslationPreferences.jsx - 자동 번역 설정 컴포넌트 생성
+
+**파일 경로**: `/src/components/settings/prefs/AutoTranslationPreferences.jsx`
+
+**기능**:
+- ✅ 자동 번역 활성화/비활성화 토글
+- ✅ 번역 대상 언어 선택 (한국어, 영어, 일본어, 중국어)
+- ✅ ThemePreferences와 동일한 스타일 적용
+
+**UserSettingsPage.jsx 통합**:
+- ✅ `AutoTranslationPreferences` 임포트
+- ✅ 환경설정 탭에 렌더링
+
+---
+
+### 4. MembersModalContent.jsx - 채널 참여자 목록 개선
+
+**추가된 기능**:
+- ✅ 게스트 초대 버튼 (상단에 배치, `onInviteGuest` prop)
+- ✅ 참여자 검색 기능 (이름/이메일 검색)
+- ✅ 유형별 분류 탭
+  - 전체
+  - 멤버
+  - 게스트  
+  - 관리자
+- ✅ 역할 배지 표시 (Owner, Manager, Guest 등)
+- ✅ 검색 결과 없을 때 안내 메시지
+
+**UI 개선**:
+- ✅ UserPlus 아이콘 컴포넌트 생성
+- ✅ 탭 스타일링 (선택 시 하단 보더 + 색상 변경)
+- ✅ 역할 배지 스타일링 (primary-light 배경)
+
+---
+
+## 📦 생성된 파일
+
+1. `/src/components/common/icons/Copy.jsx` - 복사 아이콘
+2. `/src/components/common/icons/UserPlus.jsx` - 사용자 추가 아이콘
+3. `/src/components/settings/prefs/AutoTranslationPreferences.jsx` - 자동 번역 설정
+
+---
+
+## 🔧 수정된 파일
+
+1. `/src/components/chat/MessageContextMenu/index.jsx`
+   - Copy 아이콘 추가
+   - 복사하기 기능 구현
+   - 공유/AI분석/신고 버튼 제거
+
+2. `/src/components/chat/MessageInput/index.jsx`
+   - AI 어시스턴트 버튼 추가
+   - @ 입력 감지로 멘션 모달 자동 열기
+   - AtSign 버튼 제거
+
+3. `/src/components/settings/UserSettingsPage.jsx`
+   - AutoTranslationPreferences 임포트
+   - 환경설정 탭에 자동 번역 추가
+
+4. `/src/components/modals/generic/MembersModalContent.jsx`
+   - 검색 기능 추가
+   - 유형별 분류 탭 추가
+   - 게스트 초대 버튼 추가
+   - 역할 배지 표시
+
+5. `/src/components/common/icons/index.jsx`
+   - Copy, UserPlus export 추가
+
+6. `/src/components/settings/prefs/index.js`
+   - AutoTranslationPreferences export 추가
+
+---
+
+## 📊 시나리오 준수 체크리스트
+
+### ✅ 완료
+- [x] 복사하기 기능
+- [x] AI 어시스턴트 버튼
+- [x] @ 입력 시 멘션 모달
+- [x] 자동 번역 설정
+- [x] 채널 참여자 검색
+- [x] 참여자 유형별 분류
+- [x] 게스트 초대 버튼
+
+### ❌ 시나리오에 없어서 제거
+- [x] @멘션 버튼 (자동 감지로 대체)
+- [x] 공유 버튼
+- [x] AI로 분석 버튼
+- [x] 신고하기 버튼
+
+---
+
+## 🎯 다음 단계
+
+### Phase 2: 다국어 지원 완성
+**작업 예정**:
+1. `MessageContextMenu.jsx`의 하드코딩 문자열 상수화
+   - '고정하기', '스레드 시작', '답글달기', '전달하기', '수정', '삭제', '번역하기' 등
+2. `AutoTranslationPreferences.jsx` 문자열 상수화
+3. `MembersModalContent.jsx` 문자열 상수화
+4. `constants/strings/domains/` 에 추가
+
+**예상 소요**: 반나절
+
+---
+
+### Phase 3: API 연동 (백엔드 준비 후)
+**대기 중인 기능**:
+1. 메시지 복사 (현재는 클라이언트만)
+2. AI 어시스턴트 API 호출
+3. 자동 번역 설정 저장/로드
+4. 채널 참여자 실제 데이터 로드
+5. 게스트 초대 API 호출
+
+---
+
+## 📝 참고사항
+
+### MessageInput @ 감지 로직
 ```javascript
-- fetchNotifications()
-- markNotificationAsRead(notificationId)
-- deleteNotification(notificationId)
-- markAllNotificationsAsRead()
-- fetchUnreadCounts(workspaceId)
-- translateMessage(messageId, targetLanguage)
-- forwardMessage(messageId, channelIds)
-- fetchWorkspaceProfile(workspaceId, userId)
-- updateWorkspaceProfile(workspaceId, userId, profile)
-- deactivateAccount(userId)
-- deleteAccount(userId, confirmText)
-- createWorkspace(workspaceData)
-- joinWorkspaceByInviteCode(inviteCode)
+const textBeforeCursor = text.substring(0, cursorPosition);
+const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+
+// @ 바로 입력한 경우만 모달 열기
+if (lastAtIndex !== -1 && cursorPosition - lastAtIndex === 1) {
+  onOpenModal?.('mention');
+}
 ```
 
-### 5. **새로운 컴포넌트 생성**
-
-#### A. 수신함 모달 (`InboxModal.jsx`)
-- 전체/중요/워크스페이스별 탭
-- 읽음/삭제 처리 기능
-- 일괄 작업 지원
-- 읽지 않은 항목 필터
-
-#### B. 워크스페이스 프로필 모달 (`WorkspaceProfileModal.jsx`)
-- 워크스페이스별 프로필 설정
-- 표시 이름, 상태 메시지, 아바타
-
-#### C. 계정 관리 모달 (`AccountManagementModals.jsx`)
-- 계정 비활성화 모달
-- 계정 삭제 모달 (확인 텍스트 입력 필요)
-
-#### D. 미확인 메시지 배지 (`UnreadBadge.jsx`)
-- 99+ 표시 지원
-- 카운트 0이면 자동 숨김
-
-### 6. **기존 컴포넌트 개선**
-
-#### A. `CreateWorkspacePage.jsx`
-- 생성/참여 탭 추가
-- 초대 코드 입력 기능
-
-#### B. `CategorySection.jsx`
-- `UnreadBadge` 통합
-- Store에서 미확인 개수 가져오기
-
-#### C. `UserSettingsPage.jsx`
-- 계정 관리 모달 통합
-- 비활성화/삭제 버튼 연결
-
-#### D. `login/page.jsx`
-- 다국어 약관 링크 처리 개선
-
-#### E. `AppWrapper.jsx`
-- 새로운 모달들 등록
-  - `notifications`
-  - `workspaceProfile`
-  - `deactivateAccount`
-  - `deleteAccount`
-
-### 7. **스타일링**
-- 모든 새 컴포넌트에 `globals.css` 스타일 가이드 준수
-- 일관된 애니메이션 (`fadeIn`, `slideUp`)
-- 다크 모드 완전 지원
-
----
-
-## 🎨 주요 기능 구현 상태
-
-| 기능 | 상태 | 비고 |
-|------|------|------|
-| 소셜 로그인 | ✅ | GitHub, GitLab, Google |
-| 다국어 (한/영) | ✅ | 전체 문자열 지원 |
-| 수신함 | ✅ | 탭, 필터, 일괄 작업 |
-| 미확인 메시지 카운터 | ✅ | 99+ 표시 |
-| 워크스페이스 프로필 | ✅ | 워크스페이스별 프로필 |
-| 계정 비활성화 | ✅ | 모달 UI 완성 |
-| 계정 삭제 | ✅ | 확인 텍스트 필요 |
-| 워크스페이스 생성 | ✅ | 생성 + 초대 코드 참여 |
-| 메시지 번역 | ⚠️ | API만 준비 (UI는 추후) |
-| 메시지 전달 | ⚠️ | API만 준비 (UI는 추후) |
-
----
-
-## 📁 새로 추가된 파일
-
-```
-src/
-├── __mocks__/
-│   └── notifications.js
-├── api/
-│   └── test.api.js (확장)
-├── components/
-│   ├── common/
-│   │   ├── UnreadBadge.jsx
-│   │   └── UnreadBadge.css
-│   ├── modals/
-│   │   ├── InboxModal.jsx
-│   │   ├── InboxModal.css
-│   │   ├── WorkspaceProfileModal.jsx
-│   │   ├── WorkspaceProfileModal.css
-│   │   ├── AccountManagementModals.jsx
-│   │   └── AccountManagementModals.css
-│   └── settings/
-│       └── CreateWorkspacePage.css
-├── constants/
-│   └── strings.js (확장)
-└── store/
-    └── useStore.js (확장)
+### AutoTranslationPreferences 상태 관리
+현재는 로컬 상태만 사용:
+```javascript
+const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(false);
+const [targetLanguage, setTargetLanguage] = useState('ko');
 ```
 
----
-
-## 🔧 기술 스택
-
-- **Next.js 16.0.1** (App Router)
-- **React 19.2.0**
-- **Zustand 5.0.8** - 전역 상태 관리
-- **i18next** - 다국어 지원
-- **Lucide React** - 아이콘
-- **CSS Modules** - 스타일링
+향후 Zustand store로 이동하여 전역 상태 관리 필요.
 
 ---
 
-## 🚀 실행 방법
+## ✅ 결론
 
-```bash
-# 의존성 설치
-pnpm install
+**완료된 작업**: 4개 주요 기능
+1. 메시지 복사하기
+2. AI 어시스턴트 버튼
+3. 자동 번역 설정
+4. 채널 참여자 목록 개선
 
-# 개발 서버 실행
-pnpm dev
+**소요 시간**: 약 1시간
+**생성된 파일**: 3개
+**수정된 파일**: 6개
 
-# 빌드
-pnpm build
+**시나리오 준수율**: 100% (UI 구조 기준)
 
-# 린트
-pnpm lint
-```
-
----
-
-## 🎯 시나리오 대비 완성도
-
-**전체: ~85% 완성**
-
-### ✅ 완전 구현
-- 로그인 페이지 (소셜 로그인)
-- 워크스페이스 페이지 (좌측 사이드바 전체)
-- 대시보드, 검색, 디렉토리
-- 채널 & DM
-- 즐겨찾기
-- 수신함 (신규)
-- 워크스페이스 설정 페이지
-- 사용자 설정 페이지
-- 워크스페이스 생성 페이지
-- 미확인 메시지 카운터 (신규)
-- 계정 관리 (신규)
-
-### ⚠️ 부분 구현
-- 메시지 번역/전달 (API만, UI 미완)
-- AI 어시스턴트 (기본 UI만)
-
-### ❌ 미구현
-- 랜딩 페이지 (별도 레포)
-- 고정된 메시지 전용 뷰
-
----
-
-## 📝 주요 변경 사항
-
-1. **모든 하드코딩된 문자열을 `strings.js`로 이동**
-2. **Zustand로 전역 상태 일원화**
-   - 알림, 미확인 메시지, 워크스페이스 프로필
-3. **Test API 구조화**
-   - 백엔드 엔드포인트로 쉽게 교체 가능
-4. **컴포넌트 분리 철저히 준수**
-5. **다크 모드 완전 지원**
-
----
-
-## 🐛 알려진 이슈
-
-1. **Lint Warnings** (29개)
-   - 대부분 `<img>` → `<Image />` 권장 (성능 최적화)
-   - 기능에는 영향 없음
-
----
-
-## 🔜 향후 작업
-
-1. 메시지 번역 UI 컴포넌트
-2. 메시지 전달 UI 컴포넌트
-3. 고정된 메시지 전용 뷰
-4. 권한 시스템 강화 (owner, manager, member 구분)
-5. WebSocket 실시간 알림 연동
-6. 성능 최적화 (`<Image />` 컴포넌트 적용)
-
----
-
-## 📞 문의
-
-추가 요구사항이나 버그 리포트는 이슈로 등록해주세요.
-
----
-
-**작업 완료일**: 2025-11-06  
-**작업자**: AI Assistant  
-**버전**: 1.0.0-refactored
+모든 UI 구조가 시나리오에 맞게 정리되었습니다.
+다음 단계는 다국어 지원 완성과 API 연동입니다.

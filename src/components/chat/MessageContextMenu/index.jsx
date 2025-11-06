@@ -11,9 +11,9 @@ import {
   Edit,
   Trash,
   Translate,
-  AIIcon,
   AlertTriangle,
-  MoreVertical
+  MoreVertical,
+  Copy
 } from '@/components/common/icons';
 import './MessageContextMenu.module.css';
 
@@ -53,6 +53,14 @@ export const MessageContextMenu = ({
 
   const commonActions = [
     {
+      key: 'copy',
+      icon: <Copy size={18} />,
+      handler: () => {
+        navigator.clipboard.writeText(message.text);
+        onClose();
+      }
+    },
+    {
       key: 'react',
       icon: <Smile size={18} />,
       handler: () => {
@@ -84,7 +92,6 @@ export const MessageContextMenu = ({
         { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
         { key: 'replyFull', icon: <CornerDownRight size={16} />, text: '답글달기', handler: () => { onReply(message); onClose(); } },
         { key: 'forward', icon: <Send size={16} />, text: '전달하기', handler: () => { onForward(message); onClose(); } },
-        { key: 'share', icon: <Share size={16} />, text: '공유', handler: () => { onShare(message); onClose(); } },
         { divider: true },
         { key: 'edit', icon: <Edit size={16} />, text: '수정', handler: () => { onEdit(message); onClose(); } },
         { key: 'delete', icon: <Trash size={16} />, text: '삭제', danger: true, handler: () => { onDelete(message); onClose(); } },
@@ -94,12 +101,8 @@ export const MessageContextMenu = ({
         { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
         { key: 'replyFull', icon: <CornerDownRight size={16} />, text: '답글달기', handler: () => { onReply(message); onClose(); } },
         { key: 'forward', icon: <Send size={16} />, text: '전달하기', handler: () => { onForward(message); onClose(); } },
-        { key: 'share', icon: <Share size={16} />, text: '공유', handler: () => { onShare(message); onClose(); } },
         { divider: true },
         { key: 'translate', icon: <Translate size={16} />, text: '번역하기', handler: () => { onTranslate(message); onClose(); } },
-        { key: 'analyze', icon: <AIIcon size={16} />, text: 'AI로 분석', handler: () => { onAnalyze(message); onClose(); } },
-        { divider: true },
-        { key: 'report', icon: <AlertTriangle size={16} />, text: '신고하기', danger: true, handler: () => { onReport(message); onClose(); } },
       ];
 
   return (

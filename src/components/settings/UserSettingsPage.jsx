@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, User, Google, GitHub, Microsoft, X } from '@/components/common/icons';
-import { NotificationPreferences, ThemePreferences, LanguagePreferences } from '@/components/settings/prefs';
+import { NotificationPreferences, ThemePreferences, LanguagePreferences, AutoTranslationPreferences } from '@/components/settings/prefs';
 import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
 import useStrings from '@/hooks/useStrings';
 import { mockUsers } from '@/__mocks__';
@@ -184,6 +184,7 @@ export const UserSettingsPage = ({ onBack }) => {
                             <NotificationPreferences />
                             <ThemePreferences />
                             <LanguagePreferences />
+                            <AutoTranslationPreferences />
                         </div>
                     </div>
                 );

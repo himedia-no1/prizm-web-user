@@ -31,6 +31,7 @@ export { Info } from './Info';
 export { Bell } from './Bell';
 export { Mail } from './Mail';
 export { User } from './User';
+export { UserPlus } from './UserPlus';
 export { AtSign } from './AtSign';
 export { LayoutDashboard } from './LayoutDashboard';
 export { LayoutGrid } from './LayoutGrid';
@@ -48,6 +49,7 @@ export { Share } from './Share';
 export { Translate } from './Translate';
 export { AlertTriangle } from './AlertTriangle';
 export { Star } from './Star';
+export { Copy } from './Copy';
 export { StarOff } from './StarOff';
 
 // Social Login Icons

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { Paperclip, AtSign, Smile, Send } from '@/components/common/icons';
+import { Paperclip, Smile, Send, AIIcon } from '@/components/common/icons';
 import './MessageInput.module.css';
 
 import { FileUploadButton } from './FileUploadButton';
@@ -16,6 +16,16 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
       textarea.style.height = 'auto';
       const scrollHeight = textarea.scrollHeight;
       textarea.style.height = `${Math.min(scrollHeight, 200)}px`;
+    }
+    
+    // @ 입력 시 멘션 모달 열기
+    const text = e.target.value;
+    const cursorPosition = e.target.selectionStart;
+    const textBeforeCursor = text.substring(0, cursorPosition);
+    const lastAtIndex = textBeforeCursor.lastIndexOf('@');
+    
+    if (lastAtIndex !== -1 && cursorPosition - lastAtIndex === 1) {
+      onOpenModal?.('mention');
     }
   };
 
@@ -36,10 +46,11 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
           />
           <div className="message-input__buttons">
             <button
-              onClick={() => onOpenModal('mention')}
-              className="message-input__mention-button"
+              onClick={onToggleAI}
+              className="message-input__ai-button"
+              title="AI 어시스턴트"
             >
-              <AtSign size={20} />
+              <AIIcon size={20} />
             </button>
             <button onClick={onOpenEmojiPicker}>
               <Smile size={20} />
