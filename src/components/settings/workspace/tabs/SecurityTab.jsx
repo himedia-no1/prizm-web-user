@@ -1,6 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
+import styles from './SecurityTab.module.css';
 
 export const SecurityTab = () => {
   const s = useStrings();
@@ -8,7 +9,7 @@ export const SecurityTab = () => {
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.securityTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.securityDescription}
       </p>
       <div className="settings-form-group">

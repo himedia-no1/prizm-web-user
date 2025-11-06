@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { X, Send, Smile } from '@/components/common/icons';
 import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
-import './ThreadSidebar.module.css';
+import styles from './ThreadSidebar.module.css';
 
 export const ThreadSidebar = ({ 
   threadMessage, 
@@ -47,9 +47,9 @@ export const ThreadSidebar = ({
       </header>
 
       <div className="thread-original-message">
-        <div className="message__content" style={{ display: 'flex', gap: '0.75rem' }}>
+        <div className={`message__content ${styles.messageContent}`}>
           <img src={originalUser.avatar} alt={originalUser.name} className="message__avatar" />
-          <div style={{ flex: 1 }}>
+          <div className={styles.flex1}>
             <div className="message__header">
               <span className="message__username">{originalUser.name}</span>
               <span className="message__timestamp">{threadMessage.timestamp}</span>
@@ -112,8 +112,7 @@ export const ThreadSidebar = ({
             ref={textareaRef}
             rows="1"
             placeholder="Reply to thread..."
-            className="thread-reply-input__textarea"
-            style={{ minHeight: '48px' }}
+            className={`thread-reply-input__textarea ${styles.minHeight48}`}
             onInput={handleInput}
           />
           <div className="thread-reply-input__buttons">

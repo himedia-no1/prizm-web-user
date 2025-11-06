@@ -1,0 +1,13 @@
+.description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+.avatarSection { margin-top: 0; margin-bottom: 2rem; justify-content: flex-start; }
+.avatar { width: 100px; height: 100px; margin: 0; }
+.avatarEdit { left: 75px; bottom: 5px; position: absolute; }
+.actions { margin-top: 2rem; display: grid; gap: 1rem; }
+.actionCard { border: 1px solid var(--border); border-radius: 0.85rem; padding: 1.25rem; background: var(--card-bg); box-shadow: 0 1px 3px var(--shadow); }
+.actionTitle { margin: 0; font-size: 1rem; font-weight: 600; }
+.actionDescription { color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 1rem; }
+.deactivateButton { width: auto; background-color: #f59e0b; }
+.deleteCard { border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 0.85rem; padding: 1.25rem; background: rgba(239, 68, 68, 0.05); box-shadow: 0 1px 3px rgba(239, 68, 68, 0.15); }
+.deleteTitle { margin: 0; font-size: 1rem; font-weight: 600; color: #b91c1c; }
+.deleteDescription { color: #b91c1c; font-size: 0.9rem; margin: 0.5rem 0 1rem; }
+.deleteButton { width: auto; background-color: #ef4444; }

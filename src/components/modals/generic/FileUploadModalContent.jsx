@@ -2,6 +2,7 @@
 
 import React from 'react';
 import useStrings from '@/hooks/useStrings';
+import styles from './FileUploadModalContent.module.css';
 
 export const FileUploadModalContent = (props) => {
     const s = useStrings();
@@ -10,10 +11,9 @@ export const FileUploadModalContent = (props) => {
         <div className="file-upload-modal">
             <div className="file-upload-dropzone">
                 <p>{s.modals.genericModal.fileUploadPrompt}</p>
-                <input type="file" multiple style={{ display: 'none' }} />
+                <input type="file" multiple className={styles.hidden} />
                 <button
-                    className="profile-modal__save-button"
-                    style={{ marginTop: '1rem', width: 'auto', padding: '0.5rem 1rem' }}
+                    className={`profile-modal__save-button ${styles.button}`}
                 >
                     {s.modals.genericModal.selectFileButton}
                 </button>

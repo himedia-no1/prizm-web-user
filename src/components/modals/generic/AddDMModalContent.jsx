@@ -2,6 +2,7 @@
 
 import React from 'react';
 import useStrings from '@/hooks/useStrings';
+import styles from './AddDMModalContent.module.css';
 
 export const AddDMModalContent = ({ availableUsers = [] }) => {
     const s = useStrings();
@@ -27,8 +28,7 @@ export const AddDMModalContent = ({ availableUsers = [] }) => {
                         <span
                             className={`dm-button__status ${
                                 user.status === 'online' ? 'online' : 'offline'
-                            }`}
-                            style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
+                            } ${styles.status}`}
                         ></span>
                     </button>
                 ))}

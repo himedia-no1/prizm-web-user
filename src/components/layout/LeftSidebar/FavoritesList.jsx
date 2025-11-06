@@ -3,6 +3,7 @@
 import { Hash, Star, StarOff, Plus } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/common/UnreadBadge';
 import useStore from '@/store/useStore';
+import styles from './FavoritesList.module.css';
 
 export const FavoritesList = ({
   channelsIndex,
@@ -36,7 +37,7 @@ export const FavoritesList = ({
       {favorites.length === 0 ? (
         <p className="favorites-empty">{emptyLabel}</p>
       ) : (
-        <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
+        <ul className={`nav-category__list ${styles.list}`}>
           {favorites.map((channel) => {
             const isActive = currentView === 'channel' && currentChannelId === channel.id;
             const unreadCount = unreadCounts[channel.id] || 0;

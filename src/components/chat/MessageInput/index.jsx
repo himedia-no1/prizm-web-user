@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Paperclip, Smile, Send, AIIcon } from '@/components/common/icons';
-import './MessageInput.module.css';
+import styles from './MessageInput.module.css';
 
 import { FileUploadButton } from './FileUploadButton';
 
@@ -41,8 +41,7 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
             value={message}
             onInput={handleInput}
             placeholder={`Message #${channelName}`}
-            className="message-input__textarea"
-            style={{ minHeight: '50px' }}
+            className={`message-input__textarea ${styles.textarea}`}
           />
           <div className="message-input__buttons">
             <button

@@ -94,3 +94,8 @@
   background-color: var(--border);
   margin: 0.5rem 0;
 }
+
+.menu {
+  top: var(--top);
+  left: var(--left);
+}

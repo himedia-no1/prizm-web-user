@@ -1,6 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
+import styles from './AuditTab.module.css';
 
 export const AuditTab = ({ activities }) => {
   const s = useStrings();
@@ -8,23 +9,23 @@ export const AuditTab = ({ activities }) => {
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.auditLogTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.auditLogDescription}
       </p>
       <div className="channel-modal__list">
         {activities.map((log) => (
-          <div key={log.id} className="channel-modal__list-item" style={{ padding: '0.75rem 0' }}>
+          <div key={log.id} className={`channel-modal__list-item ${styles.logItem}`}>
             <span>
               <strong>{log.action}</strong>
-              <div style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{log.details}</div>
+              <div className={styles.logDetails}>{log.details}</div>
             </span>
-            <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+            <span className={styles.logTime}>
               {log.time}
             </span>
           </div>
         ))}
       </div>
-      <button className="profile-modal__save-button" style={{ width: 'auto' }}>
+      <button className={`profile-modal__save-button ${styles.viewMoreButton}`}>
         {s.workspaceAdmin.auditViewMore}
       </button>
     </div>

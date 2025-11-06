@@ -1,6 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
+import styles from './InsightsTab.module.css';
 
 export const InsightsTab = ({ stats, activities }) => {
   const s = useStrings();
@@ -8,34 +9,28 @@ export const InsightsTab = ({ stats, activities }) => {
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.dashboardTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.dashboardSubtitle}
       </p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+      <div className={styles.statsGrid}>
         {stats.map((stat) => (
           <div
             key={stat.id}
-            style={{
-              border: '1px solid var(--border)',
-              borderRadius: '0.75rem',
-              padding: '1.25rem',
-              background: 'var(--card-bg)',
-              boxShadow: '0 1px 3px var(--shadow)',
-            }}
+            className={styles.statCard}
           >
-            <div style={{ fontSize: '1.75rem', fontWeight: 600, color: 'var(--text)' }}>{stat.value}</div>
-            <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{stat.label}</div>
-            <div style={{ fontSize: '0.8rem', color: 'var(--primary)', marginTop: '0.5rem' }}>{stat.trend}</div>
+            <div className={styles.statValue}>{stat.value}</div>
+            <div className={styles.statLabel}>{stat.label}</div>
+            <div className={styles.statTrend}>{stat.trend}</div>
           </div>
         ))}
       </div>
 
-      <div style={{ marginTop: '2rem', display: 'grid', gap: '1.25rem' }}>
+      <div className={styles.sectionsGrid}>
         <div>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 600, marginBottom: '1rem' }}>
+          <h3 className={styles.sectionTitle}>
             {s.workspaceAdmin.workspaceOverviewTitle}
           </h3>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '1.25rem' }}>
+          <p className={styles.sectionDescription}>
             {s.workspaceAdmin.workspaceOverviewDescription}
           </p>
           <div className="settings-form-group">
@@ -54,18 +49,18 @@ export const InsightsTab = ({ stats, activities }) => {
         </div>
 
         <div>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 600, marginBottom: '1rem' }}>
+          <h3 className={styles.sectionTitle}>
             {s.workspaceAdmin.recentActivity}
           </h3>
           <div className="channel-modal__list">
             {activities.map((activity) => (
-              <div key={activity.id} className="channel-modal__list-item member" style={{ padding: '0.75rem 0' }}>
-                <img src={activity.user.avatar} alt={activity.user.name} style={{ width: 32, height: 32 }} />
-                <span style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+              <div key={activity.id} className={`channel-modal__list-item member ${styles.activityItem}`}>
+                <img src={activity.user.avatar} alt={activity.user.name} className={styles.activityAvatar} />
+                <span className={styles.activityDetails}>
                   <span>{activity.action}</span>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{activity.details}</span>
+                  <span className={styles.activityInfo}>{activity.details}</span>
                 </span>
-                <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span className={styles.activityTime}>
                   {activity.time}
                 </span>
               </div>

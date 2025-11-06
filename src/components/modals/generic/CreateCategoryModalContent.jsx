@@ -2,6 +2,7 @@
 
 import React from 'react';
 import useStrings from '@/hooks/useStrings';
+import styles from './CreateCategoryModalContent.module.css';
 
 export const CreateCategoryModalContent = (props) => {
     const s = useStrings();
@@ -12,7 +13,7 @@ export const CreateCategoryModalContent = (props) => {
                 <label htmlFor="cat-name">{s.modals.genericModal.categoryNameLabel}</label>
                 <input id="cat-name" type="text" placeholder={s.modals.genericModal.categoryNamePlaceholder} />
             </div>
-            <button className="profile-modal__save-button" style={{ marginTop: 0 }}>
+            <button className={`profile-modal__save-button ${styles.button}`}>
                 {s.modals.genericModal.createButton}
             </button>
         </div>

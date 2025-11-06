@@ -1,0 +1,14 @@
+.description { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.statsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.statCard { border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.25rem; background: var(--card-bg); box-shadow: 0 1px 3px var(--shadow); }
+.statValue { font-size: 1.75rem; font-weight: 600; color: var(--text); }
+.statLabel { font-size: 0.9rem; color: var(--text-secondary); }
+.statTrend { font-size: 0.8rem; color: var(--primary); margin-top: 0.5rem; }
+.sectionsGrid { margin-top: 2rem; display: grid; gap: 1.25rem; }
+.sectionTitle { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; }
+.sectionDescription { color: var(--text-secondary); margin-bottom: 1.25rem; }
+.activityItem { padding: 0.75rem 0; }
+.activityAvatar { width: 32px; height: 32px; }
+.activityDetails { display: flex; flex-direction: column; gap: 0.2rem; }
+.activityInfo { font-size: 0.8rem; color: var(--text-secondary); }
+.activityTime { margin-left: auto; font-size: 0.8rem; color: var(--text-secondary); }

@@ -1,6 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
+import styles from './MembersTab.module.css';
 
 export const MembersTab = ({ 
   blockedMembers, 
@@ -23,17 +24,17 @@ export const MembersTab = ({
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.membersTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.membersDescription}
       </p>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>{s.workspaceAdmin.membersBlockedTitle}</h3>
-        <p style={{ color: 'var(--text-secondary)', margin: '0.35rem 0 1rem' }}>
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersBlockedTitle}</h3>
+        <p className={styles.sectionDescription}>
           {s.workspaceAdmin.membersBlockedDescription}
         </p>
         {blockedMembers.length === 0 ? (
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+          <p className={styles.empty}>
             {s.workspaceAdmin.membersBlockedEmpty}
           </p>
         ) : (
@@ -41,17 +42,15 @@ export const MembersTab = ({
             {blockedMembers.map((blocked) => (
               <div
                 key={blocked.id}
-                className="channel-modal__list-item member"
-                style={{ alignItems: 'center', gap: '1rem', padding: '0.75rem 0' }}
-              >
-                <span style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem', flex: 1 }}>
+                className={`channel-modal__list-item member ${styles.memberItem}`}>
+                <span className={styles.memberDetails}>
                   <strong>{blocked.name}</strong>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{blocked.email}</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                  <span className={styles.memberInfo}>{blocked.email}</span>
+                  <span className={styles.memberMeta}>
                     {blocked.reason} · {blocked.blockedAt}
                   </span>
                 </span>
-                <button className="profile-action-button" style={{ padding: '0.4rem 0.75rem' }}>
+                <button className={`profile-action-button ${styles.unblockButton}`}>
                   {s.workspaceAdmin.membersBlockedUnblock}
                 </button>
               </div>
@@ -60,19 +59,19 @@ export const MembersTab = ({
         )}
       </section>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>{s.workspaceAdmin.membersParticipantsTitle}</h3>
-        <p style={{ color: 'var(--text-secondary)', margin: '0.35rem 0 1rem' }}>
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersParticipantsTitle}</h3>
+        <p className={styles.sectionDescription}>
           {s.workspaceAdmin.membersParticipantsDescription}
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
-          <button className="profile-modal__save-button" style={{ width: 'auto' }}>
+        <div className={styles.actions}>
+          <button className={`profile-modal__save-button ${styles.actionButton}`}>
             {s.workspaceAdmin.membersExport}
           </button>
-          <button className="profile-modal__save-button" style={{ width: 'auto', background: 'var(--primary-light)' }}>
+          <button className={`profile-modal__save-button ${styles.actionButton} ${styles.secondaryButton}`}>
             {s.workspaceAdmin.membersMoveToGroup}
           </button>
-          <button className="profile-modal__save-button" style={{ width: 'auto' }}>
+          <button className={`profile-modal__save-button ${styles.actionButton}`}>
             {s.workspaceAdmin.inviteMember}
           </button>
         </div>
@@ -80,30 +79,23 @@ export const MembersTab = ({
           {participants.map((participant) => (
             <div
               key={participant.id}
-              className="channel-modal__list-item member"
-              style={{ alignItems: 'center', gap: '1rem', padding: '0.75rem 0' }}
-            >
-              <input type="checkbox" style={{ margin: 0 }} />
+              className={`channel-modal__list-item member ${styles.memberItem}`}>
+              <input type="checkbox" className={styles.checkbox} />
               <img src={participant.avatar} alt={participant.displayName} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
+              <div className={styles.participantDetails}>
                 <strong>{participant.name}</strong>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <span className={styles.memberInfo}>
                   {participant.displayName} · {participant.email}
                 </span>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>
+                <span className={styles.memberMeta}>
                   {participant.type} · {participant.group}
                 </span>
               </div>
               <span
-                style={{
-                  fontSize: '0.8rem',
-                  color: participant.status === 'online' ? '#16a34a' : 'var(--text-secondary)',
-                  textTransform: 'capitalize',
-                }}
-              >
+                className={`${styles.status} ${participant.status === 'online' ? styles.onlineStatus : styles.offlineStatus}`}>
                 {participant.status}
               </span>
-              <button className="profile-action-button" style={{ padding: '0.4rem 0.75rem' }}>
+              <button className={`profile-action-button ${styles.unblockButton}`}>
                 {s.workspaceAdmin.membersMoveToGroup}
               </button>
             </div>
@@ -112,12 +104,12 @@ export const MembersTab = ({
       </section>
 
       <section>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>{s.workspaceAdmin.membersHistoryTitle}</h3>
-        <p style={{ color: 'var(--text-secondary)', margin: '0.35rem 0 1rem' }}>
+        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersHistoryTitle}</h3>
+        <p className={styles.sectionDescription}>
           {s.workspaceAdmin.membersHistoryDescription}
         </p>
         {membershipHistory.length === 0 ? (
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+          <p className={styles.empty}>
             {s.workspaceAdmin.membersHistoryEmpty}
           </p>
         ) : (
@@ -125,16 +117,14 @@ export const MembersTab = ({
             {membershipHistory.map((entry) => (
               <div
                 key={entry.id}
-                className="channel-modal__list-item"
-                style={{ padding: '0.75rem 0', gap: '1rem' }}
-              >
-                <span style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
+                className={`channel-modal__list-item ${styles.historyItem}`}>
+                <span className={styles.historyDetails}>
                   <strong>{entry.name}</strong>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  <span className={styles.historyAction}>
                     {getHistoryMessage(entry.action)}
                   </span>
                 </span>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{entry.timestamp}</span>
+                <span className={styles.historyTimestamp}>{entry.timestamp}</span>
               </div>
             ))}
           </div>

@@ -160,3 +160,16 @@
   margin: 0;
   margin-top: 0.25rem;
 }
+
+.messageContent {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.minHeight48 {
+  min-height: 48px;
+}

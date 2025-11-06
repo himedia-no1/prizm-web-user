@@ -2,6 +2,7 @@
 
 import React from 'react';
 import useStrings from '@/hooks/useStrings';
+import styles from './AddAppModalContent.module.css';
 
 export const AddAppModalContent = ({ apps = [] }) => {
     const s = useStrings();
@@ -26,7 +27,7 @@ export const AddAppModalContent = ({ apps = [] }) => {
                                 </p>
                             </div>
                         </div>
-                        <button className="profile-modal__save-button" style={{ padding: '0.4rem 1rem' }}>
+                        <button className={`profile-modal__save-button ${styles.button}`}>
                             {strings.addButton}
                         </button>
                     </div>

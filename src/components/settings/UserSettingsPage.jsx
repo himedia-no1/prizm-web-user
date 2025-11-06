@@ -8,6 +8,7 @@ import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals'
 import useStrings from '@/hooks/useStrings';
 import { mockUsers } from '@/__mocks__';
 import { useAuthStore } from '@/store/authStore';
+import styles from './UserSettingsPage.module.css';
 
 export const UserSettingsPage = ({ onBack }) => {
     const user = mockUsers['u1'];
@@ -136,8 +137,7 @@ export const UserSettingsPage = ({ onBack }) => {
             {showLogoutModal && (
                 <div className="channel-modal-overlay" onClick={() => setShowLogoutModal(false)}>
                     <div
-                        className="channel-modal"
-                        style={{ maxWidth: '420px' }}
+                        className={`channel-modal ${styles.modal}`}
                         onClick={(event) => event.stopPropagation()}
                     >
                         <header className="channel-modal__header">
@@ -147,22 +147,20 @@ export const UserSettingsPage = ({ onBack }) => {
                             </button>
                         </header>
                         <div className="channel-modal__content">
-                            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                            <p className={styles.modalDescription}>
                                 {s.userSettings?.logout?.modalDescription ?? '언제든 다시 로그인할 수 있습니다. 저장되지 않은 변경사항은 사라질 수 있습니다.'}
                             </p>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+                            <div className={styles.modalActions}>
                                 <button
                                     type="button"
-                                    className="profile-action-button"
-                                    style={{ padding: '0.6rem 1rem' }}
+                                    className={`profile-action-button ${styles.cancelButton}`}
                                     onClick={() => setShowLogoutModal(false)}
                                 >
                                     {s.userSettings?.logout?.cancel ?? '취소'}
                                 </button>
                                 <button
                                     type="button"
-                                    className="profile-modal__save-button"
-                                    style={{ width: 'auto', backgroundColor: '#ef4444', opacity: isLoggingOut ? 0.7 : 1 }}
+                                    className={`profile-modal__save-button ${styles.logoutButton} ${isLoggingOut ? styles.loggingOut : ''}`}
                                     onClick={handleLogoutConfirm}
                                     disabled={isLoggingOut}
                                 >

@@ -5,6 +5,7 @@ import { StatusIndicator } from '@/components/common/StatusIndicator';
 import { UnreadBadge } from '@/components/common/UnreadBadge';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
+import styles from './DMList.module.css';
 
 export const DMList = ({
   dms,
@@ -36,7 +37,7 @@ export const DMList = ({
           <Plus size={14} />
         </button>
       </div>
-      <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
+      <ul className={`nav-category__list ${styles.list}`}>
         {dms.map(dm => {
           const user = users[dm.userId];
           const isActive = currentView === 'channel' && currentChannelId === dm.id;

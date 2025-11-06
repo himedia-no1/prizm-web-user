@@ -1,0 +1,6 @@
+.pageContainer { justify-content: center; align-items: center; flex-direction: column; }
+.formContainer { width: 400px; margin-top: 2rem; }
+.cancelButton { margin-top: 1rem; background: var(--card-bg); color: var(--text); }
+.inviteLinkToggleContainer { text-align: center; margin-top: 2rem; }
+.inviteLinkToggleButton { background: none; border: none; color: var(--text-secondary); cursor: pointer; }
+.inviteLinkInputContainer { margin-top: 1rem; }

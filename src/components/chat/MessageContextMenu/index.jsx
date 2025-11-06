@@ -15,7 +15,7 @@ import {
   MoreVertical,
   Copy
 } from '@/components/common/icons';
-import './MessageContextMenu.module.css';
+import styles from './MessageContextMenu.module.css';
 
 export const MessageContextMenu = ({
   message,
@@ -108,8 +108,8 @@ export const MessageContextMenu = ({
   return (
     <div
       ref={menuRef}
-      className={`message-context-menu ${showFullMenu ? 'full' : 'action-bar'}`}
-      style={{ top: position.y, left: position.x }}
+      className={`message-context-menu ${showFullMenu ? 'full' : 'action-bar'} ${styles.menu}`}
+      style={{ '--top': `${position.y}px`, '--left': `${position.x}px` }}
       onClick={(e) => e.stopPropagation()}
     >
       {!showFullMenu ? (

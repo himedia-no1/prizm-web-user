@@ -23,7 +23,7 @@ export const ThemePreferences = () => {
       <h3 className={styles.title}>{themeStrings?.title ?? '테마 설정'}</h3>
       <p className={styles.description}>{themeStrings?.description ?? '라이트/다크 모드를 전환할 수 있습니다.'}</p>
       <div className={styles.optionRow}>
-        <label htmlFor="theme-select" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+        <label htmlFor="theme-select" className={styles.label}>
           {themeStrings?.label ?? '표시 모드'}
         </label>
         <select

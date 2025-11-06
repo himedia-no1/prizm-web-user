@@ -3,6 +3,7 @@
 import { Hash, Users } from '@/components/common/icons';
 import useStrings from '@/hooks/useStrings';
 import { useWorkspaceSettingsStore } from '@/store/workspace/useWorkspaceSettingsStore';
+import styles from './InviteManagementTab.module.css';
 
 export const InviteManagementTab = ({ invitations, inviteLinks }) => {
   const s = useStrings();
@@ -12,17 +13,17 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.inviteManagementTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.inviteManagementDescription}
       </p>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>{s.workspaceAdmin.inviteManagementPendingTitle}</h3>
-        <p style={{ color: 'var(--text-secondary)', margin: '0.35rem 0 1rem' }}>
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.inviteManagementPendingTitle}</h3>
+        <p className={styles.sectionDescription}>
           {s.workspaceAdmin.membersInviteStatusDescription}
         </p>
         {invitations.length === 0 ? (
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+          <p className={styles.empty}>
             {s.workspaceAdmin.membersInviteStatusEmpty}
           </p>
         ) : (
@@ -32,25 +33,16 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
               return (
                 <div
                   key={invite.id}
-                  className="channel-modal__list-item member"
-                  style={{ alignItems: 'center', gap: '1rem', padding: '0.75rem 0' }}
-                >
-                  <span style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', flex: 1 }}>
+                  className={`channel-modal__list-item member ${styles.inviteItem}`}>
+                  <span className={styles.inviteDetails}>
                     <strong>{invite.email}</strong>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    <span className={styles.inviteMeta}>
                       {invite.invitedBy} · {invite.sentAt}
                     </span>
                   </span>
                   <span
-                    style={{
-                      padding: '0.25rem 0.6rem',
-                      borderRadius: '9999px',
-                      background: tone.background,
-                      color: tone.color,
-                      fontSize: '0.75rem',
-                      fontWeight: 600,
-                      textTransform: 'capitalize',
-                    }}
+                    className={styles.inviteStatus}
+                    style={{ '--status-background': tone.background, '--status-color': tone.color }}
                   >
                     {tone.label}
                   </span>
@@ -62,12 +54,12 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
       </section>
 
       <section>
-        <h3 style={{ fontSize: '1.05rem', fontWeight: 600 }}>{s.workspaceAdmin.inviteManagementLinksTitle}</h3>
-        <p style={{ color: 'var(--text-secondary)', margin: '0.35rem 0 1rem' }}>
+        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.inviteManagementLinksTitle}</h3>
+        <p className={styles.sectionDescription}>
           {s.workspaceAdmin.inviteManagementLinksDescription}
         </p>
         {inviteLinks.length === 0 ? (
-          <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>
+          <p className={styles.empty}>
             {s.workspaceAdmin.inviteManagementLinksEmpty}
           </p>
         ) : (
@@ -86,31 +78,20 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
               return (
                 <div
                   key={link.id}
-                  className="channel-modal__list-item"
-                  style={{ gap: '1rem', padding: '0.85rem 0', alignItems: 'center' }}
-                >
-                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', flex: 1 }}>
+                  className={`channel-modal__list-item ${styles.linkItem}`}>
+                  <div className={styles.linkDetails}>
                     <div
-                      style={{
-                        width: 36,
-                        height: 36,
-                        borderRadius: '0.75rem',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'var(--card-bg)',
-                        border: '1px solid var(--border)',
-                      }}
+                      className={styles.linkIconWrapper}
                     >
                       <Icon size={16} />
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <div className={styles.linkInfo}>
+                      <div className={styles.linkHeader}>
                         <strong>{typeLabel}</strong>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>{link.id}</span>
+                        <span className={styles.linkId}>{link.id}</span>
                       </div>
-                      <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{link.url}</span>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', fontSize: '0.8rem' }}>
+                      <span className={styles.linkUrl}>{link.url}</span>
+                      <div className={styles.linkMeta}>
                         <span>{expirationLabel}</span>
                         <span>•</span>
                         <span>{usageLabel}</span>
@@ -123,8 +104,7 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
                   </div>
                   <button
                     type="button"
-                    className="profile-action-button"
-                    style={{ padding: '0.45rem 0.85rem' }}
+                    className={`profile-action-button ${styles.copyButton}`}
                     onClick={() => copyInviteLink(link.id, link.url)}
                   >
                     {copiedLinkId === link.id

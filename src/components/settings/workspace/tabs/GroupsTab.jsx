@@ -1,6 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
+import styles from './GroupsTab.module.css';
 
 export const GroupsTab = ({ 
   groups, 
@@ -13,59 +14,44 @@ export const GroupsTab = ({
   return (
     <div>
       <h2 className="settings-content__header">{s.workspaceAdmin.groupsTitle}</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+      <p className={styles.description}>
         {s.workspaceAdmin.groupsDescription}
       </p>
 
-      <button className="profile-modal__save-button" style={{ width: 'auto', marginBottom: '1.5rem' }}>
+      <button className={`profile-modal__save-button ${styles.createButton}`}>
         {s.workspaceAdmin.groupsCreate}
       </button>
 
-      <div className="channel-modal__list" style={{ gap: '1.25rem' }}>
+      <div className={`channel-modal__list ${styles.groupsList}`}>
         {groups.map((group) => {
           const assignedChannels = groupPermissions[group.id] || [];
           return (
             <div
               key={group.id}
-              className="channel-modal__list-item"
-              style={{
-                flexDirection: 'column',
-                alignItems: 'stretch',
-                gap: '1rem',
-                border: '1px solid var(--border)',
-                borderRadius: '0.85rem',
-                padding: '1.25rem',
-                background: 'var(--card-bg)',
-                boxShadow: '0 1px 3px var(--shadow)',
-              }}
-            >
+              className={`channel-modal__list-item ${styles.groupCard}`}>
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <strong style={{ fontSize: '1rem' }}>{group.name}</strong>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                <div className={styles.groupHeader}>
+                  <strong className={styles.groupName}>{group.name}</strong>
+                  <span className={styles.groupMembers}>
                     {s.workspaceAdmin.groupsMembersLabel}: {group.members}
                   </span>
                 </div>
-                <p style={{ margin: '0.4rem 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                <p className={styles.groupDescription}>
                   {group.description}
                 </p>
               </div>
 
               <div>
-                <h4 style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem' }}>
+                <h4 className={styles.channelsLabel}>
                   {s.workspaceAdmin.groupsChannelsLabel}
                 </h4>
                 <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-                    gap: '0.5rem 1rem',
-                  }}
+                  className={styles.channelsGrid}
                 >
                   {workspaceChannels.map((channel) => (
                     <label
                       key={`${group.id}-${channel}`}
-                      style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem' }}
+                      className={styles.channelLabel}
                     >
                       <input
                         type="checkbox"
@@ -78,8 +64,8 @@ export const GroupsTab = ({
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <button className="profile-modal__save-button" style={{ width: 'auto' }}>
+              <div className={styles.saveButtonContainer}>
+                <button className={`profile-modal__save-button ${styles.saveButton}`}>
                   {s.workspaceAdmin.groupsSave}
                 </button>
               </div>

@@ -5,6 +5,7 @@ import { UnreadBadge } from '@/components/common/UnreadBadge';
 import useDataStore from '@/store/dataStore';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
+import styles from './AppConnectList.module.css';
 
 export const AppConnectList = ({ onOpenModal, canManage = false }) => {
     const s = useStrings();
@@ -24,7 +25,7 @@ export const AppConnectList = ({ onOpenModal, canManage = false }) => {
                     </button>
                 )}
             </div>
-            <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
+            <ul className={`nav-category__list ${styles.list}`}>
                 {appConnect.map(app => {
                     const unreadCount = unreadCounts[app.id] || 0;
                     return (

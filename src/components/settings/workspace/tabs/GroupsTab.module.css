@@ -1,0 +1,13 @@
+.description { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.createButton { width: auto; margin-bottom: 1.5rem; }
+.groupsList { gap: 1.25rem; }
+.groupCard { flex-direction: column; align-items: stretch; gap: 1rem; border: 1px solid var(--border); border-radius: 0.85rem; padding: 1.25rem; background: var(--card-bg); box-shadow: 0 1px 3px var(--shadow); }
+.groupHeader { display: flex; justify-content: space-between; align-items: center; }
+.groupName { font-size: 1rem; }
+.groupMembers { font-size: 0.85rem; color: var(--text-secondary); }
+.groupDescription { margin: 0.4rem 0 0; color: var(--text-secondary); font-size: 0.9rem; }
+.channelsLabel { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+.channelsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.5rem 1rem; }
+.channelLabel { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+.saveButtonContainer { display: flex; justify-content: flex-end; }
+.saveButton { width: auto; }

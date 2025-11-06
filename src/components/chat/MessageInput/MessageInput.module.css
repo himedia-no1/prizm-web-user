@@ -109,3 +109,7 @@
 .message-input__mention-button {
   margin-right: -0.25rem;
 }
+
+.textarea {
+  min-height: 50px;
+}
