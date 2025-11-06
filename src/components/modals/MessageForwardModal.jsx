@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { X, Send } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
-import testApi from '@/api/test.api';
+import { messageService } from '@/api/services';
 import styles from './MessageForwardModal.module.css';
 
 export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] }) => {
@@ -57,7 +57,7 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
 
     setLoading(true);
     try {
-      await testApi.forwardMessage(message.id, selectedChannels);
+      await messageService.forwardMessage(message.id, selectedChannels);
       onClose();
     } catch (error) {
       console.error('Forward failed:', error);

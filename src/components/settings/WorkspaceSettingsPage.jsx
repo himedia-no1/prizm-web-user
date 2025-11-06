@@ -13,8 +13,8 @@ import {
   AuditTab 
 } from './workspace/tabs';
 import { useWorkspaceSettingsStore } from '@/store/workspace/useWorkspaceSettingsStore';
-import AiAssistantPage from '@/app/settings/workspace/[workspaceId]/ai-assistant/ai-assistant.page';
-import AiSearchSettingsPage from '@/app/settings/workspace/[workspaceId]/ai-search/page';
+import AiAssistantPage from '@/app/app/settings/workspace/[workspaceId]/ai-assistant/AIAssistantPage';
+import AiSearchSettingsPage from '@/app/app/settings/workspace/[workspaceId]/ai-search/page';
 import { navItems } from './workspace/constants/navItems';
 import {
   mockInvitations,

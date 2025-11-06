@@ -9,8 +9,8 @@ import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
 import { AIFab } from '@/components/chat/AIAssistant/AIFab';
 import { mockMessages, mockUsers, mockThreadMessages, getChannelDetails } from '@/__mocks__';
-import './channel.css';
-import { WorkspaceContext } from '@/app/(main)/workspace/[workspaceId]/WorkspaceLayoutClient';
+import styles from './channel.module.css';
+import { WorkspaceContext } from '@/app/app/workspace/[workspaceId]/WorkspaceLayoutClient';
 
 const resolveChannelId = (channelId) => {
   if (Array.isArray(channelId)) {

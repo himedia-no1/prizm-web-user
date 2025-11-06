@@ -45,8 +45,8 @@ export default function SocialAuthPage({ searchParams }) {
   const oauthHandledRef = useRef(false);
 
   const sessionRedirectTarget = workspaceId
-    ? `/workspace/${workspaceId}/dashboard`
-    : '/workspace/ws1/dashboard';
+    ? `/app/workspace/${workspaceId}/dashboard`
+    : '/app/workspace/ws1/dashboard';
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -68,7 +68,7 @@ export default function SocialAuthPage({ searchParams }) {
       try {
         const session = await authenticateWithProvider(provider);
         setAuthState(session);
-        router.replace(`/workspace/${session.workspaceId}/dashboard`);
+        router.replace(`/app/workspace/${session.workspaceId}/dashboard`);
       } catch (err) {
         console.error('[Login] OAuth callback handling failed:', err);
         setError('로그인에 실패했습니다. 다시 시도해주세요.');
@@ -85,7 +85,7 @@ export default function SocialAuthPage({ searchParams }) {
       try {
         const session = await authenticateWithProvider(provider);
         setAuthState(session);
-        router.replace(`/workspace/${session.workspaceId}/dashboard`);
+        router.replace(`/app/workspace/${session.workspaceId}/dashboard`);
       } catch (err) {
         console.error('[Login] Mock social login failed:', err);
         setError('로그인에 실패했습니다. 다시 시도해주세요.');

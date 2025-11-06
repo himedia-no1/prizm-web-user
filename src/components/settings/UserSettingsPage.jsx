@@ -63,7 +63,7 @@ export const UserSettingsPage = ({ onBack }) => {
         try {
             await logout();
             setShowLogoutModal(false);
-            router.replace('/login');
+            router.replace('/app/auth');
         } finally {
             setIsLoggingOut(false);
         }

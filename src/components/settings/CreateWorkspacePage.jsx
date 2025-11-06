@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import useStrings from '@/hooks/useStrings';
-import testApi from '@/api/test.api';
+import { workspaceService } from '@/api/services';
 import { useRouter } from 'next/navigation';
-import './CreateWorkspacePage.css';
+import styles from './CreateWorkspacePage.module.css';
 
 export const CreateWorkspacePage = ({ onBack }) => {
     const s = useStrings();
@@ -18,8 +18,8 @@ export const CreateWorkspacePage = ({ onBack }) => {
         if (!workspaceName.trim()) return;
         setLoading(true);
         try {
-            const result = await testApi.createWorkspace({ name: workspaceName });
-            router.push(`/workspace/${result.id}`);
+            const result = await workspaceService.createWorkspace({ name: workspaceName });
+            router.push(`/app/workspace/${result.id}`);
         } catch (error) {
             console.error('Failed to create workspace:', error);
         } finally {
@@ -31,8 +31,8 @@ export const CreateWorkspacePage = ({ onBack }) => {
         if (!inviteCode.trim()) return;
         setLoading(true);
         try {
-            const result = await testApi.joinWorkspaceByInviteCode(inviteCode);
-            router.push(`/workspace/${result.workspaceId}`);
+            const result = await workspaceService.joinByInviteCode(inviteCode);
+            router.push(`/app/workspace/${result.workspaceId}`);
         } catch (error) {
             console.error('Failed to join workspace:', error);
             alert('초대 코드가 올바르지 않습니다.');

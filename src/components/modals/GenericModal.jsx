@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { X } from '@/components/common/icons';
-import './Modals.css';
-import styles from './GenericModal.module.css';
+import styles from './Modals.module.css';
+import genericStyles from './GenericModal.module.css';
 
 export const GenericModal = ({ isOpen, onClose, title, children, maxWidth = '520px' }) => {
     if (!isOpen) return null;
@@ -11,8 +11,8 @@ export const GenericModal = ({ isOpen, onClose, title, children, maxWidth = '520
     return (
         <div className="channel-modal-overlay" onClick={onClose}>
             <div
-                className={`channel-modal ${styles.modal}`}
-                style={{ '--max-width': maxWidth }}
+                className="channel-modal"
+                style={{ maxWidth }}
                 onClick={(e) => e.stopPropagation()}
             >
                 <header className="channel-modal__header">

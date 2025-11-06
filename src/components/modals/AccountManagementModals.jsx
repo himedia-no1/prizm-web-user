@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
-import testApi from '@/api/test.api';
+import { userService } from '@/api/services';
 import styles from './AccountManagementModals.module.css';
 
 export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
@@ -13,7 +13,7 @@ export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
   const handleDeactivate = async () => {
     setLoading(true);
     try {
-      await testApi.deactivateAccount(userId);
+      await userService.deactivateAccount(userId);
       onClose();
     } catch (error) {
       console.error('Failed to deactivate account:', error);
@@ -67,7 +67,7 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
     if (!isConfirmed) return;
     setLoading(true);
     try {
-      await testApi.deleteAccount(userId, confirmText);
+      await userService.deleteAccount(userId, confirmText);
       onClose();
     } catch (error) {
       console.error('Failed to delete account:', error);

@@ -6,7 +6,7 @@ import useStore from '@/store/useStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
 import { mockWorkspaces, mockWorkspaceMembers, mockCategories, mockDMs, mockUsers } from '@/__mocks__';
-import './workspace-layout.css';
+import styles from './workspace-layout.module.css';
 
 export const WorkspaceContext = createContext(null);
 
@@ -73,16 +73,16 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
   const handleSelectChannel = (channelId) => {
     setCurrentChannelId(channelId);
     setCurrentView('channel');
-    router.push(`/workspace/${workspaceId}/channel/${channelId}`);
+    router.push(`/app/workspace/${workspaceId}/channel/${channelId}`);
   };
 
   const handleSelectView = (view) => {
     setCurrentView(view);
-    router.push(`/workspace/${workspaceId}/${view}`);
+    router.push(`/app/workspace/${workspaceId}/${view}`);
   };
 
   const handleSwitchWorkspace = (nextWorkspaceId) => {
-    router.push(`/workspace/${nextWorkspaceId}/dashboard`);
+    router.push(`/app/workspace/${nextWorkspaceId}/dashboard`);
   };
 
   const handleOpenProfileModal = () => {
@@ -154,9 +154,9 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}
           onOpenProfileModal={handleOpenProfileModal}
-          onNavigateToSettings={() => router.push(`/settings/workspace/${workspaceId}`)}
-          onNavigateToUserSettings={() => router.push('/settings')}
-          onNavigateToCreateWorkspace={() => router.push('/create-workspace')}
+          onNavigateToSettings={() => router.push(`/app/settings/workspace/${workspaceId}`)}
+          onNavigateToUserSettings={() => router.push('/app/settings')}
+          onNavigateToCreateWorkspace={() => router.push('/app/create-workspace')}
           onOpenModal={handleOpenModal}
           onCollapse={() => setIsLeftSidebarCollapsed(true)}
         />

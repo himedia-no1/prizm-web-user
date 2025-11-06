@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { X, Check, Trash2, CheckCheck } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
-import testApi from '@/api/test.api';
+import { notificationService } from '@/api/services';
 import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {
@@ -18,7 +18,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
   const loadNotifications = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await testApi.fetchNotifications();
+      const data = await notificationService.fetchNotifications();
       useStore.setState({ notifications: data });
     } catch (error) {
       console.error('Failed to load notifications:', error);
@@ -45,7 +45,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
   const handleMarkAsRead = async () => {
     if (selectedIds.length === 0) return;
     try {
-      await Promise.all(selectedIds.map((id) => testApi.markNotificationAsRead(id)));
+      await Promise.all(selectedIds.map((id) => notificationService.markAsRead(id)));
       selectedIds.forEach((id) => markNotificationAsRead(id));
       setSelectedIds([]);
     } catch (error) {
@@ -56,7 +56,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
   const handleDelete = async () => {
     if (selectedIds.length === 0) return;
     try {
-      await Promise.all(selectedIds.map((id) => testApi.deleteNotification(id)));
+      await Promise.all(selectedIds.map((id) => notificationService.deleteNotification(id)));
       selectedIds.forEach((id) => deleteNotification(id));
       setSelectedIds([]);
     } catch (error) {
@@ -66,7 +66,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
 
   const handleMarkAllRead = async () => {
     try {
-      await testApi.markAllNotificationsAsRead();
+      await notificationService.markAllAsRead();
       markAllNotificationsAsRead();
     } catch (error) {
       console.error('Failed to mark all as read:', error);

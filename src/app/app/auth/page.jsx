@@ -6,7 +6,7 @@ export default async function LoginPage({ searchParams }) {
   const session = await getServerSession();
 
   if (session?.workspaceId) {
-    redirect(`/workspace/${session.workspaceId}/dashboard`);
+    redirect(`/app/workspace/${session.workspaceId}/dashboard`);
   }
 
   return <SocialAuthPage searchParams={searchParams} />;

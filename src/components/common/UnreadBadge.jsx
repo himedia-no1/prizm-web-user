@@ -1,7 +1,7 @@
 'use client';
 
 import useStrings from '@/hooks/useStrings';
-import './UnreadBadge.css';
+import styles from './UnreadBadge.module.css';
 
 export const UnreadBadge = ({ count }) => {
   const s = useStrings();

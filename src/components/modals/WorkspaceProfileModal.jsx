@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { X, Upload } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
-import testApi from '@/api/test.api';
+import { userService } from '@/api/services';
 import styles from './WorkspaceProfileModal.module.css';
 
 export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) => {
@@ -27,7 +27,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
       if (cachedProfile) {
         setProfile(cachedProfile);
       } else {
-        const data = await testApi.fetchWorkspaceProfile(workspaceId, userId);
+        const data = await userService.fetchWorkspaceProfile(workspaceId, userId);
         setProfile(data);
         setWorkspaceProfile(workspaceId, data);
       }
@@ -47,7 +47,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const result = await testApi.updateWorkspaceProfile(workspaceId, userId, profile);
+      const result = await userService.updateWorkspaceProfile(workspaceId, userId, profile);
       if (result.success) {
         setWorkspaceProfile(workspaceId, profile);
         onClose();

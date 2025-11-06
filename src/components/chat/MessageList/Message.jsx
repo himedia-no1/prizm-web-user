@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import useStore from '@/store/useStore';
-import testApi from '@/api/test.api';
+import { messageService } from '@/api/services';
 import { strings } from '@/constants/strings';
 import styles from './Message.module.css';
 
@@ -38,7 +38,7 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
     // 테스트 환경에서는 API로 직접 호출
     setTimeout(async () => {
       try {
-        const result = await testApi.translateMessage(message.id, language);
+        const result = await messageService.translateMessage(message.id, language);
         setTranslatedText(result.translatedText);
         setTranslationState('done');
         setIsOriginalVisible(false);
