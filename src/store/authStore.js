@@ -1,63 +1,84 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { loginWithProvider, fetchUserProfile, logoutUser } from '@/api/authAPI';
 
-export const useAuthStore = create(
-    persist(
-        (set, get) => ({
-            user: { id: 'u1', name: 'Alice', realName: 'Alice Kim', email: 'alice@example.com', phone: '010-1234-5678', avatar: 'https://placehold.co/80x80/8C65D1/FFFFFF?text=A', status: 'online', role: 'Owner', socialProvider: 'Google' },
-            accessToken: 'mock-token',
-            isAuthenticated: true,
+export const useAuthStore = create((set) => ({
+    user: null,
+    workspaceId: null,
+    accessToken: null,
+    isAuthenticated: false,
+    loading: false,
+    error: null,
+    initialized: false,
+
+    setLoading: (loading) => set({ loading }),
+
+    setAuthState: ({ user, accessToken, workspaceId }) => {
+        set({
+            user: user ?? null,
+            accessToken: accessToken ?? null,
+            workspaceId: workspaceId ?? null,
+            isAuthenticated: Boolean(user && accessToken),
             loading: false,
             error: null,
+            initialized: true,
+        });
+    },
 
-            // ✅ 소셜 로그인 (OAuth)
-            login: async (provider, code) => {
-                set({ loading: true, error: null });
-                try {
-                    const { accessToken } = await loginWithProvider(provider, code);
-                    localStorage.setItem('access_token', accessToken);
+    setAccessToken: (accessToken) => {
+        set((state) => ({
+            accessToken: accessToken ?? null,
+            isAuthenticated: Boolean(accessToken && state.user),
+        }));
+    },
 
-                    const user = await fetchUserProfile(accessToken);
-                    set({ user, accessToken, isAuthenticated: true, loading: false });
-                } catch (err) {
-                    console.error('[AuthStore] login failed:', err);
-                    set({ error: err.message, loading: false });
-                }
-            },
+    setUser: (user) => {
+        set((state) => ({
+            user: user ?? null,
+            isAuthenticated: Boolean(user && state.accessToken),
+        }));
+    },
 
-            // ✅ 사용자 정보 새로고침
-            refreshUser: async () => {
-                const token = get().accessToken;
-                if (!token) return;
-                try {
-                    const user = await fetchUserProfile(token);
-                    set({ user, isAuthenticated: true });
-                } catch (err) {
-                    console.error('[AuthStore] refresh failed:', err);
-                    set({ isAuthenticated: false, user: null });
-                }
-            },
+    setWorkspaceId: (workspaceId) => set({ workspaceId }),
 
-            // ✅ 로그아웃
-            logout: async () => {
-                try {
-                    await logoutUser();
-                } catch (_) {
-                    /* 서버 오류 무시 */
-                } finally {
-                    localStorage.removeItem('access_token');
-                    set({ user: null, accessToken: null, isAuthenticated: false });
-                }
-            },
-        }),
-        {
-            name: 'auth-storage', // localStorage key
-            partialize: (state) => ({
-                accessToken: state.accessToken,
-                user: state.user,
-                isAuthenticated: state.isAuthenticated,
-            }),
+    setError: (error) => {
+        set({
+            error,
+            loading: false,
+            initialized: true,
+        });
+    },
+
+    clearAuthState: () => {
+        set({
+            user: null,
+            accessToken: null,
+            workspaceId: null,
+            isAuthenticated: false,
+            loading: false,
+            error: null,
+            initialized: true,
+        });
+    },
+
+    markInitialized: () => {
+        set((state) => (state.initialized ? state : { initialized: true }));
+    },
+
+    logout: async () => {
+        set({ loading: true });
+        try {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch (error) {
+            console.warn('[AuthStore] logout failed:', error);
+        } finally {
+            set({
+                user: null,
+                accessToken: null,
+                workspaceId: null,
+                isAuthenticated: false,
+                loading: false,
+                error: null,
+                initialized: true,
+            });
         }
-    )
-);
+    },
+}));

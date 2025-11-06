@@ -1,12 +1,12 @@
-'use client';
+import { redirect } from 'next/navigation';
+import { getServerSession } from '@/lib/authSession';
 
-import AuthGuard from './AuthGuard';
+export default async function HomePage() {
+  const session = await getServerSession();
 
-export default function HomePage() {
-  return (
-    <AuthGuard>
-      {/* You can show a loading spinner here while the AuthGuard is checking the auth state */}
-    </AuthGuard>
-  );
+  if (session?.workspaceId) {
+    redirect(`/workspace/${session.workspaceId}/dashboard`);
+  }
+
+  redirect('/login');
 }
-

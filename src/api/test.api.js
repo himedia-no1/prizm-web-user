@@ -4,7 +4,24 @@ const testApi = {
     // Auth
     loginWithProvider: async (provider, code) => {
         console.log(`[Test API] Logging in with ${provider} and code ${code}`);
-        return Promise.resolve({ accessToken: 'mock-test-token' });
+        const timestamp = Date.now();
+        return Promise.resolve({
+            accessToken: `mock-access-${provider}-${timestamp}`,
+            refreshToken: `mock-refresh-${provider}-${timestamp}`,
+            userId: provider === 'GitHub' ? 'u2' : 'u1',
+            workspaceId: 'ws1',
+        });
+    },
+    refreshAccessToken: async (refreshToken) => {
+        console.log(`[Test API] Refreshing access token with refresh token ${refreshToken}`);
+        if (!refreshToken) {
+            return Promise.reject(new Error('Invalid refresh token'));
+        }
+        const timestamp = Date.now();
+        return Promise.resolve({
+            accessToken: `mock-access-refresh-${timestamp}`,
+            refreshToken: `mock-refresh-${timestamp}`,
+        });
     },
     fetchUserProfile: async () => {
         console.log('[Test API] Fetching user profile');

@@ -72,6 +72,23 @@
     gap: 14px;
 }
 
+.errorMessage {
+    margin-top: 16px;
+    font-size: 13px;
+    color: #ff5b6b;
+    text-align: center;
+}
+
+.loadingState {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
 /* ✅ 하단 안내문 */
 .footer {
     margin-top: 40px;
