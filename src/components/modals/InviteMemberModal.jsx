@@ -68,6 +68,8 @@ export default function InviteMemberModal({ isOpen, onClose }) {
 
     const searchDropdownRef = useRef(null)
 
+    const [stagedUsers, setStagedUsers] = useState([]);
+
     useEffect(() => {
         if (searchInputRef.current && showSearchResults) {
             const rect = searchInputRef.current.getBoundingClientRect()
@@ -143,8 +145,6 @@ export default function InviteMemberModal({ isOpen, onClose }) {
             setCopyMessage(false)
         }, 2000)
     }
-
-    const [stagedUsers, setStagedUsers] = useState([]);
 
     const handleInviteUser = (user) => {
         if (!stagedUsers.find((u) => u.id === user.id)) {

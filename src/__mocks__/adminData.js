@@ -1,10 +1,10 @@
 import React from 'react';
-import { UsersAdmin, HashAdmin, MessageSquareAdmin, Activity } from '@/components/common/icons';
+import { Users, Hash, MessageSquare, Activity } from '@/components/common/icons';
 
 export const mockWorkspaceStats = [
-  { id: 'members', icon: <UsersAdmin size={20} />, value: '248', label: '전체 멤버', trend: '+12%', trendColor: 'green' },
-  { id: 'channels', icon: <HashAdmin size={20} />, value: '42', label: '활성 채널', trend: '+3', trendColor: 'blue' },
-  { id: 'messages', icon: <MessageSquareAdmin size={20} />, value: '1,847', label: '오늘 메시지', trend: '+24%', trendColor: 'green' },
+  { id: 'members', icon: <Users size={20} />, value: '248', label: '전체 멤버', trend: '+12%', trendColor: 'green' },
+  { id: 'channels', icon: <Hash size={20} />, value: '42', label: '활성 채널', trend: '+3', trendColor: 'blue' },
+  { id: 'messages', icon: <MessageSquare size={20} />, value: '1,847', label: '오늘 메시지', trend: '+24%', trendColor: 'green' },
   { id: 'activeUsers', icon: <Activity size={20} />, value: '186', label: '활성 사용자', trend: '+8%', trendColor: 'green' },
 ];
 

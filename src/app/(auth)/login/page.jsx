@@ -87,15 +87,20 @@ export default function SocialAuthPage() {
 
                 <div className={styles.footer}>
                     <p>
-                        {s.terms.split('서비스 약관')[0]}
+                        {s.terms.split(s.termsOfService)[0]}
                         <a href="#" className={styles.link}>
-                            서비스 약관
+                            {s.termsOfService}
                         </a>
-                        {s.terms.split('서비스 약관')[1].split('개인정보 처리방침')[0]}
-                        <a href="#" className={styles.link}>
-                            개인정보 처리방침
-                        </a>
-                        {s.terms.split('개인정보 처리방침')[1]}
+                        {' '}
+                        {s.terms.includes(s.privacyPolicy) && s.privacyPolicy && (
+                            <>
+                                {s.terms.split(s.termsOfService)[1]?.split(s.privacyPolicy)[0]}
+                                <a href="#" className={styles.link}>
+                                    {s.privacyPolicy}
+                                </a>
+                                {s.terms.split(s.privacyPolicy)[1]}
+                            </>
+                        )}
                     </p>
                 </div>
             </div>

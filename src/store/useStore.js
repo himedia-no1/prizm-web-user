@@ -51,6 +51,64 @@ const useStore = create((set, get) => ({
   language: 'ko',
   toggleLanguage: () => set((state) => ({ language: state.language === 'ko' ? 'en' : 'ko' })),
   setLanguage: (lang) => set({ language: lang }),
+
+  // Auto translation
+  autoTranslateEnabled: true,
+  toggleAutoTranslate: () => set((state) => ({ autoTranslateEnabled: !state.autoTranslateEnabled })),
+  setAutoTranslate: (enabled) => set({ autoTranslateEnabled: enabled }),
+
+  // Unread messages count by channel/DM
+  unreadCounts: {},
+  setUnreadCount: (channelId, count) =>
+    set((state) => ({
+      unreadCounts: { ...state.unreadCounts, [channelId]: count },
+    })),
+  incrementUnreadCount: (channelId) =>
+    set((state) => ({
+      unreadCounts: {
+        ...state.unreadCounts,
+        [channelId]: (state.unreadCounts[channelId] || 0) + 1,
+      },
+    })),
+  clearUnreadCount: (channelId) =>
+    set((state) => {
+      const newCounts = { ...state.unreadCounts };
+      delete newCounts[channelId];
+      return { unreadCounts: newCounts };
+    }),
+
+  // Notifications/Inbox
+  notifications: [],
+  addNotification: (notification) =>
+    set((state) => ({
+      notifications: [notification, ...state.notifications],
+    })),
+  markNotificationAsRead: (notificationId) =>
+    set((state) => ({
+      notifications: state.notifications.map((n) =>
+        n.id === notificationId ? { ...n, read: true } : n
+      ),
+    })),
+  deleteNotification: (notificationId) =>
+    set((state) => ({
+      notifications: state.notifications.filter((n) => n.id !== notificationId),
+    })),
+  markAllNotificationsAsRead: () =>
+    set((state) => ({
+      notifications: state.notifications.map((n) => ({ ...n, read: true })),
+    })),
+  clearNotifications: () => set({ notifications: [] }),
+
+  // Workspace profiles (per-workspace user profiles)
+  workspaceProfiles: {},
+  setWorkspaceProfile: (workspaceId, profile) =>
+    set((state) => ({
+      workspaceProfiles: {
+        ...state.workspaceProfiles,
+        [workspaceId]: profile,
+      },
+    })),
+  getWorkspaceProfile: (workspaceId) => get().workspaceProfiles[workspaceId] || null,
 }));
 
 

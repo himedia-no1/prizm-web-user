@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, User, Google, GitHub, Microsoft, X } from '@/components/common/icons';
 import { NotificationPreferences, ThemePreferences, LanguagePreferences } from '@/components/settings/prefs';
+import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
 import useStrings from '@/hooks/useStrings';
 import { mockUsers } from '@/__mocks__';
 
@@ -13,6 +14,8 @@ export const UserSettingsPage = ({ onBack }) => {
     const [email, setEmail] = useState(user.email);
     const s = useStrings();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
+    const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const deviceSessions = [
         {
             id: 'device-1',
@@ -120,6 +123,7 @@ export const UserSettingsPage = ({ onBack }) => {
                                     type="button"
                                     className="profile-modal__save-button"
                                     style={{ width: 'auto', backgroundColor: '#f59e0b' }}
+                                    onClick={() => setShowDeactivateModal(true)}
                                 >
                                     {s.userSettings?.profile?.deactivateButton ?? '계정 비활성화'}
                                 </button>
@@ -143,6 +147,7 @@ export const UserSettingsPage = ({ onBack }) => {
                                     type="button"
                                     className="profile-modal__save-button"
                                     style={{ width: 'auto', backgroundColor: '#ef4444' }}
+                                    onClick={() => setShowDeleteModal(true)}
                                 >
                                     {s.userSettings?.profile?.deleteButton ?? '계정 삭제'}
                                 </button>
@@ -295,6 +300,17 @@ export const UserSettingsPage = ({ onBack }) => {
                     </div>
                 </div>
             )}
+
+            <DeactivateAccountModal
+                isOpen={showDeactivateModal}
+                onClose={() => setShowDeactivateModal(false)}
+                userId={user.id}
+            />
+            <DeleteAccountModal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                userId={user.id}
+            />
         </div>
     );
 };

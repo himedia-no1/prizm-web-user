@@ -5,15 +5,31 @@ export const mockMessages = [
     text: 'Hey team, check out the new mockups!',
     timestamp: '10:30 AM',
     reactions: {'👍': 2, '🔥': 1},
-    threadId: 't1'
+    threadId: 't1',
+    language: 'en',
+    translations: {
+      ko: {
+        text: '팀 여러분, 새로운 목업을 확인하세요!',
+        sourceLang: 'en',
+        targetLang: 'ko',
+      },
+    },
   },
   {
     id: 'm2',
     userId: 'u2',
-    text: 'Wow, these look amazing. Great job @Alice!',
+    text: '와, 정말 멋지네요. 잘했어요 @Alice!',
     timestamp: '10:31 AM',
     reactions: {},
-    threadId: null
+    threadId: null,
+    language: 'ko',
+    translations: {
+      en: {
+        text: 'Wow, that looks amazing. Great job @Alice!',
+        sourceLang: 'ko',
+        targetLang: 'en',
+      },
+    },
   },
   {
     id: 'm3',
@@ -22,15 +38,29 @@ export const mockMessages = [
     timestamp: '10:31 AM',
     reactions: {'❤️': 1},
     threadId: null,
-    pinned: true
+    pinned: true,
+    language: 'en'
   },
   {
     id: 'm4',
     userId: 'u3',
-    text: 'I really like the new color palette.',
+    text: '新しいカラーパレットがとても気に入りました。',
     timestamp: '10:35 AM',
     reactions: {},
-    threadId: 't1'
+    threadId: 't1',
+    language: 'ja',
+    translations: {
+      en: {
+        text: 'I really like the new color palette.',
+        sourceLang: 'ja',
+        targetLang: 'en',
+      },
+      ko: {
+        text: '새로운 컬러 팔레트가 정말 마음에 들어요.',
+        sourceLang: 'ja',
+        targetLang: 'ko',
+      },
+    },
   },
   {
     id: 'm5',
@@ -38,7 +68,8 @@ export const mockMessages = [
     text: 'Agreed. The new CTA button is much clearer.',
     timestamp: '10:36 AM',
     reactions: {'👍': 1},
-    threadId: 't1'
+    threadId: 't1',
+    language: 'en'
   },
   {
     id: 'm6',
@@ -47,7 +78,8 @@ export const mockMessages = [
     timestamp: '11:00 AM',
     reactions: {'👀': 1},
     threadId: 't2',
-    pinned: true
+    pinned: true,
+    language: 'en'
   },
 ];
 

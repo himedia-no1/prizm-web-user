@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, Plus, Hash, Star, StarOff } from '@/components/common/icons';
+import { UnreadBadge } from '@/components/common/UnreadBadge';
+import useStore from '@/store/useStore';
 
 export const CategorySection = ({
   category,
@@ -11,6 +13,7 @@ export const CategorySection = ({
   onToggleFavorite,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { unreadCounts } = useStore();
 
   return (
     <div className="nav-category">
@@ -44,6 +47,7 @@ export const CategorySection = ({
           {category.channels.map(channel => {
             const isActive = currentView === 'channel' && currentChannelId === channel.id;
             const isFavorite = favoriteChannels.includes(channel.id);
+            const unreadCount = unreadCounts[channel.id] || 0;
             return (
               <li key={channel.id} className="channel-row">
                 <button
@@ -55,9 +59,7 @@ export const CategorySection = ({
                     <span>{channel.name}</span>
                   </span>
                   <div className="channel-button__trail">
-                    {channel.unread > 0 && (
-                      <span className="channel-button__unread">{channel.unread}</span>
-                    )}
+                    <UnreadBadge count={unreadCount} />
                   </div>
                 </button>
                 <button

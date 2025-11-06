@@ -159,12 +159,18 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           onPin={() => console.log('Pin')}
           onStartThread={handleStartThread}
           onReply={() => console.log('Reply')}
-          onForward={() => console.log('Forward')}
+          onForward={(msg) => {
+            openModal('forwardMessage', { message: msg });
+            handleCloseContextMenu();
+          }}
           onShare={() => console.log('Share')}
           onEdit={() => console.log('Edit')}
           onDelete={() => console.log('Delete')}
           onReactEmoji={handleOpenEmojiPicker}
-          onTranslate={() => console.log('Translate')}
+          onTranslate={() => {
+            // 번역은 메시지 컴포넌트 내부에서 자동으로 처리됨
+            handleCloseContextMenu();
+          }}
           onAnalyze={() => console.log('Analyze')}
           onReport={() => console.log('Report')}
         />
