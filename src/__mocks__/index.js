@@ -6,3 +6,4 @@ export { mockIntegrations } from './integrations';
 export { mockAppConnect } from './appConnect';
 export { mockAdminData } from './adminData';
 export { mockNotifications } from './notifications';
+export { mockChannelDetails, getChannelDetails } from './channelDetails';

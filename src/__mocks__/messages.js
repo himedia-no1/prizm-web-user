@@ -6,6 +6,7 @@ export const mockMessages = [
     timestamp: '10:30 AM',
     reactions: {'👍': 2, '🔥': 1},
     threadId: 't1',
+    channelId: 'c1',
     language: 'en',
     translations: {
       ko: {
@@ -22,6 +23,7 @@ export const mockMessages = [
     timestamp: '10:31 AM',
     reactions: {},
     threadId: null,
+    channelId: 'c1',
     language: 'ko',
     translations: {
       en: {
@@ -39,6 +41,7 @@ export const mockMessages = [
     reactions: {'❤️': 1},
     threadId: null,
     pinned: true,
+    channelId: 'c1',
     language: 'en'
   },
   {
@@ -48,6 +51,7 @@ export const mockMessages = [
     timestamp: '10:35 AM',
     reactions: {},
     threadId: 't1',
+    channelId: 'c3',
     language: 'ja',
     translations: {
       en: {
@@ -69,6 +73,7 @@ export const mockMessages = [
     timestamp: '10:36 AM',
     reactions: {'👍': 1},
     threadId: 't1',
+    channelId: 'c3',
     language: 'en'
   },
   {
@@ -79,6 +84,7 @@ export const mockMessages = [
     reactions: {'👀': 1},
     threadId: 't2',
     pinned: true,
+    channelId: 'c4',
     language: 'en'
   },
 ];

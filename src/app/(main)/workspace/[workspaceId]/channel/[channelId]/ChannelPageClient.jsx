@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import useStore from '@/store/useStore';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
@@ -8,8 +8,9 @@ import { MessageInput } from '@/components/chat/MessageInput';
 import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
 import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
 import { AIFab } from '@/components/chat/AIAssistant/AIFab';
-import { mockMessages, mockUsers, mockThreadMessages } from '@/__mocks__';
+import { mockMessages, mockUsers, mockThreadMessages, getChannelDetails } from '@/__mocks__';
 import './channel.css';
+import { WorkspaceContext } from '@/app/(main)/workspace/[workspaceId]/WorkspaceLayoutClient';
 
 const resolveChannelId = (channelId) => {
   if (Array.isArray(channelId)) {
@@ -24,19 +25,43 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const currentThread = useStore((state) => state.currentThread);
   const openThread = useStore((state) => state.openThread);
   const closeThread = useStore((state) => state.closeThread);
+  const workspaceContext = useContext(WorkspaceContext);
+  const permissions = workspaceContext?.permissions ?? {};
+  const workspaceId = workspaceContext?.currentWorkspace?.id;
+  const workspaceMembers = workspaceContext?.workspaceMembers ?? {};
   const currentWorkspace = useStore((state) => state.currentWorkspace);
 
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
   const channelId = resolveChannelId(channelParam);
 
-  const channel = useMemo(
-    () => ({
+  const channelDetails = useMemo(() => getChannelDetails(channelId), [channelId]);
+
+  const channel = useMemo(() => {
+    if (channelDetails) {
+      return {
+        id: channelDetails.id,
+        name: channelDetails.name,
+        displayName: channelDetails.displayName ?? channelDetails.name,
+        topic: channelDetails.topic,
+        description: channelDetails.description,
+        members: channelDetails.members ?? [],
+        type: channelDetails.type ?? (channelId.startsWith('dm-') ? 'dm' : 'channel'),
+        workspaceId: channelDetails.workspaceId ?? workspaceId,
+      };
+    }
+    const isDm = channelId.startsWith('dm-');
+    return {
       id: channelId,
       name: channelId,
-    }),
-    [channelId],
-  );
+      displayName: isDm ? `DM ${channelId.replace('dm-', '')}` : `#${channelId}`,
+      topic: null,
+      description: null,
+      members: [],
+      type: isDm ? 'dm' : 'channel',
+      workspaceId,
+    };
+  }, [channelDetails, channelId, workspaceId]);
 
   const handleStartThread = (selectedMessage) => {
     openThread(selectedMessage);
@@ -107,7 +132,17 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
         : {};
 
       const workspaceContext = currentWorkspace?.id ? { workspaceId: currentWorkspace.id } : {};
-      openModal('generic', { type, ...workspaceContext, ...channelContext, ...props });
+      const workspaceContextProps = workspaceId ? { workspaceId } : {};
+      const permissionContext = Object.keys(permissions).length > 0 ? { permissions } : {};
+      const membersContext = Object.keys(workspaceMembers ?? {}).length > 0 ? { workspaceMembers } : {};
+      openModal('generic', {
+        type,
+        ...workspaceContextProps,
+        ...permissionContext,
+        ...membersContext,
+        ...channelContext,
+        ...props,
+      });
       return;
     }
 
@@ -120,7 +155,6 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
         <ChatHeader
           channel={channel}
           onOpenModal={handleOpenModal}
-          onOpenUserProfile={handleOpenUserProfile}
         />
 
         <MessageList

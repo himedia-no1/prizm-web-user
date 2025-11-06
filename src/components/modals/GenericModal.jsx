@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Link, Image, FileText, Hash, Star, StarOff } from '@/components/common/icons';
+import { X, FileText, Hash, Star, StarOff } from '@/components/common/icons';
 import { mockUsers, mockMessages } from '@/__mocks__';
 import { mockAppConnect } from '@/__mocks__/appConnect';
 import useStrings from '@/hooks/useStrings';
@@ -66,42 +66,75 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                     </div>
                 );
 
-            case 'members':
+            case 'members': {
+                const channelDetails =
+                    (modalProps.channelId && mockChannelDetails[modalProps.channelId]) || null;
+                const workspaceId = modalProps.workspaceId ?? channelDetails?.workspaceId ?? 'ws1';
+                const workspaceMemberships = mockWorkspaceMembers[workspaceId] ?? {};
+                const memberIds = channelDetails?.members ?? Object.keys(workspaceMemberships);
+                const channelMembers = memberIds
+                    .map((id) => mockUsers[id])
+                    .filter(Boolean);
+                const canInviteGuests = modalProps.permissions?.canInviteMembers ?? true;
+
                 return (
                     <>
                         <div className="channel-modal__list">
-                            {Object.values(mockUsers).map((user) => (
-                                <div key={user.id} className="channel-modal__list-item member">
-                                    <img src={user.avatar} alt={user.name} />
-                                    <span>{user.name}</span>
-                                    <span
-                                        className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'}`}
-                                        style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
-                                    ></span>
-                                </div>
-                            ))}
+                            {channelMembers.map((user) => {
+                                const membership = workspaceMemberships[user.id];
+                                const roleLabel = membership?.role
+                                    ? membership.role.toUpperCase()
+                                    : user.role;
+                                return (
+                                    <div key={user.id} className="channel-modal__list-item member">
+                                        <img src={user.avatar} alt={user.name} />
+                                        <div className="member-profile__info">
+                                            <span className="member-profile__name">{user.realName || user.name}</span>
+                                            <span className="member-profile__meta">
+                                                {user.email}
+                                                {roleLabel ? ` • ${roleLabel}` : ''}
+                                            </span>
+                                        </div>
+                                        <span
+                                            className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'}`}
+                                            style={{ position: 'static', border: 'none', marginLeft: 'auto' }}
+                                        ></span>
+                                    </div>
+                                );
+                            })}
                         </div>
-                        <div style={{ marginTop: '1.25rem', textAlign: 'right' }}>
-                            <button
-                                type="button"
-                                className="profile-modal__save-button"
-                                style={{ width: 'auto' }}
-                                onClick={() => {
-                                    openModalFromStore('generic', {
-                                        type: 'inviteGuest',
-                                        channelId: modalProps.channelId,
-                                        channelName: modalProps.channelName,
-                                    });
-                                }}
-                            >
-                                {membersStrings?.inviteGuestButton ?? '게스트 초대'}
-                            </button>
-                        </div>
+                        {canInviteGuests && channelDetails?.type !== 'dm' && (
+                            <div style={{ marginTop: '1.25rem', textAlign: 'right' }}>
+                                <button
+                                    type="button"
+                                    className="profile-modal__save-button"
+                                    style={{ width: 'auto' }}
+                                    onClick={() => {
+                                        openModalFromStore('generic', {
+                                            type: 'inviteGuest',
+                                            workspaceId,
+                                            channelId: modalProps.channelId,
+                                            channelName: modalProps.channelName,
+                                        });
+                                    }}
+                                >
+                                    {membersStrings?.inviteGuestButton ?? '게스트 초대'}
+                                </button>
+                            </div>
+                        )}
                     </>
                 );
+            }
 
-            case 'pinned':
-                const pinnedMessages = mockMessages.filter((m) => m.pinned);
+            case 'pinned': {
+                const channelId = modalProps.channelId;
+                const channelDetails =
+                    (channelId && mockChannelDetails[channelId]) || null;
+                const pinnedMessages = mockMessages.filter(
+                    (m) =>
+                        m.pinned &&
+                        (!channelId || m.channelId === channelId || channelDetails?.pinnedMessageIds?.includes(m.id)),
+                );
                 return (
                     <div className="channel-modal__list">
                         {pinnedMessages.length > 0 ? (
@@ -119,9 +152,13 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                         )}
                     </div>
                 );
+            }
 
-            case 'threads':
-                const threadMessages = mockMessages.filter((m) => m.threadId);
+            case 'threads': {
+                const channelId = modalProps.channelId;
+                const threadMessages = mockMessages.filter(
+                    (m) => m.threadId && (!channelId || m.channelId === channelId),
+                );
                 return (
                     <div className="channel-modal__list thread-gallery">
                         {threadMessages.length > 0 ? (
@@ -142,14 +179,21 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                         )}
                     </div>
                 );
+            }
 
-            case 'info':
+            case 'info': {
+                const channelDetails =
+                    (modalProps.channelId && mockChannelDetails[modalProps.channelId]) || null;
                 return (
                     <div className="channel-modal__info">
-                        <h4># general</h4>
-                        <p>팀 전체를 위한 일반 공지 및 대화 채널입니다.</p>
+                        <h4>{channelDetails?.displayName ?? `#${modalProps.channelName ?? 'channel'}`}</h4>
+                        <p>{channelDetails?.description ?? '채널 설명이 아직 추가되지 않았습니다.'}</p>
+                        {channelDetails?.topic && (
+                            <p className="channel-modal__info-topic">Topic · {channelDetails.topic}</p>
+                        )}
                     </div>
                 );
+            }
 
             case 'notifications':
                 return (
@@ -212,39 +256,49 @@ export const GenericModal = ({ modalType, modalProps = {}, onClose, onOpenThread
                     </div>
                 );
 
-            case 'channelFiles':
+            case 'channelFiles': {
+                const channelDetails =
+                    (modalProps.channelId && mockChannelDetails[modalProps.channelId]) || { files: [] };
+                const files = channelDetails.files ?? [];
                 return (
                     <div className="channel-files-modal">
                         <div className="channel-files-tabs">
                             <button
-                                className={activeFileTab === 'links' ? 'active' : ''}
-                                onClick={() => setActiveFileTab('links')}
-                            >
-                                <Link size={16} />
-                                링크
-                            </button>
-                            <button
-                                className={activeFileTab === 'media' ? 'active' : ''}
-                                onClick={() => setActiveFileTab('media')}
-                            >
-                                <Image size={16} />
-                                미디어
-                            </button>
-                            <button
-                                className={activeFileTab === 'docs' ? 'active' : ''}
-                                onClick={() => setActiveFileTab('docs')}
+                                className={activeFileTab === 'files' ? 'active' : ''}
+                                onClick={() => setActiveFileTab('files')}
                             >
                                 <FileText size={16} />
-                                문서
+                                파일
                             </button>
                         </div>
                         <div className="channel-files-content">
-                            {activeFileTab === 'links' && <p>채널에 공유된 링크가 없습니다.</p>}
-                            {activeFileTab === 'media' && <p>채널에 공유된 사진/동영상이 없습니다.</p>}
-                            {activeFileTab === 'docs' && <p>채널에 공유된 문서 파일이 없습니다.</p>}
+                            {files.length > 0 ? (
+                                <div className="channel-files-grid">
+                                    {files.map((file) => {
+                                        const uploader = mockUsers[file.uploadedBy];
+                                        return (
+                                            <div key={file.id} className="channel-file-card">
+                                                <div className="channel-file-icon">
+                                                    <FileText size={18} />
+                                                </div>
+                                                <div className="channel-file-info">
+                                                    <span className="channel-file-title">{file.name}</span>
+                                                    <p className="channel-file-meta">
+                                                        업로드: {uploader?.name ?? 'Unknown'} • {file.size}
+                                                    </p>
+                                                </div>
+                                                <button className="channel-file-action">다운로드</button>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            ) : (
+                                <p>업로드된 파일이 없습니다.</p>
+                            )}
                         </div>
                     </div>
                 );
+            }
 
             case 'mention':
                 return (

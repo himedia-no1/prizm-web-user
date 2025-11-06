@@ -1,30 +1,50 @@
 'use client';
 
-import { useState } from 'react';
 import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
+import useStore from '@/store/useStore';
 import './ChatHeader.module.css';
 
-export const ChatHeader = ({ channel, onOpenModal, onOpenUserProfile }) => {
-  const isDirectMessage = channel?.name?.startsWith('dm-');
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic }) => {
+  const memberCount = members.length;
+  const topicText = topic || fallbackTopic || (description ? description : '');
+  const memberLabel = memberCount > 0 ? `${memberCount} ${memberCount === 1 ? 'member' : 'members'}` : null;
+  if (memberLabel && topicText) {
+    return `${memberLabel} • ${topicText}`;
+  }
+  return memberLabel || topicText || (type === 'dm' ? 'Direct conversation' : 'Team conversation');
+};
+
+export const ChatHeader = ({ channel, onOpenModal }) => {
+  const toggleChannelNotifications = useStore((state) => state.toggleChannelNotifications);
+  const isChannelNotificationsEnabled = useStore((state) => state.isChannelNotificationsEnabled);
 
   if (!channel) return null;
 
+  const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
+  const notificationsEnabled = isChannelNotificationsEnabled(channel.id);
+  const subtitle = buildSubtitle({
+    members: channel.members,
+    topic: channel.topic,
+    description: channel.description,
+    type: channel.type,
+    fallbackTopic: channel.fallbackTopic,
+  });
+
   return (
     <header className="chat-header">
-      <div>
+      <div className="chat-header__summary">
         <h2 className="chat-header__title">
           {isDirectMessage ? <Users size={20} /> : <Hash size={20} />}
-          <span>{channel.name || 'Unknown Channel'}</span>
+          <span>{channel.displayName || channel.name || 'Unknown Channel'}</span>
         </h2>
-        <p className="chat-header__topic">3 members | Topic: General discussion</p>
+        <p className="chat-header__meta">{subtitle}</p>
       </div>
 
       <div className="chat-header__actions">
         <button
           type="button"
           className={`chat-header__notification-button ${notificationsEnabled ? '' : 'muted'}`}
-          onClick={() => setNotificationsEnabled((prev) => !prev)}
+          onClick={() => toggleChannelNotifications(channel.id)}
           aria-pressed={!notificationsEnabled}
           aria-label={notificationsEnabled ? '알림 끄기' : '알림 켜기'}
         >

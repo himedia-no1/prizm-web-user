@@ -30,6 +30,30 @@ export const createChatSlice = (set, get) => ({
       delete newCounts[channelId];
       return { unreadCounts: newCounts };
     }),
+  channelNotificationSettings: {},
+  setChannelNotifications: (channelId, enabled) =>
+    set((state) => ({
+      channelNotificationSettings: {
+        ...state.channelNotificationSettings,
+        [channelId]: enabled,
+      },
+    })),
+  isChannelNotificationsEnabled: (channelId) => {
+    const map = get().channelNotificationSettings;
+    if (Object.prototype.hasOwnProperty.call(map, channelId)) {
+      return map[channelId];
+    }
+    return true;
+  },
+  toggleChannelNotifications: (channelId) => {
+    const current = get().isChannelNotificationsEnabled(channelId);
+    set((state) => ({
+      channelNotificationSettings: {
+        ...state.channelNotificationSettings,
+        [channelId]: !current,
+      },
+    }));
+  },
 });
 
 export default createChatSlice;

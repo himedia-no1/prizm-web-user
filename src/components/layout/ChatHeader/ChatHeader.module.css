@@ -33,6 +33,11 @@
   gap: 0.5rem;
 }
 
+.chat-header__summary {
+  display: flex;
+  flex-direction: column;
+}
+
 .chat-header__actions button {
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -69,4 +74,12 @@
   background-color: currentColor;
   border-radius: 1px;
   transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.chat-header__meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+  margin-top: 2px;
+  line-height: 1.35;
 }
