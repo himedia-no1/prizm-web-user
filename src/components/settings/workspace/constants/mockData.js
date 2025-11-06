@@ -60,3 +60,94 @@ export const mockGroups = [
     channels: ['engineering', 'devops', 'code-review'],
   },
 ];
+
+export const mockWorkspaceChannels = [
+  'general',
+  'announcements',
+  'product-design',
+  'roadmap',
+  'support',
+  'bug-report',
+  'engineering',
+  'devops',
+  'code-review',
+  'random',
+  'marketing',
+];
+
+export const mockGroupPermissions = {
+  grp1: ['general', 'product-design', 'roadmap'],
+  grp2: ['general', 'support', 'bug-report'],
+  grp3: ['engineering', 'devops', 'code-review'],
+};
+
+export const mockStats = [
+  { id: 'stat1', value: '1,234', label: 'Total Messages', trend: '+12% this month' },
+  { id: 'stat2', value: '48', label: 'Active Members', trend: '+3 this week' },
+  { id: 'stat3', value: '15', label: 'Channels', trend: 'No change' },
+  { id: 'stat4', value: '892', label: 'Files Shared', trend: '+45 this week' },
+];
+
+export const mockActivities = [
+  {
+    id: 'act1',
+    user: { name: 'Alice Kim', avatar: 'https://i.pravatar.cc/150?img=1' },
+    action: 'Created channel',
+    details: '#new-project',
+    time: '2 hours ago',
+  },
+  {
+    id: 'act2',
+    user: { name: 'Bob Lee', avatar: 'https://i.pravatar.cc/150?img=2' },
+    action: 'Invited member',
+    details: 'mira@company.com',
+    time: '5 hours ago',
+  },
+  {
+    id: 'act3',
+    user: { name: 'Eve Seo', avatar: 'https://i.pravatar.cc/150?img=3' },
+    action: 'Updated workspace settings',
+    details: 'Changed retention policy',
+    time: '1 day ago',
+  },
+  {
+    id: 'act4',
+    user: { name: 'David Choi', avatar: 'https://i.pravatar.cc/150?img=4' },
+    action: 'Uploaded file',
+    details: 'Q1-report.pdf',
+    time: '2 days ago',
+  },
+];
+
+export const mockAuditLogs = [
+  {
+    id: 'audit1',
+    action: 'Workspace Settings Changed',
+    details: 'Alice Kim updated workspace name from "Dev Team" to "Prizm Dev"',
+    time: '2024-03-15 14:30',
+  },
+  {
+    id: 'audit2',
+    action: 'Member Invited',
+    details: 'Bob Lee sent invitation to mira@company.com',
+    time: '2024-03-15 10:15',
+  },
+  {
+    id: 'audit3',
+    action: 'Channel Created',
+    details: 'Eve Seo created channel #new-project',
+    time: '2024-03-14 16:45',
+  },
+  {
+    id: 'audit4',
+    action: 'Integration Enabled',
+    details: 'Alice Kim enabled Slack Sync integration',
+    time: '2024-03-13 09:20',
+  },
+  {
+    id: 'audit5',
+    action: 'Security Policy Updated',
+    details: 'David Choi changed message retention to 180 days',
+    time: '2024-03-12 11:05',
+  },
+];

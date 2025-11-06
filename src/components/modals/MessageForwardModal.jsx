@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { X, Send } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import testApi from '@/api/test.api';
-import './MessageForwardModal.css';
+import styles from './MessageForwardModal.module.css';
 
 export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] }) => {
   const s = useStrings();
@@ -69,46 +69,46 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
   if (!isOpen || !message) return null;
 
   return (
-    <div className="forward-modal-overlay" onClick={onClose}>
-      <div className="forward-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="forward-modal-header">
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
           <Send size={20} />
           <h2>{s.message.actions.forward}</h2>
-          <button onClick={onClose} className="forward-close-btn">
+          <button onClick={onClose} className={styles.closeBtn}>
             <X size={20} />
           </button>
         </div>
 
-        <div className="forward-modal-content">
-          <div className="forward-message-preview">
-            <div className="forward-preview-label">{s.message.actions.forward}</div>
-            <div className="forward-preview-text">{message.text}</div>
+        <div className={styles.content}>
+          <div className={styles.messagePreview}>
+            <div className={styles.previewLabel}>{s.message.actions.forward}</div>
+            <div className={styles.previewText}>{message.text}</div>
           </div>
 
-          <div className="forward-search">
+          <div className={styles.search}>
             <input
               type="text"
               placeholder={s.message.forwardTo}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="forward-search-input"
+              className={styles.searchInput}
             />
           </div>
 
-          <div className="forward-channel-list">
+          <div className={styles.channelList}>
             {filteredChannels.length === 0 ? (
-              <div className="forward-empty">{s.modals.addChannel.empty || 'No channels found'}</div>
+              <div className={styles.empty}>{s.modals.addChannel.empty || 'No channels found'}</div>
             ) : (
               filteredChannels.map((channel) => (
-                <label key={channel.id} className="forward-channel-item">
+                <label key={channel.id} className={styles.channelItem}>
                   <input
                     type="checkbox"
                     checked={selectedChannels.includes(channel.id)}
                     onChange={() => toggleChannel(channel.id)}
                   />
-                  <div className="forward-channel-info">
-                    <span className="forward-channel-name">#{channel.name}</span>
-                    <span className="forward-channel-category">{channel.categoryName}</span>
+                  <div className={styles.channelInfo}>
+                    <span className={styles.channelName}>#{channel.name}</span>
+                    <span className={styles.channelCategory}>{channel.categoryName}</span>
                   </div>
                 </label>
               ))
@@ -116,19 +116,19 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
           </div>
 
           {selectedChannels.length > 0 && (
-            <div className="forward-selected-count">
+            <div className={styles.selectedCount}>
               {selectedChannels.length} channel{selectedChannels.length > 1 ? 's' : ''} selected
             </div>
           )}
         </div>
 
-        <div className="forward-modal-footer">
-          <button onClick={onClose} className="forward-btn-cancel">
+        <div className={styles.footer}>
+          <button onClick={onClose} className={styles.btnCancel}>
             {s.modals.deactivateAccount.cancelButton}
           </button>
           <button
             onClick={handleForward}
-            className="forward-btn-send"
+            className={styles.btnSend}
             disabled={loading || selectedChannels.length === 0}
           >
             <Send size={16} />

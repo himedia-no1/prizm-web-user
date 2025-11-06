@@ -1,4 +1,4 @@
-.inbox-modal-overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   animation: fadeIn 0.2s ease;
 }
 
-.inbox-modal {
+.modal {
   background: var(--card-bg);
   border-radius: 12px;
   width: 90%;
@@ -24,7 +24,7 @@
   animation: slideUp 0.3s ease;
 }
 
-.inbox-modal-header {
+.header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -32,14 +32,14 @@
   border-bottom: 1px solid var(--border);
 }
 
-.inbox-modal-header h2 {
+.header h2 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text);
 }
 
-.inbox-close-button {
+.closeButton {
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -52,19 +52,19 @@
   transition: background 0.2s ease;
 }
 
-.inbox-close-button:hover {
+.closeButton:hover {
   background: var(--primary-light);
   color: var(--primary);
 }
 
-.inbox-tabs {
+.tabs {
   display: flex;
   gap: 0.5rem;
   padding: 1rem 1.5rem 0;
   border-bottom: 1px solid var(--border);
 }
 
-.inbox-tab {
+.tab {
   background: none;
   border: none;
   padding: 0.75rem 1rem;
@@ -76,12 +76,12 @@
   transition: all 0.2s ease;
 }
 
-.inbox-tab.active {
+.tab.active {
   color: var(--primary);
   border-bottom-color: var(--primary);
 }
 
-.inbox-toolbar {
+.toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -90,7 +90,7 @@
   gap: 1rem;
 }
 
-.inbox-filter {
+.filter {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -99,16 +99,16 @@
   cursor: pointer;
 }
 
-.inbox-filter input[type="checkbox"] {
+.filter input[type="checkbox"] {
   cursor: pointer;
 }
 
-.inbox-actions {
+.actions {
   display: flex;
   gap: 0.5rem;
 }
 
-.inbox-action-btn {
+.actionBtn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -123,39 +123,39 @@
   transition: all 0.2s ease;
 }
 
-.inbox-action-btn:hover {
+.actionBtn:hover {
   background: var(--primary-light);
   border-color: var(--primary);
   color: var(--primary);
 }
 
-.inbox-action-btn.delete:hover {
+.actionBtn.delete:hover {
   background: rgba(239, 68, 68, 0.1);
   border-color: #ef4444;
   color: #ef4444;
 }
 
-.inbox-list {
+.list {
   flex: 1;
   overflow-y: auto;
   padding: 0.5rem;
 }
 
-.inbox-loading {
+.loading {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 3rem;
 }
 
-.inbox-empty {
+.empty {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
-.inbox-item {
+.item {
   display: flex;
   gap: 1rem;
   padding: 1rem;
@@ -166,48 +166,48 @@
   border: 1px solid transparent;
 }
 
-.inbox-item:hover {
+.item:hover {
   background: var(--primary-light);
 }
 
-.inbox-item.selected {
+.item.selected {
   background: var(--primary-light);
   border-color: var(--primary);
 }
 
-.inbox-item.unread {
+.item.unread {
   background: rgba(140, 101, 209, 0.05);
 }
 
-.inbox-item.read {
+.item.read {
   opacity: 0.7;
 }
 
-.inbox-checkbox {
+.checkbox {
   flex-shrink: 0;
   cursor: pointer;
   margin-top: 0.25rem;
 }
 
-.inbox-item-content {
+.itemContent {
   flex: 1;
   min-width: 0;
 }
 
-.inbox-item-header {
+.itemHeader {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
 
-.inbox-item-header strong {
+.itemHeader strong {
   color: var(--text);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
-.inbox-badge-important {
+.badgeImportant {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -220,7 +220,7 @@
   font-weight: 700;
 }
 
-.inbox-item-message {
+.itemMessage {
   color: var(--text-secondary);
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
@@ -231,7 +231,7 @@
   -webkit-box-orient: vertical;
 }
 
-.inbox-item-meta {
+.itemMeta {
   color: var(--text-secondary);
   font-size: 0.75rem;
 }

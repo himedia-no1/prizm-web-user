@@ -13,22 +13,22 @@ export const GroupsTab = ({
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.groupsTitle}</h2>
+      <h2 className={styles.header}>{s.workspaceAdmin.groupsTitle}</h2>
       <p className={styles.description}>
         {s.workspaceAdmin.groupsDescription}
       </p>
 
-      <button className={`profile-modal__save-button ${styles.createButton}`}>
+      <button className={styles.createButton}>
         {s.workspaceAdmin.groupsCreate}
       </button>
 
-      <div className={`channel-modal__list ${styles.groupsList}`}>
+      <div className={styles.groupsList}>
         {groups.map((group) => {
           const assignedChannels = groupPermissions[group.id] || [];
           return (
             <div
               key={group.id}
-              className={`channel-modal__list-item ${styles.groupCard}`}>
+              className={styles.groupCard}>
               <div>
                 <div className={styles.groupHeader}>
                   <strong className={styles.groupName}>{group.name}</strong>
@@ -65,7 +65,7 @@ export const GroupsTab = ({
               </div>
 
               <div className={styles.saveButtonContainer}>
-                <button className={`profile-modal__save-button ${styles.saveButton}`}>
+                <button className={styles.saveButton}>
                   {s.workspaceAdmin.groupsSave}
                 </button>
               </div>

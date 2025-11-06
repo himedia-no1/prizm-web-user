@@ -100,7 +100,6 @@ const WorkspaceLayoutClient = ({ children, workspaceId: workspaceParam }) => {
       'pinned',
       'threads',
       'info',
-      'notifications',
       'createCategory',
       'fileUpload',
       'channelFiles',

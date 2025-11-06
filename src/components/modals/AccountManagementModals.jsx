@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import testApi from '@/api/test.api';
-import './AccountManagementModals.css';
+import styles from './AccountManagementModals.module.css';
 
 export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
   const s = useStrings();
@@ -25,29 +25,29 @@ export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="account-modal-overlay" onClick={onClose}>
-      <div className="account-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="account-modal-header">
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
           <AlertTriangle size={24} color="#f59e0b" />
           <h2>{s.modals.deactivateAccount.title}</h2>
-          <button onClick={onClose} className="account-modal-close">
+          <button onClick={onClose} className={styles.close}>
             <X size={20} />
           </button>
         </div>
 
-        <div className="account-modal-content">
+        <div className={styles.content}>
           <p>{s.modals.deactivateAccount.description}</p>
-          <div className="account-modal-warning">
+          <div className={styles.warning}>
             <AlertTriangle size={16} />
             {s.modals.deactivateAccount.warning}
           </div>
         </div>
 
-        <div className="account-modal-footer">
-          <button onClick={onClose} className="account-modal-cancel">
+        <div className={styles.footer}>
+          <button onClick={onClose} className={styles.cancel}>
             {s.modals.deactivateAccount.cancelButton}
           </button>
-          <button onClick={handleDeactivate} className="account-modal-confirm warning" disabled={loading}>
+          <button onClick={handleDeactivate} className={`${styles.confirm} ${styles.warning}`} disabled={loading}>
             {loading ? '처리 중...' : s.modals.deactivateAccount.confirmButton}
           </button>
         </div>
@@ -80,24 +80,24 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="account-modal-overlay" onClick={onClose}>
-      <div className="account-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="account-modal-header">
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
           <AlertTriangle size={24} color="#ef4444" />
           <h2>{s.modals.deleteAccount.title}</h2>
-          <button onClick={onClose} className="account-modal-close">
+          <button onClick={onClose} className={styles.close}>
             <X size={20} />
           </button>
         </div>
 
-        <div className="account-modal-content">
+        <div className={styles.content}>
           <p>{s.modals.deleteAccount.description}</p>
-          <div className="account-modal-warning danger">
+          <div className={`${styles.warning} ${styles.danger}`}>
             <AlertTriangle size={16} />
             {s.modals.deleteAccount.warning}
           </div>
 
-          <div className="account-modal-confirm-field">
+          <div className={styles.confirmField}>
             <label>{s.modals.deleteAccount.typeToConfirm}</label>
             <input
               type="text"
@@ -108,13 +108,13 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
           </div>
         </div>
 
-        <div className="account-modal-footer">
-          <button onClick={onClose} className="account-modal-cancel">
+        <div className={styles.footer}>
+          <button onClick={onClose} className={styles.cancel}>
             {s.modals.deleteAccount.cancelButton}
           </button>
           <button
             onClick={handleDelete}
-            className="account-modal-confirm danger"
+            className={`${styles.confirm} ${styles.danger}`}
             disabled={loading || !isConfirmed}
           >
             {loading ? '삭제 중...' : s.modals.deleteAccount.confirmButton}

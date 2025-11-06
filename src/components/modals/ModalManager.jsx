@@ -30,6 +30,7 @@ import { ChannelFilesModalContent } from './generic/ChannelFilesModalContent';
 import { MentionModalContent } from './generic/MentionModalContent';
 import { AddDMModalContent } from './generic/AddDMModalContent';
 import { AddAppModalContent } from './generic/AddAppModalContent';
+import { AddFavoriteModalContent } from './generic/AddFavoriteModalContent';
 
 const ModalManager = () => {
     const s = useStrings();
@@ -99,12 +100,16 @@ const ModalManager = () => {
         mention: <MentionModalContent {...modalProps} />,
         addDM: <AddDMModalContent {...modalProps} />,
         addApp: <AddAppModalContent {...modalProps} />,
+        addFavorite: <AddFavoriteModalContent {...modalProps} />,
     };
 
-    if (contentModals[modalType]) {
+    // Handle 'generic' modal type with nested type in modalProps
+    const effectiveModalType = modalType === 'generic' ? modalProps.type : modalType;
+
+    if (contentModals[effectiveModalType]) {
         return (
-            <GenericModal isOpen={true} onClose={closeModal} title={getTitle(modalType)}>
-                {contentModals[modalType]}
+            <GenericModal isOpen={true} onClose={closeModal} title={getTitle(effectiveModalType)}>
+                {contentModals[effectiveModalType]}
             </GenericModal>
         );
     }

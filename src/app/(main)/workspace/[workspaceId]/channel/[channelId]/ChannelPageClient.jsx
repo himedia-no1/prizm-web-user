@@ -129,7 +129,6 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       'pinned',
       'threads',
       'info',
-      'notifications',
       'createCategory',
       'fileUpload',
       'channelFiles',

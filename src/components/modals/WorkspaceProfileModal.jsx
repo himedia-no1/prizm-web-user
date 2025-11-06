@@ -5,7 +5,7 @@ import { X, Upload } from 'lucide-react';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
 import testApi from '@/api/test.api';
-import './WorkspaceProfileModal.css';
+import styles from './WorkspaceProfileModal.module.css';
 
 export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) => {
   const s = useStrings();
@@ -62,33 +62,33 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
   if (!isOpen) return null;
 
   return (
-    <div className="workspace-profile-modal-overlay" onClick={onClose}>
-      <div className="workspace-profile-modal" onClick={(e) => e.stopPropagation()}>
-        <div className="workspace-profile-header">
+    <div className={styles.overlay} onClick={onClose}>
+      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.header}>
           <h2>{s.modals.workspaceProfile.title}</h2>
-          <button onClick={onClose} className="workspace-profile-close">
+          <button onClick={onClose} className={styles.close}>
             <X size={20} />
           </button>
         </div>
 
         {loading ? (
-          <div className="workspace-profile-loading">
+          <div className={styles.loading}>
             <div className="spinner" />
           </div>
         ) : (
           <>
-            <div className="workspace-profile-content">
-              <p className="workspace-profile-description">{s.modals.workspaceProfile.description}</p>
+            <div className={styles.content}>
+              <p className={styles.description}>{s.modals.workspaceProfile.description}</p>
 
-              <div className="workspace-profile-avatar-section">
-                <img src={profile.avatar} alt="Avatar" className="workspace-profile-avatar-preview" />
-                <button className="workspace-profile-avatar-btn">
+              <div className={styles.avatarSection}>
+                <img src={profile.avatar} alt="Avatar" className={styles.avatarPreview} />
+                <button className={styles.avatarBtn}>
                   <Upload size={16} />
                   {s.modals.workspaceProfile.avatar}
                 </button>
               </div>
 
-              <div className="workspace-profile-field">
+              <div className={styles.field}>
                 <label>{s.modals.workspaceProfile.displayName}</label>
                 <input
                   type="text"
@@ -98,7 +98,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
                 />
               </div>
 
-              <div className="workspace-profile-field">
+              <div className={styles.field}>
                 <label>{s.modals.workspaceProfile.statusMessage}</label>
                 <input
                   type="text"
@@ -109,11 +109,11 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
               </div>
             </div>
 
-            <div className="workspace-profile-footer">
-              <button onClick={onClose} className="workspace-profile-cancel">
+            <div className={styles.footer}>
+              <button onClick={onClose} className={styles.cancel}>
                 {s.modals.deactivateAccount.cancelButton}
               </button>
-              <button onClick={handleSave} className="workspace-profile-save" disabled={saving}>
+              <button onClick={handleSave} className={styles.save} disabled={saving}>
                 {saving ? '저장 중...' : s.modals.workspaceProfile.saveButton}
               </button>
             </div>

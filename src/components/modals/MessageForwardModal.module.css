@@ -1,4 +1,4 @@
-.forward-modal-overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   animation: fadeIn 0.2s ease;
 }
 
-.forward-modal {
+.modal {
   background: var(--card-bg);
   border-radius: 12px;
   width: 90%;
@@ -24,7 +24,7 @@
   animation: slideUp 0.3s ease;
 }
 
-.forward-modal-header {
+.header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -32,7 +32,7 @@
   border-bottom: 1px solid var(--border);
 }
 
-.forward-modal-header h2 {
+.header h2 {
   flex: 1;
   margin: 0;
   font-size: 1.25rem;
@@ -40,7 +40,7 @@
   color: var(--text);
 }
 
-.forward-close-btn {
+.closeBtn {
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -53,12 +53,12 @@
   transition: background 0.2s ease;
 }
 
-.forward-close-btn:hover {
+.closeBtn:hover {
   background: var(--primary-light);
   color: var(--primary);
 }
 
-.forward-modal-content {
+.content {
   flex: 1;
   overflow-y: auto;
   padding: 1.5rem;
@@ -67,14 +67,14 @@
   gap: 1rem;
 }
 
-.forward-message-preview {
+.messagePreview {
   padding: 1rem;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
 }
 
-.forward-preview-label {
+.previewLabel {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -82,13 +82,13 @@
   margin-bottom: 0.5rem;
 }
 
-.forward-preview-text {
+.previewText {
   color: var(--text);
   font-size: 0.95rem;
   line-height: 1.5;
 }
 
-.forward-search-input {
+.searchInput {
   width: 100%;
   padding: 0.75rem;
   background: var(--bg);
@@ -99,12 +99,12 @@
   transition: border-color 0.2s ease;
 }
 
-.forward-search-input:focus {
+.searchInput:focus {
   outline: none;
   border-color: var(--primary);
 }
 
-.forward-channel-list {
+.channelList {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -112,7 +112,7 @@
   overflow-y: auto;
 }
 
-.forward-channel-item {
+.channelItem {
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -124,34 +124,34 @@
   transition: all 0.2s ease;
 }
 
-.forward-channel-item:hover {
+.channelItem:hover {
   background: var(--primary-light);
   border-color: var(--primary);
 }
 
-.forward-channel-item input[type="checkbox"] {
+.channelItem input[type="checkbox"] {
   cursor: pointer;
 }
 
-.forward-channel-info {
+.channelInfo {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   flex: 1;
 }
 
-.forward-channel-name {
+.channelName {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--text);
 }
 
-.forward-channel-category {
+.channelCategory {
   font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
-.forward-selected-count {
+.selectedCount {
   text-align: center;
   font-size: 0.875rem;
   color: var(--primary);
@@ -161,22 +161,22 @@
   border-radius: 6px;
 }
 
-.forward-empty {
+.empty {
   text-align: center;
   padding: 2rem 1rem;
   color: var(--text-secondary);
   font-size: 0.95rem;
 }
 
-.forward-modal-footer {
+.footer {
   display: flex;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border);
 }
 
-.forward-btn-cancel,
-.forward-btn-send {
+.btnCancel,
+.btnSend {
   flex: 1;
   padding: 0.75rem;
   border-radius: 8px;
@@ -190,28 +190,28 @@
   gap: 0.5rem;
 }
 
-.forward-btn-cancel {
+.btnCancel {
   background: var(--card-bg);
   border: 1px solid var(--border);
   color: var(--text);
 }
 
-.forward-btn-cancel:hover {
+.btnCancel:hover {
   background: var(--bg);
 }
 
-.forward-btn-send {
+.btnSend {
   background: var(--primary);
   border: none;
   color: white;
 }
 
-.forward-btn-send:hover:not(:disabled) {
+.btnSend:hover:not(:disabled) {
   background: #7c52c7;
   transform: translateY(-1px);
 }
 
-.forward-btn-send:disabled {
+.btnSend:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
