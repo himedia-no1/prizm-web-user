@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import useStore from '@/store/useStore';
 import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon, AIIcon } from '@/components/common/icons';
-import SearchResultsList from '../SearchResultsList';
+import SearchResultsList from './SearchResultsList';
 import styles from './SearchView.module.css';
 
 const TAB_ITEMS = [

@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { Paperclip, Smile, Send, AIIcon } from '@/components/common/icons';
 import styles from './MessageInput.module.css';
-
-import { FileUploadButton } from './FileUploadButton';
 
 export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onOpenModal, onOpenEmojiPicker }) => {
   const textareaRef = useRef(null);
@@ -18,7 +16,6 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
       textarea.style.height = `${Math.min(scrollHeight, 200)}px`;
     }
     
-    // @ 입력 시 멘션 모달 열기
     const text = e.target.value;
     const cursorPosition = e.target.selectionStart;
     const textBeforeCursor = text.substring(0, cursorPosition);
@@ -32,7 +29,9 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
   return (
     <div className="message-input-container">
       <div className="message-input-wrapper">
-        <FileUploadButton />
+        <button className="message-input__file-button">
+          <Paperclip size={20} />
+        </button>
 
         <div className="message-input__textarea-wrapper">
           <textarea

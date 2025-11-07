@@ -1,6 +1,6 @@
 'use client';
 
-import SearchResultItem from '../SearchResultItem';
+import SearchResultItem from './SearchResultItem';
 import styles from './SearchResultsList.module.css';
 
 export default function SearchResultsList({ results }) {
