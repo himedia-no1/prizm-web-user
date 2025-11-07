@@ -1,4 +1,4 @@
-import { Message } from '@/components/chat/MessageList/Message';
+import { Message } from '@/components/channel/components/MessageList/Message';
 import styles from './MessageList.module.css';
 
 export const MessageList = ({ messages, users, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {

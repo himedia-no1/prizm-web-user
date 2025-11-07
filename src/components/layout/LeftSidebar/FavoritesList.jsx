@@ -1,7 +1,7 @@
 'use client';
 
 import { Hash, Star, StarOff, Plus } from '@/components/common/icons';
-import { UnreadBadge } from '@/components/common/UnreadBadge';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useStore from '@/store/useStore';
 import styles from './FavoritesList.module.css';
 

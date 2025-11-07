@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { StatusIndicator } from '@/components/common/StatusIndicator';
+import { StatusIndicator } from '@/components/ui/StatusIndicator';
 import useStrings from '@/hooks/useStrings';
 import styles from './DirectoryView.module.css';
 

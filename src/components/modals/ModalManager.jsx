@@ -6,31 +6,31 @@ import useStrings from '@/hooks/useStrings';
 
 // Standalone Modals
 import { GenericModal } from './GenericModal';
-import { UserProfileModal } from './UserProfileModal';
-import { WorkspaceProfileModal } from './WorkspaceProfileModal';
+import { UserProfileModal } from '@/components/user/modals/UserProfileModal';
+import { WorkspaceProfileModal } from '@/components/workspace/modals/WorkspaceProfileModal';
 import { DeactivateAccountModal, DeleteAccountModal } from './AccountManagementModals';
-import { MessageForwardModal } from './MessageForwardModal';
+import { MessageForwardModal } from '@/components/channel/modals/MessageForwardModal';
 import AIAssistantModal from './AIAssistantModal';
 import EmojiPickerModal from './EmojiPickerModal';
 import ProfileSettingsModal from './ProfileSettingsModal';
-import InboxModal from './InboxModal';
+import InboxModal from '@/components/notification/components/InboxModal';
 
 // Content-only Modals (to be rendered inside GenericModal)
-import { AddChannelModalContent } from './generic/AddChannelModalContent';
-import { PinnedModalContent } from './generic/PinnedModalContent';
-import { ThreadsModalContent } from './generic/ThreadsModalContent';
-import { InfoModalContent } from './generic/InfoModalContent';
+import { AddChannelModalContent } from '@/components/channel/modals/AddChannelModalContent';
+import { PinnedModalContent } from '@/components/channel/modals/PinnedModalContent';
+import { ThreadsModalContent } from '@/components/channel/modals/ThreadsModalContent';
+import { InfoModalContent } from '@/components/channel/modals/InfoModalContent';
 import { InviteFlowContent } from './InviteFlowContent';
 import { InviteResultContent } from './InviteResultContent';
-import { MembersModalContent } from './generic/MembersModalContent';
-import { SearchModalContent } from './generic/SearchModalContent';
-import { CreateCategoryModalContent } from './generic/CreateCategoryModalContent';
-import { FileUploadModalContent } from './generic/FileUploadModalContent';
-import { ChannelFilesModalContent } from './generic/ChannelFilesModalContent';
-import { MentionModalContent } from './generic/MentionModalContent';
-import { AddDMModalContent } from './generic/AddDMModalContent';
-import { AddAppModalContent } from './generic/AddAppModalContent';
-import { AddFavoriteModalContent } from './generic/AddFavoriteModalContent';
+import { MembersModalContent } from '@/components/user/modals/MembersModalContent';
+import { SearchModalContent } from '@/components/search/modals/SearchModalContent';
+import { CreateCategoryModalContent } from '@/components/channel/modals/CreateCategoryModalContent';
+import { FileUploadModalContent } from './FileUploadModalContent';
+import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFilesModalContent';
+import { MentionModalContent } from './MentionModalContent';
+import { AddDMModalContent } from '@/components/user/modals/AddDMModalContent';
+import { AddAppModalContent } from './AddAppModalContent';
+import { AddFavoriteModalContent } from '@/components/channel/modals/AddFavoriteModalContent';
 
 const ModalManager = () => {
     const s = useStrings();

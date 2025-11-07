@@ -1,7 +1,7 @@
 'use client';
 
 import { Plus } from '@/components/common/icons';
-import { UnreadBadge } from '@/components/common/UnreadBadge';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useDataStore from '@/store/dataStore';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';

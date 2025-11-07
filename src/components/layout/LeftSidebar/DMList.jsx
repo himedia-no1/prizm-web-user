@@ -1,8 +1,8 @@
 'use client';
 
 import { Plus } from '@/components/common/icons';
-import { StatusIndicator } from '@/components/common/StatusIndicator';
-import { UnreadBadge } from '@/components/common/UnreadBadge';
+import { StatusIndicator } from '@/components/ui/StatusIndicator';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useStrings from '@/hooks/useStrings';
 import useStore from '@/store/useStore';
 import styles from './DMList.module.css';

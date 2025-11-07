@@ -2,12 +2,12 @@
 
 import { useContext, useMemo, useState } from 'react';
 import useStore from '@/store/useStore';
-import { ChatHeader } from '@/components/layout/ChatHeader';
-import { MessageList } from '@/components/chat/MessageList';
-import { MessageInput } from '@/components/chat/MessageInput';
-import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
-import { ThreadSidebar } from '@/components/layout/ThreadSidebar';
-import { AIFab } from '@/components/chat/AIAssistant/AIFab';
+import { ChatHeader } from '@/components/channel/components/ChannelHeader';
+import { MessageList } from '@/components/channel/components/MessageList';
+import { MessageInput } from '@/components/channel/components/MessageInput';
+import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
+import { ThreadSidebar } from '@/components/channel/components/ThreadSidebar';
+import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
 import { mockMessages, mockUsers, mockThreadMessages, getChannelDetails } from '@/__mocks__';
 import styles from './channel.module.css';
 import { WorkspaceContext } from '@/app/app/workspace/[workspaceId]/WorkspaceLayoutClient';

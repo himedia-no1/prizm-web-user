@@ -1,6 +1,6 @@
 'use client';
 
-import { DirectoryView } from '@/components/directory/DirectoryView';
+import { DirectoryView } from '@/components/user/components/DirectoryView';
 import { mockUsers } from '@/__mocks__';
 import useStore from '@/store/useStore';
 

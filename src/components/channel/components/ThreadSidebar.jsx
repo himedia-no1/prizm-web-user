@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { X, Send, Smile } from '@/components/common/icons';
-import { MessageContextMenu } from '@/components/chat/MessageContextMenu';
+import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
 import styles from './ThreadSidebar.module.css';
 
 export const ThreadSidebar = ({ 
