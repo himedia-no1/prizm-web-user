@@ -1,6 +1,6 @@
 import { Settings, Plus, Mail } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStore from '@/core/store/useStore';
+import { strings } from '@/shared/constants/strings';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,

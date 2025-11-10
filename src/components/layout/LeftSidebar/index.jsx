@@ -11,8 +11,8 @@ import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import { FavoritesList } from '@/components/layout/LeftSidebar/FavoritesList';
 import './LeftSidebar.module.css';
 
-import useStrings from '@/hooks/useStrings';
-import useStore from '@/store/useStore';
+import useStrings from '@/shared/hooks/useStrings';
+import useStore from '@/core/store/useStore';
 
 export const LeftSidebar = ({
   currentWorkspace,
@@ -62,15 +62,6 @@ export const LeftSidebar = ({
     return map;
   }, [channelCategories]);
 
-  const handleOpenFavoriteModal = () => {
-    const channelOptions = Object.values(channelsIndex).map((channel) => ({
-      id: channel.id,
-      name: channel.name,
-      categoryName: channel.categoryName,
-    }));
-    onOpenModal('addFavorite', { channels: channelOptions });
-  };
-
   return (
     <aside className="left-sidebar">
       <header
@@ -113,7 +104,6 @@ export const LeftSidebar = ({
           currentView={currentView}
           onSelectChannel={onSelectChannel}
           onToggleFavorite={toggleFavoriteChannel}
-          onOpenFavoriteModal={handleOpenFavoriteModal}
         />
 
         <div className="nav-group">

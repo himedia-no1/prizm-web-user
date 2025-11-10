@@ -1,9 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
 import { UserPlus } from '@/components/common/icons';
-import useDataStore from '@/store/dataStore';
+import useDataStore from '@/core/store/dataStore';
 import styles from './MembersModalContent.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const MembersModalContent = ({
   channelId,
@@ -12,11 +14,22 @@ export const MembersModalContent = ({
   permissions = {},
   onInviteGuest,
 }) => {
-  const { users, channelDetails } = useDataStore();
+  const users = useDataStore((state) => state.users);
+  const loadInitialData = useDataStore((state) => state.loadInitialData);
+  const initialized = useDataStore((state) => state.initialized);
+  const getChannelDetails = useDataStore((state) => state.getChannelDetails);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('all');
 
-  const channel = channelId ? channelDetails[channelId] : null;
+  useEffect(() => {
+    if (!initialized) {
+      loadInitialData().catch((error) => {
+        console.error('Failed to load initial data:', error);
+      });
+    }
+  }, [initialized, loadInitialData]);
+
+  const channel = channelId ? getChannelDetails(channelId) : null;
   const memberIds = useMemo(() => {
     if (channel?.members?.length) return channel.members;
     const ids = Object.keys(workspaceMembers);
@@ -101,22 +114,25 @@ export const MembersModalContent = ({
       </div>
 
       <div className="channel-modal__list">
-        {filteredUsers.map((user) => (
-          <div key={user.id} className="channel-modal__list-item member">
-            <img src={user.avatar} alt={user.name} />
-            <div className={styles.userInfo}>
-            <span className={styles.userName}>{user.name}</span>
-            {user.role && (
-              <span className={styles.userRole}>
-                {user.role}
-              </span>
-            )}
+        {filteredUsers.map((user) => {
+          const avatarSrc = user.avatar || getPlaceholderImage(32, user?.name?.[0] ?? '?');
+          return (
+            <div key={user.id} className="channel-modal__list-item member">
+              <Image src={avatarSrc} alt={user.name} width={32} height={32} />
+              <div className={styles.userInfo}>
+                <span className={styles.userName}>{user.name}</span>
+                {user.role && (
+                  <span className={styles.userRole}>
+                    {user.role}
+                  </span>
+                )}
+              </div>
+              <span
+                className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'} ${styles.status}`}
+              ></span>
             </div>
-            <span
-              className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'} ${styles.status}`}
-            ></span>
-          </div>
-        ))}
+          );
+        })}
         {filteredUsers.length === 0 && (
           <p className={styles.noResults}>
             검색 결과가 없습니다.

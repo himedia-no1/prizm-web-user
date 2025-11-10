@@ -1,11 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { X } from '@/components/common/icons';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const ProfileSettingsModal = ({ user, onClose }) => {
     const [status, setStatus] = useState(user.status);
     const [username, setUsername] = useState(user.name);
+
+    const avatarSrc = user.avatar || getPlaceholderImage(64, user?.name?.[0] ?? '?');
 
     return (
         <div className="profile-modal-overlay" onClick={onClose}>
@@ -19,7 +23,13 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
                 <div className="profile-modal__banner"></div>
                 <div className="profile-modal__content">
                     <div className="profile-modal__avatar-section">
-                        <img src={user.avatar} alt={user.name} className="profile-modal__avatar" />
+                        <Image
+                            src={avatarSrc}
+                            alt={user.name}
+                            width={64}
+                            height={64}
+                            className="profile-modal__avatar"
+                        />
                         <button className="profile-modal__avatar-edit">변경</button>
                     </div>
                     <div className="profile-modal__form-group">

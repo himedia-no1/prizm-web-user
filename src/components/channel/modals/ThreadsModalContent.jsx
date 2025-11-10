@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import useStrings from '@/hooks/useStrings';
+import Image from 'next/image';
+import useStrings from '@/shared/hooks/useStrings';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const ThreadsModalContent = ({ threadMessages = [], users = {}, onOpenThread }) => {
     const s = useStrings();
@@ -11,9 +13,10 @@ export const ThreadsModalContent = ({ threadMessages = [], users = {}, onOpenThr
             {threadMessages.length > 0 ? (
                 threadMessages.map((msg) => {
                     const user = users[msg.userId] || {};
+                    const avatarSrc = user.avatar || getPlaceholderImage(32, user?.name?.[0] ?? '?');
                     return (
                         <div key={msg.id} className="channel-modal__list-item message thread-card">
-                            <img src={user.avatar} alt={user.name} />
+                            <Image src={avatarSrc} alt={user.name} width={32} height={32} />
                             <div className="message-item__content">
                                 <span className="message-item__username">{user.name}</span>
                                 <p className="message-item__text">{msg.text}</p>

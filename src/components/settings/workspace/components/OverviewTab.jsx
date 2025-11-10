@@ -1,17 +1,9 @@
-import { mockRecentActivities } from '@/__mocks__/users';
-import { mockWorkspaceMembers } from '@/__mocks__/workspaces';
-import { mockCategories } from '@/__mocks__/categories';
-import { mockMessages } from '@/__mocks__/messages';
+import Image from 'next/image';
 import styles from '../WorkspaceSettings.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
-export const OverviewTab = ({ strings }) => {
-  const workspaceId = 'ws1';
-  const membersCount = Object.keys(mockWorkspaceMembers[workspaceId] ?? {}).length;
-  const channelCount = mockCategories
-    .filter((category) => category.section === 'channels')
-    .reduce((total, category) => total + (category.channels?.length ?? 0), 0);
-  const messageCount = mockMessages.filter((msg) => msg.channelId && msg.channelId.startsWith('c')).length;
-  const activeToday = mockRecentActivities.length;
+export const OverviewTab = ({ strings, membersCount = 0, channelCount = 0, messageCount = 0, activities = [] }) => {
+  const activeToday = activities.length;
 
   const computedStats = [
     {
@@ -53,12 +45,18 @@ export const OverviewTab = ({ strings }) => {
       <section className={styles.section}>
         <h2>{strings.overview?.recentActivity ?? '최근 활동'}</h2>
         <ul className={styles.activityList}>
-          {mockRecentActivities.length > 0 ? (
-            mockRecentActivities.map((activity) => (
+          {activities.length > 0 ? (
+            activities.map((activity) => {
+              const avatarSrc =
+                activity.user.avatar ||
+                getPlaceholderImage(32, activity.user?.name?.[0] ?? '?');
+              return (
               <li key={activity.id}>
-                <img
-                  src={activity.user.avatar}
+                <Image
+                  src={avatarSrc}
                   alt={activity.user.name}
+                  width={32}
+                  height={32}
                   className={styles.activityAvatar}
                 />
                 <div className={styles.activityDetails}>
@@ -69,8 +67,9 @@ export const OverviewTab = ({ strings }) => {
                   </span>
                 </div>
                 <span className={styles.activityTime}>{activity.time}</span>
-              </li>
-            ))
+                </li>
+              );
+            })
           ) : (
             <li className={styles.activityEmpty}>
               {strings.overview?.noActivity ?? '최근 활동이 없습니다.'}

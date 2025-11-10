@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import useStore from '@/store/useStore';
-import { messageService } from '@/api/services';
-import { strings } from '@/constants/strings';
+import Image from 'next/image';
+import useStore from '@/core/store/useStore';
+import { messageService } from '@/core/api/services';
+import { strings } from '@/shared/constants/strings';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './Message.module.css';
 
 const getTranslationText = (translation) => {
@@ -92,11 +94,15 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
     onOpenContextMenu(message, { x: rect.left, y: rect.top - 40 });
   };
 
+  const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
+
   return (
     <div className={styles.messageContainer} onClick={handleClick}>
-      <img
-        src={user.avatar}
+      <Image
+        src={avatarSrc}
         alt={user.name}
+        width={40}
+        height={40}
         className={`${styles.avatar} ${styles.clickable}`}
         onClick={(e) => {
           e.stopPropagation();

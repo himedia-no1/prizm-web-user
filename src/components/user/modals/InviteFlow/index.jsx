@@ -1,7 +1,7 @@
-import { useContext, useMemo, useState } from 'react';
-import { mockUsers } from '@/__mocks__/users';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Hash as HashIcon } from '@/components/common/icons';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
+import useDataStore from '@/core/store/dataStore';
 import { WorkspaceContext } from '@/app/app/workspace/[workspaceId]/WorkspaceLayoutClient';
 import { useInviteStrings } from './hooks/useInviteStrings';
 import { useInviteTargets } from './hooks/useInviteTargets';
@@ -17,11 +17,21 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
   const fallbackWorkspace = useStore((state) => state.currentWorkspace);
   
   const workspaceContext = useContext(WorkspaceContext);
+  const users = useDataStore((state) => state.users);
+  const loadInitialData = useDataStore((state) => state.loadInitialData);
+  const initialized = useDataStore((state) => state.initialized);
   const workspace = workspaceContext?.currentWorkspace ?? fallbackWorkspace;
   const workspaceId = workspaceIdProp ?? workspace?.id;
-  const currentMembershipMap =
-    workspaceContext?.workspaceMembers ??
-    (workspaceId ? workspaceMemberships[workspaceId] ?? {} : {});
+  const contextWorkspaceMembers = workspaceContext?.workspaceMembers;
+  const currentMembershipMap = useMemo(() => {
+    if (contextWorkspaceMembers) {
+      return contextWorkspaceMembers;
+    }
+    if (workspaceId) {
+      return workspaceMemberships[workspaceId] ?? {};
+    }
+    return {};
+  }, [contextWorkspaceMembers, workspaceId, workspaceMemberships]);
   const currentUserId = workspaceContext?.currentUser?.id;
 
   const [activeTab, setActiveTab] = useState('direct');
@@ -52,7 +62,15 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
     return s.description;
   }, [channelName, mode, s.description]);
 
-  const allUsers = useMemo(() => Object.values(mockUsers), []);
+  useEffect(() => {
+    if (!initialized) {
+      loadInitialData().catch((error) => {
+        console.error('Failed to load users:', error);
+      });
+    }
+  }, [initialized, loadInitialData]);
+
+  const allUsers = useMemo(() => Object.values(users ?? {}), [users]);
   const existingMemberIds = useMemo(() => Object.keys(currentMembershipMap ?? {}), [currentMembershipMap]);
 
   const { selectableTargets } = useInviteTargets(workspaceId, mode, channelId, channelName);

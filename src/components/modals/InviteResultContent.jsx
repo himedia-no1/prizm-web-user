@@ -1,4 +1,4 @@
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import { Users as UsersIcon, Share } from '@/components/common/icons';
 import { CopyableLink } from './InviteFlowContent';
 import styles from './InviteResultContent.module.css';

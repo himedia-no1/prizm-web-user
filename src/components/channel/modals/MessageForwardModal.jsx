@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { X, Send } from 'lucide-react';
-import useStrings from '@/hooks/useStrings';
-import { messageService } from '@/api/services';
+import useStrings from '@/shared/hooks/useStrings';
+import { messageService } from '@/core/api/services';
 import styles from './MessageForwardModal.module.css';
 
 export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] }) => {

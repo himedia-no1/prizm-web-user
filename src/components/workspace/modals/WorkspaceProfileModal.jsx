@@ -1,11 +1,13 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { X, Upload } from 'lucide-react';
-import useStrings from '@/hooks/useStrings';
-import useStore from '@/store/useStore';
-import { userService } from '@/api/services';
+import useStrings from '@/shared/hooks/useStrings';
+import useStore from '@/core/store/useStore';
+import { userService } from '@/core/api/services';
 import styles from './WorkspaceProfileModal.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) => {
   const s = useStrings();
@@ -60,6 +62,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
   };
 
   if (!isOpen) return null;
+  const avatarSrc = profile.avatar || getPlaceholderImage(72, profile?.displayName?.[0] ?? 'WS');
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -81,7 +84,13 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
               <p className={styles.description}>{s.modals.workspaceProfile.description}</p>
 
               <div className={styles.avatarSection}>
-                <img src={profile.avatar} alt="Avatar" className={styles.avatarPreview} />
+                <Image
+                  src={avatarSrc}
+                  alt="Avatar"
+                  width={72}
+                  height={72}
+                  className={styles.avatarPreview}
+                />
                 <button className={styles.avatarBtn}>
                   <Upload size={16} />
                   {s.modals.workspaceProfile.avatar}

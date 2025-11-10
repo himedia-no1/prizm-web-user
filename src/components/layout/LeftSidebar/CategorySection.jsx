@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, Plus, Hash, Star, StarOff } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
 
 export const CategorySection = ({
   category,

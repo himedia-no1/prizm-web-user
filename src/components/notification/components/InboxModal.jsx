@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { X, Check, Trash2, CheckCheck } from 'lucide-react';
-import useStrings from '@/hooks/useStrings';
-import useStore from '@/store/useStore';
-import { notificationService } from '@/api/services';
+import useStrings from '@/shared/hooks/useStrings';
+import useStore from '@/core/store/useStore';
+import { notificationService } from '@/core/api/services';
 import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {

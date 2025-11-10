@@ -1,8 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './ProfileTab.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const ProfileTab = ({ 
   user, 
@@ -15,6 +17,8 @@ export const ProfileTab = ({
 }) => {
   const s = useStrings();
 
+  const avatarSrc = user.avatar || getPlaceholderImage(72, user?.realName?.[0] ?? '?');
+
   return (
     <div>
       <h2 className="settings-content__header">{s.userSettings?.profile?.title ?? '내 프로필'}</h2>
@@ -24,9 +28,11 @@ export const ProfileTab = ({
       <div
         className={`profile-modal__avatar-section ${styles.avatarSection}`}
       >
-        <img
-          src={user.avatar}
+        <Image
+          src={avatarSrc}
           alt={user.realName}
+          width={72}
+          height={72}
           className={`profile-modal__avatar ${styles.avatar}`}
         />
         <button

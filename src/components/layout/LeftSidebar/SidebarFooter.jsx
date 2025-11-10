@@ -1,6 +1,8 @@
+import Image from 'next/image';
 import { Settings, Inbox } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStore from '@/core/store/useStore';
+import { strings } from '@/shared/constants/strings';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const SidebarFooter = ({
   currentUser,
@@ -14,10 +16,18 @@ export const SidebarFooter = ({
   const statusText =
     (currentUser?.status && statusLabels[currentUser.status]) ||
     (currentUser?.status === 'offline' ? s.offline : s.online);
+  const avatarSrc = currentUser?.avatar || getPlaceholderImage(36, currentUser?.name?.[0] ?? '?');
+
   return (
     <div className="sidebar-footer">
       <button className="profile-info-button" onClick={onOpenProfileModal}>
-        <img src={currentUser.avatar} alt="My Avatar" className="profile-info__avatar" />
+        <Image
+          src={avatarSrc}
+          alt="My Avatar"
+          width={36}
+          height={36}
+          className="profile-info__avatar"
+        />
         <div>
           <span className="profile-info__name">{currentUser.name}</span>
           <span className="profile-info__status">{statusText}</span>

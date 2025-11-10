@@ -1,7 +1,7 @@
 'use client';
 
 import { NotificationPreferences, ThemePreferences, LanguagePreferences, AutoTranslationPreferences } from '@/components/settings/prefs';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './PreferencesTab.module.css';
 
 export const PreferencesTab = () => {

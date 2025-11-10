@@ -1,6 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useRef, useState } from 'react';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import { X, Send, Smile } from '@/components/common/icons';
 import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
 import styles from './ThreadSidebar.module.css';
@@ -24,6 +26,7 @@ export const ThreadSidebar = ({
   const textareaRef = useRef(null);
   const originalUser = users[threadMessage.userId];
   const [contextMenu, setContextMenu] = useState(null);
+  const originalAvatar = originalUser.avatar || getPlaceholderImage(36, originalUser?.name?.[0] ?? '?');
 
   const handleInput = (e) => {
     const textarea = textareaRef.current;
@@ -48,7 +51,13 @@ export const ThreadSidebar = ({
 
       <div className="thread-original-message">
         <div className={`message__content ${styles.messageContent}`}>
-          <img src={originalUser.avatar} alt={originalUser.name} className="message__avatar" />
+          <Image
+            src={originalAvatar}
+            alt={originalUser.name}
+            width={36}
+            height={36}
+            className="message__avatar"
+          />
           <div className={styles.flex1}>
             <div className="message__header">
               <span className="message__username">{originalUser.name}</span>
@@ -63,6 +72,8 @@ export const ThreadSidebar = ({
         {threadReplies.map(reply => {
           const replyUser = users[reply.userId];
           const isMyMessage = reply.userId === currentUserId;
+          const replyAvatar =
+            replyUser.avatar || getPlaceholderImage(32, replyUser?.name?.[0] ?? '?');
           return (
             <div 
               key={reply.id} 
@@ -76,7 +87,13 @@ export const ThreadSidebar = ({
                 });
               }}
             >
-              <img src={replyUser.avatar} alt={replyUser.name} className="message__avatar" />
+              <Image
+                src={replyAvatar}
+                alt={replyUser.name}
+                width={32}
+                height={32}
+                className="message__avatar"
+              />
               <div>
                 <div className="message__header">
                   <span className="message__username">{replyUser.name}</span>

@@ -1,7 +1,9 @@
 'use client';
 
-import useStrings from '@/hooks/useStrings';
+import Image from 'next/image';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './InsightsTab.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const InsightsTab = ({ stats, activities }) => {
   const s = useStrings();
@@ -53,18 +55,27 @@ export const InsightsTab = ({ stats, activities }) => {
             {s.workspaceAdmin.recentActivity}
           </h3>
           <div className="channel-modal__list">
-            {activities.map((activity) => (
-              <div key={activity.id} className={`channel-modal__list-item member ${styles.activityItem}`}>
-                <img src={activity.user.avatar} alt={activity.user.name} className={styles.activityAvatar} />
-                <span className={styles.activityDetails}>
-                  <span>{activity.action}</span>
-                  <span className={styles.activityInfo}>{activity.details}</span>
-                </span>
-                <span className={styles.activityTime}>
-                  {activity.time}
-                </span>
-              </div>
-            ))}
+            {activities.map((activity) => {
+              const avatarSrc =
+                activity.user.avatar ||
+                getPlaceholderImage(32, activity.user?.name?.[0] ?? '?');
+              return (
+                <div key={activity.id} className={`channel-modal__list-item member ${styles.activityItem}`}>
+                  <Image
+                    src={avatarSrc}
+                    alt={activity.user.name}
+                    width={32}
+                    height={32}
+                    className={styles.activityAvatar}
+                  />
+                  <span className={styles.activityDetails}>
+                    <span>{activity.action}</span>
+                    <span className={styles.activityInfo}>{activity.details}</span>
+                  </span>
+                  <span className={styles.activityTime}>{activity.time}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

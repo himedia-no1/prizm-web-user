@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
-import useStore from '@/store/useStore';
-import testApi from '@/api/test.api';
+import useStore from '@/core/store/useStore';
+import { notificationService } from '@/core/api/services';
 
 export const useInboxNotifications = (isOpen) => {
   const notifications = useStore((state) => state.notifications);
@@ -17,7 +17,7 @@ export const useInboxNotifications = (isOpen) => {
   const loadNotifications = useCallback(async () => {
     setInboxLoading(true);
     try {
-      const data = await testApi.fetchNotifications();
+      const data = await notificationService.fetchNotifications();
       useStore.setState({ notifications: data });
     } catch (error) {
       console.error('Failed to load notifications:', error);
@@ -42,7 +42,7 @@ export const useInboxNotifications = (isOpen) => {
   const handleMarkAsRead = async () => {
     if (inboxState.selectedIds.length === 0) return;
     try {
-      await Promise.all(inboxState.selectedIds.map((id) => testApi.markNotificationAsRead(id)));
+      await Promise.all(inboxState.selectedIds.map((id) => notificationService.markAsRead(id)));
       inboxState.selectedIds.forEach((id) => markNotificationAsRead(id));
       clearNotificationSelection();
     } catch (error) {
@@ -53,7 +53,7 @@ export const useInboxNotifications = (isOpen) => {
   const handleDelete = async () => {
     if (inboxState.selectedIds.length === 0) return;
     try {
-      await Promise.all(inboxState.selectedIds.map((id) => testApi.deleteNotification(id)));
+      await Promise.all(inboxState.selectedIds.map((id) => notificationService.deleteNotification(id)));
       inboxState.selectedIds.forEach((id) => deleteNotification(id));
       clearNotificationSelection();
     } catch (error) {
@@ -63,7 +63,7 @@ export const useInboxNotifications = (isOpen) => {
 
   const handleMarkAllRead = async () => {
     try {
-      await testApi.markAllNotificationsAsRead();
+      await notificationService.markAllAsRead();
       markAllNotificationsAsRead();
     } catch (error) {
       console.error('Failed to mark all as read:', error);

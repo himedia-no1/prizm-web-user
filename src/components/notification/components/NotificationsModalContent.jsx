@@ -1,6 +1,6 @@
 'use client';
 
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 
 export const NotificationsModalContent = () => {
     const s = useStrings();

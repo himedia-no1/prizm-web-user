@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
-import useStrings from '@/hooks/useStrings';
-import { userService } from '@/api/services';
+import useStrings from '@/shared/hooks/useStrings';
+import { userService } from '@/core/api/services';
 import styles from './AccountManagementModals.module.css';
 
 export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {

@@ -2,8 +2,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import useStore from '@/store/useStore';
-import useStrings from '@/hooks/useStrings';
+import useStore from '@/core/store/useStore';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './Preferences.module.css';
 
 export const ThemePreferences = () => {

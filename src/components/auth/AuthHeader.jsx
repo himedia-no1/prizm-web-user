@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
 import styles from './SocialButton.module.css';
 
 export default function AuthHeader() {

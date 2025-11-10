@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import { FileText } from '@/components/common/icons';
 
 export const ChannelFilesModalContent = ({ files = [], users = {} }) => {

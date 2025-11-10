@@ -1,14 +1,15 @@
 'use client';
 
 import { useContext, useMemo, useState } from 'react';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
+import useDataStore from '@/core/store/dataStore';
+import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import { ChatHeader } from '@/components/channel/components/ChannelHeader';
 import { MessageList } from '@/components/channel/components/MessageList';
 import { MessageInput } from '@/components/channel/components/MessageInput';
 import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
 import { ThreadSidebar } from '@/components/channel/components/ThreadSidebar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
-import { mockMessages, mockUsers, mockThreadMessages, getChannelDetails } from '@/__mocks__';
 import styles from './channel.module.css';
 import { WorkspaceContext } from '@/app/app/workspace/[workspaceId]/WorkspaceLayoutClient';
 
@@ -19,7 +20,19 @@ const resolveChannelId = (channelId) => {
   return channelId ?? 'general';
 };
 
-const ChannelPageClient = ({ channelId: channelParam }) => {
+const ChannelPageClient = ({
+  channelId: channelParam,
+  initialChannel,
+  initialChannelDetails,
+  initialMessages = [],
+  users = {},
+  threadReplies = {},
+}) => {
+  // 마지막 접속 경로 자동 저장
+  useLastWorkspacePath();
+
+  const channelId = resolveChannelId(channelParam);
+  
   const openModal = useStore((state) => state.openModal);
   const closeModal = useStore((state) => state.closeModal);
   const currentThread = useStore((state) => state.currentThread);
@@ -31,32 +44,43 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const workspaceMembers = workspaceContext?.workspaceMembers ?? {};
   const currentWorkspace = useStore((state) => state.currentWorkspace);
 
+  const fallbackChannelDetails = useDataStore((state) => state.getChannelDetails(channelId));
+  const fallbackUsers = useDataStore((state) => state.users ?? {});
+
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
-  const channelId = resolveChannelId(channelParam);
+  const [messages, setMessages] = useState(initialMessages);
 
-  const channelDetails = useMemo(() => getChannelDetails(channelId), [channelId]);
-  const pinnedMessages = useMemo(
-    () =>
-      mockMessages.filter(
-        (message) =>
-          message.pinned &&
-          (!channelDetails ||
-            message.channelId === channelDetails.id ||
-            channelDetails.pinnedMessageIds?.includes(message.id)),
-      ),
-    [channelDetails],
+  const channelDetails = useMemo(
+    () => initialChannelDetails ?? fallbackChannelDetails ?? null,
+    [initialChannelDetails, fallbackChannelDetails],
   );
+  const resolvedUsers = useMemo(() => {
+    if (users && Object.keys(users).length > 0) {
+      return users;
+    }
+    return fallbackUsers;
+  }, [users, fallbackUsers]);
   const channelFiles = channelDetails?.files ?? [];
+  const pinnedMessages = useMemo(() => {
+    if (!channelDetails) {
+      return messages.filter((msg) => msg.pinned);
+    }
+    return messages.filter(
+      (msg) =>
+        msg.pinned &&
+        (msg.channelId === channelDetails.id || channelDetails.pinnedMessageIds?.includes(msg.id)),
+    );
+  }, [messages, channelDetails]);
   const channelThreadMessages = useMemo(
-    () =>
-      mockMessages.filter(
-        (message) => message.threadId && (!channelDetails || message.channelId === channelDetails.id),
-      ),
-    [channelDetails],
+    () => messages.filter((msg) => msg.threadId && (!channelDetails || msg.channelId === channelDetails.id)),
+    [messages, channelDetails],
   );
 
   const channel = useMemo(() => {
+    if (initialChannel) {
+      return initialChannel;
+    }
     if (channelDetails) {
       return {
         id: channelDetails.id,
@@ -80,7 +104,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       type: isDm ? 'dm' : 'channel',
       workspaceId,
     };
-  }, [channelDetails, channelId, workspaceId]);
+  }, [initialChannel, channelDetails, channelId, workspaceId]);
 
   const handleStartThread = (selectedMessage) => {
     openThread(selectedMessage);
@@ -100,15 +124,16 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
 
   const handleEmojiSelect = (emoji, selectedMessage) => {
     if (selectedMessage) {
-      const updatedMessages = mockMessages.map((m) => {
-        if (m.id === selectedMessage.id) {
-          const reactions = { ...m.reactions };
-          reactions[emoji.emoji] = (reactions[emoji.emoji] || 0) + 1;
-          return { ...m, reactions };
-        }
-        return m;
-      });
-      Object.assign(mockMessages, updatedMessages);
+      setMessages((prev) =>
+        prev.map((m) => {
+          if (m.id === selectedMessage.id) {
+            const reactions = { ...m.reactions };
+            reactions[emoji.emoji] = (reactions[emoji.emoji] || 0) + 1;
+            return { ...m, reactions };
+          }
+          return m;
+        }),
+      );
     }
     closeModal();
   };
@@ -134,9 +159,6 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       'channelFiles',
       'mention',
       'addChannel',
-      'addDM',
-      'addApp',
-      'addFavorite',
       'inviteMember',
       'inviteGuest',
     ]);
@@ -151,8 +173,8 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
 
       const workspaceContext = currentWorkspace?.id ? { workspaceId: currentWorkspace.id } : {};
       const workspaceContextProps = workspaceId ? { workspaceId } : {};
-      const permissionContext = Object.keys(permissions).length > 0 ? { permissions } : {};
-      const membersContext = Object.keys(workspaceMembers ?? {}).length > 0 ? { workspaceMembers } : {};
+          const permissionContext = Object.keys(permissions).length > 0 ? { permissions } : {};
+          const membersContext = Object.keys(workspaceMembers ?? {}).length > 0 ? { workspaceMembers } : {};
       let enhancedProps = {
         type,
         ...workspaceContextProps,
@@ -173,21 +195,21 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           enhancedProps = {
             ...enhancedProps,
             pinnedMessages,
-            users: mockUsers,
+            users: resolvedUsers,
           };
           break;
         case 'threads':
           enhancedProps = {
             ...enhancedProps,
             threadMessages: channelThreadMessages,
-            users: mockUsers,
+            users: resolvedUsers,
           };
           break;
         case 'channelFiles':
           enhancedProps = {
             ...enhancedProps,
             files: channelFiles,
-            users: mockUsers,
+            users: resolvedUsers,
           };
           break;
         default:
@@ -210,8 +232,8 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
         />
 
         <MessageList
-          messages={mockMessages}
-          users={mockUsers}
+          messages={messages}
+          users={resolvedUsers}
           onStartThread={handleStartThread}
           onOpenUserProfile={handleOpenUserProfile}
           onOpenContextMenu={handleOpenContextMenu}
@@ -230,12 +252,12 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       </main>
 
       {currentThread && (
-        <ThreadSidebar
-          threadMessage={currentThread}
-          threadReplies={mockThreadMessages[currentThread.threadId] || []}
-          users={mockUsers}
-          onClose={closeThread}
-        />
+          <ThreadSidebar
+            threadMessage={currentThread}
+            threadReplies={threadReplies[currentThread.threadId] || []}
+            users={resolvedUsers}
+            onClose={closeThread}
+          />
       )}
 
       {contextMenu.visible && (

@@ -1,8 +1,8 @@
 'use client';
 
-import { Hash, Star, StarOff, Plus } from '@/components/common/icons';
+import { Hash, Star } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
 import styles from './FavoritesList.module.css';
 
 export const FavoritesList = ({
@@ -12,7 +12,6 @@ export const FavoritesList = ({
   currentView,
   onSelectChannel,
   onToggleFavorite,
-  onOpenFavoriteModal,
   label,
   emptyLabel = '즐겨찾기한 채널이 없습니다.',
 }) => {
@@ -25,13 +24,6 @@ export const FavoritesList = ({
     <div className="nav-group">
       <div className="nav-group__header">
         <span>{label}</span>
-        <button
-          type="button"
-          className="nav-category__add-button"
-          onClick={() => onOpenFavoriteModal?.()}
-        >
-          <Plus size={14} />
-        </button>
       </div>
 
       {favorites.length === 0 ? (

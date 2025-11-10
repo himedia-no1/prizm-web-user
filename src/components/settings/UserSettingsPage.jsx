@@ -1,51 +1,40 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, User, X } from '@/components/common/icons';
 import { ProfileTab, PreferencesTab, DevicesTab } from '@/components/settings/user/tabs';
 import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
-import useStrings from '@/hooks/useStrings';
-import { mockUsers } from '@/__mocks__';
-import { useAuthStore } from '@/store/authStore';
+import useStrings from '@/shared/hooks/useStrings';
+import { useAuthStore } from '@/core/store/authStore';
 import styles from './UserSettingsPage.module.css';
 
-export const UserSettingsPage = ({ onBack }) => {
-    const user = mockUsers['u1'];
-    const [selectedSetting, setSelectedSetting] = useState('profile');
-    const [username, setUsername] = useState(user.realName);
-    const [email, setEmail] = useState(user.email);
+export const UserSettingsPage = ({
+    onBack,
+    user,
+    deviceSessions = [],
+    activeTab = 'profile',
+    basePath = '/app/me/setting',
+}) => {
+    const fallbackUser = user ?? {
+        id: 'u1',
+        name: 'Prizm User',
+        realName: 'Prizm User',
+        email: 'user@example.com',
+    };
+    const router = useRouter();
+    const handleTabChange = useCallback((tab) => {
+        const target = `${basePath}/${tab}`;
+        router.replace(target);
+    }, [router, basePath]);
+    const [username, setUsername] = useState(fallbackUser.realName);
+    const [email, setEmail] = useState(fallbackUser.email);
     const s = useStrings();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showDeactivateModal, setShowDeactivateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const logout = useAuthStore((state) => state.logout);
-    const router = useRouter();
-    const deviceSessions = [
-        {
-            id: 'device-1',
-            device: 'MacBook Pro · Chrome',
-            location: 'Seoul, KR',
-            loggedInAt: '2024-03-15 09:20',
-            lastActive: '5분 전',
-        },
-        {
-            id: 'device-2',
-            device: 'iPhone 15 · Prizm App',
-            location: 'Seoul, KR',
-            loggedInAt: '2024-03-14 21:10',
-            lastActive: '1시간 전',
-        },
-        {
-            id: 'device-3',
-            device: 'Windows · Edge',
-            location: 'Tokyo, JP',
-            loggedInAt: '2024-03-10 13:45',
-            lastActive: '3일 전',
-        },
-    ];
-
     const handleBack = () => {
         if (onBack) {
             onBack();
@@ -63,18 +52,18 @@ export const UserSettingsPage = ({ onBack }) => {
         try {
             await logout();
             setShowLogoutModal(false);
-            router.replace('/app/auth');
+            router.replace('/app/login');
         } finally {
             setIsLoggingOut(false);
         }
     }, [isLoggingOut, logout, router]);
 
     const renderSettingContent = () => {
-        switch (selectedSetting) {
+        switch (activeTab) {
             case 'profile':
                 return (
                     <ProfileTab
-                        user={user}
+                        user={fallbackUser}
                         username={username}
                         setUsername={setUsername}
                         email={email}
@@ -108,20 +97,20 @@ export const UserSettingsPage = ({ onBack }) => {
                 </h3>
                 <nav className="settings-sidebar__nav">
                     <button
-                        className={`settings-sidebar__button ${selectedSetting === 'profile' ? 'active' : ''}`}
-                        onClick={() => setSelectedSetting('profile')}
+                        className={`settings-sidebar__button ${activeTab === 'profile' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('profile')}
                     >
                         <span>{s.userSettings?.navProfile ?? '프로필'}</span>
                     </button>
                     <button
-                        className={`settings-sidebar__button ${selectedSetting === 'devices' ? 'active' : ''}`}
-                        onClick={() => setSelectedSetting('devices')}
+                        className={`settings-sidebar__button ${activeTab === 'devices' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('devices')}
                     >
                         <span>{s.userSettings?.navDevices ?? '로그인된 기기'}</span>
                     </button>
                     <button
-                        className={`settings-sidebar__button ${selectedSetting === 'prefs' ? 'active' : ''}`}
-                        onClick={() => setSelectedSetting('prefs')}
+                        className={`settings-sidebar__button ${activeTab === 'prefs' ? 'active' : ''}`}
+                        onClick={() => handleTabChange('prefs')}
                     >
                         <span>{s.userSettings?.navPreferences ?? '환경 설정'}</span>
                     </button>
@@ -177,12 +166,12 @@ export const UserSettingsPage = ({ onBack }) => {
             <DeactivateAccountModal
                 isOpen={showDeactivateModal}
                 onClose={() => setShowDeactivateModal(false)}
-                userId={user.id}
+                userId={fallbackUser.id}
             />
             <DeleteAccountModal
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
-                userId={user.id}
+                userId={fallbackUser.id}
             />
         </div>
     );

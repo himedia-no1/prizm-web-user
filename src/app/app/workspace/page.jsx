@@ -1,14 +1,17 @@
-'use client';
+import { redirect } from 'next/navigation';
+import { callBff } from '@/shared/server/bffClient';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+export default async function WorkspacePage() {
+  const response = await callBff({ method: 'GET', url: '/mock/workspaces/last-visited' });
 
-export default function WorkspaceRedirect() {
-  const router = useRouter();
+  if (response.status === 401) {
+    redirect('/app/login');
+  }
 
-  useEffect(() => {
-    router.replace('/workspace/ws1/dashboard');
-  }, [router]);
+  const lastVisitedPath = response.data?.lastVisitedPath;
+  if (lastVisitedPath) {
+    redirect(lastVisitedPath);
+  }
 
-  return null;
+  redirect('/app/workspace/none');
 }

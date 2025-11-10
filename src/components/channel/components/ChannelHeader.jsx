@@ -1,7 +1,7 @@
 'use client';
 
 import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
 import styles from './ChannelHeader.module.css';
 
 const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic }) => {

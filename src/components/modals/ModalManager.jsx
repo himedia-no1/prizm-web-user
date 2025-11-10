@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import useStore from '@/store/useStore';
-import useStrings from '@/hooks/useStrings';
+import useStore from '@/core/store/useStore';
+import useStrings from '@/shared/hooks/useStrings';
 
 // Standalone Modals
 import { GenericModal } from './GenericModal';
@@ -28,9 +28,6 @@ import { CreateCategoryModalContent } from '@/components/channel/modals/CreateCa
 import { FileUploadModalContent } from './FileUploadModalContent';
 import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFilesModalContent';
 import { MentionModalContent } from './MentionModalContent';
-import { AddDMModalContent } from '@/components/user/modals/AddDMModalContent';
-import { AddAppModalContent } from './AddAppModalContent';
-import { AddFavoriteModalContent } from '@/components/channel/modals/AddFavoriteModalContent';
 
 const ModalManager = () => {
     const s = useStrings();
@@ -41,9 +38,15 @@ const ModalManager = () => {
     const createDM = useStore((state) => state.createDM);
     const openModal = useStore((state) => state.openModal);
 
+    console.log('[ModalManager] Current modalType:', modalType);
+    console.log('[ModalManager] Current modalProps:', modalProps);
+
     if (!modalType) {
+        console.log('[ModalManager] No modalType, returning null');
         return null;
     }
+
+    console.log('[ModalManager] Rendering modal for type:', modalType);
 
     const getTitle = (type) => s.modals?.titles[type] ?? '';
 
@@ -98,9 +101,6 @@ const ModalManager = () => {
         fileUpload: <FileUploadModalContent {...modalProps} />,
         channelFiles: <ChannelFilesModalContent {...modalProps} />,
         mention: <MentionModalContent {...modalProps} />,
-        addDM: <AddDMModalContent {...modalProps} />,
-        addApp: <AddAppModalContent {...modalProps} />,
-        addFavorite: <AddFavoriteModalContent {...modalProps} />,
     };
 
     // Handle 'generic' modal type with nested type in modalProps

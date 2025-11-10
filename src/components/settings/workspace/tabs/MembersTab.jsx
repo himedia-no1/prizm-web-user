@@ -1,7 +1,9 @@
 'use client';
 
-import useStrings from '@/hooks/useStrings';
+import Image from 'next/image';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './MembersTab.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const MembersTab = ({ 
   blockedMembers, 
@@ -76,12 +78,16 @@ export const MembersTab = ({
           </button>
         </div>
         <div className="channel-modal__list">
-          {participants.map((participant) => (
-            <div
-              key={participant.id}
-              className={`channel-modal__list-item member ${styles.memberItem}`}>
+          {participants.map((participant) => {
+            const avatarSrc =
+              participant.avatar ||
+              getPlaceholderImage(32, participant?.name?.[0] ?? '?');
+            return (
+              <div
+                key={participant.id}
+                className={`channel-modal__list-item member ${styles.memberItem}`}>
               <input type="checkbox" className={styles.checkbox} />
-              <img src={participant.avatar} alt={participant.displayName} />
+              <Image src={avatarSrc} alt={participant.displayName} width={32} height={32} />
               <div className={styles.participantDetails}>
                 <strong>{participant.name}</strong>
                 <span className={styles.memberInfo}>
@@ -98,8 +104,9 @@ export const MembersTab = ({
               <button className={`profile-action-button ${styles.unblockButton}`}>
                 {s.workspaceAdmin.membersMoveToGroup}
               </button>
-            </div>
-          ))}
+              </div>
+            );
+          })}
         </div>
       </section>
 

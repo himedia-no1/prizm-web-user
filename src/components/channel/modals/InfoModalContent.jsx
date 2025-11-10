@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 
 export const InfoModalContent = ({ channelDetails = {} }) => {
     const s = useStrings();

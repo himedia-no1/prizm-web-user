@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import useStore from '@/store/useStore';
+import useStore from '@/core/store/useStore';
 import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon, AIIcon } from '@/components/common/icons';
 import SearchResultsList from './SearchResultsList';
 import styles from './SearchView.module.css';
+import { searchService } from '@/core/api/services';
 
 const TAB_ITEMS = [
   { id: 'All', label: '전체', icon: LayoutGrid },
@@ -17,40 +18,50 @@ const typeMap = {
   Users: 'user',
 };
 
-export const SearchView = () => {
+export const SearchView = ({ context }) => {
   const { isAiSearchEnabled, toggleAiSearch } = useStore();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(TAB_ITEMS[0].id);
 
   useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (!query.trim()) {
-        setResults([]);
-        setLoading(false);
-        return;
-      }
+    const trimmed = query.trim();
+    if (!trimmed) {
+      return;
+    }
 
+    const controller = new AbortController();
+    const filterValue = activeTab === 'All' ? 'all' : typeMap[activeTab] ?? 'all';
+    const timeout = setTimeout(() => {
       setLoading(true);
+      searchService
+        .search(trimmed, filterValue)
+        .then((data) => {
+          if (!controller.signal.aborted) {
+            setResults(Array.isArray(data) ? data : []);
+            setError(null);
+          }
+        })
+        .catch((err) => {
+          if (!controller.signal.aborted) {
+            console.error('Search failed:', err);
+            setError('검색 중 오류가 발생했습니다.');
+            setResults([]);
+          }
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) {
+            setLoading(false);
+          }
+        });
+    }, 300);
 
-      setTimeout(() => {
-        const allResults = [
-          { id: 1, type: 'message', source: '#general', timestamp: '2025-11-04', title: 'Search Result 1', content: `This is a mock search result for <strong>${query}</strong>.` },
-          { id: 2, type: 'file', source: 'document.pdf', timestamp: '2025-11-03', title: 'Search Result 2', content: `This is another mock search result for <strong>${query}</strong>.` },
-          { id: 3, type: 'user', source: 'User 1', timestamp: '2025-11-02', title: 'User 1', content: `This is a user search result for <strong>${query}</strong>.` },
-        ];
-
-        const filteredResults = activeTab === 'All'
-          ? allResults
-          : allResults.filter((result) => result.type === typeMap[activeTab]);
-
-        setResults(filteredResults);
-        setLoading(false);
-      }, 500);
-    }, 280);
-
-    return () => clearTimeout(debounceTimeout);
+    return () => {
+      controller.abort();
+      clearTimeout(timeout);
+    };
   }, [query, activeTab]);
 
   const handleSubmit = (event) => {
@@ -63,6 +74,16 @@ export const SearchView = () => {
 
   };
 
+  const handleQueryChange = (event) => {
+    const value = event.target.value;
+    setQuery(value);
+    if (!value.trim()) {
+      setResults([]);
+      setError(null);
+      setLoading(false);
+    }
+  };
+
   const statusText = useMemo(() => {
     if (loading) {
       return '결과를 불러오고 있어요...';
@@ -72,12 +93,16 @@ export const SearchView = () => {
       return '검색어를 입력해 검색을 시작하세요.';
     }
 
+    if (error) {
+      return '검색 중 문제가 발생했습니다.';
+    }
+
     if (results.length === 0) {
       return '일치하는 결과가 없어요. 다른 키워드나 필터를 시도해보세요.';
     }
 
     return `${results.length}개의 결과가 준비됐어요.`;
-  }, [loading, query, results.length]);
+  }, [loading, query, results.length, error]);
 
   const renderResults = () => {
     if (loading) {
@@ -86,6 +111,16 @@ export const SearchView = () => {
           <AIIcon size={28} />
           <h3>검색 중이에요</h3>
           <p>AI가 팀의 지식을 살펴보고 있어요. 잠시만 기다려주세요.</p>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className={styles.emptyState}>
+          <SearchIcon size={28} />
+          <h3>문제가 발생했어요</h3>
+          <p>{error}</p>
         </div>
       );
     }
@@ -113,6 +148,8 @@ export const SearchView = () => {
     return <SearchResultsList results={results} />;
   };
 
+  const currentUserName = context?.user?.name ?? '사용자';
+
   return (
     <main className={`main-view ${styles.searchView}`}>
       <section className={styles.heroSection}>
@@ -124,7 +161,7 @@ export const SearchView = () => {
             </span>
             <h1 className={styles.heroTitle}>필요한 대화와 파일을 한 번에 찾아보세요</h1>
             <p className={styles.heroDescription}>
-              스마트 제안과 필터로 워크스페이스의 모든 정보를 빠르게 탐색할 수 있어요.
+              {currentUserName}님의 워크스페이스 정보를 AI가 빠르게 찾아드려요.
             </p>
           </div>
           <label
@@ -151,7 +188,7 @@ export const SearchView = () => {
               type="text"
               placeholder={isAiSearchEnabled ? 'AI가 요약한 검색 결과를 받아보세요...' : '워크스페이스 전체에서 메시지, 파일, 멤버를 검색해보세요'}
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={handleQueryChange}
             />
             <div className={styles.kbdHint}>
               <kbd>⌘</kbd>

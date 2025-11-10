@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { mockWorkspaceStats } from '@/__mocks__';
+import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import styles from './DashboardView.module.css';
 
 const trendClassMap = {
@@ -10,13 +10,15 @@ const trendClassMap = {
   red: 'trendNegative',
 };
 
-export const DashboardView = () => {
-  const stats = useMemo(() => mockWorkspaceStats, []);
+export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialStats = [] }) => {
+  useLastWorkspacePath();
+
+  const stats = useMemo(() => initialStats, [initialStats]);
 
   return (
     <main className={`main-view ${styles.dashboardView}`}>
       <header className="view-header">
-        <h2>Dashboard</h2>
+        <h2>{workspaceName} Dashboard</h2>
       </header>
       <div className="view-content">
         <section className={styles.statsSection}>

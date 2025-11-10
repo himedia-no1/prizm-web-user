@@ -1,15 +1,11 @@
-'use client';
+import { validateAndGetWorkspace } from '@/features/workspace/actions';
+import { callBff } from '@/shared/server/bffClient';
+import DirectoryClient from './DirectoryClient';
 
-import { DirectoryView } from '@/components/user/components/DirectoryView';
-import { mockUsers } from '@/__mocks__';
-import useStore from '@/store/useStore';
-
-export default function DirectoryPage() {
-  const openModal = useStore((state) => state.openModal);
-
-  const handleOpenUserProfile = (userId) => {
-    openModal('userProfile', { userId });
-  };
-
-  return <DirectoryView users={mockUsers} onOpenUserProfile={handleOpenUserProfile} />;
+export default async function DirectoryPage({ params }) {
+  const { workspaceId } = (await params) ?? {};
+  await validateAndGetWorkspace(workspaceId);
+  const response = await callBff({ method: 'GET', url: '/mock/users' });
+  const users = Array.isArray(response.data) ? response.data : [];
+  return <DirectoryClient users={users} />;
 }

@@ -1,6 +1,6 @@
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStore from '@/core/store/useStore';
+import { strings } from '@/shared/constants/strings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
   const { language } = useStore();

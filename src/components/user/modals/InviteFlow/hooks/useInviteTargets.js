@@ -1,18 +1,30 @@
-import { useMemo } from 'react';
-import { mockCategories } from '@/__mocks__/categories';
-import { mockWorkspaceGroups } from '@/__mocks__/workspaces';
+import { useEffect, useMemo } from 'react';
+import useDataStore from '@/core/store/dataStore';
 import { FALLBACK_GROUPS } from '../utils/constants';
 
 export const useInviteTargets = (workspaceId, mode, channelId, channelName) => {
+  const categories = useDataStore((state) => state.categories);
+  const workspaceGroupMap = useDataStore((state) => state.workspaceGroups);
+  const loadInitialData = useDataStore((state) => state.loadInitialData);
+  const initialized = useDataStore((state) => state.initialized);
+
+  useEffect(() => {
+    if (!initialized) {
+      loadInitialData().catch((error) => {
+        console.error('Failed to load initial data:', error);
+      });
+    }
+  }, [initialized, loadInitialData]);
+
   const workspaceGroups = useMemo(() => {
-    if (workspaceId && mockWorkspaceGroups[workspaceId]) {
-      return mockWorkspaceGroups[workspaceId];
+    if (workspaceId && workspaceGroupMap?.[workspaceId]) {
+      return workspaceGroupMap[workspaceId];
     }
     return FALLBACK_GROUPS;
-  }, [workspaceId]);
+  }, [workspaceId, workspaceGroupMap]);
 
   const workspaceChannels = useMemo(() => {
-    const baseChannels = mockCategories
+    const baseChannels = (categories ?? [])
       .filter((category) => category.section !== 'appConnect')
       .flatMap((category) =>
         (category.channels || []).map((channel) => ({
@@ -21,7 +33,7 @@ export const useInviteTargets = (workspaceId, mode, channelId, channelName) => {
         })),
       );
     return baseChannels;
-  }, []);
+  }, [categories]);
 
   const selectableTargets = useMemo(() => {
     const base = mode === 'guest' ? workspaceChannels : workspaceGroups;

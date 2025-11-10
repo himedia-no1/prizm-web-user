@@ -1,8 +1,8 @@
 'use client';
 
 import { Hash, Users } from '@/components/common/icons';
-import useStrings from '@/hooks/useStrings';
-import { useWorkspaceSettingsStore } from '@/store/workspace/useWorkspaceSettingsStore';
+import useStrings from '@/shared/hooks/useStrings';
+import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
 import styles from './InviteManagementTab.module.css';
 
 export const InviteManagementTab = ({ invitations, inviteLinks }) => {

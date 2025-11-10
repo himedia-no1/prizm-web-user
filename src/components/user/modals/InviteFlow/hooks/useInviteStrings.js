@@ -1,4 +1,4 @@
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 
 export const useInviteStrings = (mode) => {
   const strings = useStrings();

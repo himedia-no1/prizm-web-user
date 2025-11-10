@@ -1,8 +1,10 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { StatusIndicator } from '@/components/ui/StatusIndicator';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './DirectoryView.module.css';
 
 const formatTemplate = (template, replacements = {}) => {
@@ -190,7 +192,10 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
             </thead>
             <tbody>
               {paginatedUsers.length > 0 ? (
-                paginatedUsers.map((user) => (
+                paginatedUsers.map((user) => {
+                  const avatarSrc =
+                    user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
+                  return (
                   <tr
                     key={user.id}
                     className={styles.directoryRow}
@@ -198,7 +203,7 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
                   >
                     <td>
                       <div className={styles.directoryMemberCell}>
-                        <img src={user.avatar} alt={user.name} />
+                        <Image src={avatarSrc} alt={user.name} width={40} height={40} />
                         <div>
                           <span className={styles.directoryMemberName}>{user.realName || user.name}</span>
                           <span className={styles.directoryMemberHandle}>{user.name}</span>
@@ -217,7 +222,8 @@ export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
                       </div>
                     </td>
                   </tr>
-                ))
+                );
+                })
               ) : (
                 <tr className={styles.directoryEmptyRow}>
                   <td colSpan={7}>{directoryStrings.empty ?? 'No members found.'}</td>

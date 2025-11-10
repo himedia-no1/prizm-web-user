@@ -1,6 +1,6 @@
 'use client';
 
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './IntegrationsTab.module.css';
 
 export const IntegrationsTab = () => {

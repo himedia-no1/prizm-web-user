@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './CreateCategoryModalContent.module.css';
 
 export const CreateCategoryModalContent = (props) => {

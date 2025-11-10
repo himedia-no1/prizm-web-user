@@ -1,6 +1,6 @@
 'use client';
 
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './DevicesTab.module.css';
 
 export const DevicesTab = ({ deviceSessions }) => {

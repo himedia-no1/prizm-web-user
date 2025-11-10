@@ -1,15 +1,37 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { X, MessageSquare } from '@/components/common/icons';
-import { mockUsers } from '@/__mocks__';
+import useDataStore from '@/core/store/dataStore';
 import styles from './UserProfileModal.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
     const router = useRouter();
-    const user = mockUsers[userId];
-    if (!user) return null;
+    const users = useDataStore((state) => state.users);
+    const loadInitialData = useDataStore((state) => state.loadInitialData);
+    const initialized = useDataStore((state) => state.initialized);
+
+    useEffect(() => {
+        if (!initialized) {
+            loadInitialData().catch((error) => {
+                console.error('Failed to load users:', error);
+            });
+        }
+    }, [initialized, loadInitialData]);
+
+    if (!userId) {
+        return null;
+    }
+
+    const user = users[userId];
+    if (!user) {
+        return null;
+    }
+
+    const avatarSrc = user.avatar || getPlaceholderImage(72, user?.name?.[0] ?? '?');
 
     return (
         <div className="profile-modal-overlay" onClick={onClose}>
@@ -24,12 +46,12 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                 </header>
                 <div className={`profile-modal__banner ${styles.banner}`}></div>
                 <div className={`profile-modal__content ${styles.content}`}>
-                    <div
-                        className={`profile-modal__avatar-section ${styles.avatarSection}`}
-                    >
-                        <img
-                            src={user.avatar}
+                    <div className={`profile-modal__avatar-section ${styles.avatarSection}`}>
+                        <Image
+                            src={avatarSrc}
                             alt={user.name}
+                            width={72}
+                            height={72}
                             className={`profile-modal__avatar ${styles.avatar}`}
                         />
                     </div>
@@ -61,9 +83,7 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                     </div>
                     <button
                         className="profile-modal__save-button user-profile-modal__dm-button"
-                        onClick={() => {
-                            onCreateDM(user.id, router);
-                        }}
+                        onClick={() => onCreateDM(user.id, router)}
                     >
                         <MessageSquare size={16} />
                         DM 보내기

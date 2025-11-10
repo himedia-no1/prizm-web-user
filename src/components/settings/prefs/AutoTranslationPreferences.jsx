@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import useStrings from '@/hooks/useStrings';
+import useStrings from '@/shared/hooks/useStrings';
 import styles from './Preferences.module.css';
 
 export const AutoTranslationPreferences = () => {
