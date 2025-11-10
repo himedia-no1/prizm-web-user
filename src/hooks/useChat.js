@@ -21,13 +21,17 @@ export const useChat = (channelId) => {
 
         const client = new Client({
             webSocketFactory: () => socket,
+            connectHeaders: {
+                login: "admin",
+                passcode: "1234",
+            },
             reconnectDelay: 5000,
             onConnect: () => {
                 setIsConnected(true);
                 console.log("✅ Connected to WebSocket");
 
-                // ✅ SimpleBroker 기준 /topic 으로 구독
-                client.subscribe(`/topic/chatroom/${channelId}`, (message) => {
+                // ✅ StompBrokerRelay(RabbitMQ) 기준 /topic 으로 구독
+                client.subscribe(`/exchange/amq.topic/chatroom.${channelId}`, (message) => {
                     try {
                         const receivedMessage = JSON.parse(message.body);
                         setMessages((prev) => [...prev, receivedMessage]);
@@ -76,7 +80,7 @@ export const useChat = (channelId) => {
             };
 
             stompClient.publish({
-                destination: "/pub/chat.send",
+                destination: "/exchange/amq.topic/chatroom." + channelId,
                 body: JSON.stringify(message),
             });
         } else {
