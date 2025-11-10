@@ -14,7 +14,7 @@ export async function validateAndGetWorkspace(workspaceId) {
   const userId = await getCurrentUserId();
 
   if (!userId) {
-    redirect('/app/login');
+    redirect('/login');
   }
 
   const response = await callBff({ method: 'GET', url: `/mock/workspaces/${workspaceId}` });
@@ -42,18 +42,18 @@ async function handleWorkspaceNotFound() {
 
   const workspaces = await fetchAccessibleWorkspaces();
   if (workspaces.length > 0) {
-    redirect(`/app/workspace/${workspaces[0].id}/dashboard`);
+    redirect(`/workspace/${workspaces[0].id}/dashboard`);
   }
 
-  redirect('/app/workspace/new');
+  redirect('/workspace/new');
 }
 
 async function handleWorkspaceForbidden() {
   const workspaces = await fetchAccessibleWorkspaces();
   if (workspaces.length > 0) {
-    redirect(`/app/workspace/${workspaces[0].id}/dashboard`);
+    redirect(`/workspace/${workspaces[0].id}/dashboard`);
   }
-  redirect('/app/workspace/new');
+  redirect('/workspace/new');
 }
 
 export async function fetchAccessibleWorkspaces() {

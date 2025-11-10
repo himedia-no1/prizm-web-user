@@ -16,17 +16,17 @@ export function ForbiddenWorkspacePage() {
         </p>
 
         <div className={styles.actions}>
-          <Link href="/app/workspace/new" className={`${styles.button} ${styles.primary}`}>
+          <Link href="/src/app/(app)/workspace/new" className={`${styles.button} ${styles.primary}`}>
             새 워크스페이스 생성
           </Link>
-          <Link href="/app/workspace/new?mode=join" className={`${styles.button} ${styles.secondary}`}>
+          <Link href="/src/app/(app)/workspace/new?mode=join" className={`${styles.button} ${styles.secondary}`}>
             초대 코드 입력하기
           </Link>
         </div>
 
         <div className={styles.meta}>
           <p>이미 참여 중인 워크스페이스가 있다면 초대 링크를 다시 확인해 주세요.</p>
-          <Link href="/app/login" className={styles.link}>
+          <Link href="/src/app/(app)/login" className={styles.link}>
             다른 계정으로 로그인
           </Link>
         </div>

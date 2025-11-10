@@ -1,0 +1,123 @@
+/* src/styles/AIPower.module.css */
+.aiPower {
+    position: relative;
+    padding: var(--section-padding);
+}
+
+.aiContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.aiFeatures {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.aiFeature {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    transition: var(--transition);
+    /* 애니메이션은 AnimatedCard가 담당 */
+}
+
+.aiFeature:hover {
+    border-color: var(--primary);
+    transform: translateX(5px);
+}
+
+.aiFeatureIcon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.aiFeature h4 {
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.aiFeature p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Chat Demo */
+.chatDemo {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: var(--shadow-xl);
+}
+
+.chatMessage {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    /* 애니메이션은 인라인 스타일로 제어 */
+}
+
+.chatMessage:last-child {
+    margin-bottom: 0;
+}
+
+.messageAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.messageContent {
+    flex: 1;
+}
+
+.messageAuthor {
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.messageText {
+    background: var(--bg-tertiary);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    line-height: 1.6;
+}
+
+.chatMessage.ai .messageText {
+    background: rgba(140, 101, 209, 0.1);
+    border: 1px solid rgba(140, 101, 209, 0.3);
+}
+
+.messageCode {
+    margin-top: 1rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    overflow-x: auto;
+}
+
+@media (max-width: 1024px) {
+    .aiContent {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}

@@ -11,7 +11,7 @@ export const AuthGuard = ({ children }) => {
     const isAuthenticated = false;
 
     if (!isAuthenticated) {
-      router.push('/app/login');
+      router.push('/login');
     }
   }, [router]);
 

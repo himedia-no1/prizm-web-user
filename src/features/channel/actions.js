@@ -14,13 +14,13 @@ export async function validateAndGetChannel(channelId, workspaceId) {
   const userId = await getCurrentUserId();
 
   if (!userId) {
-    redirect('/app/login');
+    redirect('/login');
   }
 
   const response = await callBff({ method: 'GET', url: `/mock/channels/${channelId}` });
 
   if (response.status !== 200 || response.data.workspaceId !== workspaceId) {
-    redirect(`/app/workspace/${workspaceId}/dashboard`);
+    redirect(`/workspace/${workspaceId}/dashboard`);
   }
 
   return { channel: response.data, userId };

@@ -3,7 +3,7 @@ export const PROVIDER_USER_MAP = {
   GitHub: 'u2',
 };
 
-const DEFAULT_LAST_PATH = '/app/workspace/ws1/dashboard';
+const DEFAULT_LAST_PATH = '/workspace/ws1/dashboard';
 
 export const mockUsers = {
   'u1': {

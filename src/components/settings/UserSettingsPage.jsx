@@ -14,7 +14,7 @@ export const UserSettingsPage = ({
     user,
     deviceSessions = [],
     activeTab = 'profile',
-    basePath = '/app/me/setting',
+    basePath = '/me/setting',
 }) => {
     const fallbackUser = user ?? {
         id: 'u1',
@@ -52,7 +52,7 @@ export const UserSettingsPage = ({
         try {
             await logout();
             setShowLogoutModal(false);
-            router.replace('/app/login');
+            router.replace('/login');
         } finally {
             setIsLoggingOut(false);
         }

@@ -22,7 +22,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
         setLoading(true);
         try {
             const result = await workspaceService.createWorkspace({ name: workspaceName });
-            router.push(`/app/workspace/${result.id}/channel/general`);
+            router.push(`/workspace/${result.id}/channel/general`);
         } catch (error) {
             console.error('Failed to create workspace:', error);
         } finally {
@@ -35,7 +35,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
         setLoading(true);
         try {
             const result = await workspaceService.joinByInviteCode(inviteCode);
-            router.push(`/app/workspace/${result.workspaceId}/channel/general`);
+            router.push(`/workspace/${result.workspaceId}/channel/general`);
         } catch (error) {
             console.error('Failed to join workspace:', error);
             alert('초대 코드가 올바르지 않습니다.');
@@ -117,7 +117,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                     <button
                         className={styles['icon-button']}
                         title="내 설정"
-                        onClick={() => router.push('/app/me/setting/profile')}
+                        onClick={() => router.push('/me/setting/profile')}
                     >
                         <Settings size={20} />
                     </button>

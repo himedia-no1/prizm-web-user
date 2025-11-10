@@ -45,7 +45,7 @@ export default function SocialAuthPage({ searchParams }) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace('/app/workspace');
+      router.replace('/workspace');
     }
   }, [isAuthenticated, router]);
 
@@ -63,7 +63,7 @@ export default function SocialAuthPage({ searchParams }) {
       try {
         const session = await authenticateWithProvider(provider);
         setAuthState(session);
-        router.replace('/app/workspace');
+        router.replace('/workspace');
       } catch (err) {
         setError('로그인에 실패했습니다. 다시 시도해주세요.');
       }
@@ -79,7 +79,7 @@ export default function SocialAuthPage({ searchParams }) {
       try {
         const session = await authenticateWithProvider(provider);
         setAuthState(session);
-        router.replace('/app/workspace');
+        router.replace('/workspace');
       } catch (err) {
         setError('로그인에 실패했습니다. 다시 시도해주세요.');
       }
