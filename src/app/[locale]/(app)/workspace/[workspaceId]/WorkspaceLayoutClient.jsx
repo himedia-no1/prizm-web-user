@@ -28,8 +28,17 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
   const initialized = useDataStore((state) => state.initialized);
 
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
-  const [currentChannelId, setCurrentChannelId] = useState('c1');
-  const [currentView, setCurrentView] = useState('dashboard');
+
+  const { currentView, currentChannelId } = useMemo(() => {
+    const parts = pathname.split('/');
+    if (parts.length > 5 && parts[4] === 'channel') {
+      return { currentView: 'channel', currentChannelId: parts[5] };
+    }
+    if (parts.length > 4) {
+      return { currentView: parts[4], currentChannelId: null };
+    }
+    return { currentView: 'dashboard', currentChannelId: null };
+  }, [pathname]);
 
   useEffect(() => {
     if (!initialized) {
@@ -109,13 +118,10 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
   ]);
 
   const handleSelectChannel = (channelId) => {
-    setCurrentChannelId(channelId);
-    setCurrentView('channel');
     router.push(`/workspace/${workspaceId}/channel/${channelId}`);
   };
 
   const handleSelectView = (view) => {
-    setCurrentView(view);
     router.push(`/workspace/${workspaceId}/${view}`);
   };
 
