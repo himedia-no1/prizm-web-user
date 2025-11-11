@@ -1,6 +1,5 @@
 export const workspaceAdminStrings = {
   en: {
-    workspaceAdmin: {
       backToWorkspace: 'Back to workspace',
       navDashboard: 'Overview',
       navMembers: 'Members',
@@ -97,10 +96,8 @@ export const workspaceAdminStrings = {
         recentActivity: 'Recent activity',
         noActivity: 'No recent activity.',
       },
-    },
   },
   ko: {
-    workspaceAdmin: {
       backToWorkspace: '워크스페이스로 돌아가기',
       navDashboard: '개요 대시보드',
       navMembers: '멤버 관리',
@@ -197,7 +194,6 @@ export const workspaceAdminStrings = {
         recentActivity: '최근 활동',
         noActivity: '최근 활동이 없습니다.',
       },
-    },
   },
 };
 

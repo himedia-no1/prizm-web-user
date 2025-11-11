@@ -5,14 +5,17 @@ import { workspaceStrings } from './domains/workspace';
 import { directoryStrings } from './domains/directory';
 import { userSettingsStrings } from './domains/userSettings';
 import { workspaceAdminStrings } from './domains/workspaceAdmin';
+import { landingStrings } from './domains/landing';
 
 const mergeDomains = (...domains) =>
   domains.reduce(
     (acc, domain) => ({
       en: { ...acc.en, ...(domain.en ?? {}) },
       ko: { ...acc.ko, ...(domain.ko ?? {}) },
+      ja: { ...acc.ja, ...(domain.ja ?? {}) },
+      fr: { ...acc.fr, ...(domain.fr ?? {}) },
     }),
-    { en: {}, ko: {} },
+    { en: {}, ko: {}, ja: {}, fr: {} },
   );
 
 export const stringDomains = {
@@ -23,6 +26,7 @@ export const stringDomains = {
   directory: directoryStrings,
   userSettings: userSettingsStrings,
   workspaceAdmin: workspaceAdminStrings,
+  landing: landingStrings,
 };
 
 export const strings = mergeDomains(...Object.values(stringDomains));

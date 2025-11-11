@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import styles from './Hero.module.css';
 
 function useStatsCounter(ref, targetValue, options = {}) {
@@ -54,25 +55,27 @@ export default function StatsCounter() {
   const stat2Value = useStatsCounter(stat2Ref, '500+', { isPlus: true });
   const stat3Value = useStatsCounter(stat3Ref, '99.9%', { isPercentage: true });
 
+  const t = useTranslations('landing');
+
   return (
     <div className={styles.heroStats}>
       <div className={styles.stat}>
         <div ref={stat1Ref} className={styles.statValue}>
           {stat1Value}
         </div>
-        <div className={styles.statLabel}>Active Developers</div>
+        <div className={styles.statLabel}>{t('activeDevelopers')}</div>
       </div>
       <div className={styles.stat}>
         <div ref={stat2Ref} className={styles.statValue}>
           {stat2Value}
         </div>
-        <div className={styles.statLabel}>Dev Teams</div>
+        <div className={styles.statLabel}>{t('devTeams')}</div>
       </div>
       <div className={styles.stat}>
         <div ref={stat3Ref} className={styles.statValue}>
           {stat3Value}
         </div>
-        <div className={styles.statLabel}>Uptime</div>
+        <div className={styles.statLabel}>{t('uptime')}</div>
       </div>
     </div>
   );

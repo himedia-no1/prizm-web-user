@@ -1,7 +1,6 @@
 export const modalsStrings = {
   en: {
-    modals: {
-      titles: {
+    titles: {
         search: 'Search in Channel',
         members: 'Members',
         pinned: 'Pinned Messages',
@@ -213,10 +212,8 @@ export const modalsStrings = {
         confirmPlaceholder: 'DELETE',
       },
     },
-  },
   ko: {
-    modals: {
-      titles: {
+    titles: {
         search: '채널 내 검색',
         members: '멤버 목록',
         pinned: '고정된 메시지',
@@ -426,7 +423,6 @@ export const modalsStrings = {
         typeToConfirm: '확인을 위해 "삭제"를 입력하세요',
         confirmPlaceholder: '삭제',
       },
-    },
   },
 };
 

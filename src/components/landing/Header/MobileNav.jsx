@@ -11,6 +11,7 @@ export default function MobileNav({
   onCloseMobileMenu,
   locale,
   onLocaleChange,
+  t,
 }) {
   return (
     <>
@@ -43,7 +44,7 @@ export default function MobileNav({
         <div className={styles.mobileActions}>
           <LanguageSelector locale={locale} onLocaleChange={onLocaleChange} />
           <Link href="/login" className="btn btn-primary btn-full">
-            Start Free
+            {t('startFree')}
           </Link>
         </div>
       </div>

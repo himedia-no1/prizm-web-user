@@ -7,6 +7,8 @@ import styles from './LanguageSelector.module.css';
 const LANGUAGES = [
   { code: 'ko', label: '한국어', flag: '🇰🇷' },
   { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'ja', label: '日本語', flag: '🇯🇵' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
 ];
 
 export default function LanguageSelector({ locale, onLocaleChange, variant = 'default' }) {

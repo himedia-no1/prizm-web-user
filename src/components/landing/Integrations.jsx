@@ -1,4 +1,7 @@
 // src/components/landing/Integrations.jsx
+'use client';
+
+import { useTranslations } from 'next-intl';
 import styles from './Integrations.module.css';
 import AnimatedCard from '@/components/common/AnimatedCard';
 import { Github, Gitlab } from 'lucide-react'; // 1. Lucide 아이콘 import
@@ -13,6 +16,7 @@ const JiraIcon = () => (
 
 
 export default function Integrations() {
+    const t = useTranslations('landing');
     const integrationList = [
         // 3. 아이콘 컴포넌트를 적용합니다.
         { name: 'GitHub', icon: <Github /> },     // Lucide 아이콘 사용
@@ -23,9 +27,9 @@ export default function Integrations() {
         <section id="integrations" className={styles.integrations}>
             <div className="container">
                 <div className="section-header">
-                    <h2 className="section-title">이미 사용 중인 툴과 연결</h2>
+                    <h2 className="section-title">{t('integrationsTitle')}</h2>
                     <p className="section-description">
-                        개발 워크플로우를 끊김없이 통합하세요
+                        {t('integrationsSubtitle')}
                     </p>
                 </div>
                 <div className={styles.integrationsGrid}>

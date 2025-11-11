@@ -1,29 +1,34 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Github, Twitter, Linkedin } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import FooterSection from './FooterSection';
 import styles from './Footer.module.css';
 
 export default function Footer() {
+  const t = useTranslations('landing');
+
   const productLinks = [
-    { href: '#features', label: 'Features' },
-    { href: '#integrations', label: 'Integrations' },
+    { href: '#features', label: t('features') },
+    { href: '#integrations', label: t('integrations') },
     { href: '#pricing', label: 'Pricing' },
-    { href: '#changelog', label: 'Changelog' },
+    { href: '#changelog', label: t('changelog') },
   ];
 
   const resourceLinks = [
-    { href: '#docs', label: 'Documentation' },
-    { href: '#api', label: 'API Reference' },
-    { href: '#blog', label: 'Blog' },
-    { href: '#community', label: 'Community' },
+    { href: '#docs', label: t('documentation') },
+    { href: '#api', label: t('apiReference') },
+    { href: '#blog', label: t('blog') },
+    { href: '#community', label: t('community') },
   ];
 
   const companyLinks = [
-    { href: '#about', label: 'About' },
-    { href: '#careers', label: 'Careers' },
-    { href: '#contact', label: 'Contact' },
-    { href: '#privacy', label: 'Privacy' },
+    { href: '#about', label: t('about') },
+    { href: '#careers', label: t('careers') },
+    { href: '#contact', label: t('contact') },
+    { href: '#privacy', label: t('privacy') },
   ];
 
   return (
@@ -40,7 +45,7 @@ export default function Footer() {
             />
             <span className={styles.logoText}>Prizm</span>
           </div>
-          <p>개발자를 위한 AI 협업 메신저</p>
+          <p>{t('footerTagline')}</p>
           <div className={styles.socialLinks}>
             <a href="#" aria-label="GitHub" className={styles.socialLink}>
               <Github size={20} />
@@ -54,17 +59,17 @@ export default function Footer() {
           </div>
         </div>
 
-        <FooterSection title="Product" links={productLinks} />
-        <FooterSection title="Resources" links={resourceLinks} />
-        <FooterSection title="Company" links={companyLinks} />
+        <FooterSection title={t('product')} links={productLinks} />
+        <FooterSection title={t('resources')} links={resourceLinks} />
+        <FooterSection title={t('company')} links={companyLinks} />
       </div>
 
       <div className={`container ${styles.footerBottom}`}>
-        <p>&copy; 2025 Prizm. All rights reserved.</p>
+        <p>&copy; 2025 Prizm. {t('allRightsReserved')}.</p>
         <div className={styles.footerLinks}>
-          <Link href="#terms">Terms</Link>
-          <Link href="#privacy">Privacy</Link>
-          <Link href="#security">Security</Link>
+          <Link href="#terms">{t('terms')}</Link>
+          <Link href="#privacy">{t('privacy')}</Link>
+          <Link href="#security">{t('security')}</Link>
         </div>
       </div>
     </footer>

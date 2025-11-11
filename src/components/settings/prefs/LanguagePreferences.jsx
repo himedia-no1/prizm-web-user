@@ -20,6 +20,8 @@ export const LanguagePreferences = () => {
   const languageOptions = {
     ko: languageStrings?.korean ?? '한국어',
     en: languageStrings?.english ?? 'English',
+    ja: languageStrings?.japanese ?? '日本語',
+    fr: languageStrings?.french ?? 'Français',
   };
   const [isUpdatingLocale, setIsUpdatingLocale] = useState(false);
 
@@ -31,10 +33,10 @@ export const LanguagePreferences = () => {
     setIsUpdatingLocale(true);
     try {
       await setPreferredLocale(nextLocale);
-      router.refresh();
+      // Force full page reload to apply locale change
+      window.location.reload();
     } catch (error) {
       console.error('Failed to update locale preference', error);
-    } finally {
       setIsUpdatingLocale(false);
     }
   };

@@ -89,7 +89,7 @@ export const UserSettingsPage = ({
             <aside className="settings-sidebar">
                 <button onClick={handleBack} className="settings-sidebar__back-button">
                     <ArrowLeft size={16} />
-                    <span>{s.workspaceAdmin.backToWorkspace}</span>
+                    <span>{s.userSettings?.backToWorkspace ?? '워크스페이스로 돌아가기'}</span>
                 </button>
                 <h3 className="settings-sidebar__title">
                     <User size={16} />

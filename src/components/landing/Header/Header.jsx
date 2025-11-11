@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { throttle } from '@/shared/utils/animations';
 import { setPreferredLocale } from '@/shared/lib/locale';
@@ -18,10 +18,12 @@ export default function Header() {
   const locale = useLocale();
   const router = useRouter();
 
+  const t = useTranslations('landing');
+
   const navItems = [
-    { id: 'features', label: 'Features' },
-    { id: 'ai-power', label: 'AI Power' },
-    { id: 'integrations', label: 'Integrations' },
+    { id: 'features', label: t('features') },
+    { id: 'ai-power', label: t('aiPower') },
+    { id: 'integrations', label: t('integrations') },
   ];
 
   // 스크롤 감지 (그림자 및 숨김)
@@ -97,6 +99,7 @@ export default function Header() {
           activeSection={activeSection}
           locale={locale}
           onLocaleChange={handleLocaleChange}
+          t={t}
         />
         <MobileNav
           navItems={navItems}
@@ -106,6 +109,7 @@ export default function Header() {
           onCloseMobileMenu={handleCloseMobileMenu}
           locale={locale}
           onLocaleChange={handleLocaleChange}
+          t={t}
         />
       </div>
     </nav>

@@ -1,7 +1,7 @@
 export const userSettingsStrings = {
   en: {
-    userSettings: {
       title: 'User settings',
+      backToWorkspace: 'Back to workspace',
       navProfile: 'Profile',
       navPreferences: 'Preferences',
       navLogout: 'Log out',
@@ -85,11 +85,10 @@ export const userSettingsStrings = {
         revoke: 'Sign out on this device',
         empty: 'No other active sessions.',
       },
-    },
   },
   ko: {
-    userSettings: {
       title: '사용자 설정',
+      backToWorkspace: '워크스페이스로 돌아가기',
       navProfile: '프로필',
       navPreferences: '환경 설정',
       navLogout: '로그아웃',
@@ -173,7 +172,6 @@ export const userSettingsStrings = {
         revoke: '이 기기에서 로그아웃',
         empty: '다른 기기에서 로그인된 세션이 없습니다.',
       },
-    },
   },
 };
 
