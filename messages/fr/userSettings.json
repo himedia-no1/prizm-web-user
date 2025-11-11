@@ -1,0 +1,89 @@
+{
+  "title": "Paramètres utilisateur",
+  "backToWorkspace": "Retour à l'espace de travail",
+  "navProfile": "Profil",
+  "navPreferences": "Préférences",
+  "navLogout": "Déconnexion",
+  "navDevices": "Appareils connectés",
+  "profile": {
+    "title": "Mon profil",
+    "description": "Mettez à jour votre avatar et vos informations de base.",
+    "deactivateTitle": "Désactiver le compte",
+    "deactivateDescription": "Désactivez temporairement l'accès tout en préservant vos données.",
+    "deactivateButton": "Désactiver le compte",
+    "deleteTitle": "Supprimer le compte",
+    "deleteDescription": "Supprimez définitivement votre compte et les données associées.",
+    "deleteButton": "Supprimer le compte",
+    "nameLabel": "Nom réel",
+    "emailLabel": "Email",
+    "socialLoginLabel": "Connexion sociale",
+    "socialLoginSuffix": "inscrit avec ce fournisseur",
+    "avatarChange": "Changer l'avatar",
+    "saveButton": "Enregistrer les modifications"
+  },
+  "account": {
+    "title": "Adhésions aux espaces de travail",
+    "description": "Vous appartenez aux espaces de travail suivants.",
+    "workspaceColumn": "Espace de travail",
+    "roleColumn": "Rôle",
+    "joinedColumn": "Rejoint",
+    "empty": "Aucune adhésion à un espace de travail trouvée."
+  },
+  "logout": {
+    "title": "Se déconnecter",
+    "description": "Terminez votre session actuelle sur cet appareil.",
+    "button": "Déconnexion",
+    "modalTitle": "Se déconnecter de Prizm ?",
+    "modalDescription": "Vous pouvez toujours vous reconnecter. Les modifications non enregistrées peuvent être perdues.",
+    "confirm": "Déconnexion",
+    "cancel": "Annuler",
+    "inProgress": "Déconnexion en cours..."
+  },
+  "preferences": {
+    "notifications": {
+      "title": "Paramètres de notification",
+      "description": "Gérez les alertes de bureau et dans l'application.",
+      "options": {
+        "all": "Me notifier de tout",
+        "mentions": "Mentions et messages directs uniquement",
+        "none": "Désactiver les notifications"
+      }
+    },
+    "theme": {
+      "title": "Thème",
+      "description": "Basculez entre les modes clair et sombre.",
+      "label": "Mode d'affichage",
+      "light": "Mode clair",
+      "dark": "Mode sombre"
+    },
+    "language": {
+      "title": "Langue",
+      "description": "Choisissez la langue de l'interface.",
+      "label": "Langue",
+      "korean": "한국어",
+      "english": "English",
+      "japanese": "日本語",
+      "french": "Français"
+    },
+    "translation": {
+      "title": "Traduction automatique",
+      "description": "Traduisez automatiquement les messages dans votre langue.",
+      "label": "Activer la traduction automatique",
+      "enabled": "Traduction automatique activée",
+      "disabled": "Traduction automatique désactivée"
+    }
+  },
+  "devices": {
+    "title": "Appareils connectés",
+    "description": "Consultez où vous êtes actuellement connecté et déconnectez-vous à distance.",
+    "table": {
+      "device": "Appareil",
+      "location": "Emplacement",
+      "loggedInAt": "Connecté",
+      "lastActive": "Dernière activité",
+      "action": "Action"
+    },
+    "revoke": "Se déconnecter sur cet appareil",
+    "empty": "Aucune autre session active."
+  }
+}

@@ -9,8 +9,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = DEFAULT_LOCALE;
   }
 
+  const messages = await getMessagesForLocale(locale);
+
   return {
     locale,
-    messages: getMessagesForLocale(locale),
+    messages,
   };
 });

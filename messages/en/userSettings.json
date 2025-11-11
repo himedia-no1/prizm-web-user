@@ -1,0 +1,87 @@
+{
+  "title": "User settings",
+  "backToWorkspace": "Back to workspace",
+  "navProfile": "Profile",
+  "navPreferences": "Preferences",
+  "navLogout": "Log out",
+  "navDevices": "Signed-in devices",
+  "profile": {
+    "title": "My profile",
+    "description": "Update your avatar and basic information.",
+    "deactivateTitle": "Deactivate account",
+    "deactivateDescription": "Temporarily disable access while preserving your data.",
+    "deactivateButton": "Deactivate account",
+    "deleteTitle": "Delete account",
+    "deleteDescription": "Permanently remove your account and associated data.",
+    "deleteButton": "Delete account",
+    "nameLabel": "Real name",
+    "emailLabel": "Email",
+    "socialLoginLabel": "Social login",
+    "socialLoginSuffix": "signed up with this provider",
+    "avatarChange": "Change avatar",
+    "saveButton": "Save changes"
+  },
+  "account": {
+    "title": "Workspace memberships",
+    "description": "You belong to the following workspaces.",
+    "workspaceColumn": "Workspace",
+    "roleColumn": "Role",
+    "joinedColumn": "Joined",
+    "empty": "No workspace memberships found."
+  },
+  "logout": {
+    "title": "Sign out",
+    "description": "End your current session on this device.",
+    "button": "Log out",
+    "modalTitle": "Log out of Prizm?",
+    "modalDescription": "You can always sign back in. Unsaved changes may be lost.",
+    "confirm": "Log out",
+    "cancel": "Cancel",
+    "inProgress": "Signing out..."
+  },
+  "preferences": {
+    "notifications": {
+      "title": "Notification settings",
+      "description": "Manage desktop and in-app alerts.",
+      "options": {
+        "all": "Notify me about everything",
+        "mentions": "Mentions and direct messages only",
+        "none": "Turn off notifications"
+      }
+    },
+    "theme": {
+      "title": "Theme",
+      "description": "Switch between light and dark modes.",
+      "label": "Display mode",
+      "light": "Light mode",
+      "dark": "Dark mode"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Choose the interface language.",
+      "label": "Language",
+      "korean": "한국어",
+      "english": "English"
+    },
+    "translation": {
+      "title": "Auto Translation",
+      "description": "Automatically translate messages to your language.",
+      "label": "Enable auto translation",
+      "enabled": "Auto translation enabled",
+      "disabled": "Auto translation disabled"
+    }
+  },
+  "devices": {
+    "title": "Signed-in devices",
+    "description": "Review where you are currently signed in and sign out remotely.",
+    "table": {
+      "device": "Device",
+      "location": "Location",
+      "loggedInAt": "Logged in",
+      "lastActive": "Last active",
+      "action": "Action"
+    },
+    "revoke": "Sign out on this device",
+    "empty": "No other active sessions."
+  }
+}

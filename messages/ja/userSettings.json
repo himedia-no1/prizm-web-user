@@ -1,0 +1,89 @@
+{
+  "title": "ユーザー設定",
+  "backToWorkspace": "ワークスペースに戻る",
+  "navProfile": "プロフィール",
+  "navPreferences": "環境設定",
+  "navLogout": "ログアウト",
+  "navDevices": "ログイン中のデバイス",
+  "profile": {
+    "title": "マイプロフィール",
+    "description": "アバターと基本情報を更新します。",
+    "deactivateTitle": "アカウント無効化",
+    "deactivateDescription": "データを保持したまま一時的にアクセスを無効にします。",
+    "deactivateButton": "アカウントを無効化",
+    "deleteTitle": "アカウント削除",
+    "deleteDescription": "アカウントと関連データを完全に削除します。",
+    "deleteButton": "アカウントを削除",
+    "nameLabel": "実名",
+    "emailLabel": "メール",
+    "socialLoginLabel": "ソーシャルログイン",
+    "socialLoginSuffix": "このプロバイダーでサインアップ",
+    "avatarChange": "アバターを変更",
+    "saveButton": "変更を保存"
+  },
+  "account": {
+    "title": "ワークスペースメンバーシップ",
+    "description": "参加しているワークスペースです。",
+    "workspaceColumn": "ワークスペース",
+    "roleColumn": "役割",
+    "joinedColumn": "参加日",
+    "empty": "ワークスペースメンバーシップが見つかりません。"
+  },
+  "logout": {
+    "title": "サインアウト",
+    "description": "このデバイスでの現在のセッションを終了します。",
+    "button": "ログアウト",
+    "modalTitle": "Prizmからログアウトしますか？",
+    "modalDescription": "いつでもサインインし直すことができます。保存されていない変更は失われる可能性があります。",
+    "confirm": "ログアウト",
+    "cancel": "キャンセル",
+    "inProgress": "サインアウト中..."
+  },
+  "preferences": {
+    "notifications": {
+      "title": "通知設定",
+      "description": "デスクトップおよびアプリ内通知を管理します。",
+      "options": {
+        "all": "すべての通知を受け取る",
+        "mentions": "メンションとダイレクトメッセージのみ",
+        "none": "通知をオフにする"
+      }
+    },
+    "theme": {
+      "title": "テーマ",
+      "description": "ライトモードとダークモードを切り替えます。",
+      "label": "表示モード",
+      "light": "ライトモード",
+      "dark": "ダークモード"
+    },
+    "language": {
+      "title": "言語",
+      "description": "インターフェース言語を選択します。",
+      "label": "言語",
+      "korean": "한국어",
+      "english": "English",
+      "japanese": "日本語",
+      "french": "Français"
+    },
+    "translation": {
+      "title": "自動翻訳",
+      "description": "メッセージを自動的に自分の言語に翻訳します。",
+      "label": "自動翻訳を有効化",
+      "enabled": "自動翻訳オン",
+      "disabled": "自動翻訳オフ"
+    }
+  },
+  "devices": {
+    "title": "ログイン中のデバイス",
+    "description": "現在ログイン中のデバイスを確認し、リモートでログアウトできます。",
+    "table": {
+      "device": "デバイス",
+      "location": "場所",
+      "loggedInAt": "ログイン時刻",
+      "lastActive": "最終アクティビティ",
+      "action": "アクション"
+    },
+    "revoke": "このデバイスでログアウト",
+    "empty": "他のデバイスでのログインセッションはありません。"
+  }
+}

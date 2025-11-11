@@ -2,10 +2,10 @@
 
 import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ArrowLeft, User, X } from '@/components/common/icons';
 import { ProfileTab, PreferencesTab, DevicesTab } from '@/components/settings/user/tabs';
 import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
-import useStrings from '@/shared/hooks/useStrings';
 import { useAuthStore } from '@/core/store/authStore';
 import styles from './UserSettingsPage.module.css';
 
@@ -23,13 +23,13 @@ export const UserSettingsPage = ({
         email: 'user@example.com',
     };
     const router = useRouter();
+    const t = useTranslations('userSettings');
     const handleTabChange = useCallback((tab) => {
         const target = `${basePath}/${tab}`;
         router.replace(target);
     }, [router, basePath]);
     const [username, setUsername] = useState(fallbackUser.realName);
     const [email, setEmail] = useState(fallbackUser.email);
-    const s = useStrings();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showDeactivateModal, setShowDeactivateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -89,36 +89,36 @@ export const UserSettingsPage = ({
             <aside className="settings-sidebar">
                 <button onClick={handleBack} className="settings-sidebar__back-button">
                     <ArrowLeft size={16} />
-                    <span>{s.userSettings?.backToWorkspace ?? '워크스페이스로 돌아가기'}</span>
+                    <span>{t('backToWorkspace')}</span>
                 </button>
                 <h3 className="settings-sidebar__title">
                     <User size={16} />
-                    <span>{s.userSettings?.title ?? '사용자 설정'}</span>
+                    <span>{t('title')}</span>
                 </h3>
                 <nav className="settings-sidebar__nav">
                     <button
                         className={`settings-sidebar__button ${activeTab === 'profile' ? 'active' : ''}`}
                         onClick={() => handleTabChange('profile')}
                     >
-                        <span>{s.userSettings?.navProfile ?? '프로필'}</span>
+                        <span>{t('navProfile')}</span>
                     </button>
                     <button
                         className={`settings-sidebar__button ${activeTab === 'devices' ? 'active' : ''}`}
                         onClick={() => handleTabChange('devices')}
                     >
-                        <span>{s.userSettings?.navDevices ?? '로그인된 기기'}</span>
+                        <span>{t('navDevices')}</span>
                     </button>
                     <button
                         className={`settings-sidebar__button ${activeTab === 'prefs' ? 'active' : ''}`}
                         onClick={() => handleTabChange('prefs')}
                     >
-                        <span>{s.userSettings?.navPreferences ?? '환경 설정'}</span>
+                        <span>{t('navPreferences')}</span>
                     </button>
                     <button
                         className="settings-sidebar__button"
                         onClick={() => setShowLogoutModal(true)}
                     >
-                        <span>{s.userSettings?.navLogout ?? '로그아웃'}</span>
+                        <span>{t('navLogout')}</span>
                     </button>
                 </nav>
             </aside>

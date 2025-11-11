@@ -1,0 +1,38 @@
+{
+  "welcome": "Bienvenue",
+  "startWithSocial": "Commencez facilement avec votre compte social",
+  "github": "Continuer avec GitHub",
+  "google": "Continuer avec Google",
+  "terms": "En continuant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité.",
+  "termsOfService": "Conditions d'utilisation",
+  "privacyPolicy": "Politique de confidentialité",
+  "korean": "한국어",
+  "english": "English",
+  "channels": "Canaux",
+  "categories": "Catégories",
+  "favorites": "Favoris",
+  "favoritesEmpty": "Aucun canal favori pour le moment.",
+  "createCategory": "Créer une catégorie",
+  "inviteMembers": "Inviter des membres",
+  "createNewWorkspace": "Créer un nouvel espace de travail",
+  "dashboard": "Tableau de bord",
+  "search": "Rechercher",
+  "directMessages": "Messages directs",
+  "appConnect": "Connexion d'applications",
+  "online": "En ligne",
+  "offline": "Hors ligne",
+  "directory": "Annuaire",
+  "inbox": "Boîte de réception",
+  "unreadCount": "{{count}}",
+  "unreadCountMax": "99+",
+  "statusLabels": {
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "away": "Absent",
+    "busy": "Ne pas déranger"
+  },
+  "copy": {
+    "copy": "Copier",
+    "copied": "Copié !"
+  }
+}

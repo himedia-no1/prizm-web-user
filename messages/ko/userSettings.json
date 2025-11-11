@@ -1,0 +1,87 @@
+{
+  "title": "사용자 설정",
+  "backToWorkspace": "워크스페이스로 돌아가기",
+  "navProfile": "프로필",
+  "navPreferences": "환경 설정",
+  "navLogout": "로그아웃",
+  "navDevices": "로그인된 기기",
+  "profile": {
+    "title": "내 프로필",
+    "description": "아바타와 기본 정보를 수정합니다.",
+    "deactivateTitle": "계정 비활성화",
+    "deactivateDescription": "데이터를 유지한 채 일시적으로 계정을 잠급니다.",
+    "deactivateButton": "계정 비활성화",
+    "deleteTitle": "계정 삭제",
+    "deleteDescription": "계정과 관련 데이터를 영구적으로 삭제합니다.",
+    "deleteButton": "계정 삭제",
+    "nameLabel": "실제 이름",
+    "emailLabel": "이메일",
+    "socialLoginLabel": "소셜 로그인",
+    "socialLoginSuffix": "계정으로 가입함",
+    "avatarChange": "변경",
+    "saveButton": "변경사항 저장"
+  },
+  "account": {
+    "title": "소속 워크스페이스",
+    "description": "현재 참여 중인 워크스페이스와 역할입니다.",
+    "workspaceColumn": "워크스페이스",
+    "roleColumn": "역할",
+    "joinedColumn": "가입일",
+    "empty": "소속된 워크스페이스가 없습니다."
+  },
+  "logout": {
+    "title": "로그아웃",
+    "description": "현재 기기에서 세션을 종료합니다.",
+    "button": "로그아웃",
+    "modalTitle": "로그아웃 하시겠어요?",
+    "modalDescription": "언제든 다시 로그인할 수 있습니다. 저장되지 않은 변경사항은 사라질 수 있습니다.",
+    "confirm": "로그아웃",
+    "cancel": "취소",
+    "inProgress": "로그아웃 중..."
+  },
+  "preferences": {
+    "notifications": {
+      "title": "알림 설정",
+      "description": "데스크톱 및 앱 알림을 관리하세요.",
+      "options": {
+        "all": "모든 활동에 대해 알림",
+        "mentions": "멘션 및 다이렉트 메시지만",
+        "none": "알림 끄기"
+      }
+    },
+    "theme": {
+      "title": "테마 설정",
+      "description": "라이트/다크 모드를 전환할 수 있습니다.",
+      "label": "표시 모드",
+      "light": "라이트 모드",
+      "dark": "다크 모드"
+    },
+    "language": {
+      "title": "언어 설정",
+      "description": "인터페이스 언어를 변경합니다.",
+      "label": "언어",
+      "korean": "한국어",
+      "english": "English"
+    },
+    "translation": {
+      "title": "자동 번역",
+      "description": "메시지를 자동으로 내 언어로 번역합니다.",
+      "label": "자동 번역 활성화",
+      "enabled": "자동 번역 켜짐",
+      "disabled": "자동 번역 꺼짐"
+    }
+  },
+  "devices": {
+    "title": "로그인된 기기",
+    "description": "현재 로그인 중인 기기를 확인하고 원격으로 로그아웃할 수 있습니다.",
+    "table": {
+      "device": "기기",
+      "location": "위치",
+      "loggedInAt": "로그인 시각",
+      "lastActive": "마지막 활동",
+      "action": "조치"
+    },
+    "revoke": "이 기기에서 로그아웃",
+    "empty": "다른 기기에서 로그인된 세션이 없습니다."
+  }
+}

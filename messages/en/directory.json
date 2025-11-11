@@ -1,0 +1,27 @@
+{
+  "title": "Directory",
+  "searchPlaceholder": "Search members...",
+  "sortLabel": "Sort",
+  "sortOptions": {
+    "nameAsc": "Name A-Z",
+    "joinDesc": "Newest members",
+    "roleAsc": "Role",
+    "status": "Status"
+  },
+  "pageSizeLabel": "Rows per page",
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "summary": "Showing {{from}}-{{to}} of {{total}} members"
+  },
+  "columns": {
+    "name": "Member",
+    "email": "Email",
+    "provider": "Provider",
+    "joinedAt": "Joined",
+    "group": "Group",
+    "role": "Role",
+    "status": "Status"
+  },
+  "empty": "No members found."
+}

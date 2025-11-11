@@ -1,0 +1,22 @@
+{
+  "actions": {
+    "copy": "Copy",
+    "react": "Add reaction",
+    "reply": "Reply",
+    "translate": "Translate",
+    "forward": "Forward",
+    "pin": "Pin message",
+    "unpin": "Unpin message",
+    "startThread": "Start thread",
+    "edit": "Edit",
+    "delete": "Delete",
+    "more": "More"
+  },
+  "translated": "Translated from {{lang}}",
+  "translating": "Translating...",
+  "translationNotice": "This message was translated.",
+  "showOriginal": "View original",
+  "hideOriginal": "Hide original",
+  "forwardTo": "Forward to",
+  "forwardSuccess": "Message forwarded"
+}
