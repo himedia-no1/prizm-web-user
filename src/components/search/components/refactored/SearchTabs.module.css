@@ -1,0 +1,44 @@
+.tabGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background-color: rgba(0, 0, 0, 0.02);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+[data-theme='dark'] .filterChip {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.filterChip svg {
+  color: var(--text-secondary);
+}
+
+.filterChip:hover {
+  border-color: rgba(140, 101, 209, 0.4);
+  color: var(--text);
+}
+
+.filterChipActive {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(140, 101, 209, 0.4);
+}
+
+.filterChipActive svg {
+  color: #ffffff;
+}
