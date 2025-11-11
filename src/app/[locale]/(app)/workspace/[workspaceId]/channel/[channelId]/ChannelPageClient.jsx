@@ -11,7 +11,7 @@ import { MessageContextMenu } from '@/components/channel/components/MessageConte
 import { ThreadSidebar } from '@/components/channel/components/ThreadSidebar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
 import styles from './channel.module.css';
-import { WorkspaceContext } from '@/app/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
+import { WorkspaceContext } from '@/app/[locale]/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
 
 const resolveChannelId = (channelId) => {
   if (Array.isArray(channelId)) {

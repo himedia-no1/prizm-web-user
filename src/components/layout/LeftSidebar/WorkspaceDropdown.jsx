@@ -1,6 +1,5 @@
 import { Settings, Plus, Mail } from '@/components/common/icons';
-import useStore from '@/core/store/useStore';
-import { strings } from '@/shared/constants/strings';
+import useStrings from '@/shared/hooks/useStrings';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,
@@ -13,8 +12,7 @@ export const WorkspaceDropdown = ({
   onOpenModal,
   permissions = {},
 }) => {
-  const { language } = useStore();
-  const s = strings[language];
+  const s = useStrings('common');
   const { canManageWorkspace = false, canInviteMembers = false } = permissions;
 
   if (!isOpen) return null;

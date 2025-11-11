@@ -1,16 +1,17 @@
-import { useMemo } from 'react';
-import useStore from '@/core/store/useStore';
-import { strings, stringDomains } from '@/shared/constants/strings';
+import { useLocale, useMessages } from 'next-intl';
+import { stringDomains, strings } from '@/shared/constants/strings';
+import { DEFAULT_LOCALE } from '@/i18n/config';
 
 export const useStrings = (domainKey) => {
-  const language = useStore((state) => state.language);
+  const locale = useLocale();
+  const messages = useMessages();
 
-  return useMemo(() => {
-    if (domainKey && stringDomains[domainKey]) {
-      return stringDomains[domainKey][language] ?? stringDomains[domainKey].en ?? {};
-    }
-    return strings[language] ?? strings.en;
-  }, [language, domainKey]);
+  if (domainKey && stringDomains[domainKey]) {
+    const domain = stringDomains[domainKey];
+    return domain[locale] ?? domain[DEFAULT_LOCALE] ?? domain.en ?? {};
+  }
+
+  return messages ?? strings[locale] ?? strings[DEFAULT_LOCALE] ?? {};
 };
 
 export default useStrings;

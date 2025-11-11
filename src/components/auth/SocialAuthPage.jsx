@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Github, Sun, Moon } from 'lucide-react';
 import SocialButton from '@/components/auth/SocialButton';
 import { useAuthStore } from '@/core/store/authStore';
 import useStore from '@/core/store/useStore';
-import { strings } from '@/shared/constants/strings';
+import useStrings from '@/shared/hooks/useStrings';
+import { useLocale } from 'next-intl';
+import { setPreferredLocale } from '@/shared/lib/locale';
 import { authenticateWithProvider } from './actions';
 import styles from './SocialAuthPage.module.css';
 
@@ -36,12 +38,14 @@ const providerOrder = ['Google', 'GitHub'];
 
 export default function SocialAuthPage({ searchParams }) {
   const router = useRouter();
-  const { isDarkMode, toggleDarkMode, language, toggleLanguage } = useStore();
+  const { isDarkMode, toggleDarkMode } = useStore();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const setAuthState = useAuthStore((state) => state.setAuthState);
   const [error, setError] = useState(null);
   const [isPending, startTransition] = useTransition();
   const oauthHandledRef = useRef(false);
+  const locale = useLocale();
+  const localeStrings = useStrings('common');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -71,7 +75,18 @@ export default function SocialAuthPage({ searchParams }) {
   }, [searchParams, router, setAuthState]);
 
   const theme = isDarkMode ? 'dark' : 'light';
-  const localeStrings = useMemo(() => strings[language] ?? strings.ko ?? strings.en, [language]);
+
+  const handleLocaleChange = async (targetLocale) => {
+    if (targetLocale === locale) {
+      return;
+    }
+    try {
+      await setPreferredLocale(targetLocale);
+      router.refresh();
+    } catch (err) {
+      console.error('Failed to update locale', err);
+    }
+  };
 
   const handleProviderLogin = (provider) => {
     setError(null);
@@ -90,15 +105,15 @@ export default function SocialAuthPage({ searchParams }) {
     <div className={`${styles.page} ${styles[theme]}`}>
       <div className={styles.languageToggle}>
         <button
-          onClick={toggleLanguage}
-          className={language === 'ko' ? styles.active : ''}
+          onClick={() => handleLocaleChange('ko')}
+          className={locale === 'ko' ? styles.active : ''}
           type="button"
         >
           {localeStrings.korean}
         </button>
         <button
-          onClick={toggleLanguage}
-          className={language === 'en' ? styles.active : ''}
+          onClick={() => handleLocaleChange('en')}
+          className={locale === 'en' ? styles.active : ''}
           type="button"
         >
           {localeStrings.english}

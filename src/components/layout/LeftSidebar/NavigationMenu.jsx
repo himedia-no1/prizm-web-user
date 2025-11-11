@@ -1,10 +1,8 @@
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
-import useStore from '@/core/store/useStore';
-import { strings } from '@/shared/constants/strings';
+import useStrings from '@/shared/hooks/useStrings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
-  const { language } = useStore();
-  const s = strings[language];
+  const s = useStrings('common');
 
   const directoryLabel = typeof s.directory === 'object' ? s.directory.title : s.directory;
 

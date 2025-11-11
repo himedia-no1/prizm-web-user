@@ -1,13 +1,17 @@
 
 'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import useStore from '@/core/store/useStore';
 import useStrings from '@/shared/hooks/useStrings';
+import { setPreferredLocale } from '@/shared/lib/locale';
 import styles from './Preferences.module.css';
 
 export const LanguagePreferences = () => {
-  const language = useStore((state) => state.language);
-  const setLanguage = useStore((state) => state.setLanguage);
+  const router = useRouter();
+  const locale = useLocale();
   const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
   const toggleAutoTranslate = useStore((state) => state.toggleAutoTranslate);
   const s = useStrings();
@@ -16,6 +20,23 @@ export const LanguagePreferences = () => {
   const languageOptions = {
     ko: languageStrings?.korean ?? '한국어',
     en: languageStrings?.english ?? 'English',
+  };
+  const [isUpdatingLocale, setIsUpdatingLocale] = useState(false);
+
+  const handleLocaleChange = async (event) => {
+    const nextLocale = event.target.value;
+    if (nextLocale === locale) {
+      return;
+    }
+    setIsUpdatingLocale(true);
+    try {
+      await setPreferredLocale(nextLocale);
+      router.refresh();
+    } catch (error) {
+      console.error('Failed to update locale preference', error);
+    } finally {
+      setIsUpdatingLocale(false);
+    }
   };
 
   return (
@@ -29,8 +50,9 @@ export const LanguagePreferences = () => {
           </label>
           <select
             id="language-select"
-            value={language}
-            onChange={(event) => setLanguage(event.target.value)}
+            value={locale}
+            disabled={isUpdatingLocale}
+            onChange={handleLocaleChange}
           >
             {Object.entries(languageOptions).map(([value, label]) => (
               <option key={value} value={value}>

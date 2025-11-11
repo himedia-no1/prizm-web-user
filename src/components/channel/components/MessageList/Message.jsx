@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import useStore from '@/core/store/useStore';
 import { messageService } from '@/core/api/services';
-import { strings } from '@/shared/constants/strings';
+import useStrings from '@/shared/hooks/useStrings';
+import { useLocale } from 'next-intl';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './Message.module.css';
 
@@ -25,9 +26,9 @@ const getTranslationText = (translation) => {
 export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {
   const hasThread = message.threadId;
   const replyCount = hasThread ? 2 : 0;
-  const { language, autoTranslateEnabled } = useStore();
-  const localeStrings = strings[language] ?? strings.en;
-  const messageStrings = localeStrings.message;
+  const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
+  const locale = useLocale();
+  const messageStrings = useStrings('message');
   
   const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
   const [translatedText, setTranslatedText] = useState('');
@@ -40,7 +41,7 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
     // 테스트 환경에서는 API로 직접 호출
     setTimeout(async () => {
       try {
-        const result = await messageService.translateMessage(message.id, language);
+        const result = await messageService.translateMessage(message.id, locale);
         setTranslatedText(result.translatedText);
         setTranslationState('done');
         setIsOriginalVisible(false);
@@ -49,11 +50,11 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
         setTranslationState('none');
       }
     }, 500); // 번역 중 상태를 보여주기 위한 지연
-  }, [message.id, language]);
+  }, [message.id, locale]);
 
   useEffect(() => {
     setIsOriginalVisible(false);
-    const cachedTranslation = getTranslationText(message.translations?.[language]);
+    const cachedTranslation = getTranslationText(message.translations?.[locale]);
 
     if (cachedTranslation) {
       setTranslatedText(cachedTranslation);
@@ -62,26 +63,26 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
       setTranslatedText('');
       setTranslationState('none');
     }
-  }, [message.id, language, message.translations]);
+  }, [message.id, locale, message.translations]);
 
   useEffect(() => {
     // 자동 번역이 활성화되어 있고, 메시지 언어가 사용자 언어와 다를 때만 번역
     const shouldTranslate = 
       autoTranslateEnabled && 
       message.language && 
-      message.language !== language &&
+      message.language !== locale &&
       translationState === 'none';
     
     if (shouldTranslate) {
       handleAutoTranslate();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message.id, message.language, language, autoTranslateEnabled]);
+  }, [message.id, message.language, locale, autoTranslateEnabled]);
 
   const shouldTranslate =
     autoTranslateEnabled &&
     message.language &&
-    message.language !== language;
+    message.language !== locale;
 
   const hasTranslatedResult = translationState === 'done' && translatedText;
   const showTranslationAsPrimary = shouldTranslate && hasTranslatedResult;

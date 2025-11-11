@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { Hash as HashIcon } from '@/components/common/icons';
 import useStore from '@/core/store/useStore';
 import useDataStore from '@/core/store/dataStore';
-import { WorkspaceContext } from '@/app/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
+import { WorkspaceContext } from '@/app/[locale]/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
 import { useInviteStrings } from './hooks/useInviteStrings';
 import { useInviteTargets } from './hooks/useInviteTargets';
 import { buildInviteLink, multiSelectToggle } from './utils/helpers';

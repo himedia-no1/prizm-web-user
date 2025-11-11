@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { X, Check, Trash2, CheckCheck } from 'lucide-react';
+import { useLocale } from 'next-intl';
 import useStrings from '@/shared/hooks/useStrings';
 import useStore from '@/core/store/useStore';
 import { notificationService } from '@/core/api/services';
@@ -14,6 +15,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
   const [loading, setLoading] = useState(false);
+  const locale = useLocale();
 
   const loadNotifications = useCallback(async () => {
     setLoading(true);
@@ -87,9 +89,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    const { language } = useStore.getState();
-    
-    if (language === 'ko') {
+    if (locale === 'ko') {
       if (diffMins < 1) return '방금 전';
       if (diffMins < 60) return `${diffMins}분 전`;
       if (diffHours < 24) return `${diffHours}시간 전`;
