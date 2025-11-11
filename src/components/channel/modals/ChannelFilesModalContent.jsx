@@ -1,30 +1,69 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useMessages } from 'next-intl';
-import { FileText } from '@/components/common/icons';
+import { FileText, LayoutGrid, Image, Link } from '@/components/common/icons';
+
+const TABS = [
+    { id: 'all', label: '전체', icon: LayoutGrid },
+    { id: 'files', label: '파일', icon: FileText },
+    { id: 'media', label: '미디어', icon: Image },
+    { id: 'links', label: '링크', icon: Link },
+];
+
+const MEDIA_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
+const FILE_EXTENSIONS = ['pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'hwp', 'zip'];
 
 export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
-    const [activeFileTab, setActiveFileTab] = useState('files');
+    const [activeFileTab, setActiveFileTab] = useState('all');
     const strings = s.modals.genericModal.channelFiles;
+
+    const filteredFiles = useMemo(() => {
+        if (activeFileTab === 'all') {
+            return files;
+        }
+        if (activeFileTab === 'media') {
+            return files.filter(file => {
+                const extension = file.name.split('.').pop().toLowerCase();
+                return MEDIA_EXTENSIONS.includes(extension);
+            });
+        }
+        if (activeFileTab === 'files') {
+            return files.filter(file => {
+                const extension = file.name.split('.').pop().toLowerCase();
+                return FILE_EXTENSIONS.includes(extension);
+            });
+        }
+        if (activeFileTab === 'links') {
+            // Links are not yet supported
+            return [];
+        }
+        return [];
+    }, [files, activeFileTab]);
 
     return (
         <div className="channel-files-modal">
             <div className="channel-files-tabs">
-                <button
-                    className={activeFileTab === 'files' ? 'active' : ''}
-                    onClick={() => setActiveFileTab('files')}
-                >
-                    <FileText size={16} />
-                    {strings.filesTab}
-                </button>
+                {TABS.map(tab => {
+                    const Icon = tab.icon;
+                    return (
+                        <button
+                            key={tab.id}
+                            className={activeFileTab === tab.id ? 'active' : ''}
+                            onClick={() => setActiveFileTab(tab.id)}
+                        >
+                            <Icon size={16} />
+                            {tab.label}
+                        </button>
+                    );
+                })}
             </div>
             <div className="channel-files-content">
-                {files.length > 0 ? (
+                {filteredFiles.length > 0 ? (
                     <div className="channel-files-grid">
-                        {files.map((file) => {
+                        {filteredFiles.map((file) => {
                             const uploader = users[file.uploadedBy];
                             return (
                                 <div key={file.id} className="channel-file-card">
