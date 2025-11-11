@@ -1,0 +1,74 @@
+'use client';
+
+import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
+import useStore from '@/core/store/useStore';
+import styles from './ChannelHeader.module.css';
+
+const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic }) => {
+  const memberCount = members.length;
+  const topicText = topic || fallbackTopic || (description ? description : '');
+  const memberLabel = memberCount > 0 ? `${memberCount} ${memberCount === 1 ? 'member' : 'members'}` : null;
+  if (memberLabel && topicText) {
+    return `${memberLabel} • ${topicText}`;
+  }
+  return memberLabel || topicText || (type === 'dm' ? 'Direct conversation' : 'Team conversation');
+};
+
+export const ChatHeader = ({ channel, onOpenModal }) => {
+  const toggleChannelNotifications = useStore((state) => state.toggleChannelNotifications);
+  const isChannelNotificationsEnabled = useStore((state) => state.isChannelNotificationsEnabled);
+
+  if (!channel) return null;
+
+  const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
+  const notificationsEnabled = isChannelNotificationsEnabled(channel.id);
+  const subtitle = buildSubtitle({
+    members: channel.members,
+    topic: channel.topic,
+    description: channel.description,
+    type: channel.type,
+    fallbackTopic: channel.fallbackTopic,
+  });
+
+  return (
+    <header className="chat-header">
+      <div className="chat-header__summary">
+        <h2 className="chat-header__title">
+          {isDirectMessage ? <Users size={20} /> : <Hash size={20} />}
+          <span>{channel.displayName || channel.name || 'Unknown Channel'}</span>
+        </h2>
+        <p className="chat-header__meta">{subtitle}</p>
+      </div>
+
+      <div className="chat-header__actions">
+        <button
+          type="button"
+          className={`chat-header__notification-button ${notificationsEnabled ? '' : 'muted'}`}
+          onClick={() => toggleChannelNotifications(channel.id)}
+          aria-pressed={!notificationsEnabled}
+          aria-label={notificationsEnabled ? '알림 끄기' : '알림 켜기'}
+        >
+          <Bell size={20} />
+        </button>
+        <button onClick={() => onOpenModal('search')}>
+          <Search size={20} />
+        </button>
+        <button onClick={() => onOpenModal('members')}>
+          <Users size={20} />
+        </button>
+        <button onClick={() => onOpenModal('pinned')}>
+          <Bookmark size={20} />
+        </button>
+        <button onClick={() => onOpenModal('threads')}>
+          <MessageSquare size={20} />
+        </button>
+        <button onClick={() => onOpenModal('channelFiles')}>
+          <Folder size={20} />
+        </button>
+        <button onClick={() => onOpenModal('info')}>
+          <Info size={20} />
+        </button>
+      </div>
+    </header>
+  );
+};

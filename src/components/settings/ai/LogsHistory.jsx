@@ -1,17 +1,46 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './LogsHistory.module.css';
-
-const mockLogs = [
-    { id: 1, status: '완료', executor: 'User 1', duration: '5.2s', details: { chunks: 102, documents: 5, errors: 0 } },
-    { id: 2, status: '실패', executor: 'User 1', duration: '1.2s', details: { chunks: 10, documents: 1, errors: 1, error_reason: 'Invalid document format' } },
-    { id: 3, status: '완료', executor: 'User 2', duration: '10.5s', details: { chunks: 250, documents: 15, errors: 0 } },
-];
+import { aiService } from '@/core/api/services';
 
 export default function LogsHistory() {
-    const [logs, setLogs] = useState(mockLogs);
+    const [logs, setLogs] = useState([]);
     const [showDetails, setShowDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        let active = true;
+
+        const loadLogs = async () => {
+            try {
+                const payload = await aiService.fetchLogs();
+                if (!active) {
+                    return;
+                }
+                setLogs(Array.isArray(payload) ? payload : []);
+                setError(null);
+            } catch (err) {
+                if (!active) {
+                    return;
+                }
+                console.error('Failed to load logs:', err);
+                setError('로그를 불러오지 못했습니다.');
+                setLogs([]);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadLogs();
+
+        return () => {
+            active = false;
+        };
+    }, []);
 
     const handleDownload = () => {
         const data = JSON.stringify(logs, null, 2);
@@ -24,11 +53,15 @@ export default function LogsHistory() {
         URL.revokeObjectURL(url);
     };
 
-    // const handleRollback = (id) => {
-    //     if (confirm(`Are you sure you want to rollback to this version?`)) {
-    //         console.log(`Rolling back to version ${id}`);
-    //     }
-    // };
+    if (loading) {
+        return <div className={styles.container}>로그를 불러오는 중입니다...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.container}>{error}</div>;
+    }
+
+    const activeLog = logs.find((log) => log.id === showDetails);
 
     return (
         <div className={styles.container}>
@@ -42,25 +75,28 @@ export default function LogsHistory() {
                     </tr>
                 </thead>
                 <tbody>
-                    {logs.map(log => (
+                    {logs.map((log) => (
                         <tr key={log.id}>
                             <td>{log.status}</td>
                             <td>{log.executor}</td>
                             <td>{log.duration}</td>
                             <td>
-                                <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>세부 로그 보기</button>
-                                {/* <button onClick={() => handleRollback(log.id)} className={styles.rollbackButton}>롤백</button> */}
+                                <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>
+                                    세부 로그 보기
+                                </button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <button onClick={handleDownload} className={styles.downloadButton}>다운로드</button>
-            {showDetails && (
+            <button onClick={handleDownload} className={styles.downloadButton}>
+                다운로드
+            </button>
+            {showDetails && activeLog && (
                 <div className={styles.detailsModalOverlay}>
                     <div className={styles.detailsModal}>
                         <h3>Log Details</h3>
-                        <pre>{JSON.stringify(logs.find(log => log.id === showDetails).details, null, 2)}</pre>
+                        <pre>{JSON.stringify(activeLog.details, null, 2)}</pre>
                         <button onClick={() => setShowDetails(null)}>Close</button>
                     </div>
                 </div>

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X, Sparkles, ChevronsUpDown, Plus, Paperclip, Send } from '@/components/common/icons';
+import { X, AIIcon, ChevronsUpDown, Plus, Paperclip, Send } from '@/components/common/icons';
+import styles from './AIAssistantModal.module.css';
 
 const AIAssistantModal = ({ onClose }) => {
     const [chatHistory, setChatHistory] = useState([
@@ -32,9 +33,9 @@ const AIAssistantModal = ({ onClose }) => {
 
     return (
         <div className="ai-modal">
-            <header className="ai-modal__header" onClick={() => setIsSessionDropdownOpen(!isSessionDropdownOpen)} style={{ cursor: 'pointer' }}>
+            <header className={`ai-modal__header ${styles.header}`} onClick={() => setIsSessionDropdownOpen(!isSessionDropdownOpen)}>
                 <div className="ai-modal__title">
-                    <Sparkles size={18} className="ai-modal__title-icon" />
+                    <AIIcon size={18} className="ai-modal__title-icon" />
                     <span>{sessions.find(s => s.id === currentSessionId)?.name || 'AI Assistant'}</span>
                     <ChevronsUpDown size={16} className="ai-modal__header-chevron" />
                 </div>

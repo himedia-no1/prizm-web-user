@@ -42,7 +42,7 @@ export default function LearningControl() {
             </div>
             <div className={styles.status}>
                 <div className={styles.progressBarContainer}>
-                    <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
+                    <div className={styles.progressBar} style={{ '--progress-width': `${progress}%` }}></div>
                 </div>
                 <div className={styles.statusText}>{learningStatus}</div>
             </div>

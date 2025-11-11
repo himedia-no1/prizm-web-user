@@ -1,30 +1,58 @@
 'use client';
 
-import { Plus } from '@/components/common/icons';
-import useDataStore from '@/store/dataStore';
+import { useEffect } from 'react';
+import Image from 'next/image';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
+import useDataStore from '@/core/store/dataStore';
+import useStrings from '@/shared/hooks/useStrings';
+import useStore from '@/core/store/useStore';
+import styles from './AppConnectList.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const AppConnectList = () => {
-    const { appConnect } = useDataStore();
+    const s = useStrings();
+    const appConnect = useDataStore((state) => state.appConnect);
+    const loadInitialData = useDataStore((state) => state.loadInitialData);
+    const initialized = useDataStore((state) => state.initialized);
+    const unreadCounts = useStore((state) => state.unreadCounts ?? {});
+
+    useEffect(() => {
+        if (!initialized) {
+            loadInitialData().catch((error) => {
+                console.error('Failed to load initial data:', error);
+            });
+        }
+    }, [initialized, loadInitialData]);
 
     return (
         <div className="nav-group">
             <div className="nav-group__header">
-                <span>App Connect</span>
-                <button className="nav-category__add-button">
-                    <Plus size={14} />
-                </button>
+                <span>{s.appConnect ?? 'App Connect'}</span>
             </div>
-            <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
-                {appConnect.map(app => (
-                    <li key={app.id}>
-                        <button className="channel-button">
-                            <span className="channel-button__name">
-                                <img src={`/${app.icon}`} alt={app.name} className="dm-button__avatar" />
-                                <span>{app.name}</span>
-                            </span>
-                        </button>
-                    </li>
-                ))}
+            <ul className={`nav-category__list ${styles.list}`}>
+                {appConnect.map(app => {
+                    const unreadCount = unreadCounts[app.id] || 0;
+                    const iconSrc = app.icon ? `/${app.icon}` : getPlaceholderImage(24, app.name?.[0] ?? '?');
+                    return (
+                        <li key={app.id}>
+                            <button className="channel-button">
+                                <span className="channel-button__name">
+                                    <Image
+                                        src={iconSrc}
+                                        alt={app.name}
+                                        width={24}
+                                        height={24}
+                                        className="dm-button__avatar"
+                                    />
+                                    <span>{app.name}</span>
+                                </span>
+                                <div className="channel-button__trail">
+                                    <UnreadBadge count={unreadCount} />
+                                </div>
+                            </button>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );

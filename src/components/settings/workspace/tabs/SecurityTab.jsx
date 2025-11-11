@@ -1,0 +1,27 @@
+'use client';
+
+import useStrings from '@/shared/hooks/useStrings';
+import styles from './SecurityTab.module.css';
+
+export const SecurityTab = () => {
+  const s = useStrings();
+
+  return (
+    <div>
+      <h2 className="settings-content__header">{s.workspaceAdmin.securityTitle}</h2>
+      <p className={styles.description}>
+        {s.workspaceAdmin.securityDescription}
+      </p>
+      <div className="settings-form-group">
+        <label htmlFor="retention">{s.workspaceAdmin.retentionLabel}</label>
+        <input id="retention" type="number" defaultValue={180} />
+      </div>
+      <div className="settings-form-group">
+        <label>
+          <input type="checkbox" /> {s.workspaceAdmin.twoFactorLabel}
+        </label>
+      </div>
+      <button className="profile-modal__save-button">{s.workspaceAdmin.saveChanges}</button>
+    </div>
+  );
+};

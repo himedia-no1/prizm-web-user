@@ -1,0 +1,18 @@
+.description { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.section { margin-bottom: 2rem; }
+.sectionTitle { font-size: 1.05rem; font-weight: 600; }
+.sectionDescription { color: var(--text-secondary); margin: 0.35rem 0 1rem; }
+.empty { color: var(--text-tertiary); font-size: 0.9rem; }
+.inviteItem { align-items: center; gap: 1rem; padding: 0.75rem 0; }
+.inviteDetails { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.inviteMeta { font-size: 0.8rem; color: var(--text-secondary); }
+.inviteStatus { padding: 0.25rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: capitalize; background: var(--status-background); color: var(--status-color); }
+.linkItem { gap: 1rem; padding: 0.85rem 0; align-items: center; }
+.linkDetails { display: flex; gap: 0.75rem; align-items: flex-start; flex: 1; }
+.linkIconWrapper { width: 36px; height: 36px; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; background: var(--card-bg); border: 1px solid var(--border); }
+.linkInfo { display: flex; flex-direction: column; gap: 0.35rem; }
+.linkHeader { display: flex; gap: 0.5rem; align-items: center; }
+.linkId { font-size: 0.75rem; color: var(--text-tertiary); }
+.linkUrl { font-size: 0.85rem; color: var(--text-secondary); }
+.linkMeta { display: flex; flex-wrap: wrap; gap: 0.75rem; font-size: 0.8rem; }
+.copyButton { padding: 0.45rem 0.85rem; }

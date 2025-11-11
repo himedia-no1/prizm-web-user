@@ -1,0 +1,6 @@
+.modal { max-width: 420px; }
+.modalDescription { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.modalActions { display: flex; justify-content: flex-end; gap: 0.75rem; }
+.cancelButton { padding: 0.6rem 1rem; }
+.logoutButton { width: auto; background-color: #ef4444; }
+.loggingOut { opacity: 0.7; }

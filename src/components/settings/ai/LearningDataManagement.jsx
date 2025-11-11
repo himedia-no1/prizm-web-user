@@ -1,31 +1,110 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './LearningDataManagement.module.css';
-
-const mockData = [
-    { id: 1, source: 'document.pdf', author: 'User 1', created_at: '2025-10-28', is_approved: true },
-    { id: 2, source: 'chat_channel_general', author: 'User 2', created_at: '2025-10-29', is_approved: false },
-    { id: 3, source: 'note_20251030', author: 'User 3', created_at: '2025-10-30', is_approved: true },
-];
+import { aiService } from '@/core/api/services';
 
 export default function LearningDataManagement() {
-    const [data, setData] = useState(mockData);
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [actionFeedback, setActionFeedback] = useState(null);
 
-    const handleToggleApproval = (id) => {
-        setData(data.map(item => item.id === id ? { ...item, is_approved: !item.is_approved } : item));
+    useEffect(() => {
+        let active = true;
+
+        const loadLearningData = async () => {
+            try {
+                const payload = await aiService.fetchLearningData();
+                if (!active) {
+                    return;
+                }
+                setData(Array.isArray(payload) ? payload : []);
+                setError(null);
+            } catch (err) {
+                if (!active) {
+                    return;
+                }
+                console.error('Failed to load learning data:', err);
+                setError('학습 데이터를 불러오지 못했습니다.');
+                setData([]);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadLearningData();
+
+        return () => {
+            active = false;
+        };
+    }, []);
+
+    const handleToggleApproval = async (id) => {
+        const target = data.find((item) => item.id === id);
+        if (!target) {
+            return;
+        }
+        const nextApproved = !target.approved;
+        const snapshot = data.map((item) => ({ ...item }));
+        setData((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, approved: nextApproved } : item,
+            ),
+        );
+        try {
+            await aiService.updateLearningDataApproval(id, nextApproved);
+            setActionFeedback('승인 상태가 업데이트되었습니다.');
+        } catch (err) {
+            console.error('Failed to update learning data approval:', err);
+            setData(snapshot);
+            setActionFeedback('승인 상태를 변경하지 못했습니다.');
+        }
     };
 
-    const handleRemoveData = (id) => {
-        setData(data.filter(item => item.id !== id));
+    const handleRemoveData = async (id) => {
+        const snapshot = data.map((item) => ({ ...item }));
+        setData((prev) => prev.filter((item) => item.id !== id));
+        try {
+            await aiService.deleteLearningData(id);
+            setActionFeedback('데이터가 삭제되었습니다.');
+        } catch (err) {
+            console.error('Failed to delete learning data:', err);
+            setData(snapshot);
+            setActionFeedback('데이터 삭제에 실패했습니다.');
+        }
     };
 
-    const handleReinspectData = (id) => {
-        console.log(`Reinspecting data with id: ${id}`);
+    const handleReinspectData = async (id) => {
+        try {
+            const response = await aiService.reinspectLearningData(id);
+            if (response?.item) {
+                setData((prev) =>
+                    prev.map((item) =>
+                        item.id === id ? { ...item, ...response.item } : item,
+                    ),
+                );
+            }
+            setActionFeedback('재검토를 요청했습니다.');
+        } catch (err) {
+            console.error('Failed to request reinspection:', err);
+            setActionFeedback('재검토 요청에 실패했습니다.');
+        }
     };
+
+    if (loading) {
+        return <div className={styles.container}>학습 데이터를 불러오는 중입니다...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.container}>{error}</div>;
+    }
 
     return (
         <div className={styles.container}>
+            {actionFeedback && <div className={styles.feedback}>{actionFeedback}</div>}
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -41,10 +120,10 @@ export default function LearningDataManagement() {
                         <tr key={item.id}>
                             <td>{item.source}</td>
                             <td>{item.author}</td>
-                            <td>{item.created_at}</td>
+                            <td>{item.createdAt}</td>
                             <td>
                                 <label className={styles.switch}>
-                                    <input type="checkbox" checked={item.is_approved} onChange={() => handleToggleApproval(item.id)} />
+                                    <input type="checkbox" checked={item.approved} onChange={() => handleToggleApproval(item.id)} />
                                     <span className={styles.slider}></span>
                                 </label>
                             </td>

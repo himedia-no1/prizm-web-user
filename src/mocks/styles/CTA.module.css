@@ -1,0 +1,47 @@
+/* src/styles/CTA.module.css */
+.cta {
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+    position: relative;
+    overflow: hidden;
+    padding: var(--section-padding);
+}
+
+.cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(140, 101, 209, 0.2), transparent 70%);
+    border-radius: 50%;
+}
+
+.ctaContent {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.ctaContent h2 {
+    margin-bottom: 1rem;
+}
+
+.ctaContent p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.ctaActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .ctaActions {
+        flex-direction: column;
+    }
+}

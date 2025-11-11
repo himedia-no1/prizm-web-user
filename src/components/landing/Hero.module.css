@@ -1,0 +1,188 @@
+/* src/styles/Hero.module.css */
+.hero {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(140, 101, 209, 0.15), transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.heroContainer { /* .hero .container */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.heroContent { /* .hero-content */
+    /* animation: fadeInUp 0.8s ease-out; */ /* JS로 제어 */
+}
+
+.heroBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.badgeIcon {
+    font-size: 1.2rem;
+}
+
+.heroTitle {
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+.gradientText {
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.heroDescription {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.heroActions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.heroStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.stat {
+    text-align: left;
+}
+
+.statValue {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-light);
+    margin-bottom: 0.25rem;
+    min-height: 2.4rem; /* 카운트 시 레이아웃 쉬프트 방지 */
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.heroVisual {
+    animation: fadeInUp 0.8s ease-out;
+    /* Parallax는 JS로 transform: translateY 적용 */
+}
+
+.codeWindow {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+/* float 애니메이션 (globals.css의 @keyframes float 사용) */
+.floatAnimation {
+    animation: float 6s ease-in-out infinite;
+}
+
+.windowHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+}
+
+.windowControls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.control.close { background: #ef4444; }
+.control.minimize { background: #f59e0b; }
+.control.maximize { background: #10b981; }
+
+.windowTitle {
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.windowContent {
+    padding: 1.5rem;
+    font-family: var(--font-code);
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.windowContent code {
+    display: block;
+    white-space: pre-wrap; /* 타이핑 효과를 위해 */
+}
+
+/* 코드 하이라이팅 (CSS 모듈 내부에서 전역 선택자 사용) */
+:global(.comment) { color: #828a9a; }
+:global(.keyword) { color: #d6bbfb; }
+:global(.variable) { color: #a1c9fa; }
+:global(.property) { color: #86efc9; }
+:global(.string) { color: #fde089; }
+
+/* 반응형 */
+@media (max-width: 1024px) {
+    .heroContainer {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .heroVisual {
+        order: -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 6rem;
+    }
+    .heroActions {
+        flex-direction: column;
+    }
+    .heroStats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

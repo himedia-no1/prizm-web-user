@@ -1,0 +1,232 @@
+'use client';
+
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useStrings from '@/shared/hooks/useStrings';
+import {
+  InsightsTab,
+  InviteManagementTab,
+  GroupsTab,
+  IntegrationsTab,
+  SecurityTab,
+  AuditTab,
+} from '@/components/settings/workspace/tabs';
+import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
+import { navItems } from '@/components/settings/workspace/constants/navItems';
+import { WorkspaceHeader } from '@/components/settings/workspace/components/WorkspaceHeader';
+import { WorkspaceNav } from '@/components/settings/workspace/components/WorkspaceNav';
+import { OverviewTab } from '@/components/settings/workspace/components/OverviewTab';
+import styles from '@/components/settings/workspace/WorkspaceSettings.module.css';
+import useDataStore from '@/core/store/dataStore';
+import { workspaceService } from '@/core/api/services';
+
+export default function WorkspaceSettingsClient({
+  workspaceId,
+  workspaceName = 'My Workspace',
+  initialTab = 'overview',
+  basePath,
+}) {
+  const router = useRouter();
+  const workspaceStrings = useStrings('workspaceAdmin');
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [groupPermissions, setGroupPermissions] = useState({});
+  const [settingsData, setSettingsData] = useState(null);
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsError, setSettingsError] = useState(null);
+  const categories = useDataStore((state) => state.categories);
+  const messages = useDataStore((state) => state.messages);
+  const workspaceMembers = useDataStore((state) => state.workspaceMembers);
+  const workspaceStats = useDataStore((state) => state.workspaceStats);
+  const recentActivities = useDataStore((state) => state.recentActivities);
+  const loadInitialData = useDataStore((state) => state.loadInitialData);
+  const initialized = useDataStore((state) => state.initialized);
+  const { setActiveWorkspaceId } = useWorkspaceSettingsStore();
+
+  useEffect(() => {
+    if (workspaceId) {
+      setActiveWorkspaceId(workspaceId);
+    }
+  }, [workspaceId, setActiveWorkspaceId]);
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
+
+  useEffect(() => {
+    if (!initialized) {
+      loadInitialData().catch((error) => {
+        console.error('Failed to load bootstrap data:', error);
+      });
+    }
+  }, [initialized, loadInitialData]);
+
+  useEffect(() => {
+    if (!workspaceId) {
+      return;
+    }
+    let cancelled = false;
+    const fetchSettings = async () => {
+      setSettingsLoading(true);
+      try {
+        const data = await workspaceService.fetchSettings(workspaceId);
+        if (!cancelled) {
+          setSettingsData(data);
+          if (data?.groupPermissions) {
+            setGroupPermissions(data.groupPermissions);
+          }
+          setSettingsError(null);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error('Failed to load workspace settings data:', error);
+          setSettingsError('설정 데이터를 불러오지 못했습니다.');
+          setSettingsData(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setSettingsLoading(false);
+        }
+      }
+    };
+
+    fetchSettings();
+    return () => {
+      cancelled = true;
+    };
+  }, [workspaceId]);
+
+  const memberMap = workspaceId ? workspaceMembers?.[workspaceId] ?? {} : {};
+  const membersCount = Object.keys(memberMap).length;
+  const channelCount = useMemo(() => {
+    return (categories ?? [])
+      .filter((category) => category.section === 'channels')
+      .reduce((total, category) => total + (category.channels?.length ?? 0), 0);
+  }, [categories]);
+  const messageCount = useMemo(() => {
+    return (messages ?? []).filter((msg) => msg.channelId && msg.channelId.startsWith('c')).length;
+  }, [messages]);
+
+  const activities = settingsData?.activities ?? recentActivities ?? [];
+  const statsData = settingsData?.stats ?? workspaceStats ?? [];
+
+  const groupsData = settingsData?.groups ?? [];
+  const channelsData = settingsData?.workspaceChannels ?? [];
+  const invitations = settingsData?.invitations ?? [];
+  const inviteLinks = settingsData?.inviteLinks ?? [];
+  const blockedMembers = settingsData?.blockedMembers ?? [];
+  const memberHistory = settingsData?.memberHistory ?? [];
+  const auditLogs = settingsData?.auditLogs ?? [];
+
+  const handleBack = () => {
+    router.back();
+  };
+
+  const handleTabChange = useCallback((tab) => {
+    setActiveTab(tab);
+    const targetBase = basePath ?? `/app/workspace/${workspaceId}/setting`;
+    router.replace(`${targetBase}/${tab}`);
+  }, [router, basePath, workspaceId]);
+
+  const handleToggleGroupChannel = (groupId, channel) => {
+    setGroupPermissions((prev) => {
+      const currentChannels = prev[groupId] || [];
+      const isAssigned = currentChannels.includes(channel);
+
+      return {
+        ...prev,
+        [groupId]: isAssigned
+          ? currentChannels.filter((ch) => ch !== channel)
+          : [...currentChannels, channel],
+      };
+    });
+  };
+
+  const renderTabContent = () => {
+    if (settingsLoading) {
+      return <div className={styles.loadingState}>설정 데이터를 불러오는 중입니다...</div>;
+    }
+
+    if (settingsError) {
+      return <div className={styles.errorState}>{settingsError}</div>;
+    }
+
+    const settingsStrings = workspaceStrings ?? {};
+
+    switch (activeTab) {
+      case 'overview':
+        return (
+          <OverviewTab
+            strings={settingsStrings}
+            membersCount={membersCount}
+            channelCount={channelCount}
+            messageCount={messageCount}
+            activities={activities}
+          />
+        );
+      case 'members':
+        return <InsightsTab stats={statsData} activities={activities} />;
+      case 'invite-management':
+        return (
+          <InviteManagementTab
+            invitations={invitations}
+            inviteLinks={inviteLinks}
+            blockedMembers={blockedMembers}
+            memberHistory={memberHistory}
+          />
+        );
+      case 'groups':
+        return (
+          <GroupsTab
+            groups={groupsData}
+            workspaceChannels={channelsData}
+            groupPermissions={groupPermissions}
+            onToggleGroupChannel={handleToggleGroupChannel}
+          />
+        );
+      case 'integrations':
+        return <IntegrationsTab />;
+      case 'security':
+        return <SecurityTab />;
+      case 'audit':
+        return <AuditTab activities={auditLogs} />;
+      case 'ai-assistant':
+        return (
+          <div style={{ padding: '2rem' }}>
+            <h2>AI Assistant Settings</h2>
+            <p>Under construction</p>
+          </div>
+        );
+      case 'ai-search':
+        return (
+          <div style={{ padding: '2rem' }}>
+            <h2>AI Search Settings</h2>
+            <p>Under construction</p>
+          </div>
+        );
+      default:
+        return (
+          <OverviewTab
+            strings={settingsStrings}
+            membersCount={membersCount}
+            channelCount={channelCount}
+            messageCount={messageCount}
+            activities={activities}
+          />
+        );
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div>
+        <WorkspaceHeader
+          workspaceName={workspaceName}
+          onBack={handleBack}
+          title={workspaceStrings?.dashboardTitle ?? '워크스페이스 설정'}
+        />
+        <WorkspaceNav items={navItems} activeTab={activeTab} onTabChange={handleTabChange} strings={workspaceStrings || {}} />
+      </div>
+      <main className={styles.main}>{renderTabContent()}</main>
+    </div>
+  );
+}

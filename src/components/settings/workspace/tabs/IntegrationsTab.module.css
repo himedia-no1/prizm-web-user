@@ -1,0 +1,7 @@
+.description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+.integrationItem { gap: 1rem; }
+.integrationDetails { color: var(--text-secondary); font-size: 0.85rem; }
+.status { margin-left: auto; font-size: 0.85rem; }
+.activeStatus { color: #22c55e; }
+.pausedStatus { color: #eab308; }
+.requestStatus { color: #3b82f6; }

@@ -1,15 +1,17 @@
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import useStore from '@/core/store/useStore';
+import { strings } from '@/shared/constants/strings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
   const { language } = useStore();
   const s = strings[language];
 
+  const directoryLabel = typeof s.directory === 'object' ? s.directory.title : s.directory;
+
   const menuItems = [
     { id: 'dashboard', icon: LayoutDashboard, label: s.dashboard },
     { id: 'search', icon: Search, label: s.search },
-    { id: 'directory', icon: Users, label: s.directory },
+    { id: 'directory', icon: Users, label: directoryLabel || 'Directory' },
   ];
 
   return (

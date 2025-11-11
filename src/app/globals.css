@@ -8,9 +8,15 @@
 
 /* 2. Base Styles */
 
-html, body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); transition: background-color 0.3s ease, color 0.3s ease; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; overflow: hidden; height: 100vh; width: 100vw; }
+html, body { margin: 0; padding: 0; background-color: var(--bg); color: var(--text); transition: background-color 0.3s ease, color 0.3s ease; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
 
-#root, .app-container, .workspace-page, .login-page, .settings-page { height: 100%; width: 100%; }
+/* Default height for app pages */
+html, body { height: 100%; }
+
+#root { height: 100%; width: 100%; }
+
+/* App-specific styles (not for landing page) */
+.app-container, .workspace-page, .login-page, .settings-page { height: 100%; width: 100%; overflow: hidden; }
 
 * { box-sizing: border-box; }
 
@@ -40,9 +46,14 @@ button { font-family: inherit; }
 
 .spinner-container { display: flex; align-items: center; justify-content: center; height: 100%; width: 100%; }
 
-.spinner { animation: spin 1s linear infinite; border-radius: 50%; height: 4rem; width: 4rem; border-top-width: 4px; border-bottom-width: 4px; border-top-color: var(--primary); border-bottom-color: var(--primary); border-left-color: transparent; border-right-color: transparent; }
+.spinner { width: 4rem; height: 4rem; background: url('/icon.png') center/contain no-repeat; animation: ai-shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px; }
 
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes ai-shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
 
 
 
@@ -214,9 +225,13 @@ button { font-family: inherit; }
 
 .dm-button__status { position: absolute; bottom: -2px; right: -2px; display: block; width: 0.6rem; height: 0.6rem; border-radius: 9999px; border: 2px solid var(--card-bg); /* Use card-bg for contrast */ }
 
-.dm-button__status.online { background-color: #22c55e; } 
+.dm-button__status.online { background-color: #22c55e; }
 
-.dm-button__status.offline { background-color: #9ca3af; } 
+.dm-button__status.offline { background-color: #9ca3af; }
+
+.dm-button__status.away { background-color: #f97316; }
+
+.dm-button__status.busy { background-color: #ef4444; }
 
 [data-theme='dark'] .dm-button__status { border-color: var(--card-bg); }
 
@@ -240,7 +255,7 @@ button { font-family: inherit; }
 
 .profile-info__name { font-weight: 600; font-size: 0.875rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.profile-info__status { font-size: 0.75rem; color: #22c55e; display: block; }
+.profile-info__status { font-size: 0.75rem; color: var(--text-secondary); display: block; }
 
 .profile-actions { display: flex; align-items: center; gap: 0.25rem; }
 
@@ -701,3 +716,210 @@ button { font-family: inherit; }
 .channel-files-tabs button.active { color: var(--primary); border-bottom-color: var(--primary); }
 
 .channel-files-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+/* Landing Page Specific Styles */
+
+/* CSS Variables for Landing Page - Scoped to landing page only */
+body.landing-page {
+  --primary: #9d7adb;
+  --primary-hover: #8a6bc7;
+  --primary-light: #c0a8f5;
+  --secondary: #8c65d1;
+  --accent: #c0a8f5;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --bg-primary: #2a2f3f;
+  --bg-secondary: #3d4252;
+  --bg-tertiary: #454a5a;
+  --text-primary: #f4f2f2;
+  --text-secondary: #b8b5b5;
+  --text-muted: #b8b5b5;
+  --border: #454a5a;
+
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px 0 var(--shadow);
+  --shadow-md: 0 4px 6px -1px var(--shadow);
+  --shadow-lg: 0 10px 15px -3px var(--shadow);
+  --shadow-xl: 0 20px 25px -5px var(--shadow);
+  --shadow-glow: 0 0 20px rgba(140, 101, 209, 0.15);
+
+  --container-width: 1200px;
+  --section-padding: 5rem 0;
+
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-code: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset for landing page ONLY - use body.landing-page to scope */
+body.landing-page {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  line-height: 1.6;
+}
+
+body.landing-page #root {
+  height: auto !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Container & Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-padding {
+  padding: 5rem 0;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #9d7adb, #8c65d1);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 0 20px rgba(140, 101, 209, 0.15);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #454a5a;
+  color: #f4f2f2;
+}
+
+.btn-outline:hover {
+  border-color: #9d7adb;
+  background: rgba(140, 101, 209, 0.1);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #b8b5b5;
+}
+
+.btn-ghost:hover {
+  color: #f4f2f2;
+  background: #3d4252;
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Section Headers */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(140, 101, 209, 0.1);
+  border: 1px solid rgba(140, 101, 209, 0.3);
+  border-radius: 2rem;
+  color: #c0a8f5;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.section-description {
+  font-size: 1.2rem;
+  color: #b8b5b5;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+.gradient-text-animated {
+  background-size: 200% auto;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .section-padding {
+    padding: 3rem 0;
+  }
+}

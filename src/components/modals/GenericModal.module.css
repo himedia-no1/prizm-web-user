@@ -1,0 +1,45 @@
+.modal {
+  max-width: var(--max-width, 520px);
+}
+
+.membersMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.membersFooter {
+  margin-top: 1.25rem;
+  text-align: right;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.memberName {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.memberMeta {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.memberStatus {
+  margin-left: auto;
+}
+
+.filesGrid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.filesEmpty {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 1.5rem 0;
+}
