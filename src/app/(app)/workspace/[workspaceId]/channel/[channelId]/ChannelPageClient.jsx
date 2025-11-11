@@ -223,6 +223,19 @@ const ChannelPageClient = ({
     openModal(type, props);
   };
 
+  const handleSendMessage = (content) => {
+    const newMessage = {
+      id: `msg-${Date.now()}`,
+      userId: 'u1', // This should be the current user's ID
+      channelId: channel.id,
+      content: content,
+      createdAt: new Date().toISOString(),
+      reactions: {},
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    setMessage(''); // Clear the input after sending
+  };
+
   return (
     <>
       <main className="main-chat-area">
@@ -243,6 +256,7 @@ const ChannelPageClient = ({
           channelName={channel.name}
           message={message}
           setMessage={setMessage}
+          onSendMessage={handleSendMessage}
           onToggleAI={() => console.log('Toggle AI')}
           onOpenModal={handleOpenModal}
           onOpenEmojiPicker={() => openModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })}

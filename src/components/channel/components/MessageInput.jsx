@@ -28,7 +28,11 @@ export const MessageInput = ({ channelName, message, setMessage, onSendMessage, 
 
   const handleSend = () => {
     if (message.trim()) {
-      onSendMessage(message);
+      if (typeof onSendMessage === 'function') {
+        onSendMessage(message);
+      } else {
+        console.error("MessageInput: onSendMessage is not a function. Please check the parent component.", { props: { channelName, message, onSendMessage } });
+      }
       setMessage('');
       const textarea = textareaRef.current;
       if (textarea) {
@@ -63,7 +67,7 @@ export const MessageInput = ({ channelName, message, setMessage, onSendMessage, 
           />
           <div className="message-input__buttons">
             <button
-              onClick={onToggleAI}
+              // onClick={onToggleAI}
               className="message-input__ai-button"
               title="AI 어시스턴트"
             >

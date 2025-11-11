@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { MessageList } from '@/components/chat/MessageList';
-import { MessageInput } from '@/components/chat/MessageInput';
+import { MessageInput } from '@/components/channel/components/MessageInput';
 import { useChat } from '@/hooks/useChat';
 
 // Mock user data - replace with actual user data from your auth system
