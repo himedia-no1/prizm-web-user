@@ -1,0 +1,86 @@
+.languageSelector {
+  position: relative;
+  display: inline-block;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  transition: var(--transition);
+}
+
+.trigger:hover {
+  color: var(--text-primary);
+  border-color: var(--primary-light);
+  background-color: rgba(140, 101, 209, 0.05);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  min-width: 150px;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.option:hover {
+  background-color: rgba(140, 101, 209, 0.1);
+  color: var(--text-primary);
+}
+
+.option.active {
+  background-color: rgba(140, 101, 209, 0.15);
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+.flag {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Footer variant - smaller and simpler */
+.languageSelector.footer .trigger {
+  border: none;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.languageSelector.footer .trigger:hover {
+  background-color: transparent;
+  color: var(--primary);
+}
+
+.languageSelector.footer .dropdown {
+  bottom: calc(100% + 0.5rem);
+  top: auto;
+}

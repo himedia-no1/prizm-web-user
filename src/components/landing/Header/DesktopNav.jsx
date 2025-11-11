@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import LanguageSelector from '@/components/common/LanguageSelector';
 import styles from './Header.module.css';
 
-export default function DesktopNav({ navItems, activeSection }) {
+export default function DesktopNav({ navItems, activeSection, locale, onLocaleChange }) {
   return (
     <>
       <Link href="/" className={styles.logo}>
@@ -30,6 +31,7 @@ export default function DesktopNav({ navItems, activeSection }) {
       </ul>
 
       <div className={styles.navActions}>
+        <LanguageSelector locale={locale} onLocaleChange={onLocaleChange} />
         <Link href="/login" className="btn btn-primary">
           Start Free
         </Link>

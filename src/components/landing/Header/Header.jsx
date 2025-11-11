@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { throttle } from '@/shared/utils/animations';
+import { setPreferredLocale } from '@/shared/lib/locale';
 import DesktopNav from './DesktopNav';
 import MobileNav from './MobileNav';
 import styles from './Header.module.css';
@@ -12,6 +15,8 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState('');
   const [isHidden, setIsHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const locale = useLocale();
+  const router = useRouter();
 
   const navItems = [
     { id: 'features', label: 'Features' },
@@ -66,6 +71,18 @@ export default function Header() {
     setIsMobileMenuOpen(false);
   };
 
+  const handleLocaleChange = async (targetLocale) => {
+    if (targetLocale === locale) {
+      return;
+    }
+    try {
+      await setPreferredLocale(targetLocale);
+      router.refresh();
+    } catch (err) {
+      console.error('Failed to update locale', err);
+    }
+  };
+
   return (
     <nav
       className={`
@@ -75,13 +92,20 @@ export default function Header() {
       `}
     >
       <div className={`container ${styles.navContent}`}>
-        <DesktopNav navItems={navItems} activeSection={activeSection} />
+        <DesktopNav
+          navItems={navItems}
+          activeSection={activeSection}
+          locale={locale}
+          onLocaleChange={handleLocaleChange}
+        />
         <MobileNav
           navItems={navItems}
           activeSection={activeSection}
           isMobileMenuOpen={isMobileMenuOpen}
           onToggleMobileMenu={handleToggleMobileMenu}
           onCloseMobileMenu={handleCloseMobileMenu}
+          locale={locale}
+          onLocaleChange={handleLocaleChange}
         />
       </div>
     </nav>

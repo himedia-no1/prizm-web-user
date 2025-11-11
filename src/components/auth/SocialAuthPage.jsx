@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Github, Sun, Moon } from 'lucide-react';
+import { Github } from 'lucide-react';
 import SocialButton from '@/components/auth/SocialButton';
+import LanguageSelector from '@/components/common/LanguageSelector';
 import { useAuthStore } from '@/core/store/authStore';
 import useStore from '@/core/store/useStore';
 import useStrings from '@/shared/hooks/useStrings';
@@ -103,32 +104,6 @@ export default function SocialAuthPage({ searchParams }) {
 
   return (
     <div className={`${styles.page} ${styles[theme]}`}>
-      <div className={styles.languageToggle}>
-        <button
-          onClick={() => handleLocaleChange('ko')}
-          className={locale === 'ko' ? styles.active : ''}
-          type="button"
-        >
-          {localeStrings.korean}
-        </button>
-        <button
-          onClick={() => handleLocaleChange('en')}
-          className={locale === 'en' ? styles.active : ''}
-          type="button"
-        >
-          {localeStrings.english}
-        </button>
-      </div>
-
-      <button
-        className={styles.themeToggle}
-        onClick={toggleDarkMode}
-        aria-label="테마 전환"
-        type="button"
-      >
-        {isDarkMode ? <Sun size={22} /> : <Moon size={22} />}
-      </button>
-
       <div className={styles.card}>
         <div className={styles.header}>
           <Image src="/icon.png" alt="Prizm Logo" width={48} height={48} />
@@ -179,6 +154,9 @@ export default function SocialAuthPage({ searchParams }) {
               </>
             )}
           </p>
+          <div className={styles.languageSelectorWrapper}>
+            <LanguageSelector locale={locale} onLocaleChange={handleLocaleChange} variant="footer" />
+          </div>
         </div>
       </div>
     </div>

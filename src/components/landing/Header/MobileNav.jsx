@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import LanguageSelector from '@/components/common/LanguageSelector';
 import styles from './Header.module.css';
 
 export default function MobileNav({
@@ -8,6 +9,8 @@ export default function MobileNav({
   isMobileMenuOpen,
   onToggleMobileMenu,
   onCloseMobileMenu,
+  locale,
+  onLocaleChange,
 }) {
   return (
     <>
@@ -38,6 +41,7 @@ export default function MobileNav({
           ))}
         </ul>
         <div className={styles.mobileActions}>
+          <LanguageSelector locale={locale} onLocaleChange={onLocaleChange} />
           <Link href="/login" className="btn btn-primary btn-full">
             Start Free
           </Link>

@@ -130,26 +130,10 @@
     z-index: 10;
 }
 
-.languageToggle {
-    position: fixed;
-    top: clamp(12px, 3vw, 24px);
-    left: clamp(12px, 3vw, 24px);
+.languageSelectorWrapper {
     display: flex;
-    gap: 8px;
-    z-index: 10;
-}
-
-.languageToggle button {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.languageToggle button.active {
-    color: var(--primary);
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 /* ✅ 반응형 보정 */
