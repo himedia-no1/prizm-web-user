@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import { FileText } from '@/components/common/icons';
 
 export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
     const [activeFileTab, setActiveFileTab] = useState('files');
     const strings = s.modals.genericModal.channelFiles;
 

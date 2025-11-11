@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './Preferences.module.css';
 
 export const NotificationPreferences = ({ value = 'all', onChange }) => {
-  const s = useStrings();
-  const notificationStrings = s.userSettings?.preferences?.notifications;
+  const messages = useMessages();
+  const notificationStrings = messages?.userSettings?.preferences?.notifications;
   const options = useMemo(
     () => [
       { id: 'all', label: notificationStrings?.options?.all ?? '모든 활동에 대해 알림' },

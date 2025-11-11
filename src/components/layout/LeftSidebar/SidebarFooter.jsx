@@ -1,6 +1,6 @@
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 import { Settings, Inbox } from '@/components/common/icons';
-import useStrings from '@/shared/hooks/useStrings';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const SidebarFooter = ({
@@ -9,7 +9,8 @@ export const SidebarFooter = ({
   onNavigateToUserSettings,
   onOpenModal,
 }) => {
-  const s = useStrings('common');
+  const messages = useMessages();
+  const s = messages?.common ?? {};
   const statusLabels = s.statusLabels ?? {};
   const statusText =
     (currentUser?.status && statusLabels[currentUser.status]) ||

@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useMessages, useLocale } from 'next-intl';
 import { X, Check, Trash2, CheckCheck } from 'lucide-react';
-import { useLocale } from 'next-intl';
-import useStrings from '@/shared/hooks/useStrings';
 import useStore from '@/core/store/useStore';
 import { notificationService } from '@/core/api/services';
 import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const { notifications, markNotificationAsRead, deleteNotification, markAllNotificationsAsRead } = useStore();
   const [activeTab, setActiveTab] = useState('all');
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);

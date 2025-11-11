@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 
 export const InfoModalContent = ({ channelDetails = {} }) => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
     const { displayName, channelName, description, topic } = channelDetails;
 
     return (

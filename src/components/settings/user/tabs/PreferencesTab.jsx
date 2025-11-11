@@ -1,11 +1,12 @@
 'use client';
 
+import { useMessages } from 'next-intl';
 import { NotificationPreferences, ThemePreferences, LanguagePreferences, AutoTranslationPreferences } from '@/components/settings/prefs';
-import useStrings from '@/shared/hooks/useStrings';
 import styles from './PreferencesTab.module.css';
 
 export const PreferencesTab = () => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
 
   return (
     <div>

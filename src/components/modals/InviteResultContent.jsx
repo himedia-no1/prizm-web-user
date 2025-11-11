@@ -1,4 +1,4 @@
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import { Users as UsersIcon, Share } from '@/components/common/icons';
 import { CopyableLink } from './InviteFlowContent';
 import styles from './InviteResultContent.module.css';
@@ -24,10 +24,10 @@ const formatTimestamp = (value) => {
 };
 
 export const InviteResultContent = ({ mode = 'member', resultType = 'direct', entries = [], link, onClose }) => {
-  const strings = useStrings();
-  const inviteStrings = mode === 'guest' ? strings.modals?.inviteGuest : strings.modals?.inviteMember;
-  const copyStrings = strings.copy ?? {};
-  const resultStrings = strings.modals?.inviteResult ?? {};
+  const messages = useMessages() ?? {};
+  const inviteStrings = mode === 'guest' ? messages.modals?.inviteGuest : messages.modals?.inviteMember;
+  const copyStrings = messages.copy ?? {};
+  const resultStrings = messages.modals?.inviteResult ?? {};
 
   const description =
     resultType === 'link'

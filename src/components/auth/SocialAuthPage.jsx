@@ -8,8 +8,7 @@ import SocialButton from '@/components/auth/SocialButton';
 import LanguageSelector from '@/components/common/LanguageSelector';
 import { useAuthStore } from '@/core/store/authStore';
 import useStore from '@/core/store/useStore';
-import useStrings from '@/shared/hooks/useStrings';
-import { useLocale } from 'next-intl';
+import { useLocale, useMessages } from 'next-intl';
 import { setPreferredLocale } from '@/shared/lib/locale';
 import { authenticateWithProvider } from './actions';
 import styles from './SocialAuthPage.module.css';
@@ -46,7 +45,8 @@ export default function SocialAuthPage({ searchParams }) {
   const [isPending, startTransition] = useTransition();
   const oauthHandledRef = useRef(false);
   const locale = useLocale();
-  const localeStrings = useStrings('common');
+  const messages = useMessages();
+  const localeStrings = messages?.common ?? {};
 
   useEffect(() => {
     if (isAuthenticated) {

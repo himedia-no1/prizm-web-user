@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useMessages } from 'next-intl';
 import { X, Send } from 'lucide-react';
-import useStrings from '@/shared/hooks/useStrings';
 import { messageService } from '@/core/api/services';
 import styles from './MessageForwardModal.module.css';
 
 export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const [selectedChannels, setSelectedChannels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

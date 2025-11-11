@@ -3,18 +3,18 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useMessages } from 'next-intl';
 import useStore from '@/core/store/useStore';
-import useStrings from '@/shared/hooks/useStrings';
 import { setPreferredLocale } from '@/shared/lib/locale';
 import styles from './Preferences.module.css';
 
 export const LanguagePreferences = () => {
   const router = useRouter();
   const locale = useLocale();
+  const messages = useMessages();
   const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
   const toggleAutoTranslate = useStore((state) => state.toggleAutoTranslate);
-  const s = useStrings();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const languageStrings = s.userSettings?.preferences?.language;
   const translationStrings = s.userSettings?.preferences?.translation;
   const languageOptions = {

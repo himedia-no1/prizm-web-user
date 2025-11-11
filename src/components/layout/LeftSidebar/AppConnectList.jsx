@@ -2,15 +2,16 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useDataStore from '@/core/store/dataStore';
-import useStrings from '@/shared/hooks/useStrings';
 import useStore from '@/core/store/useStore';
 import styles from './AppConnectList.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const AppConnectList = () => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
     const appConnect = useDataStore((state) => state.appConnect);
     const loadInitialData = useDataStore((state) => state.loadInitialData);
     const initialized = useDataStore((state) => state.initialized);

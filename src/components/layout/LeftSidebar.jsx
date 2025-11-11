@@ -11,7 +11,7 @@ import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import { FavoritesList } from '@/components/layout/LeftSidebar/FavoritesList';
 import './LeftSidebar.module.css';
 
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import useStore from '@/core/store/useStore';
 
 export const LeftSidebar = ({
@@ -35,7 +35,8 @@ export const LeftSidebar = ({
   onCollapse,
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const favoriteChannels = useStore((state) => state.favoriteChannels);
   const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
   const {

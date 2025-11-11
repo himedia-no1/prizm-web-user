@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './MembersTab.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -10,7 +10,8 @@ export const MembersTab = ({
   participants, 
   membershipHistory 
 }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
 
   const getHistoryMessage = (action) => {
     switch (action) {

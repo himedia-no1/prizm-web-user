@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useMessages } from 'next-intl';
 import useStore from '@/core/store/useStore';
-import useStrings from '@/shared/hooks/useStrings';
 
 // Standalone Modals
 import { GenericModal } from './GenericModal';
@@ -30,7 +30,8 @@ import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFil
 import { MentionModalContent } from './MentionModalContent';
 
 const ModalManager = () => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
     const modalType = useStore((state) => state.modalType);
     const modalProps = useStore((state) => state.modalProps);
     const closeModal = useStore((state) => state.closeModal);

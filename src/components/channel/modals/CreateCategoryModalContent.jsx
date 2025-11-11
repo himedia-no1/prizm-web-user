@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './CreateCategoryModalContent.module.css';
 
 export const CreateCategoryModalContent = (props) => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
 
     return (
         <div>

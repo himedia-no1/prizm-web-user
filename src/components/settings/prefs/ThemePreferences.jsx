@@ -2,15 +2,15 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useMessages } from 'next-intl';
 import useStore from '@/core/store/useStore';
-import useStrings from '@/shared/hooks/useStrings';
 import styles from './Preferences.module.css';
 
 export const ThemePreferences = () => {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const setTheme = useStore((state) => state.setTheme);
-  const s = useStrings();
-  const themeStrings = s.userSettings?.preferences?.theme;
+  const messages = useMessages();
+  const themeStrings = messages?.userSettings?.preferences?.theme;
 
   useEffect(() => {
     if (typeof document !== 'undefined') {

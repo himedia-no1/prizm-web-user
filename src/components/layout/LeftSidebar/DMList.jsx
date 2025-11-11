@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 import { StatusIndicator } from '@/components/ui/StatusIndicator';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStrings from '@/shared/hooks/useStrings';
 import useStore from '@/core/store/useStore';
 import styles from './DMList.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
@@ -16,7 +16,8 @@ export const DMList = ({
   currentView,
   onSelectChannel,
 }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const { unreadCounts } = useStore();
 
   return (

@@ -2,11 +2,12 @@
 
 import React from 'react';
 import Image from 'next/image';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const ThreadsModalContent = ({ threadMessages = [], users = {}, onOpenThread }) => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
 
     return (
         <div className="channel-modal__list thread-gallery">

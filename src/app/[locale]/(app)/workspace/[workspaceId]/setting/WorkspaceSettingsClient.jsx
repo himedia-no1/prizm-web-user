@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMessages } from 'next-intl';
 import { useRouter } from 'next/navigation';
-import useStrings from '@/shared/hooks/useStrings';
 import {
   InsightsTab,
   InviteManagementTab,
@@ -27,14 +27,15 @@ export default function WorkspaceSettingsClient({
   basePath,
 }) {
   const router = useRouter();
-  const workspaceStrings = useStrings('workspaceAdmin');
+  const intlMessages = useMessages();
+  const workspaceStrings = intlMessages?.workspaceAdmin ?? {};
   const [activeTab, setActiveTab] = useState(initialTab);
   const [groupPermissions, setGroupPermissions] = useState({});
   const [settingsData, setSettingsData] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [settingsError, setSettingsError] = useState(null);
   const categories = useDataStore((state) => state.categories);
-  const messages = useDataStore((state) => state.messages);
+  const storedMessages = useDataStore((state) => state.messages);
   const workspaceMembers = useDataStore((state) => state.workspaceMembers);
   const workspaceStats = useDataStore((state) => state.workspaceStats);
   const recentActivities = useDataStore((state) => state.recentActivities);
@@ -103,8 +104,8 @@ export default function WorkspaceSettingsClient({
       .reduce((total, category) => total + (category.channels?.length ?? 0), 0);
   }, [categories]);
   const messageCount = useMemo(() => {
-    return (messages ?? []).filter((msg) => msg.channelId && msg.channelId.startsWith('c')).length;
-  }, [messages]);
+    return (storedMessages ?? []).filter((msg) => msg.channelId && msg.channelId.startsWith('c')).length;
+  }, [storedMessages]);
 
   const activities = settingsData?.activities ?? recentActivities ?? [];
   const statsData = settingsData?.stats ?? workspaceStats ?? [];

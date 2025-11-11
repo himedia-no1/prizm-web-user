@@ -1,12 +1,13 @@
 'use client';
 
+import { useMessages } from 'next-intl';
 import { Hash, Users } from '@/components/common/icons';
-import useStrings from '@/shared/hooks/useStrings';
 import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
 import styles from './InviteManagementTab.module.css';
 
 export const InviteManagementTab = ({ invitations, inviteLinks }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const { copiedLinkId, copyInviteLink, formatInviteTimestamp, getInviteStatusTone } = 
     useWorkspaceSettingsStore();
 

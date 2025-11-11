@@ -1,9 +1,10 @@
 'use client';
 
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 
 export const NotificationsModalContent = () => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
 
     return (
         <div className="channel-modal__list">

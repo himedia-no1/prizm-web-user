@@ -1,8 +1,9 @@
+import { useMessages } from 'next-intl';
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
-import useStrings from '@/shared/hooks/useStrings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
-  const s = useStrings('common');
+  const messages = useMessages();
+  const s = messages?.common ?? {};
 
   const directoryLabel = typeof s.directory === 'object' ? s.directory.title : s.directory;
 

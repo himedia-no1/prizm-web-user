@@ -1,10 +1,11 @@
 'use client';
 
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './IntegrationsTab.module.css';
 
 export const IntegrationsTab = () => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
 
   return (
     <div>

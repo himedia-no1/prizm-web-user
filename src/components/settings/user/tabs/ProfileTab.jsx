@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
-import useStrings from '@/shared/hooks/useStrings';
 import styles from './ProfileTab.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -15,7 +15,8 @@ export const ProfileTab = ({
   onDeactivate,
   onDelete 
 }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
 
   const avatarSrc = user.avatar || getPlaceholderImage(72, user?.realName?.[0] ?? '?');
 

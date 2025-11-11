@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useMessages } from 'next-intl';
 import { Settings, Inbox } from '@/components/common/icons';
-import useStrings from '@/shared/hooks/useStrings';
 import { workspaceService } from '@/core/api/services';
 import useStore from '@/core/store/useStore';
 import { useRouter } from 'next/navigation';
 import styles from './CreateWorkspacePage.module.css';
 
 export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistingWorkspace = false }) => {
-    const s = useStrings();
+    const messages = useMessages();
+    const s = { ...(messages?.common ?? {}), ...messages };
     const router = useRouter();
     const openModal = useStore((state) => state.openModal);
     const [mode, setMode] = useState(initialMode);

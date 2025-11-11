@@ -1,15 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './Preferences.module.css';
 
 export const AutoTranslationPreferences = () => {
-  const s = useStrings();
+  const messages = useMessages();
   const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(false);
   const [targetLanguage, setTargetLanguage] = useState('ko');
 
-  const translationStrings = s.userSettings?.preferences?.translation || {};
+  const translationStrings = messages?.userSettings?.preferences?.translation || {};
 
   return (
     <div className={styles.card}>

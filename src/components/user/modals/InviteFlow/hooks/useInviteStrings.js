@@ -1,10 +1,11 @@
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 
 export const useInviteStrings = (mode) => {
-  const strings = useStrings();
-  const inviteStrings = mode === 'guest' ? strings.modals?.inviteGuest : strings.modals?.inviteMember;
+  const messages = useMessages() ?? {};
+  const inviteStrings =
+    mode === 'guest' ? messages.modals?.inviteGuest : messages.modals?.inviteMember;
   return {
     invite: inviteStrings ?? {},
-    copy: strings.copy ?? {},
+    copy: messages.copy ?? {},
   };
 };

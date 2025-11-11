@@ -1,10 +1,11 @@
 'use client';
 
-import useStrings from '@/shared/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import styles from './UnreadBadge.module.css';
 
 export const UnreadBadge = ({ count }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
 
   if (!count || count === 0) return null;
 

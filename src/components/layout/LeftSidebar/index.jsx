@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { useMessages } from 'next-intl';
 import { ChevronsLeft, Plus } from '@/components/common/icons';
 import { WorkspaceDropdown } from '@/components/layout/LeftSidebar/WorkspaceDropdown';
 import { NavigationMenu } from '@/components/layout/LeftSidebar/NavigationMenu';
@@ -10,8 +11,6 @@ import { AppConnectList } from '@/components/layout/LeftSidebar/AppConnectList';
 import { SidebarFooter } from '@/components/layout/LeftSidebar/SidebarFooter';
 import { FavoritesList } from '@/components/layout/LeftSidebar/FavoritesList';
 import './LeftSidebar.module.css';
-
-import useStrings from '@/shared/hooks/useStrings';
 import useStore from '@/core/store/useStore';
 
 export const LeftSidebar = ({
@@ -35,7 +34,8 @@ export const LeftSidebar = ({
   onCollapse,
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const favoriteChannels = useStore((state) => state.favoriteChannels);
   const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
   const {

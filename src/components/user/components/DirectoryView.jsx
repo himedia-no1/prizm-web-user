@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { useMessages } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { StatusIndicator } from '@/components/ui/StatusIndicator';
-import useStrings from '@/shared/hooks/useStrings';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './DirectoryView.module.css';
 
@@ -38,7 +38,8 @@ const sortComparators = {
 };
 
 export const DirectoryView = ({ users = {}, onOpenUserProfile }) => {
-  const s = useStrings();
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
   const directoryStrings = s.directory ?? {};
   const statusLabels = s.statusLabels ?? {};
   const fallbackStatusText = {
