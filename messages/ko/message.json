@@ -18,5 +18,8 @@
   "showOriginal": "원문보기",
   "hideOriginal": "원문 숨기기",
   "forwardTo": "전달할 위치",
-  "forwardSuccess": "메시지가 전달되었습니다"
+  "forwardSuccess": "메시지가 전달되었습니다",
+  "thread": "스레드",
+  "repliesTo": "{name}님에게 보내는 답장",
+  "replyToThread": "스레드에 답장..."
 }

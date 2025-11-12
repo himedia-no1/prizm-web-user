@@ -120,12 +120,12 @@
     }
   },
   "members": {
-    "inviteGuestButton": "Inviter un invité au canal",
+    "inviteGuest": "Inviter un invité au canal",
     "searchPlaceholder": "Rechercher des membres...",
-    "all": "Tous",
-    "members": "Membres",
-    "guests": "Invités",
-    "admins": "Administrateurs",
+    "tabAll": "Tous",
+    "tabMember": "Membres",
+    "tabGuest": "Invités",
+    "tabAdmin": "Administrateurs",
     "noResults": "Aucun résultat trouvé"
   },
   "profileSettings": {
@@ -148,10 +148,14 @@
     "sendDM": "Envoyer un message privé"
   },
   "channelFiles": {
-    "all": "Tous",
-    "files": "Fichiers",
-    "media": "Médias",
-    "links": "Liens"
+    "tabAll": "Tous",
+    "tabFiles": "Fichiers",
+    "tabMedia": "Médias",
+    "tabLinks": "Liens",
+    "uploadedBy": "Téléversé par",
+    "unknownUser": "Inconnu",
+    "download": "Télécharger",
+    "noFiles": "Aucun fichier trouvé"
   },
   "messageForward": {
     "noChannels": "Aucun canal disponible pour transférer",

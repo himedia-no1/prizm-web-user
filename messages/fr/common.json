@@ -38,5 +38,8 @@
   "auth": {
     "loginError": "Échec de la connexion. Veuillez réessayer.",
     "loggingIn": "Connexion en cours..."
-  }
+  },
+  "mySettings": "Mes paramètres",
+  "notifications": "Notifications",
+  "openInbox": "Ouvrir la boîte de réception"
 }

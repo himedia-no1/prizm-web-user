@@ -18,5 +18,8 @@
   "showOriginal": "View original",
   "hideOriginal": "Hide original",
   "forwardTo": "Forward to",
-  "forwardSuccess": "Message forwarded"
+  "forwardSuccess": "Message forwarded",
+  "thread": "スレッド",
+  "repliesTo": "{name}への返信",
+  "replyToThread": "スレッドに返信する..."
 }

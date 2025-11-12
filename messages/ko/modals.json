@@ -120,12 +120,12 @@
     }
   },
   "members": {
-    "inviteGuestButton": "게스트 초대",
+    "inviteGuest": "게스트 초대",
     "searchPlaceholder": "멤버 검색...",
-    "all": "전체",
-    "members": "멤버",
-    "guests": "게스트",
-    "admins": "관리자",
+    "tabAll": "전체",
+    "tabMember": "멤버",
+    "tabGuest": "게스트",
+    "tabAdmin": "관리자",
     "noResults": "검색 결과가 없습니다"
   },
   "profileSettings": {
@@ -148,10 +148,14 @@
     "sendDM": "DM 보내기"
   },
   "channelFiles": {
-    "all": "전체",
-    "files": "파일",
-    "media": "미디어",
-    "links": "링크"
+    "tabAll": "전체",
+    "tabFiles": "파일",
+    "tabMedia": "미디어",
+    "tabLinks": "링크",
+    "uploadedBy": "업로드:",
+    "unknownUser": "알 수 없음",
+    "download": "다운로드",
+    "noFiles": "파일이 없습니다"
   },
   "messageForward": {
     "noChannels": "전달할 수 있는 채널이 없습니다",

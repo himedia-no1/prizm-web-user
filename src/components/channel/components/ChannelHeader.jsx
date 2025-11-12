@@ -1,20 +1,23 @@
 'use client';
 
+import { useMessages } from 'next-intl';
 import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
 import useStore from '@/core/store/useStore';
 import styles from './ChannelHeader.module.css';
 
-const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic }) => {
+const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, t }) => {
   const memberCount = members.length;
   const topicText = topic || fallbackTopic || (description ? description : '');
-  const memberLabel = memberCount > 0 ? `${memberCount} ${memberCount === 1 ? 'member' : 'members'}` : null;
+  const memberLabel = memberCount > 0 ? `${memberCount} ${memberCount === 1 ? t.member : t.members}` : null;
   if (memberLabel && topicText) {
     return `${memberLabel} • ${topicText}`;
   }
-  return memberLabel || topicText || (type === 'dm' ? 'Direct conversation' : 'Team conversation');
+  return memberLabel || topicText || (type === 'dm' ? t.directConversation : t.teamConversation);
 };
 
 export const ChatHeader = ({ channel, onOpenModal }) => {
+  const messages = useMessages();
+  const t = messages.workspace;
   const toggleChannelNotifications = useStore((state) => state.toggleChannelNotifications);
   const isChannelNotificationsEnabled = useStore((state) => state.isChannelNotificationsEnabled);
 
@@ -28,6 +31,7 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
     description: channel.description,
     type: channel.type,
     fallbackTopic: channel.fallbackTopic,
+    t,
   });
 
   return (
@@ -35,7 +39,7 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
       <div className="chat-header__summary">
         <h2 className="chat-header__title">
           {isDirectMessage ? <Users size={20} /> : <Hash size={20} />}
-          <span>{channel.displayName || channel.name || 'Unknown Channel'}</span>
+          <span>{channel.displayName || channel.name || t.unknownChannel}</span>
         </h2>
         <p className="chat-header__meta">{subtitle}</p>
       </div>
@@ -46,7 +50,7 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
           className={`chat-header__notification-button ${notificationsEnabled ? '' : 'muted'}`}
           onClick={() => toggleChannelNotifications(channel.id)}
           aria-pressed={!notificationsEnabled}
-          aria-label={notificationsEnabled ? '알림 끄기' : '알림 켜기'}
+          aria-label={notificationsEnabled ? t.turnOffNotifications : t.turnOnNotifications}
         >
           <Bell size={20} />
         </button>

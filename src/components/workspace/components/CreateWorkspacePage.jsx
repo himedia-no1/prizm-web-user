@@ -39,7 +39,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
             router.push(`/workspace/${result.workspaceId}/channel/general`);
         } catch (error) {
             console.error('Failed to join workspace:', error);
-            alert('초대 코드가 올바르지 않습니다.');
+            alert(s.workspace.invalidInviteCode);
         } finally {
             setLoading(false);
         }
@@ -74,7 +74,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                                 type="text"
                                 value={workspaceName}
                                 onChange={(e) => setWorkspaceName(e.target.value)}
-                                placeholder="예: 우리 회사 프로젝트"
+                                placeholder={s.workspace.createWorkspacePlaceholder}
                             />
                         </div>
                         <button
@@ -82,7 +82,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                             onClick={handleCreateWorkspace}
                             disabled={loading || !workspaceName.trim()}
                         >
-                            {loading ? '생성 중...' : s.createNewWorkspace}
+                            {loading ? s.workspace.creating : s.createNewWorkspace}
                         </button>
                     </div>
                 ) : (
@@ -93,7 +93,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                                 type="text"
                                 value={inviteCode}
                                 onChange={(e) => setInviteCode(e.target.value)}
-                                placeholder="ABC123XYZ"
+                                placeholder={s.workspace.inviteCodeExample}
                             />
                         </div>
                         <button
@@ -101,7 +101,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                             onClick={handleJoinWorkspace}
                             disabled={loading || !inviteCode.trim()}
                         >
-                            {loading ? '참여 중...' : s.workspace.joinButton}
+                            {loading ? s.workspace.joining : s.workspace.joinButton}
                         </button>
                     </div>
                 )}
@@ -117,14 +117,14 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                 <div className={styles['bottom-left-actions']}>
                     <button
                         className={styles['icon-button']}
-                        title="내 설정"
+                        title={s.mySettings}
                         onClick={() => router.push('/me/setting/profile')}
                     >
                         <Settings size={20} />
                     </button>
                     <button
                         className={styles['icon-button']}
-                        title="알림"
+                        title={s.notifications}
                         onClick={() => openModal('notifications')}
                     >
                         <Inbox size={20} />

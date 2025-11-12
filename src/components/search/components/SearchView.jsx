@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useMessages } from 'next-intl';
 import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon } from '@/components/common/icons';
 import { searchService } from '@/core/api/services';
 import SearchForm from './refactored/SearchForm';
@@ -7,13 +8,6 @@ import SearchResultsHeader from './refactored/SearchResultsHeader';
 import SearchResultsContainer from './refactored/SearchResultsContainer';
 import styles from './SearchView.module.css';
 
-const TAB_ITEMS = [
-  { id: 'All', label: '전체', icon: LayoutGrid },
-  { id: 'Messages', label: '메시지', icon: MessageSquare },
-  { id: 'Files', label: '파일', icon: FileText },
-  { id: 'Users', label: '멤버', icon: UsersIcon },
-];
-
 const typeMap = {
   Messages: 'message',
   Files: 'file',
@@ -21,6 +15,16 @@ const typeMap = {
 };
 
 export const SearchView = () => {
+  const messages = useMessages();
+  const t = messages.search;
+
+  const TAB_ITEMS = useMemo(() => [
+    { id: 'All', label: t.tabs.all, icon: LayoutGrid },
+    { id: 'Messages', label: t.tabs.messages, icon: MessageSquare },
+    { id: 'Files', label: t.tabs.files, icon: FileText },
+    { id: 'Users', label: t.tabs.users, icon: UsersIcon },
+  ], [t]);
+
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -51,7 +55,7 @@ export const SearchView = () => {
         .catch((err) => {
           if (!controller.signal.aborted) {
             console.error('Search failed:', err);
-            setError('검색 중 오류가 발생했습니다.');
+            setError(t.error.description);
             setResults([]);
           }
         })
@@ -66,7 +70,7 @@ export const SearchView = () => {
       controller.abort();
       clearTimeout(timeout);
     };
-  }, [query, activeTab]);
+  }, [query, activeTab, t.error.description]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -82,12 +86,12 @@ export const SearchView = () => {
   };
 
   const statusText = useMemo(() => {
-    if (loading) return '결과를 불러오고 있어요...';
-    if (!query.trim()) return '검색어를 입력해 검색을 시작하세요.';
-    if (error) return '검색 중 문제가 발생했습니다.';
-    if (results.length === 0) return '일치하는 결과가 없어요. 다른 키워드나 필터를 시도해보세요.';
-    return `${results.length}개의 결과가 준비됐어요.`;
-  }, [loading, query, results.length, error]);
+    if (loading) return t.status.loading;
+    if (!query.trim()) return t.status.prompt;
+    if (error) return t.status.error;
+    if (results.length === 0) return t.status.noResults;
+    return t.status.resultsFound.replace('{count}', results.length);
+  }, [loading, query, results.length, error, t]);
 
   return (
     <main className={`main-view ${styles.searchView}`}>
@@ -96,7 +100,7 @@ export const SearchView = () => {
           <div className={styles.heroCopy}>
             <span className={styles.heroPill}>
               <SearchIcon size={14} />
-              통합 검색
+              {t.heroPill}
             </span>
           </div>
         </div>
@@ -104,6 +108,8 @@ export const SearchView = () => {
           query={query}
           onQueryChange={handleQueryChange}
           onSubmit={handleSubmit}
+          placeholder={t.placeholder}
+          submitButtonText={t.submitButton}
         />
         <div className={styles.metaRow}>
             <SearchTabs
@@ -124,6 +130,7 @@ export const SearchView = () => {
               error={error}
               results={results}
               query={query}
+              translations={t}
             />
         </div>
       </section>

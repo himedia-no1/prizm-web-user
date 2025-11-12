@@ -120,12 +120,12 @@
     }
   },
   "members": {
-    "inviteGuestButton": "Invite guest to channel",
+    "inviteGuest": "Invite guest to channel",
     "searchPlaceholder": "Search members...",
-    "all": "All",
-    "members": "Members",
-    "guests": "Guests",
-    "admins": "Admins",
+    "tabAll": "All",
+    "tabMember": "Members",
+    "tabGuest": "Guests",
+    "tabAdmin": "Admins",
     "noResults": "No results found"
   },
   "profileSettings": {
@@ -148,10 +148,14 @@
     "sendDM": "Send DM"
   },
   "channelFiles": {
-    "all": "All",
-    "files": "Files",
-    "media": "Media",
-    "links": "Links"
+    "tabAll": "All",
+    "tabFiles": "Files",
+    "tabMedia": "Media",
+    "tabLinks": "Links",
+    "uploadedBy": "Uploaded by",
+    "unknownUser": "Unknown",
+    "download": "Download",
+    "noFiles": "No files found"
   },
   "messageForward": {
     "noChannels": "No channels available to forward",

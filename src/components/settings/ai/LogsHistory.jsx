@@ -7,7 +7,7 @@ import { aiService } from '@/core/api/services';
 
 export default function LogsHistory() {
     const messages = useMessages();
-    const ai = messages?.workspaceManagement?.ai?.logs ?? {};
+    const ai = messages?.workspaceManagement?.ai?.logs;
     const [logs, setLogs] = useState([]);
     const [showDetails, setShowDetails] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ export default function LogsHistory() {
                     return;
                 }
                 console.error('Failed to load logs:', err);
-                setError(ai.loadError ?? '로그를 불러오지 못했습니다.');
+                setError(ai.loadError);
                 setLogs([]);
             } finally {
                 if (active) {
@@ -43,7 +43,7 @@ export default function LogsHistory() {
         return () => {
             active = false;
         };
-    }, []);
+    }, [ai.loadError]);
 
     const handleDownload = () => {
         const data = JSON.stringify(logs, null, 2);
@@ -56,8 +56,12 @@ export default function LogsHistory() {
         URL.revokeObjectURL(url);
     };
 
+    if (!ai) {
+        return null;
+    }
+
     if (loading) {
-        return <div className={styles.container}>{ai.loadingMessage ?? '로그를 불러오는 중입니다...'}</div>;
+        return <div className={styles.container}>{ai.loadingMessage}</div>;
     }
 
     if (error) {
@@ -85,7 +89,7 @@ export default function LogsHistory() {
                             <td>{log.duration}</td>
                             <td>
                                 <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>
-                                    {ai.viewDetailsButton ?? '세부 로그 보기'}
+                                    {ai.viewDetailsButton}
                                 </button>
                             </td>
                         </tr>
@@ -93,14 +97,14 @@ export default function LogsHistory() {
                 </tbody>
             </table>
             <button onClick={handleDownload} className={styles.downloadButton}>
-                {ai.downloadButton ?? '다운로드'}
+                {ai.downloadButton}
             </button>
             {showDetails && activeLog && (
                 <div className={styles.detailsModalOverlay}>
                     <div className={styles.detailsModal}>
-                        <h3>{ai.logDetailsTitle ?? 'Log Details'}</h3>
+                        <h3>{ai.logDetailsTitle}</h3>
                         <pre>{JSON.stringify(activeLog.details, null, 2)}</pre>
-                        <button onClick={() => setShowDetails(null)}>{ai.closeButton ?? 'Close'}</button>
+                        <button onClick={() => setShowDetails(null)}>{ai.closeButton}</button>
                     </div>
                 </div>
             )}

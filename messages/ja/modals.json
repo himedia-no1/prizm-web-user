@@ -120,12 +120,12 @@
     }
   },
   "members": {
-    "inviteGuestButton": "ゲストを招待",
+    "inviteGuest": "ゲストを招待",
     "searchPlaceholder": "メンバーを検索...",
-    "all": "全て",
-    "members": "メンバー",
-    "guests": "ゲスト",
-    "admins": "管理者",
+    "tabAll": "全て",
+    "tabMember": "メンバー",
+    "tabGuest": "ゲスト",
+    "tabAdmin": "管理者",
     "noResults": "検索結果がありません"
   },
   "profileSettings": {
@@ -148,10 +148,14 @@
     "sendDM": "DMを送信"
   },
   "channelFiles": {
-    "all": "全て",
-    "files": "ファイル",
-    "media": "メディア",
-    "links": "リンク"
+    "tabAll": "全て",
+    "tabFiles": "ファイル",
+    "tabMedia": "メディア",
+    "tabLinks": "リンク",
+    "uploadedBy": "アップロード者:",
+    "unknownUser": "不明",
+    "download": "ダウンロード",
+    "noFiles": "ファイルが見つかりません"
   },
   "messageForward": {
     "noChannels": "転送可能なチャンネルがありません",

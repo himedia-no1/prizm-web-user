@@ -68,20 +68,26 @@
   "permissionPrivateChannels": "メンバーが非公開チャンネルを作成できるようにする",
   "permissionManageIntegrations": "管理者が連携を管理できるようにする",
   "permissionManageBilling": "請求設定をオーナーのみに制限",
-  "integrationsTitle": "連携済みの統合",
-  "integrationsDescription": "統合を管理してツールを同期状態に保ちます。",
-  "integrationsStatusActive": "有効",
-  "integrationsStatusPaused": "一時停止",
-  "integrationsStatusRequest": "アクセスをリクエスト",
   "integrations": {
+    "title": "連携済みの統合",
+    "description": "統合を管理してツールを同期状態に保ちます。",
+    "statusActive": "有効",
+    "statusPaused": "一時停止",
+    "statusRequest": "アクセスをリクエスト",
     "slack": {
+      "title": "Slack Sync",
       "description": "Slackからメッセージと通知を同期します"
+    },
+    "jira": {
+      "title": "Jira",
+      "description": "課題のステータスと通知を連携"
+    },
+    "notion": {
+      "title": "Notion",
+      "description": "ページのコメントをチャンネルに共有"
     },
     "github": {
       "description": "GitHubのコミットとプルリクエストを追跡します"
-    },
-    "notion": {
-      "description": "Notionページとデータベースを接続します"
     }
   },
   "securityTitle": "セキュリティとコンプライアンス",

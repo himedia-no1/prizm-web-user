@@ -7,13 +7,18 @@ import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const InsightsTab = ({ stats, activities }) => {
   const messages = useMessages();
-  const t = messages?.workspaceManagement?.insights ?? {};
+  const t = messages?.workspaceManagement?.insights;
+  const tWorkspaceManagement = messages?.workspaceManagement;
+
+  if (!t || !tWorkspaceManagement) {
+    return null;
+  }
 
   return (
     <div>
-      <h2 className="settings-content__header">{t.title ?? 'Insights'}</h2>
+      <h2 className="settings-content__header">{tWorkspaceManagement.dashboardTitle}</h2>
       <p className={styles.description}>
-        {t.subtitle ?? 'View workspace analytics and activity'}
+        {tWorkspaceManagement.dashboardSubtitle}
       </p>
       <div className={styles.statsGrid}>
         {stats.map((stat) => (
@@ -31,29 +36,29 @@ export const InsightsTab = ({ stats, activities }) => {
       <div className={styles.sectionsGrid}>
         <div>
           <h3 className={styles.sectionTitle}>
-            {t.workspaceOverviewTitle ?? 'Workspace Overview'}
+            {tWorkspaceManagement.workspaceOverviewTitle}
           </h3>
           <p className={styles.sectionDescription}>
-            {t.workspaceOverviewDescription ?? 'Manage workspace settings'}
+            {tWorkspaceManagement.workspaceOverviewDescription}
           </p>
           <div className="settings-form-group">
-            <label htmlFor="ws-name">{t.workspaceNameLabel ?? 'Workspace Name'}</label>
+            <label htmlFor="ws-name">{tWorkspaceManagement.workspaceNameLabel}</label>
             <input id="ws-name" type="text" defaultValue="Prizm Dev" />
           </div>
           <div className="settings-form-group">
-            <label htmlFor="ws-desc">{t.workspaceDescriptionLabel ?? 'Description'}</label>
+            <label htmlFor="ws-desc">{tWorkspaceManagement.workspaceDescriptionLabel}</label>
             <textarea
               id="ws-desc"
               rows={3}
-              defaultValue={t.workspaceDescriptionPlaceholder ?? '프리즘 팀이 협업하고 작업물을 공유하는 공식 워크스페이스입니다.'}
+              defaultValue={t.workspaceDescriptionPlaceholder}
             />
           </div>
-          <button className="profile-modal__save-button">{t.saveChanges ?? 'Save Changes'}</button>
+          <button className="profile-modal__save-button">{tWorkspaceManagement.saveChanges}</button>
         </div>
 
         <div>
           <h3 className={styles.sectionTitle}>
-            {t.recentActivity ?? 'Recent Activity'}
+            {tWorkspaceManagement.recentActivity}
           </h3>
           <div className="channel-modal__list">
             {activities.map((activity) => {

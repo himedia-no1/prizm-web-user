@@ -37,7 +37,7 @@ export const SidebarFooter = ({
         <button onClick={onNavigateToUserSettings} className="profile-action-button">
           <Settings size={18} />
         </button>
-        <button onClick={() => onOpenModal('notifications')} className="profile-action-button" aria-label="수신함 열기">
+        <button onClick={() => onOpenModal('notifications')} className="profile-action-button" aria-label={s.openInbox}>
           <Inbox size={18} />
         </button>
       </div>

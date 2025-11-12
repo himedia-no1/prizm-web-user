@@ -68,20 +68,26 @@
   "permissionPrivateChannels": "멤버가 비공개 채널을 생성할 수 있음",
   "permissionManageIntegrations": "관리자가 연동을 관리할 수 있음",
   "permissionManageBilling": "결제 설정은 소유자만 가능",
-  "integrationsTitle": "연동 관리",
-  "integrationsDescription": "외부 도구와의 연동 상태를 확인하고 관리합니다.",
-  "integrationsStatusActive": "사용 중",
-  "integrationsStatusPaused": "일시 중지",
-  "integrationsStatusRequest": "권한 요청",
   "integrations": {
+    "title": "연동 관리",
+    "description": "외부 도구와의 연동 상태를 확인하고 관리합니다.",
+    "statusActive": "사용 중",
+    "statusPaused": "일시 중지",
+    "statusRequest": "권한 요청",
     "slack": {
+      "title": "Slack Sync",
       "description": "Slack에서 메시지와 알림을 동기화합니다"
+    },
+    "jira": {
+      "title": "Jira",
+      "description": "이슈 상태와 알림 연동"
+    },
+    "notion": {
+      "title": "Notion",
+      "description": "페이지 댓글을 채널로 공유"
     },
     "github": {
       "description": "GitHub 커밋과 풀 리퀘스트를 추적합니다"
-    },
-    "notion": {
-      "description": "Notion 페이지와 데이터베이스를 연결합니다"
     }
   },
   "securityTitle": "보안 및 컴플라이언스",

@@ -5,10 +5,10 @@ import { useMessages } from 'next-intl';
 import { FileText, LayoutGrid, Image, Link } from '@/components/common/icons';
 
 const getTabs = (t) => [
-    { id: 'all', label: t.tabAll ?? '전체', icon: LayoutGrid },
-    { id: 'files', label: t.tabFiles ?? '파일', icon: FileText },
-    { id: 'media', label: t.tabMedia ?? '미디어', icon: Image },
-    { id: 'links', label: t.tabLinks ?? '링크', icon: Link },
+    { id: 'all', label: t.tabAll, icon: LayoutGrid },
+    { id: 'files', label: t.tabFiles, icon: FileText },
+    { id: 'media', label: t.tabMedia, icon: Image },
+    { id: 'links', label: t.tabLinks, icon: Link },
 ];
 
 const MEDIA_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
@@ -16,8 +16,13 @@ const FILE_EXTENSIONS = ['pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'hwp', 'zip
 
 export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     const messages = useMessages();
-    const t = messages?.modals?.channelFiles ?? {};
+    const t = messages?.modals?.channelFiles;
     const [activeFileTab, setActiveFileTab] = useState('all');
+    
+    if (!t) {
+        return null;
+    }
+
     const tabs = getTabs(t);
 
     const filteredFiles = useMemo(() => {
@@ -73,16 +78,16 @@ export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
                                     <div className="channel-file-info">
                                         <span className="channel-file-title">{file.name}</span>
                                         <p className="channel-file-meta">
-                                            {t.uploadedBy ?? 'Uploaded by'} {uploader?.name ?? (t.unknownUser ?? 'Unknown')} • {file.size}
+                                            {t.uploadedBy} {uploader?.name ?? t.unknownUser} • {file.size}
                                         </p>
                                     </div>
-                                    <button className="channel-file-action">{t.download ?? 'Download'}</button>
+                                    <button className="channel-file-action">{t.download}</button>
                                 </div>
                             );
                         })}
                     </div>
                 ) : (
-                    <p>{t.noFiles ?? 'No files found'}</p>
+                    <p>{t.noFiles}</p>
                 )}
             </div>
         </div>

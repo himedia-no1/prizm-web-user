@@ -38,5 +38,8 @@
   "auth": {
     "loginError": "로그인에 실패했습니다. 다시 시도해주세요.",
     "loggingIn": "로그인 중입니다..."
-  }
+  },
+  "mySettings": "내 설정",
+  "notifications": "알림",
+  "openInbox": "수신함 열기"
 }

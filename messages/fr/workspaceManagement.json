@@ -68,20 +68,26 @@
   "permissionPrivateChannels": "Allow members to create private channels",
   "permissionManageIntegrations": "Allow admins to manage integrations",
   "permissionManageBilling": "Restrict billing settings to owners only",
-  "integrationsTitle": "Intégrations connectées",
-  "integrationsDescription": "Gardez les outils synchronisés en gérant les intégrations.",
-  "integrationsStatusActive": "Actif",
-  "integrationsStatusPaused": "En pause",
-  "integrationsStatusRequest": "Demander l'accès",
   "integrations": {
+    "title": "Intégrations connectées",
+    "description": "Gardez les outils synchronisés en gérant les intégrations.",
+    "statusActive": "Actif",
+    "statusPaused": "En pause",
+    "statusRequest": "Demander l'accès",
     "slack": {
+      "title": "Slack Sync",
       "description": "Synchronisez les messages et notifications depuis Slack"
+    },
+    "jira": {
+      "title": "Jira",
+      "description": "Suivre l'état des tickets et les notifications"
+    },
+    "notion": {
+      "title": "Notion",
+      "description": "Partager les commentaires de la page sur les canaux"
     },
     "github": {
       "description": "Suivez les commits et pull requests GitHub"
-    },
-    "notion": {
-      "description": "Connectez les pages et bases de données Notion"
     }
   },
   "securityTitle": "Security & compliance",

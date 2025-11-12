@@ -17,6 +17,23 @@ import {
 } from '@/components/common/icons';
 import styles from './MessageContextMenu.module.css';
 
+import { useMessages } from 'next-intl';
+import {
+  Smile,
+  CornerDownRight,
+  MessageSquare,
+  Bookmark,
+  Send,
+  Share,
+  Edit,
+  Trash,
+  Translate,
+  AlertTriangle,
+  MoreVertical,
+  Copy
+} from '@/components/common/icons';
+import styles from './MessageContextMenu.module.css';
+
 export const MessageContextMenu = ({
   message,
   isMyMessage,
@@ -36,6 +53,8 @@ export const MessageContextMenu = ({
 }) => {
   const menuRef = useRef(null);
   const [showFullMenu, setShowFullMenu] = useState(false);
+  const messages = useMessages();
+  const t = messages.message?.actions;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -47,7 +66,7 @@ export const MessageContextMenu = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
 
-  if (!position) {
+  if (!position || !t) {
     return null;
   }
 
@@ -88,21 +107,21 @@ export const MessageContextMenu = ({
 
   const fullMenuActions = isMyMessage
     ? [
-        { key: 'pin', icon: <Bookmark size={16} />, text: '고정하기', handler: () => { onPin(message); onClose(); } },
-        { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
-        { key: 'replyFull', icon: <CornerDownRight size={16} />, text: '답글달기', handler: () => { onReply(message); onClose(); } },
-        { key: 'forward', icon: <Send size={16} />, text: '전달하기', handler: () => { onForward(message); onClose(); } },
+        { key: 'pin', icon: <Bookmark size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
+        { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
+        { key: 'reply', icon: <CornerDownRight size={16} />, text: t.reply, handler: () => { onReply(message); onClose(); } },
+        { key: 'forward', icon: <Send size={16} />, text: t.forward, handler: () => { onForward(message); onClose(); } },
         { divider: true },
-        { key: 'edit', icon: <Edit size={16} />, text: '수정', handler: () => { onEdit(message); onClose(); } },
-        { key: 'delete', icon: <Trash size={16} />, text: '삭제', danger: true, handler: () => { onDelete(message); onClose(); } },
+        { key: 'edit', icon: <Edit size={16} />, text: t.edit, handler: () => { onEdit(message); onClose(); } },
+        { key: 'delete', icon: <Trash size={16} />, text: t.delete, danger: true, handler: () => { onDelete(message); onClose(); } },
       ]
     : [
-        { key: 'pin', icon: <Bookmark size={16} />, text: '고정하기', handler: () => { onPin(message); onClose(); } },
-        { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
-        { key: 'replyFull', icon: <CornerDownRight size={16} />, text: '답글달기', handler: () => { onReply(message); onClose(); } },
-        { key: 'forward', icon: <Send size={16} />, text: '전달하기', handler: () => { onForward(message); onClose(); } },
+        { key: 'pin', icon: <Bookmark size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
+        { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
+        { key: 'reply', icon: <CornerDownRight size={16} />, text: t.reply, handler: () => { onReply(message); onClose(); } },
+        { key: 'forward', icon: <Send size={16} />, text: t.forward, handler: () => { onForward(message); onClose(); } },
         { divider: true },
-        { key: 'translate', icon: <Translate size={16} />, text: '번역하기', handler: () => { onTranslate(message); onClose(); } },
+        { key: 'translate', icon: <Translate size={16} />, text: t.translate, handler: () => { onTranslate(message); onClose(); } },
       ];
 
   return (

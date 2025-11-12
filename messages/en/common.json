@@ -38,5 +38,8 @@
   "auth": {
     "loginError": "Login failed. Please try again.",
     "loggingIn": "Logging in..."
-  }
+  },
+  "mySettings": "My Settings",
+  "notifications": "Notifications",
+  "openInbox": "Open inbox"
 }

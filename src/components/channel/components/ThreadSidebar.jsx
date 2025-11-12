@@ -1,5 +1,4 @@
-'use client';
-
+import { useMessages } from 'next-intl';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
@@ -23,6 +22,8 @@ export const ThreadSidebar = ({
   onReactEmoji,
   onTranslate,
 }) => {
+  const messages = useMessages();
+  const t = messages.message;
   const textareaRef = useRef(null);
   const originalUser = users[threadMessage.userId];
   const [contextMenu, setContextMenu] = useState(null);
@@ -37,12 +38,16 @@ export const ThreadSidebar = ({
     }
   };
 
+  if (!t) {
+    return null;
+  }
+
   return (
     <aside className="thread-sidebar">
       <header className="thread-header">
         <div>
-          <h3 className="thread-header__title">Thread</h3>
-          <p className="thread-header__subtitle">Replies to {originalUser.name}</p>
+          <h3 className="thread-header__title">{t.thread}</h3>
+          <p className="thread-header__subtitle">{t.repliesTo.replace('{name}', originalUser.name)}</p>
         </div>
         <button onClick={onClose} className="thread-header__close-button">
           <X size={18} />
@@ -128,7 +133,7 @@ export const ThreadSidebar = ({
           <textarea
             ref={textareaRef}
             rows="1"
-            placeholder="Reply to thread..."
+            placeholder={t.replyToThread}
             className={`thread-reply-input__textarea ${styles.minHeight48}`}
             onInput={handleInput}
           />

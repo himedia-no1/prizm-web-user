@@ -38,5 +38,8 @@
   "auth": {
     "loginError": "ログインに失敗しました。もう一度お試しください。",
     "loggingIn": "ログイン中..."
-  }
+  },
+  "mySettings": "マイ設定",
+  "notifications": "通知",
+  "openInbox": "受信トレイを開く"
 }

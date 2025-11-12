@@ -16,7 +16,8 @@ export const MembersModalContent = ({
   onInviteGuest,
 }) => {
   const messages = useMessages();
-  const t = messages?.modals?.members ?? {};
+  const t = messages?.modals?.members;
+  const tRoles = messages?.workspaceManagement;
   const users = useDataStore((state) => state.users);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
@@ -48,6 +49,11 @@ export const MembersModalContent = ({
       .filter(Boolean);
   }, [memberIds, users, workspaceMembers]);
 
+  const getTranslatedRole = (role) => {
+    const roleKey = `role${role.charAt(0).toUpperCase() + role.slice(1)}`;
+    return tRoles[roleKey] || role;
+  };
+
   const filteredUsers = memberList.filter((user) => {
     const matchesSearch =
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,6 +74,10 @@ export const MembersModalContent = ({
   const canInviteGuest =
     permissions?.canInviteMembers && channel?.type !== 'dm' && typeof onInviteGuest === 'function';
 
+  if (!t || !tRoles) {
+    return null;
+  }
+
   return (
     <div>
       {canInviteGuest && (
@@ -76,14 +86,14 @@ export const MembersModalContent = ({
           onClick={onInviteGuest}
         >
           <UserPlus size={16} className={styles.userPlusIcon} />
-          {t.inviteGuest ?? '게스트 초대'}
+          {t.inviteGuest}
         </button>
       )}
 
       <div className={`settings-form-group ${styles.formGroup}`}>
         <input
           type="text"
-          placeholder={t.searchPlaceholder ?? '참여자 검색...'}
+          placeholder={t.searchPlaceholder}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -94,25 +104,25 @@ export const MembersModalContent = ({
           onClick={() => setSelectedType('all')}
           className={`${styles.tabButton} ${selectedType === 'all' ? styles.activeTab : styles.inactiveTab}`}
         >
-          {t.tabAll ?? '전체'}
+          {t.tabAll}
         </button>
         <button
           onClick={() => setSelectedType('member')}
           className={`${styles.tabButton} ${selectedType === 'member' ? styles.activeTab : styles.inactiveTab}`}
         >
-          {t.tabMember ?? '멤버'}
+          {t.tabMember}
         </button>
         <button
           onClick={() => setSelectedType('guest')}
           className={`${styles.tabButton} ${selectedType === 'guest' ? styles.activeTab : styles.inactiveTab}`}
         >
-          {t.tabGuest ?? '게스트'}
+          {t.tabGuest}
         </button>
         <button
           onClick={() => setSelectedType('admin')}
           className={`${styles.tabButton} ${selectedType === 'admin' ? styles.activeTab : styles.inactiveTab}`}
         >
-          {t.tabAdmin ?? '관리자'}
+          {t.tabAdmin}
         </button>
       </div>
 
@@ -126,7 +136,7 @@ export const MembersModalContent = ({
                 <span className={styles.userName}>{user.name}</span>
                 {user.role && (
                   <span className={styles.userRole}>
-                    {user.role}
+                    {getTranslatedRole(user.role)}
                   </span>
                 )}
               </div>
@@ -138,7 +148,7 @@ export const MembersModalContent = ({
         })}
         {filteredUsers.length === 0 && (
           <p className={styles.noResults}>
-            {t.noResults ?? '검색 결과가 없습니다.'}
+            {t.noResults}
           </p>
         )}
       </div>
