@@ -4,18 +4,19 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useDataStore from '@/core/store/dataStore';
+import { useAIStore } from '@/core/store/ai';
 import { useChatStore } from '@/core/store/chat';
+import useDataStore from '@/core/store/dataStore';
 import styles from './AppConnectList.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const AppConnectList = () => {
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
-    const appConnect = useDataStore((state) => state.appConnect);
+    const appConnect = useAIStore((state) => state.appConnect);
+    const unreadCounts = useChatStore((state) => state.unreadCounts ?? {});
     const loadInitialData = useDataStore((state) => state.loadInitialData);
     const initialized = useDataStore((state) => state.initialized);
-    const unreadCounts = useChatStore((state) => state.unreadCounts ?? {});
 
     useEffect(() => {
         if (!initialized) {
@@ -31,7 +32,7 @@ export const AppConnectList = () => {
                 <span>{s.appConnect ?? 'App Connect'}</span>
             </div>
             <ul className={`nav-category__list ${styles.list}`}>
-                {appConnect.map(app => {
+                {(appConnect ?? []).map(app => {
                     const unreadCount = unreadCounts[app.id] || 0;
                     const iconSrc = app.icon ? `/${app.icon}` : getPlaceholderImage(24, app.name?.[0] ?? '?');
                     return (

@@ -4,6 +4,8 @@ import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
 import { useMessages } from 'next-intl';
 import { UserPlus } from '@/components/common/icons';
+import { useWorkspaceStore } from '@/core/store/workspace';
+import { useChatStore } from '@/core/store/chat';
 import useDataStore from '@/core/store/dataStore';
 import styles from './MembersModalContent.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
@@ -18,10 +20,10 @@ export const MembersModalContent = ({
   const messages = useMessages();
   const t = messages?.modals?.members;
   const tRoles = messages?.workspaceManagement;
-  const users = useDataStore((state) => state.users);
+  const users = useWorkspaceStore((state) => state.users);
+  const getChannelDetails = useChatStore((state) => state.getChannelDetails);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
-  const getChannelDetails = useDataStore((state) => state.getChannelDetails);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('all');
 

@@ -1,10 +1,11 @@
 import { useEffect, useMemo } from 'react';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import useDataStore from '@/core/store/dataStore';
 import { FALLBACK_GROUPS } from '../utils/constants';
 
 export const useInviteTargets = (workspaceId, mode, channelId, channelName) => {
-  const categories = useDataStore((state) => state.categories);
-  const workspaceGroupMap = useDataStore((state) => state.workspaceGroups);
+  const categories = useWorkspaceStore((state) => state.categories);
+  const workspaceGroupMap = useWorkspaceStore((state) => state.workspaceGroups);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
 

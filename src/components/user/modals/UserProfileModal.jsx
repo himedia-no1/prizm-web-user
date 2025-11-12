@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { X, MessageSquare } from '@/components/common/icons';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import useDataStore from '@/core/store/dataStore';
 import styles from './UserProfileModal.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
@@ -13,7 +14,7 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
     const router = useRouter();
     const messages = useMessages();
     const t = messages?.modals?.userProfile ?? {};
-    const users = useDataStore((state) => state.users);
+    const users = useWorkspaceStore((state) => state.users);
     const loadInitialData = useDataStore((state) => state.loadInitialData);
     const initialized = useDataStore((state) => state.initialized);
 

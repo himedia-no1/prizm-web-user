@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { CategorySection } from './CategorySection';
 import { DMList } from './DMList';
 import styles from './LeftSidebar.module.css';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import useDataStore from '@/core/store/dataStore';
 
 export const ChannelList = ({
@@ -11,7 +12,7 @@ export const ChannelList = ({
   currentView,
   onSelectChannel,
 }) => {
-  const categories = useDataStore((state) => state.categories);
+  const categories = useWorkspaceStore((state) => state.categories);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
 
