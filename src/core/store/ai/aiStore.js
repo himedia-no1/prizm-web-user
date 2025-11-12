@@ -5,10 +5,24 @@ import { create } from 'zustand';
  * - AI 어시스턴트 상태
  * - AI 학습 관리
  * - 번역 설정
+ * - Bootstrap 데이터 (appConnect, workspaceStats, recentActivities)
  *
  * 담당: 개발자 C (AI)
  */
 export const useAIStore = create((set, get) => ({
+  // Bootstrap Data
+  appConnect: [],
+  workspaceStats: [],
+  recentActivities: [],
+
+  // Bootstrap Loader
+  setBootstrapData: (data) =>
+    set({
+      appConnect: data.appConnect ?? [],
+      workspaceStats: data.workspaceStats ?? [],
+      recentActivities: data.recentActivities ?? [],
+    }),
+
   // AI Assistant State
   aiAssistantOpen: false,
   openAIAssistant: () => set({ aiAssistantOpen: true }),

@@ -5,6 +5,7 @@ import { create } from 'zustand';
  * - 워크스페이스 관리
  * - 멤버 관리
  * - 프로필 관리
+ * - Bootstrap 데이터 (workspaces, categories, users, groups, members)
  *
  * 담당: 개발자 A (Workspace)
  */
@@ -16,8 +17,24 @@ export const useWorkspaceStore = create((set, get) => ({
   currentWorkspaceRole: null,
   setCurrentWorkspaceRole: (role) => set({ currentWorkspaceRole: role }),
 
+  // Bootstrap Data
+  workspaces: [],
+  categories: [],
+  users: {},
+  workspaceGroups: {},
+  workspaceMembers: {},
+
+  // Bootstrap Loader
+  setBootstrapData: (data) =>
+    set({
+      workspaces: data.workspaces ?? [],
+      categories: data.categories ?? [],
+      users: data.users ?? {},
+      workspaceGroups: data.workspaceGroups ?? {},
+      workspaceMembers: data.workspaceMembers ?? {},
+    }),
+
   // Workspace Memberships
-  workspaceMemberships: {},
   setWorkspaceMemberships: (workspaceId, memberships) =>
     set((state) => ({
       workspaceMemberships: {
@@ -36,6 +53,12 @@ export const useWorkspaceStore = create((set, get) => ({
       },
     })),
   getWorkspaceProfile: (workspaceId) => get().workspaceProfiles[workspaceId] || null,
+
+  // Helpers
+  getWorkspaceMembers: (workspaceId) => {
+    const members = get().workspaceMembers ?? {};
+    return members[workspaceId] ?? {};
+  },
 
   // DM Creation
   createDM: (userId, router) => {

@@ -12,7 +12,9 @@ import {
   AuditTab,
   AIAssistantTab,
 } from '@/components/settings/workspace/tabs';
-import { useWorkspaceSettingsStore } from '@/core/store/workspace';
+import { useWorkspaceSettingsStore, useWorkspaceStore } from '@/core/store/workspace';
+import { useChatStore } from '@/core/store/chat';
+import { useAIStore } from '@/core/store/ai';
 import { navItems } from '@/components/settings/workspace/constants/navItems';
 import { WorkspaceHeader } from '@/components/settings/workspace/components/WorkspaceHeader';
 import { WorkspaceNav } from '@/components/settings/workspace/components/WorkspaceNav';
@@ -35,20 +37,17 @@ export default function WorkspaceSettingsClient({
   const [settingsData, setSettingsData] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [settingsError, setSettingsError] = useState(null);
-  const categories = useDataStore((state) => state.categories);
-  const storedMessages = useDataStore((state) => state.messages);
-  const workspaceMembers = useDataStore((state) => state.workspaceMembers);
-  const workspaceStats = useDataStore((state) => state.workspaceStats);
-  const recentActivities = useDataStore((state) => state.recentActivities);
+
+  // Domain Stores
+  const categories = useWorkspaceStore((state) => state.categories);
+  const workspaceMembers = useWorkspaceStore((state) => state.workspaceMembers);
+  const storedMessages = useChatStore((state) => state.messages);
+  const workspaceStats = useAIStore((state) => state.workspaceStats);
+  const recentActivities = useAIStore((state) => state.recentActivities);
+
+  // Bootstrap
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
-  const { setActiveWorkspaceId } = useWorkspaceSettingsStore();
-
-  useEffect(() => {
-    if (workspaceId) {
-      setActiveWorkspaceId(workspaceId);
-    }
-  }, [workspaceId, setActiveWorkspaceId]);
 
   useEffect(() => {
     setActiveTab(initialTab);

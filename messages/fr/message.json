@@ -22,5 +22,6 @@
   "forwardSuccess": "Message forwarded",
   "thread": "Fil de discussion",
   "repliesTo": "Réponses à {name}",
-  "replyToThread": "Répondre au fil..."
+  "replyToThread": "Répondre au fil...",
+  "inputPlaceholder": "Message #{{channelName}}"
 }

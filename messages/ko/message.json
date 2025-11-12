@@ -22,5 +22,6 @@
   "forwardSuccess": "메시지가 전달되었습니다",
   "thread": "스레드",
   "repliesTo": "{name}님에게 보내는 답장",
-  "replyToThread": "스레드에 답장..."
+  "replyToThread": "스레드에 답장...",
+  "inputPlaceholder": "#{{channelName}}에 메시지 보내기"
 }

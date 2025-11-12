@@ -22,5 +22,6 @@
   "forwardSuccess": "Message forwarded",
   "thread": "スレッド",
   "repliesTo": "{name}への返信",
-  "replyToThread": "スレッドに返信する..."
+  "replyToThread": "スレッドに返信する...",
+  "inputPlaceholder": "#{{channelName}}にメッセージを送信"
 }

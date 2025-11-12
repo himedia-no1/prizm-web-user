@@ -47,7 +47,6 @@ const ChannelPageClient = (props) => {
           channelName={channel.name}
           message={message}
           setMessage={setMessage}
-          onToggleAI={() => console.log('Toggle AI')}
           onOpenModal={handleOpenModal}
           onOpenEmojiPicker={() =>
             handleOpenModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })

@@ -8,22 +8,22 @@ export const OverviewTab = ({ strings, membersCount = 0, channelCount = 0, messa
   const computedStats = [
     {
       id: 'members',
-      label: strings.overview?.totalMembers ?? '멤버',
+      label: strings.overview?.totalMembers || 'Members',
       value: membersCount,
     },
     {
       id: 'channels',
-      label: strings.overview?.totalChannels ?? '채널',
+      label: strings.overview?.totalChannels || 'Channels',
       value: channelCount,
     },
     {
       id: 'messages',
-      label: strings.overview?.totalMessages ?? '메시지',
+      label: strings.overview?.totalMessages || 'Messages',
       value: messageCount,
     },
     {
       id: 'active',
-      label: strings.overview?.activeToday ?? '오늘 활동',
+      label: strings.overview?.activeToday || 'Active Today',
       value: activeToday,
     },
   ];
@@ -31,7 +31,7 @@ export const OverviewTab = ({ strings, membersCount = 0, channelCount = 0, messa
   return (
     <div className={styles.tabContent}>
       <section className={styles.section}>
-        <h2>{strings.overview?.statsTitle ?? '워크스페이스 통계'}</h2>
+        <h2>{strings.overview?.statsTitle || 'Workspace Statistics'}</h2>
         <div className={styles.statsGrid}>
           {computedStats.map((stat) => (
             <div key={stat.id} className={styles.statCard}>
@@ -43,7 +43,7 @@ export const OverviewTab = ({ strings, membersCount = 0, channelCount = 0, messa
       </section>
 
       <section className={styles.section}>
-        <h2>{strings.overview?.recentActivity ?? '최근 활동'}</h2>
+        <h2>{strings.overview?.recentActivity || 'Recent Activity'}</h2>
         <ul className={styles.activityList}>
           {activities.length > 0 ? (
             activities.map((activity) => {
@@ -72,7 +72,7 @@ export const OverviewTab = ({ strings, membersCount = 0, channelCount = 0, messa
             })
           ) : (
             <li className={styles.activityEmpty}>
-              {strings.overview?.noActivity ?? '최근 활동이 없습니다.'}
+              {strings.overview?.noActivity || 'No recent activity'}
             </li>
           )}
         </ul>

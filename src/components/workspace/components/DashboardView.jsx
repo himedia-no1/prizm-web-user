@@ -28,8 +28,8 @@ export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialSt
         <section className={styles.statsSection}>
           <header className={styles.sectionHeader}>
             <div>
-              <h3>{t.welcomeTitle ?? '환영합니다!'}</h3>
-              <p>{t.welcomeMessage ?? '워크스페이스 활동을 한눈에 확인하세요.'}</p>
+              <h3>{t.welcomeTitle || 'Welcome!'}</h3>
+              <p>{t.welcomeMessage || 'Check your workspace activity at a glance.'}</p>
             </div>
           </header>
           <div className={styles.statsGrid}>

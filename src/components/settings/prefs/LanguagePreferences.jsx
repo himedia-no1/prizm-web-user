@@ -1,9 +1,16 @@
+'use client';
+
+import { useState } from 'react';
+import { useLocale, useMessages } from 'next-intl';
+import { useAIStore } from '@/core/store/ai';
+import { setPreferredLocale } from '@/shared/lib/locale';
+import styles from './Preferences.module.css';
+
 export const LanguagePreferences = () => {
-  const router = useRouter();
   const locale = useLocale();
   const messages = useMessages();
-  const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
-  const toggleAutoTranslate = useStore((state) => state.toggleAutoTranslate);
+  const autoTranslateEnabled = useAIStore((state) => state.translationSettings.autoTranslate);
+  const toggleAutoTranslate = useAIStore((state) => state.toggleAutoTranslate);
   const s = { ...(messages?.common ?? {}), ...messages };
   const languageStrings = s.userSettings?.preferences?.language;
   const translationStrings = s.userSettings?.preferences?.translation;

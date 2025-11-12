@@ -71,7 +71,7 @@ export default function SocialAuthPage({ searchParams }) {
         setAuthState(session);
         router.replace('/workspace');
       } catch (err) {
-        setError(authStrings.loginError ?? '로그인에 실패했습니다. 다시 시도해주세요.');
+        setError(authStrings.loginError || 'Login failed. Please try again.');
       }
     });
   }, [searchParams, router, setAuthState, authStrings.loginError]);
@@ -98,7 +98,7 @@ export default function SocialAuthPage({ searchParams }) {
         setAuthState(session);
         router.replace('/workspace');
       } catch (err) {
-        setError(authStrings.loginError ?? '로그인에 실패했습니다. 다시 시도해주세요.');
+        setError(authStrings.loginError || 'Login failed. Please try again.');
       }
     });
   };
@@ -135,7 +135,7 @@ export default function SocialAuthPage({ searchParams }) {
         {isPending && (
           <div className={styles.loadingState}>
             <div className="spinner" />
-            <span>{authStrings.loggingIn ?? '로그인 중입니다...'}</span>
+            <span>{authStrings.loggingIn || 'Logging in...'}</span>
           </div>
         )}
 

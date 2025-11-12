@@ -56,5 +56,8 @@
   "appTitle": "PRIZM - AI 기반 개발자 협업 메신저",
   "defaultUser": "사용자",
   "loginPath": "/login",
-  "defaultWorkspaceRoute": "/workspace"
+  "defaultWorkspaceRoute": "/workspace",
+  "errorTitle": "문제가 발생했습니다",
+  "errorDescription": "페이지를 로드하는 중 오류가 발생했습니다.",
+  "tryAgain": "다시 시도"
 }

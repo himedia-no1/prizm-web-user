@@ -7,10 +7,32 @@ import { create } from 'zustand';
  * - 즐겨찾기 채널
  * - 읽지 않음 카운트
  * - 채널별 알림 설정
+ * - Bootstrap 데이터 (messages, channelDetails, threadMessages, dms)
  *
  * 담당: 개발자 B (Chat)
  */
 export const useChatStore = create((set, get) => ({
+  // Bootstrap Data
+  messages: [],
+  channelDetails: {},
+  threadMessages: {},
+  dms: [],
+
+  // Bootstrap Loader
+  setBootstrapData: (data) =>
+    set({
+      messages: data.messages ?? [],
+      channelDetails: data.channelDetails ?? {},
+      threadMessages: data.threadMessages ?? {},
+      dms: data.dms ?? [],
+    }),
+
+  // Helpers
+  getChannelDetails: (channelId) => {
+    const details = get().channelDetails ?? {};
+    return details[channelId] ?? null;
+  },
+
   // Favorite Channels
   favoriteChannels: ['c1', 'c3'],
   toggleFavoriteChannel: (channelId) =>

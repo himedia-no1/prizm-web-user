@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useMessages } from 'next-intl';
+import styles from './Preferences.module.css';
+
 export const AutoTranslationPreferences = () => {
   const messages = useMessages();
   const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(false);
