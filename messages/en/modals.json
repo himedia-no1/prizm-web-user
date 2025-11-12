@@ -120,7 +120,43 @@
     }
   },
   "members": {
-    "inviteGuestButton": "Invite guest to channel"
+    "inviteGuestButton": "Invite guest to channel",
+    "searchPlaceholder": "Search members...",
+    "all": "All",
+    "members": "Members",
+    "guests": "Guests",
+    "admins": "Admins",
+    "noResults": "No results found"
+  },
+  "profileSettings": {
+    "title": "Profile Settings",
+    "changePhoto": "Change Photo",
+    "displayName": "Display Name",
+    "status": "Status",
+    "statusOnline": "Online",
+    "statusOffline": "Offline",
+    "save": "Save"
+  },
+  "userProfile": {
+    "online": "Online",
+    "offline": "Offline",
+    "realName": "Real Name",
+    "email": "Email",
+    "phone": "Phone",
+    "joinMethod": "Join Method",
+    "role": "Role",
+    "sendDM": "Send DM"
+  },
+  "channelFiles": {
+    "all": "All",
+    "files": "Files",
+    "media": "Media",
+    "links": "Links"
+  },
+  "messageForward": {
+    "noChannels": "No channels available to forward",
+    "selectedCount": "{{count}} selected",
+    "forwarding": "Forwarding..."
   },
   "inviteResult": {
     "title": "Invitation summary",
@@ -129,7 +165,20 @@
     "linkDescription": "Share this link with anyone who should join.",
     "close": "Close",
     "codeLabel": "Code",
-    "createdLabel": "Created"
+    "createdLabel": "Created",
+    "usageOptions": {
+      "1use": "1 use",
+      "5uses": "5 uses",
+      "10uses": "10 uses",
+      "50uses": "50 uses",
+      "unlimited": "Unlimited"
+    },
+    "copy": "Copy",
+    "copied": "Copied!",
+    "code": "Code",
+    "expiration": "Expiration",
+    "usageLimit": "Usage limit",
+    "created": "Created"
   },
   "userProfileModal": {
     "realName": "Real Name:",
@@ -208,5 +257,23 @@
     "warning": "All your data, messages, and workspaces will be permanently removed.",
     "typeToConfirm": "Type \"DELETE\" to confirm",
     "confirmPlaceholder": "DELETE"
+  },
+  "aiAssistant": {
+    "title": "AI Assistant",
+    "newChat": "New Chat",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "sessions": {
+      "title": "Chat History",
+      "newSession": "New Session",
+      "defaultName": "New Chat"
+    },
+    "examples": {
+      "greeting": "Hello! How can I help you?",
+      "question1": "Organize project schedule",
+      "answer1": "Sure, I'll help you organize the project schedule.",
+      "question2": "Summarize meeting notes",
+      "answer2": "I'll summarize the meeting notes for you."
+    }
   }
 }

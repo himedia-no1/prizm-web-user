@@ -3,5 +3,27 @@
   "create": "Create Workspace",
   "joinWithLink": "Join with invite link",
   "inviteCodePlaceholder": "Enter invite code",
-  "joinButton": "Join Workspace"
+  "joinButton": "Join Workspace",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcomeTitle": "Welcome!",
+    "welcomeMessage": "View your workspace activity at a glance.",
+    "stats": {
+      "totalMessages": "Total Messages",
+      "activeMembers": "Active Members",
+      "activeChannels": "Active Channels"
+    },
+    "recentActivity": "Recent Activity",
+    "noActivity": "No activity yet."
+  },
+  "search": {
+    "resultsTitle": "Search Results",
+    "searching": "Searching...",
+    "searchingDesc": "We're looking through your team's knowledge. Please wait a moment.",
+    "error": "Something went wrong",
+    "emptyQuery": "Find the information you need",
+    "emptyQueryDesc": "Search through team conversations, files, and member info all in one place.",
+    "noResults": "No results found",
+    "noResultsDesc": "Try changing your keywords or filters and search again."
+  }
 }

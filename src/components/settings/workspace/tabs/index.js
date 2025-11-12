@@ -5,3 +5,4 @@ export { GroupsTab } from './GroupsTab';
 export { IntegrationsTab } from './IntegrationsTab';
 export { SecurityTab } from './SecurityTab';
 export { AuditTab } from './AuditTab';
+export { AIAssistantTab } from './AIAssistantTab';

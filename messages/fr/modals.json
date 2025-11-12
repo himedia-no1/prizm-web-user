@@ -120,16 +120,65 @@
     }
   },
   "members": {
-    "inviteGuestButton": "Invite guest to channel"
+    "inviteGuestButton": "Inviter un invité au canal",
+    "searchPlaceholder": "Rechercher des membres...",
+    "all": "Tous",
+    "members": "Membres",
+    "guests": "Invités",
+    "admins": "Administrateurs",
+    "noResults": "Aucun résultat trouvé"
+  },
+  "profileSettings": {
+    "title": "Paramètres du profil",
+    "changePhoto": "Changer la photo",
+    "displayName": "Nom d'affichage",
+    "status": "Statut",
+    "statusOnline": "En ligne",
+    "statusOffline": "Hors ligne",
+    "save": "Enregistrer"
+  },
+  "userProfile": {
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "realName": "Nom réel",
+    "email": "Email",
+    "phone": "Téléphone",
+    "joinMethod": "Méthode d'inscription",
+    "role": "Rôle",
+    "sendDM": "Envoyer un message privé"
+  },
+  "channelFiles": {
+    "all": "Tous",
+    "files": "Fichiers",
+    "media": "Médias",
+    "links": "Liens"
+  },
+  "messageForward": {
+    "noChannels": "Aucun canal disponible pour transférer",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "forwarding": "Transfert en cours..."
   },
   "inviteResult": {
-    "title": "Invitation summary",
-    "memberDescription": "The following teammates received invite emails with unique links.",
-    "guestDescription": "The following guests received invite emails with unique links.",
-    "linkDescription": "Share this link with anyone who should join.",
-    "close": "Close",
+    "title": "Récapitulatif de l'invitation",
+    "memberDescription": "Les membres suivants ont reçu des emails d'invitation avec des liens uniques.",
+    "guestDescription": "Les invités suivants ont reçu des emails d'invitation avec des liens uniques.",
+    "linkDescription": "Partagez ce lien avec toute personne qui devrait rejoindre.",
+    "close": "Fermer",
     "codeLabel": "Code",
-    "createdLabel": "Created"
+    "createdLabel": "Créé",
+    "usageOptions": {
+      "1use": "1 utilisation",
+      "5uses": "5 utilisations",
+      "10uses": "10 utilisations",
+      "50uses": "50 utilisations",
+      "unlimited": "Illimité"
+    },
+    "copy": "Copier",
+    "copied": "Copié !",
+    "code": "Code",
+    "expiration": "Expiration",
+    "usageLimit": "Limite d'utilisation",
+    "created": "Créé"
   },
   "userProfileModal": {
     "realName": "Real Name:",
@@ -208,5 +257,23 @@
     "warning": "All your data, messages, and workspaces will be permanently removed.",
     "typeToConfirm": "Type \"DELETE\" to confirm",
     "confirmPlaceholder": "DELETE"
+  },
+  "aiAssistant": {
+    "title": "Assistant IA",
+    "newChat": "Nouveau chat",
+    "placeholder": "Entrez votre message...",
+    "send": "Envoyer",
+    "sessions": {
+      "title": "Historique des conversations",
+      "newSession": "Nouvelle session",
+      "defaultName": "Nouveau chat"
+    },
+    "examples": {
+      "greeting": "Bonjour! Comment puis-je vous aider?",
+      "question1": "Organiser l'horaire du projet",
+      "answer1": "Bien sûr, je vais vous aider à organiser l'horaire du projet.",
+      "question2": "Résumer les notes de réunion",
+      "answer2": "Je vais résumer les notes de réunion pour vous."
+    }
   }
 }

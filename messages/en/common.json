@@ -34,5 +34,9 @@
   "copy": {
     "copy": "Copy",
     "copied": "Copied!"
+  },
+  "auth": {
+    "loginError": "Login failed. Please try again.",
+    "loggingIn": "Logging in..."
   }
 }

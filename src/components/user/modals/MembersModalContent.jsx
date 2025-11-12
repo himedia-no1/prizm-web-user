@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
+import { useMessages } from 'next-intl';
 import { UserPlus } from '@/components/common/icons';
 import useDataStore from '@/core/store/dataStore';
 import styles from './MembersModalContent.module.css';
@@ -14,6 +15,8 @@ export const MembersModalContent = ({
   permissions = {},
   onInviteGuest,
 }) => {
+  const messages = useMessages();
+  const t = messages?.modals?.members ?? {};
   const users = useDataStore((state) => state.users);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
@@ -73,14 +76,14 @@ export const MembersModalContent = ({
           onClick={onInviteGuest}
         >
           <UserPlus size={16} className={styles.userPlusIcon} />
-          게스트 초대
+          {t.inviteGuest ?? '게스트 초대'}
         </button>
       )}
 
       <div className={`settings-form-group ${styles.formGroup}`}>
         <input
           type="text"
-          placeholder="참여자 검색..."
+          placeholder={t.searchPlaceholder ?? '참여자 검색...'}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -91,25 +94,25 @@ export const MembersModalContent = ({
           onClick={() => setSelectedType('all')}
           className={`${styles.tabButton} ${selectedType === 'all' ? styles.activeTab : styles.inactiveTab}`}
         >
-          전체
+          {t.tabAll ?? '전체'}
         </button>
         <button
           onClick={() => setSelectedType('member')}
           className={`${styles.tabButton} ${selectedType === 'member' ? styles.activeTab : styles.inactiveTab}`}
         >
-          멤버
+          {t.tabMember ?? '멤버'}
         </button>
         <button
           onClick={() => setSelectedType('guest')}
           className={`${styles.tabButton} ${selectedType === 'guest' ? styles.activeTab : styles.inactiveTab}`}
         >
-          게스트
+          {t.tabGuest ?? '게스트'}
         </button>
         <button
           onClick={() => setSelectedType('admin')}
           className={`${styles.tabButton} ${selectedType === 'admin' ? styles.activeTab : styles.inactiveTab}`}
         >
-          관리자
+          {t.tabAdmin ?? '관리자'}
         </button>
       </div>
 
@@ -135,7 +138,7 @@ export const MembersModalContent = ({
         })}
         {filteredUsers.length === 0 && (
           <p className={styles.noResults}>
-            검색 결과가 없습니다.
+            {t.noResults ?? '검색 결과가 없습니다.'}
           </p>
         )}
       </div>

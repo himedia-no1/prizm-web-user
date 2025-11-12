@@ -16,29 +16,29 @@ export const MembersTab = ({
   const getHistoryMessage = (action) => {
     switch (action) {
       case 'join':
-        return s.workspaceAdmin.membersHistoryActionJoin;
+        return s.workspaceManagement.membersHistoryActionJoin;
       case 'leave':
-        return s.workspaceAdmin.membersHistoryActionLeave;
+        return s.workspaceManagement.membersHistoryActionLeave;
       default:
-        return s.workspaceAdmin.membersHistoryActionInvited;
+        return s.workspaceManagement.membersHistoryActionInvited;
     }
   };
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.membersTitle}</h2>
+      <h2 className="settings-content__header">{s.workspaceManagement.membersTitle}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.membersDescription}
+        {s.workspaceManagement.membersDescription}
       </p>
 
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersBlockedTitle}</h3>
+        <h3 className={styles.sectionTitle}>{s.workspaceManagement.membersBlockedTitle}</h3>
         <p className={styles.sectionDescription}>
-          {s.workspaceAdmin.membersBlockedDescription}
+          {s.workspaceManagement.membersBlockedDescription}
         </p>
         {blockedMembers.length === 0 ? (
           <p className={styles.empty}>
-            {s.workspaceAdmin.membersBlockedEmpty}
+            {s.workspaceManagement.membersBlockedEmpty}
           </p>
         ) : (
           <div className="channel-modal__list">
@@ -54,7 +54,7 @@ export const MembersTab = ({
                   </span>
                 </span>
                 <button className={`profile-action-button ${styles.unblockButton}`}>
-                  {s.workspaceAdmin.membersBlockedUnblock}
+                  {s.workspaceManagement.membersBlockedUnblock}
                 </button>
               </div>
             ))}
@@ -63,19 +63,19 @@ export const MembersTab = ({
       </section>
 
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersParticipantsTitle}</h3>
+        <h3 className={styles.sectionTitle}>{s.workspaceManagement.membersParticipantsTitle}</h3>
         <p className={styles.sectionDescription}>
-          {s.workspaceAdmin.membersParticipantsDescription}
+          {s.workspaceManagement.membersParticipantsDescription}
         </p>
         <div className={styles.actions}>
           <button className={`profile-modal__save-button ${styles.actionButton}`}>
-            {s.workspaceAdmin.membersExport}
+            {s.workspaceManagement.membersExport}
           </button>
           <button className={`profile-modal__save-button ${styles.actionButton} ${styles.secondaryButton}`}>
-            {s.workspaceAdmin.membersMoveToGroup}
+            {s.workspaceManagement.membersMoveToGroup}
           </button>
           <button className={`profile-modal__save-button ${styles.actionButton}`}>
-            {s.workspaceAdmin.inviteMember}
+            {s.workspaceManagement.inviteMember}
           </button>
         </div>
         <div className="channel-modal__list">
@@ -103,7 +103,7 @@ export const MembersTab = ({
                 {participant.status}
               </span>
               <button className={`profile-action-button ${styles.unblockButton}`}>
-                {s.workspaceAdmin.membersMoveToGroup}
+                {s.workspaceManagement.membersMoveToGroup}
               </button>
               </div>
             );
@@ -112,13 +112,13 @@ export const MembersTab = ({
       </section>
 
       <section>
-        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.membersHistoryTitle}</h3>
+        <h3 className={styles.sectionTitle}>{s.workspaceManagement.membersHistoryTitle}</h3>
         <p className={styles.sectionDescription}>
-          {s.workspaceAdmin.membersHistoryDescription}
+          {s.workspaceManagement.membersHistoryDescription}
         </p>
         {membershipHistory.length === 0 ? (
           <p className={styles.empty}>
-            {s.workspaceAdmin.membersHistoryEmpty}
+            {s.workspaceManagement.membersHistoryEmpty}
           </p>
         ) : (
           <div className="channel-modal__list">

@@ -10,7 +10,7 @@ export const getMessagesForLocale = async (locale) => {
       modals,
       userSettings,
       workspace,
-      workspaceAdmin,
+      workspaceManagement,
       directory,
       message,
     ] = await Promise.all([
@@ -19,7 +19,7 @@ export const getMessagesForLocale = async (locale) => {
       import(`../../messages/${locale}/modals.json`),
       import(`../../messages/${locale}/userSettings.json`),
       import(`../../messages/${locale}/workspace.json`),
-      import(`../../messages/${locale}/workspaceAdmin.json`),
+      import(`../../messages/${locale}/workspaceManagement.json`),
       import(`../../messages/${locale}/directory.json`),
       import(`../../messages/${locale}/message.json`),
     ]);
@@ -31,7 +31,7 @@ export const getMessagesForLocale = async (locale) => {
       modals: modals.default,
       userSettings: userSettings.default,
       workspace: workspace.default,
-      workspaceAdmin: workspaceAdmin.default,
+      workspaceManagement: workspaceManagement.default,
       directory: directory.default,
       message: message.default,
     };

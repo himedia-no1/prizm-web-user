@@ -7,13 +7,13 @@ import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const InsightsTab = ({ stats, activities }) => {
   const messages = useMessages();
-  const s = { ...(messages?.common ?? {}), ...messages };
+  const t = messages?.workspaceManagement?.insights ?? {};
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.dashboardTitle}</h2>
+      <h2 className="settings-content__header">{t.title ?? 'Insights'}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.dashboardSubtitle}
+        {t.subtitle ?? 'View workspace analytics and activity'}
       </p>
       <div className={styles.statsGrid}>
         {stats.map((stat) => (
@@ -31,29 +31,29 @@ export const InsightsTab = ({ stats, activities }) => {
       <div className={styles.sectionsGrid}>
         <div>
           <h3 className={styles.sectionTitle}>
-            {s.workspaceAdmin.workspaceOverviewTitle}
+            {t.workspaceOverviewTitle ?? 'Workspace Overview'}
           </h3>
           <p className={styles.sectionDescription}>
-            {s.workspaceAdmin.workspaceOverviewDescription}
+            {t.workspaceOverviewDescription ?? 'Manage workspace settings'}
           </p>
           <div className="settings-form-group">
-            <label htmlFor="ws-name">{s.workspaceAdmin.workspaceNameLabel}</label>
+            <label htmlFor="ws-name">{t.workspaceNameLabel ?? 'Workspace Name'}</label>
             <input id="ws-name" type="text" defaultValue="Prizm Dev" />
           </div>
           <div className="settings-form-group">
-            <label htmlFor="ws-desc">{s.workspaceAdmin.workspaceDescriptionLabel}</label>
+            <label htmlFor="ws-desc">{t.workspaceDescriptionLabel ?? 'Description'}</label>
             <textarea
               id="ws-desc"
               rows={3}
-              defaultValue="프리즘 팀이 협업하고 작업물을 공유하는 공식 워크스페이스입니다."
+              defaultValue={t.workspaceDescriptionPlaceholder ?? '프리즘 팀이 협업하고 작업물을 공유하는 공식 워크스페이스입니다.'}
             />
           </div>
-          <button className="profile-modal__save-button">{s.workspaceAdmin.saveChanges}</button>
+          <button className="profile-modal__save-button">{t.saveChanges ?? 'Save Changes'}</button>
         </div>
 
         <div>
           <h3 className={styles.sectionTitle}>
-            {s.workspaceAdmin.recentActivity}
+            {t.recentActivity ?? 'Recent Activity'}
           </h3>
           <div className="channel-modal__list">
             {activities.map((activity) => {

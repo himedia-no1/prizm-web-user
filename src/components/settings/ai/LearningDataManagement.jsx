@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useMessages } from 'next-intl';
 import styles from './LearningDataManagement.module.css';
 import { aiService } from '@/core/api/services';
 
 export default function LearningDataManagement() {
+    const messages = useMessages();
+    const ai = messages?.workspaceManagement?.ai?.learningData ?? {};
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,7 +29,7 @@ export default function LearningDataManagement() {
                     return;
                 }
                 console.error('Failed to load learning data:', err);
-                setError('학습 데이터를 불러오지 못했습니다.');
+                setError(ai.loadError ?? '학습 데이터를 불러오지 못했습니다.');
                 setData([]);
             } finally {
                 if (active) {
@@ -56,11 +59,11 @@ export default function LearningDataManagement() {
         );
         try {
             await aiService.updateLearningDataApproval(id, nextApproved);
-            setActionFeedback('승인 상태가 업데이트되었습니다.');
+            setActionFeedback(ai.approveSuccess ?? '승인 상태가 업데이트되었습니다.');
         } catch (err) {
             console.error('Failed to update learning data approval:', err);
             setData(snapshot);
-            setActionFeedback('승인 상태를 변경하지 못했습니다.');
+            setActionFeedback(ai.approveError ?? '승인 상태를 변경하지 못했습니다.');
         }
     };
 
@@ -69,11 +72,11 @@ export default function LearningDataManagement() {
         setData((prev) => prev.filter((item) => item.id !== id));
         try {
             await aiService.deleteLearningData(id);
-            setActionFeedback('데이터가 삭제되었습니다.');
+            setActionFeedback(ai.deleteSuccess ?? '데이터가 삭제되었습니다.');
         } catch (err) {
             console.error('Failed to delete learning data:', err);
             setData(snapshot);
-            setActionFeedback('데이터 삭제에 실패했습니다.');
+            setActionFeedback(ai.deleteError ?? '데이터 삭제에 실패했습니다.');
         }
     };
 
@@ -87,10 +90,10 @@ export default function LearningDataManagement() {
                     ),
                 );
             }
-            setActionFeedback('재검토를 요청했습니다.');
+            setActionFeedback(ai.reinspectSuccess ?? '재검토를 요청했습니다.');
         } catch (err) {
             console.error('Failed to request reinspection:', err);
-            setActionFeedback('재검토 요청에 실패했습니다.');
+            setActionFeedback(ai.reinspectError ?? '재검토 요청에 실패했습니다.');
         }
     };
 

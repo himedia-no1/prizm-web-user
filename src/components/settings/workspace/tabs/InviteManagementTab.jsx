@@ -13,19 +13,19 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.inviteManagementTitle}</h2>
+      <h2 className="settings-content__header">{s.workspaceManagement.inviteManagementTitle}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.inviteManagementDescription}
+        {s.workspaceManagement.inviteManagementDescription}
       </p>
 
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.inviteManagementPendingTitle}</h3>
+        <h3 className={styles.sectionTitle}>{s.workspaceManagement.inviteManagementPendingTitle}</h3>
         <p className={styles.sectionDescription}>
-          {s.workspaceAdmin.membersInviteStatusDescription}
+          {s.workspaceManagement.membersInviteStatusDescription}
         </p>
         {invitations.length === 0 ? (
           <p className={styles.empty}>
-            {s.workspaceAdmin.membersInviteStatusEmpty}
+            {s.workspaceManagement.membersInviteStatusEmpty}
           </p>
         ) : (
           <div className="channel-modal__list">
@@ -55,13 +55,13 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
       </section>
 
       <section>
-        <h3 className={styles.sectionTitle}>{s.workspaceAdmin.inviteManagementLinksTitle}</h3>
+        <h3 className={styles.sectionTitle}>{s.workspaceManagement.inviteManagementLinksTitle}</h3>
         <p className={styles.sectionDescription}>
-          {s.workspaceAdmin.inviteManagementLinksDescription}
+          {s.workspaceManagement.inviteManagementLinksDescription}
         </p>
         {inviteLinks.length === 0 ? (
           <p className={styles.empty}>
-            {s.workspaceAdmin.inviteManagementLinksEmpty}
+            {s.workspaceManagement.inviteManagementLinksEmpty}
           </p>
         ) : (
           <div className="channel-modal__list">
@@ -70,8 +70,8 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
                 link.type === 'guest' ? s.modals?.inviteGuest?.link : s.modals?.inviteMember?.link;
               const typeLabel =
                 link.type === 'guest'
-                  ? s.workspaceAdmin.inviteManagementLinkGuest
-                  : s.workspaceAdmin.inviteManagementLinkMember;
+                  ? s.workspaceManagement.inviteManagementLinkGuest
+                  : s.workspaceManagement.inviteManagementLinkMember;
               const expirationLabel = baseStrings?.expirationOptions?.[link.expiration] ?? link.expiration;
               const usageLabel = baseStrings?.usageOptions?.[link.usage] ?? link.usage;
               const Icon = link.type === 'guest' ? Hash : Users;
@@ -109,8 +109,8 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
                     onClick={() => copyInviteLink(link.id, link.url)}
                   >
                     {copiedLinkId === link.id
-                      ? s.workspaceAdmin.inviteManagementCopied
-                      : s.workspaceAdmin.inviteManagementCopy}
+                      ? s.workspaceManagement.inviteManagementCopied
+                      : s.workspaceManagement.inviteManagementCopy}
                   </button>
                 </div>
               );

@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useMessages } from 'next-intl';
 import styles from './LogsHistory.module.css';
 import { aiService } from '@/core/api/services';
 
 export default function LogsHistory() {
+    const messages = useMessages();
+    const ai = messages?.workspaceManagement?.ai?.logs ?? {};
     const [logs, setLogs] = useState([]);
     const [showDetails, setShowDetails] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,7 +29,7 @@ export default function LogsHistory() {
                     return;
                 }
                 console.error('Failed to load logs:', err);
-                setError('로그를 불러오지 못했습니다.');
+                setError(ai.loadError ?? '로그를 불러오지 못했습니다.');
                 setLogs([]);
             } finally {
                 if (active) {
@@ -54,7 +57,7 @@ export default function LogsHistory() {
     };
 
     if (loading) {
-        return <div className={styles.container}>로그를 불러오는 중입니다...</div>;
+        return <div className={styles.container}>{ai.loadingMessage ?? '로그를 불러오는 중입니다...'}</div>;
     }
 
     if (error) {
@@ -82,7 +85,7 @@ export default function LogsHistory() {
                             <td>{log.duration}</td>
                             <td>
                                 <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>
-                                    세부 로그 보기
+                                    {ai.viewDetailsButton ?? '세부 로그 보기'}
                                 </button>
                             </td>
                         </tr>
@@ -90,14 +93,14 @@ export default function LogsHistory() {
                 </tbody>
             </table>
             <button onClick={handleDownload} className={styles.downloadButton}>
-                다운로드
+                {ai.downloadButton ?? '다운로드'}
             </button>
             {showDetails && activeLog && (
                 <div className={styles.detailsModalOverlay}>
                     <div className={styles.detailsModal}>
-                        <h3>Log Details</h3>
+                        <h3>{ai.logDetailsTitle ?? 'Log Details'}</h3>
                         <pre>{JSON.stringify(activeLog.details, null, 2)}</pre>
-                        <button onClick={() => setShowDetails(null)}>Close</button>
+                        <button onClick={() => setShowDetails(null)}>{ai.closeButton ?? 'Close'}</button>
                     </div>
                 </div>
             )}

@@ -25,7 +25,7 @@ export const DirectInviteTab = ({
         searchTerm={searchTerm}
         onSearchChange={onSearchChange}
         placeholder={strings.email?.searchPlaceholder ?? 'name@example.com'}
-        label={strings.email?.searchLabel ?? '사용자 이메일 검색'}
+        label={strings.email?.searchLabel ?? 'Search user email'}
       />
 
       {searchTerm && <SearchResults users={availableUsers} onAddUser={onAddUser} />}
@@ -33,7 +33,7 @@ export const DirectInviteTab = ({
       <SelectedUsersList
         users={selectedUsers}
         onRemoveUser={onRemoveUser}
-        emptyMessage={strings.email?.emptySelection ?? '선택된 사용자가 없습니다.'}
+        emptyMessage={strings.email?.emptySelection ?? 'No users selected'}
       />
 
       <TargetSelector
@@ -50,7 +50,7 @@ export const DirectInviteTab = ({
         disabled={selectedUsers.length === 0}
         onClick={onSendInvites}
       >
-        {strings.email?.sendButton ?? '초대 보내기'}
+        {strings.email?.sendButton ?? 'Send Invite'}
       </button>
     </div>
   );

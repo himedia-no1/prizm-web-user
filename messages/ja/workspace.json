@@ -1,7 +1,29 @@
 {
-  "settings": "Workspace Settings",
-  "create": "Create Workspace",
-  "joinWithLink": "Join with invite link",
-  "inviteCodePlaceholder": "Enter invite code",
-  "joinButton": "Join Workspace"
+  "settings": "ワークスペース設定",
+  "create": "ワークスペース作成",
+  "joinWithLink": "招待リンクで参加",
+  "inviteCodePlaceholder": "招待コードを入力してください",
+  "joinButton": "ワークスペースに参加",
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcomeTitle": "ようこそ!",
+    "welcomeMessage": "ワークスペースアクティビティをひとめで確認できます。",
+    "stats": {
+      "totalMessages": "合計メッセージ数",
+      "activeMembers": "アクティブメンバー",
+      "activeChannels": "アクティブチャネル"
+    },
+    "recentActivity": "最近のアクティビティ",
+    "noActivity": "まだアクティビティがありません。"
+  },
+  "search": {
+    "resultsTitle": "検索結果",
+    "searching": "検索中...",
+    "searchingDesc": "チームのナレッジを検索しています。しばらくお待ちください。",
+    "error": "問題が発生しました",
+    "emptyQuery": "必要な情報を見つけましょう",
+    "emptyQueryDesc": "チームの会話、ファイル、メンバー情報を一括で検索できます。",
+    "noResults": "検索結果がありません",
+    "noResultsDesc": "キーワードやフィルターを変更して、もう一度お試しください。"
+  }
 }

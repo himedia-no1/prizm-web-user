@@ -9,20 +9,20 @@ export const SecurityTab = () => {
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.securityTitle}</h2>
+      <h2 className="settings-content__header">{s.workspaceManagement.securityTitle}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.securityDescription}
+        {s.workspaceManagement.securityDescription}
       </p>
       <div className="settings-form-group">
-        <label htmlFor="retention">{s.workspaceAdmin.retentionLabel}</label>
+        <label htmlFor="retention">{s.workspaceManagement.retentionLabel}</label>
         <input id="retention" type="number" defaultValue={180} />
       </div>
       <div className="settings-form-group">
         <label>
-          <input type="checkbox" /> {s.workspaceAdmin.twoFactorLabel}
+          <input type="checkbox" /> {s.workspaceManagement.twoFactorLabel}
         </label>
       </div>
-      <button className="profile-modal__save-button">{s.workspaceAdmin.saveChanges}</button>
+      <button className="profile-modal__save-button">{s.workspaceManagement.saveChanges}</button>
     </div>
   );
 };

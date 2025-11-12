@@ -73,6 +73,17 @@
   "integrationsStatusActive": "Active",
   "integrationsStatusPaused": "Paused",
   "integrationsStatusRequest": "Request access",
+  "integrations": {
+    "slack": {
+      "description": "Sync messages and notifications from Slack"
+    },
+    "github": {
+      "description": "Track GitHub commits and pull requests"
+    },
+    "notion": {
+      "description": "Connect Notion pages and databases"
+    }
+  },
   "securityTitle": "Security & compliance",
   "securityDescription": "Enforce workspace policies and retention rules.",
   "retentionLabel": "Message retention (days)",
@@ -94,5 +105,70 @@
     "activeToday": "Active today",
     "recentActivity": "Recent activity",
     "noActivity": "No recent activity."
+  },
+  "insights": {
+    "workspaceDescriptionPlaceholder": "Enter workspace description..."
+  },
+  "ai": {
+    "learningControl": {
+      "title": "Learning Control",
+      "statusPending": "Pending",
+      "statusProcessing": "Processing",
+      "statusCompleted": "Completed",
+      "statusCancelled": "Cancelled",
+      "buttonPause": "Pause",
+      "buttonResume": "Resume",
+      "buttonCancel": "Cancel",
+      "buttonRunLearning": "Run AI Learning",
+      "buttonCancelLearning": "Cancel Learning",
+      "lastTrainedLabel": "Last trained",
+      "nextScheduledLabel": "Next scheduled",
+      "timestamp": "Timestamp"
+    },
+    "learningData": {
+      "title": "Learning Data Management",
+      "loadError": "Failed to load learning data.",
+      "approveSuccess": "Approval status updated.",
+      "approveError": "Failed to update approval status.",
+      "rejectSuccess": "Rejected successfully.",
+      "rejectError": "Error occurred while rejecting.",
+      "deleteSuccess": "Data deleted successfully.",
+      "deleteError": "Failed to delete data.",
+      "reinspectSuccess": "Reinspection requested successfully.",
+      "reinspectError": "Failed to request reinspection."
+    },
+    "modelSettings": {
+      "title": "AI Model Settings",
+      "embeddingModel": "Select Embedding Model",
+      "llmModel": "Select LLM Model",
+      "temperature": "Temperature",
+      "maxTokens": "Max Tokens"
+    },
+    "logs": {
+      "title": "Logs & History",
+      "loadError": "Failed to load logs.",
+      "loadingMessage": "Loading logs...",
+      "viewDetailsButton": "View details",
+      "downloadButton": "Download",
+      "logDetailsTitle": "Log Details",
+      "closeButton": "Close",
+      "retryButton": "Retry",
+      "emptyState": "No logs available.",
+      "refreshButton": "Refresh"
+    },
+    "system": {
+      "title": "System Management & Security",
+      "vectorDbStatusLabel": "Vector DB Status",
+      "capacityLabel": "Capacity",
+      "documentsLabel": "Documents",
+      "modelLabel": "Model",
+      "privacyFilterLabel": "Privacy Filter",
+      "resetButton": "Reset Data",
+      "resetConfirm": "Are you sure you want to reset all data? This action cannot be undone.",
+      "apiKey": "API Key",
+      "endpoint": "Endpoint URL",
+      "saveButton": "Save",
+      "dangerZone": "Danger Zone"
+    }
   }
 }

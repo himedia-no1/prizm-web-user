@@ -14,13 +14,13 @@ export const GroupsTab = ({
 
   return (
     <div>
-      <h2 className={styles.header}>{s.workspaceAdmin.groupsTitle}</h2>
+      <h2 className={styles.header}>{s.workspaceManagement.groupsTitle}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.groupsDescription}
+        {s.workspaceManagement.groupsDescription}
       </p>
 
       <button className={styles.createButton}>
-        {s.workspaceAdmin.groupsCreate}
+        {s.workspaceManagement.groupsCreate}
       </button>
 
       <div className={styles.groupsList}>
@@ -34,7 +34,7 @@ export const GroupsTab = ({
                 <div className={styles.groupHeader}>
                   <strong className={styles.groupName}>{group.name}</strong>
                   <span className={styles.groupMembers}>
-                    {s.workspaceAdmin.groupsMembersLabel}: {group.members}
+                    {s.workspaceManagement.groupsMembersLabel}: {group.members}
                   </span>
                 </div>
                 <p className={styles.groupDescription}>
@@ -44,7 +44,7 @@ export const GroupsTab = ({
 
               <div>
                 <h4 className={styles.channelsLabel}>
-                  {s.workspaceAdmin.groupsChannelsLabel}
+                  {s.workspaceManagement.groupsChannelsLabel}
                 </h4>
                 <div
                   className={styles.channelsGrid}
@@ -67,7 +67,7 @@ export const GroupsTab = ({
 
               <div className={styles.saveButtonContainer}>
                 <button className={styles.saveButton}>
-                  {s.workspaceAdmin.groupsSave}
+                  {s.workspaceManagement.groupsSave}
                 </button>
               </div>
             </div>

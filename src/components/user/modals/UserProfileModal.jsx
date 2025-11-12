@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMessages } from 'next-intl';
 import { X, MessageSquare } from '@/components/common/icons';
 import useDataStore from '@/core/store/dataStore';
 import styles from './UserProfileModal.module.css';
@@ -10,6 +11,8 @@ import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
     const router = useRouter();
+    const messages = useMessages();
+    const t = messages?.modals?.userProfile ?? {};
     const users = useDataStore((state) => state.users);
     const loadInitialData = useDataStore((state) => state.loadInitialData);
     const initialized = useDataStore((state) => state.initialized);
@@ -60,25 +63,25 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                         <span
                             className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'} ${styles.status}`}
                         ></span>
-                        {user.status === 'online' ? 'Online' : 'Offline'}
+                        {user.status === 'online' ? (t.statusOnline ?? 'Online') : (t.statusOffline ?? 'Offline')}
                     </p>
                     <div className="user-profile-modal__details">
                         <div>
-                            <strong>실제 이름:</strong> {user.realName}
+                            <strong>{t.realName ?? '실제 이름'}:</strong> {user.realName}
                         </div>
                         <div>
-                            <strong>이메일:</strong> {user.email}
+                            <strong>{t.email ?? '이메일'}:</strong> {user.email}
                         </div>
                         {user.phone && (
                             <div>
-                                <strong>전화번호:</strong> {user.phone}
+                                <strong>{t.phone ?? '전화번호'}:</strong> {user.phone}
                             </div>
                         )}
                         <div>
-                            <strong>가입 경로:</strong> {user.socialProvider}
+                            <strong>{t.socialProvider ?? '가입 경로'}:</strong> {user.socialProvider}
                         </div>
                         <div>
-                            <strong>역할:</strong> {user.role}
+                            <strong>{t.role ?? '역할'}:</strong> {user.role}
                         </div>
                     </div>
                     <button
@@ -86,7 +89,7 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                         onClick={() => onCreateDM(user.id, router)}
                     >
                         <MessageSquare size={16} />
-                        DM 보내기
+                        {t.sendDM ?? 'DM 보내기'}
                     </button>
                 </div>
             </div>

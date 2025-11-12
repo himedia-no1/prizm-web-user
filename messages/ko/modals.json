@@ -120,7 +120,43 @@
     }
   },
   "members": {
-    "inviteGuestButton": "게스트 초대"
+    "inviteGuestButton": "게스트 초대",
+    "searchPlaceholder": "멤버 검색...",
+    "all": "전체",
+    "members": "멤버",
+    "guests": "게스트",
+    "admins": "관리자",
+    "noResults": "검색 결과가 없습니다"
+  },
+  "profileSettings": {
+    "title": "프로필 설정",
+    "changePhoto": "사진 변경",
+    "displayName": "표시 이름",
+    "status": "상태",
+    "statusOnline": "온라인",
+    "statusOffline": "오프라인",
+    "save": "저장"
+  },
+  "userProfile": {
+    "online": "온라인",
+    "offline": "오프라인",
+    "realName": "실제 이름",
+    "email": "이메일",
+    "phone": "전화번호",
+    "joinMethod": "가입 경로",
+    "role": "역할",
+    "sendDM": "DM 보내기"
+  },
+  "channelFiles": {
+    "all": "전체",
+    "files": "파일",
+    "media": "미디어",
+    "links": "링크"
+  },
+  "messageForward": {
+    "noChannels": "전달할 수 있는 채널이 없습니다",
+    "selectedCount": "{{count}}개 선택됨",
+    "forwarding": "전달 중..."
   },
   "inviteResult": {
     "title": "초대 완료 안내",
@@ -129,7 +165,20 @@
     "linkDescription": "필요한 사람에게 이 링크를 공유하세요.",
     "close": "닫기",
     "codeLabel": "코드",
-    "createdLabel": "생성일"
+    "createdLabel": "생성일",
+    "usageOptions": {
+      "1use": "1회 사용",
+      "5uses": "5회 사용",
+      "10uses": "10회 사용",
+      "50uses": "50회 사용",
+      "unlimited": "무제한"
+    },
+    "copy": "복사",
+    "copied": "복사됨",
+    "code": "코드",
+    "expiration": "만료",
+    "usageLimit": "사용 제한",
+    "created": "생성일"
   },
   "userProfileModal": {
     "realName": "실제 이름:",
@@ -208,5 +257,23 @@
     "warning": "모든 데이터, 메시지, 워크스페이스가 영구적으로 삭제됩니다.",
     "typeToConfirm": "확인을 위해 \"삭제\"를 입력하세요",
     "confirmPlaceholder": "삭제"
+  },
+  "aiAssistant": {
+    "title": "AI 어시스턴트",
+    "newChat": "새로운 대화",
+    "placeholder": "메시지를 입력하세요...",
+    "send": "전송",
+    "sessions": {
+      "title": "대화 기록",
+      "newSession": "새 세션",
+      "defaultName": "새 대화"
+    },
+    "examples": {
+      "greeting": "안녕하세요! 무엇을 도와드릴까요?",
+      "question1": "프로젝트 일정 정리해줘",
+      "answer1": "네, 프로젝트 일정을 정리해드리겠습니다.",
+      "question2": "회의록 요약해줘",
+      "answer2": "회의록을 요약해드리겠습니다."
+    }
   }
 }

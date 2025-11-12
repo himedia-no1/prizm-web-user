@@ -8,7 +8,7 @@ import styles from './MessageForwardModal.module.css';
 
 export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] }) => {
   const messages = useMessages();
-  const s = { ...(messages?.common ?? {}), ...messages };
+  const t = messages?.modals?.messageForward ?? {};
   const [selectedChannels, setSelectedChannels] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -74,7 +74,7 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
           <Send size={20} />
-          <h2>{s.message.actions.forward}</h2>
+          <h2>{t.title ?? 'Forward Message'}</h2>
           <button onClick={onClose} className={styles.closeBtn}>
             <X size={20} />
           </button>
@@ -82,14 +82,14 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
 
         <div className={styles.content}>
           <div className={styles.messagePreview}>
-            <div className={styles.previewLabel}>{s.message.actions.forward}</div>
+            <div className={styles.previewLabel}>{t.messageLabel ?? 'Message'}</div>
             <div className={styles.previewText}>{message.text}</div>
           </div>
 
           <div className={styles.search}>
             <input
               type="text"
-              placeholder={s.message.forwardTo}
+              placeholder={t.searchPlaceholder ?? 'Search channels...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={styles.searchInput}
@@ -98,7 +98,7 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
 
           <div className={styles.channelList}>
             {filteredChannels.length === 0 ? (
-              <div className={styles.empty}>{s.modals.addChannel.empty || 'No channels found'}</div>
+              <div className={styles.empty}>{t.noChannels ?? 'No channels found'}</div>
             ) : (
               filteredChannels.map((channel) => (
                 <label key={channel.id} className={styles.channelItem}>
@@ -118,14 +118,14 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
 
           {selectedChannels.length > 0 && (
             <div className={styles.selectedCount}>
-              {selectedChannels.length} channel{selectedChannels.length > 1 ? 's' : ''} selected
+              {t.selectedCount?.replace('{count}', selectedChannels.length) ?? `${selectedChannels.length} channel${selectedChannels.length > 1 ? 's' : ''} selected`}
             </div>
           )}
         </div>
 
         <div className={styles.footer}>
           <button onClick={onClose} className={styles.btnCancel}>
-            {s.modals.deactivateAccount.cancelButton}
+            {t.cancelButton ?? 'Cancel'}
           </button>
           <button
             onClick={handleForward}
@@ -133,7 +133,7 @@ export const MessageForwardModal = ({ isOpen, onClose, message, categories = [] 
             disabled={loading || selectedChannels.length === 0}
           >
             <Send size={16} />
-            {loading ? 'Forwarding...' : s.message.actions.forward}
+            {loading ? (t.forwarding ?? 'Forwarding...') : (t.forwardButton ?? 'Forward')}
           </button>
         </div>
       </div>

@@ -2,10 +2,14 @@
 
 import Image from 'next/image';
 import React, { useState } from 'react';
+import { useMessages } from 'next-intl';
 import { X } from '@/components/common/icons';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const ProfileSettingsModal = ({ user, onClose }) => {
+    const messages = useMessages();
+    const t = messages?.modals?.profileSettings ?? {};
+
     const [status, setStatus] = useState(user.status);
     const [username, setUsername] = useState(user.name);
 
@@ -15,7 +19,7 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
         <div className="profile-modal-overlay" onClick={onClose}>
             <div className="profile-modal" onClick={(e) => e.stopPropagation()}>
                 <header className="profile-modal__header">
-                    <h3>프로필 설정</h3>
+                    <h3>{t.title ?? '프로필 설정'}</h3>
                     <button onClick={onClose} className="profile-modal__close-button">
                         <X size={18} />
                     </button>
@@ -30,10 +34,10 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
                             height={64}
                             className="profile-modal__avatar"
                         />
-                        <button className="profile-modal__avatar-edit">변경</button>
+                        <button className="profile-modal__avatar-edit">{t.changePhoto ?? '변경'}</button>
                     </div>
                     <div className="profile-modal__form-group">
-                        <label htmlFor="username-modal">표시 이름</label>
+                        <label htmlFor="username-modal">{t.displayName ?? '표시 이름'}</label>
                         <input
                             id="username-modal"
                             type="text"
@@ -42,17 +46,17 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
                         />
                     </div>
                     <div className="profile-modal__form-group">
-                        <label htmlFor="status-modal">상태</label>
+                        <label htmlFor="status-modal">{t.status ?? '상태'}</label>
                         <select
                             id="status-modal"
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
-                            <option value="online">Online</option>
-                            <option value="offline">Offline</option>
+                            <option value="online">{t.statusOnline ?? 'Online'}</option>
+                            <option value="offline">{t.statusOffline ?? 'Offline'}</option>
                         </select>
                     </div>
-                    <button className="profile-modal__save-button">저장</button>
+                    <button className="profile-modal__save-button">{t.save ?? '저장'}</button>
                 </div>
             </div>
         </div>

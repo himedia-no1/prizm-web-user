@@ -3,5 +3,27 @@
   "create": "Create Workspace",
   "joinWithLink": "Join with invite link",
   "inviteCodePlaceholder": "Enter invite code",
-  "joinButton": "Join Workspace"
+  "joinButton": "Join Workspace",
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcomeTitle": "Bienvenue!",
+    "welcomeMessage": "Consultez l'activité de votre espace de travail en un coup d'oeil.",
+    "stats": {
+      "totalMessages": "Messages totaux",
+      "activeMembers": "Membres actifs",
+      "activeChannels": "Canaux actifs"
+    },
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité pour le moment."
+  },
+  "search": {
+    "resultsTitle": "Résultats de recherche",
+    "searching": "Recherche en cours...",
+    "searchingDesc": "Nous parcourons les connaissances de votre équipe. Veuillez patienter un instant.",
+    "error": "Une erreur s'est produite",
+    "emptyQuery": "Trouvez les informations dont vous avez besoin",
+    "emptyQueryDesc": "Recherchez dans les conversations d'équipe, les fichiers et les informations des membres en un seul endroit.",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDesc": "Essayez de modifier vos mots-clés ou vos filtres et recherchez à nouveau."
+  }
 }

@@ -9,9 +9,9 @@ export const AuditTab = ({ activities }) => {
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.auditLogTitle}</h2>
+      <h2 className="settings-content__header">{s.workspaceManagement.auditLogTitle}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.auditLogDescription}
+        {s.workspaceManagement.auditLogDescription}
       </p>
       <div className="channel-modal__list">
         {activities.map((log) => (
@@ -27,7 +27,7 @@ export const AuditTab = ({ activities }) => {
         ))}
       </div>
       <button className={`profile-modal__save-button ${styles.viewMoreButton}`}>
-        {s.workspaceAdmin.auditViewMore}
+        {s.workspaceManagement.auditViewMore}
       </button>
     </div>
   );

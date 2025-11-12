@@ -19,7 +19,7 @@ export const LinkInviteTab = ({
 }) => {
   return (
     <div className={styles.tabPane}>
-      <p className={styles.helperText}>{strings.link?.description ?? '초대 링크를 생성하고 조건을 설정하세요.'}</p>
+      <p className={styles.helperText}>{strings.link?.description ?? 'Generate an invite link and configure its settings.'}</p>
 
       <TargetSelector
         targets={selectableTargets}
@@ -37,11 +37,11 @@ export const LinkInviteTab = ({
 
       <button type="button" className={styles.primaryAction} onClick={onGenerateLink}>
         <Share size={16} />
-        <span>{strings.link?.generateButton ?? '초대 링크 생성'}</span>
+        <span>{strings.link?.generateButton ?? 'Generate Invite Link'}</span>
       </button>
 
       <div className={styles.history}>
-        <h4>{strings.history?.title ?? '생성된 초대 링크'}</h4>
+        <h4>{strings.history?.title ?? 'Generated Invite Links'}</h4>
         <GeneratedLinksList
           links={generatedLinks}
           strings={strings}

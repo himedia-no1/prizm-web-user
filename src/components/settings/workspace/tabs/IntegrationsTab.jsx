@@ -5,46 +5,46 @@ import styles from './IntegrationsTab.module.css';
 
 export const IntegrationsTab = () => {
   const messages = useMessages();
-  const s = { ...(messages?.common ?? {}), ...messages };
+  const t = messages?.workspaceManagement?.integrations ?? {};
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.workspaceAdmin.integrationsTitle}</h2>
+      <h2 className="settings-content__header">{t.title ?? 'Integrations'}</h2>
       <p className={styles.description}>
-        {s.workspaceAdmin.integrationsDescription}
+        {t.description ?? 'Manage integrations with external services'}
       </p>
       <div className="channel-modal__list">
         <div className={`channel-modal__list-item ${styles.integrationItem}`}>
           <div>
             <strong>Slack Sync</strong>
             <div className={styles.integrationDetails}>
-              채널 메시지 양방향 동기화
+              {t.slackDescription ?? '채널 메시지 양방향 동기화'}
             </div>
           </div>
           <span className={`${styles.status} ${styles.activeStatus}`}>
-            {s.workspaceAdmin.integrationsStatusActive}
+            {t.statusActive ?? 'Active'}
           </span>
         </div>
         <div className={`channel-modal__list-item ${styles.integrationItem}`}>
           <div>
             <strong>Jira</strong>
             <div className={styles.integrationDetails}>
-              이슈 상태와 알림 연동
+              {t.jiraDescription ?? '이슈 상태와 알림 연동'}
             </div>
           </div>
           <span className={`${styles.status} ${styles.pausedStatus}`}>
-            {s.workspaceAdmin.integrationsStatusPaused}
+            {t.statusPaused ?? 'Paused'}
           </span>
         </div>
         <div className={`channel-modal__list-item ${styles.integrationItem}`}>
           <div>
             <strong>Notion</strong>
             <div className={styles.integrationDetails}>
-              페이지 댓글을 채널로 공유
+              {t.notionDescription ?? '페이지 댓글을 채널로 공유'}
             </div>
           </div>
           <span className={`${styles.status} ${styles.requestStatus}`}>
-            {s.workspaceAdmin.integrationsStatusRequest}
+            {t.statusRequest ?? 'Request'}
           </span>
         </div>
       </div>

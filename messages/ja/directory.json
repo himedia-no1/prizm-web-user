@@ -1,27 +1,27 @@
 {
-  "title": "Directory",
-  "searchPlaceholder": "Search members...",
-  "sortLabel": "Sort",
+  "title": "ディレクトリ",
+  "searchPlaceholder": "メンバー名またはメールアドレスを検索...",
+  "sortLabel": "並び替え",
   "sortOptions": {
-    "nameAsc": "Name A-Z",
-    "joinDesc": "Newest members",
-    "roleAsc": "Role",
-    "status": "Status"
+    "nameAsc": "名前（あ-ん）",
+    "joinDesc": "参加日（新しい順）",
+    "roleAsc": "役割",
+    "status": "ステータス"
   },
-  "pageSizeLabel": "Rows per page",
+  "pageSizeLabel": "1ページあたりの表示数",
   "pagination": {
-    "previous": "Previous",
-    "next": "Next",
-    "summary": "Showing {{from}}-{{to}} of {{total}} members"
+    "previous": "前へ",
+    "next": "次へ",
+    "summary": "全{{total}}名中{{from}}-{{to}}名を表示"
   },
   "columns": {
-    "name": "Member",
-    "email": "Email",
-    "provider": "Provider",
-    "joinedAt": "Joined",
-    "group": "Group",
-    "role": "Role",
-    "status": "Status"
+    "name": "メンバー",
+    "email": "メール",
+    "provider": "プロバイダー",
+    "joinedAt": "参加日",
+    "group": "グループ",
+    "role": "役割",
+    "status": "ステータス"
   },
-  "empty": "No members found."
+  "empty": "メンバーが見つかりませんでした。"
 }

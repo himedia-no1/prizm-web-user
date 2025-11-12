@@ -4,11 +4,11 @@ import React, { useState, useMemo } from 'react';
 import { useMessages } from 'next-intl';
 import { FileText, LayoutGrid, Image, Link } from '@/components/common/icons';
 
-const TABS = [
-    { id: 'all', label: '전체', icon: LayoutGrid },
-    { id: 'files', label: '파일', icon: FileText },
-    { id: 'media', label: '미디어', icon: Image },
-    { id: 'links', label: '링크', icon: Link },
+const getTabs = (t) => [
+    { id: 'all', label: t.tabAll ?? '전체', icon: LayoutGrid },
+    { id: 'files', label: t.tabFiles ?? '파일', icon: FileText },
+    { id: 'media', label: t.tabMedia ?? '미디어', icon: Image },
+    { id: 'links', label: t.tabLinks ?? '링크', icon: Link },
 ];
 
 const MEDIA_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
@@ -16,9 +16,9 @@ const FILE_EXTENSIONS = ['pdf', 'txt', 'doc', 'docx', 'xls', 'xlsx', 'hwp', 'zip
 
 export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     const messages = useMessages();
-    const s = { ...(messages?.common ?? {}), ...messages };
+    const t = messages?.modals?.channelFiles ?? {};
     const [activeFileTab, setActiveFileTab] = useState('all');
-    const strings = s.modals.genericModal.channelFiles;
+    const tabs = getTabs(t);
 
     const filteredFiles = useMemo(() => {
         if (activeFileTab === 'all') {
@@ -46,7 +46,7 @@ export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     return (
         <div className="channel-files-modal">
             <div className="channel-files-tabs">
-                {TABS.map(tab => {
+                {tabs.map(tab => {
                     const Icon = tab.icon;
                     return (
                         <button
@@ -73,16 +73,16 @@ export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
                                     <div className="channel-file-info">
                                         <span className="channel-file-title">{file.name}</span>
                                         <p className="channel-file-meta">
-                                            {strings.uploadedBy} {uploader?.name ?? strings.unknownUser} • {file.size}
+                                            {t.uploadedBy ?? 'Uploaded by'} {uploader?.name ?? (t.unknownUser ?? 'Unknown')} • {file.size}
                                         </p>
                                     </div>
-                                    <button className="channel-file-action">{strings.download}</button>
+                                    <button className="channel-file-action">{t.download ?? 'Download'}</button>
                                 </div>
                             );
                         })}
                     </div>
                 ) : (
-                    <p>{strings.noFiles}</p>
+                    <p>{t.noFiles ?? 'No files found'}</p>
                 )}
             </div>
         </div>

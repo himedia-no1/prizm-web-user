@@ -1,17 +1,21 @@
 'use client';
 
 import { useState } from 'react';
+import { useMessages } from 'next-intl';
 import styles from './LearningControl.module.css';
 
 export default function LearningControl() {
-    const [learningStatus, setLearningStatus] = useState('대기중');
+    const messages = useMessages();
+    const ai = messages?.workspaceManagement?.ai?.learningControl ?? {};
+
+    const [learningStatus, setLearningStatus] = useState(ai.statusPending ?? '대기중');
     const [progress, setProgress] = useState(0);
     const [lastTrained, setLastTrained] = useState('2025-11-03 02:00');
 
     const [nextScheduledRun, setNextScheduledRun] = useState('내일 새벽 4:00');
 
     const handleRunLearning = () => {
-        setLearningStatus('처리중');
+        setLearningStatus(ai.statusProcessing ?? '처리중');
         // Simulate learning progress
         let currentProgress = 0;
         const interval = setInterval(() => {
@@ -19,24 +23,24 @@ export default function LearningControl() {
             setProgress(currentProgress);
             if (currentProgress >= 100) {
                 clearInterval(interval);
-                setLearningStatus('완료');
+                setLearningStatus(ai.statusCompleted ?? '완료');
                 setLastTrained(new Date().toLocaleString());
             }
         }, 500);
     };
 
     const handleCancelLearning = () => {
-        setLearningStatus('취소');
+        setLearningStatus(ai.statusCancelled ?? '취소');
         setProgress(0);
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.controls}>
-                <button onClick={handleRunLearning} className={styles.runButton} disabled={learningStatus === '처리중'}>
+                <button onClick={handleRunLearning} className={styles.runButton} disabled={learningStatus === (ai.statusProcessing ?? '처리중')}>
                     AI 학습 실행
                 </button>
-                <button onClick={handleCancelLearning} className={styles.cancelButton} disabled={learningStatus !== '처리중'}>
+                <button onClick={handleCancelLearning} className={styles.cancelButton} disabled={learningStatus !== (ai.statusProcessing ?? '처리중')}>
                     학습 중단
                 </button>
             </div>

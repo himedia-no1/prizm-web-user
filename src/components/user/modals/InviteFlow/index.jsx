@@ -51,10 +51,12 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
   });
 
   const formattedDescription = useMemo(() => {
+    const defaultDescription = mode === 'guest'
+      ? 'Select how to invite guests to the channel.'
+      : 'Select how to invite workspace members.';
+
     if (!s.description) {
-      return mode === 'guest'
-        ? '게스트를 채널에 초대하는 방법을 선택하세요.'
-        : '워크스페이스 멤버 초대 방법을 선택하세요.';
+      return defaultDescription;
     }
     if (mode === 'guest' && channelName) {
       return s.description.replace('{{channel}}', `#${channelName}`);
@@ -91,8 +93,8 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
 
   const inviteTargetsLabel =
     mode === 'guest'
-      ? s.email?.channelLabel ?? '채널 접근 권한'
-      : s.email?.groupLabel ?? '그룹 설정';
+      ? s.email?.channelLabel ?? 'Channel Access'
+      : s.email?.groupLabel ?? 'Group Settings';
 
   const selectedTargets = mode === 'guest' ? selectedChannels : selectedGroups;
 
@@ -179,7 +181,7 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
         <div className={styles.contextBanner}>
           <HashIcon size={16} />
           <span>
-            {s.context?.channelPrefix ?? '채널'} {channelName}
+            {s.context?.channelPrefix ?? 'Channel'} {channelName}
           </span>
         </div>
       )}
@@ -190,14 +192,14 @@ export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceI
           className={`${styles.tabButton} ${activeTab === 'direct' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('direct')}
         >
-          {s.tabs?.direct ?? '이메일로 초대'}
+          {s.tabs?.direct ?? 'Invite by Email'}
         </button>
         <button
           type="button"
           className={`${styles.tabButton} ${activeTab === 'link' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('link')}
         >
-          {s.tabs?.link ?? '초대 링크 생성'}
+          {s.tabs?.link ?? 'Generate Invite Link'}
         </button>
       </div>
 

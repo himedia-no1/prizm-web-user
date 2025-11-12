@@ -34,5 +34,9 @@
   "copy": {
     "copy": "Copier",
     "copied": "Copié !"
+  },
+  "auth": {
+    "loginError": "Échec de la connexion. Veuillez réessayer.",
+    "loggingIn": "Connexion en cours..."
   }
 }

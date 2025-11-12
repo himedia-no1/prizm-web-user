@@ -73,6 +73,17 @@
   "integrationsStatusActive": "사용 중",
   "integrationsStatusPaused": "일시 중지",
   "integrationsStatusRequest": "권한 요청",
+  "integrations": {
+    "slack": {
+      "description": "Slack에서 메시지와 알림을 동기화합니다"
+    },
+    "github": {
+      "description": "GitHub 커밋과 풀 리퀘스트를 추적합니다"
+    },
+    "notion": {
+      "description": "Notion 페이지와 데이터베이스를 연결합니다"
+    }
+  },
   "securityTitle": "보안 및 컴플라이언스",
   "securityDescription": "워크스페이스 정책과 보존 규칙을 적용합니다.",
   "retentionLabel": "메시지 보존 기간 (일)",
@@ -94,5 +105,70 @@
     "activeToday": "오늘 활동",
     "recentActivity": "최근 활동",
     "noActivity": "최근 활동이 없습니다."
+  },
+  "insights": {
+    "workspaceDescriptionPlaceholder": "워크스페이스 설명을 입력하세요..."
+  },
+  "ai": {
+    "learningControl": {
+      "title": "학습 제어 영역",
+      "statusPending": "대기중",
+      "statusProcessing": "처리중",
+      "statusCompleted": "완료",
+      "statusCancelled": "취소",
+      "buttonPause": "일시 정지",
+      "buttonResume": "재개",
+      "buttonCancel": "취소",
+      "buttonRunLearning": "AI 학습 실행",
+      "buttonCancelLearning": "학습 중단",
+      "lastTrainedLabel": "최근 학습 일시",
+      "nextScheduledLabel": "다음 학습 예정",
+      "timestamp": "타임스탬프"
+    },
+    "learningData": {
+      "title": "학습 데이터 관리 영역",
+      "loadError": "학습 데이터를 불러오지 못했습니다.",
+      "approveSuccess": "승인 상태가 업데이트되었습니다.",
+      "approveError": "승인 상태를 변경하지 못했습니다.",
+      "rejectSuccess": "거부되었습니다.",
+      "rejectError": "거부 처리 중 오류가 발생했습니다.",
+      "deleteSuccess": "데이터가 삭제되었습니다.",
+      "deleteError": "데이터 삭제에 실패했습니다.",
+      "reinspectSuccess": "재검토를 요청했습니다.",
+      "reinspectError": "재검토 요청에 실패했습니다."
+    },
+    "modelSettings": {
+      "title": "AI 모델 / 설정 영역",
+      "embeddingModel": "임베딩 모델 선택",
+      "llmModel": "LLM 모델 선택",
+      "temperature": "Temperature",
+      "maxTokens": "Max Tokens"
+    },
+    "logs": {
+      "title": "로그 / 이력 영역",
+      "loadError": "로그를 불러오지 못했습니다.",
+      "loadingMessage": "로그를 불러오는 중입니다...",
+      "viewDetailsButton": "세부 로그 보기",
+      "downloadButton": "다운로드",
+      "logDetailsTitle": "Log Details",
+      "closeButton": "Close",
+      "retryButton": "재시도",
+      "emptyState": "로그가 없습니다.",
+      "refreshButton": "새로고침"
+    },
+    "system": {
+      "title": "시스템 관리 / 보안 영역",
+      "vectorDbStatusLabel": "벡터DB 상태",
+      "capacityLabel": "용량",
+      "documentsLabel": "문서 수",
+      "modelLabel": "모델",
+      "privacyFilterLabel": "개인정보 필터",
+      "resetButton": "데이터 초기화",
+      "resetConfirm": "정말로 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "apiKey": "API Key",
+      "endpoint": "Endpoint URL",
+      "saveButton": "저장",
+      "dangerZone": "위험 영역"
+    }
   }
 }

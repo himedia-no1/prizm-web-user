@@ -10,6 +10,7 @@ import {
   IntegrationsTab,
   SecurityTab,
   AuditTab,
+  AIAssistantTab,
 } from '@/components/settings/workspace/tabs';
 import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
 import { navItems } from '@/components/settings/workspace/constants/navItems';
@@ -28,7 +29,7 @@ export default function WorkspaceSettingsClient({
 }) {
   const router = useRouter();
   const intlMessages = useMessages();
-  const workspaceStrings = intlMessages?.workspaceAdmin ?? {};
+  const workspaceStrings = intlMessages?.workspaceManagement ?? {};
   const [activeTab, setActiveTab] = useState(initialTab);
   const [groupPermissions, setGroupPermissions] = useState({});
   const [settingsData, setSettingsData] = useState(null);
@@ -191,19 +192,7 @@ export default function WorkspaceSettingsClient({
       case 'audit':
         return <AuditTab activities={auditLogs} />;
       case 'ai-assistant':
-        return (
-          <div style={{ padding: '2rem' }}>
-            <h2>AI Assistant Settings</h2>
-            <p>Under construction</p>
-          </div>
-        );
-      case 'ai-search':
-        return (
-          <div style={{ padding: '2rem' }}>
-            <h2>AI Search Settings</h2>
-            <p>Under construction</p>
-          </div>
-        );
+        return <AIAssistantTab />;
       default:
         return (
           <OverviewTab

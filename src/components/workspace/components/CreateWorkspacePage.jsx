@@ -69,7 +69,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
                 {mode === 'create' ? (
                     <div className={styles['create-workspace-form']}>
                         <div className={styles['workspace-form-group']}>
-                            <label>{s.workspaceAdmin.workspaceNameLabel}</label>
+                            <label>{s.workspaceManagement.workspaceNameLabel}</label>
                             <input
                                 type="text"
                                 value={workspaceName}

@@ -68,11 +68,22 @@
   "permissionPrivateChannels": "Allow members to create private channels",
   "permissionManageIntegrations": "Allow admins to manage integrations",
   "permissionManageBilling": "Restrict billing settings to owners only",
-  "integrationsTitle": "Connected integrations",
-  "integrationsDescription": "Keep tools in sync by managing integrations.",
-  "integrationsStatusActive": "Active",
-  "integrationsStatusPaused": "Paused",
-  "integrationsStatusRequest": "Request access",
+  "integrationsTitle": "Intégrations connectées",
+  "integrationsDescription": "Gardez les outils synchronisés en gérant les intégrations.",
+  "integrationsStatusActive": "Actif",
+  "integrationsStatusPaused": "En pause",
+  "integrationsStatusRequest": "Demander l'accès",
+  "integrations": {
+    "slack": {
+      "description": "Synchronisez les messages et notifications depuis Slack"
+    },
+    "github": {
+      "description": "Suivez les commits et pull requests GitHub"
+    },
+    "notion": {
+      "description": "Connectez les pages et bases de données Notion"
+    }
+  },
   "securityTitle": "Security & compliance",
   "securityDescription": "Enforce workspace policies and retention rules.",
   "retentionLabel": "Message retention (days)",
@@ -87,12 +98,77 @@
   "groupsAllChannels": "Workspace channels",
   "groupsSave": "Save changes",
   "overview": {
-    "statsTitle": "Workspace metrics",
-    "totalMembers": "Members",
-    "totalChannels": "Channels",
+    "statsTitle": "Métriques de l'espace de travail",
+    "totalMembers": "Membres",
+    "totalChannels": "Canaux",
     "totalMessages": "Messages",
-    "activeToday": "Active today",
-    "recentActivity": "Recent activity",
-    "noActivity": "No recent activity."
+    "activeToday": "Actif aujourd'hui",
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité récente."
+  },
+  "insights": {
+    "workspaceDescriptionPlaceholder": "Entrez la description de l'espace de travail..."
+  },
+  "ai": {
+    "learningControl": {
+      "title": "Contrôle d'apprentissage",
+      "statusPending": "En attente",
+      "statusProcessing": "Traitement en cours",
+      "statusCompleted": "Terminé",
+      "statusCancelled": "Annulé",
+      "buttonPause": "Pause",
+      "buttonResume": "Reprendre",
+      "buttonCancel": "Annuler",
+      "buttonRunLearning": "Exécuter l'apprentissage IA",
+      "buttonCancelLearning": "Annuler l'apprentissage",
+      "lastTrainedLabel": "Dernière formation",
+      "nextScheduledLabel": "Formation prévue",
+      "timestamp": "Horodatage"
+    },
+    "learningData": {
+      "title": "Gestion des données d'apprentissage",
+      "loadError": "Impossible de charger les données d'apprentissage.",
+      "approveSuccess": "Approuvé avec succès.",
+      "approveError": "Une erreur s'est produite lors de l'approbation.",
+      "rejectSuccess": "Rejeté avec succès.",
+      "rejectError": "Une erreur s'est produite lors du rejet.",
+      "deleteSuccess": "Supprimé avec succès.",
+      "deleteError": "Une erreur s'est produite lors de la suppression.",
+      "reinspectSuccess": "Demande de réinspection envoyée avec succès.",
+      "reinspectError": "Une erreur s'est produite lors de la demande de réinspection."
+    },
+    "modelSettings": {
+      "title": "Paramètres du modèle IA",
+      "embeddingModel": "Sélectionner le modèle d'incorporation",
+      "llmModel": "Sélectionner le modèle LLM",
+      "temperature": "Température",
+      "maxTokens": "Nombre maximum de tokens"
+    },
+    "logs": {
+      "title": "Logs et historique",
+      "loadError": "Échec du chargement des logs.",
+      "loadingMessage": "Chargement des logs...",
+      "viewDetailsButton": "Voir les détails",
+      "downloadButton": "Télécharger",
+      "logDetailsTitle": "Détails du journal",
+      "closeButton": "Fermer",
+      "retryButton": "Réessayer",
+      "emptyState": "Aucun log disponible.",
+      "refreshButton": "Actualiser"
+    },
+    "system": {
+      "title": "Gestion du système et sécurité",
+      "vectorDbStatusLabel": "État de la base de données vectorielle",
+      "capacityLabel": "Capacité",
+      "documentsLabel": "Nombre de documents",
+      "modelLabel": "Modèle",
+      "privacyFilterLabel": "Filtre de confidentialité",
+      "apiKey": "Clé API",
+      "endpoint": "URL du point de terminaison",
+      "saveButton": "Enregistrer",
+      "resetButton": "Réinitialiser",
+      "resetConfirm": "Êtes-vous sûr de vouloir réinitialiser? Cette action ne peut pas être annulée.",
+      "dangerZone": "Zone dangereuse"
+    }
   }
 }

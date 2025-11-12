@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { useMessages } from 'next-intl';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import styles from './DashboardView.module.css';
 
@@ -13,19 +14,22 @@ const trendClassMap = {
 export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialStats = [] }) => {
   useLastWorkspacePath();
 
+  const messages = useMessages();
+  const t = messages?.workspace?.dashboard ?? {};
+
   const stats = useMemo(() => initialStats, [initialStats]);
 
   return (
     <main className={`main-view ${styles.dashboardView}`}>
       <header className="view-header">
-        <h2>{workspaceName} Dashboard</h2>
+        <h2>{workspaceName} {t.title ?? 'Dashboard'}</h2>
       </header>
       <div className="view-content">
         <section className={styles.statsSection}>
           <header className={styles.sectionHeader}>
             <div>
-              <h3>핵심 지표</h3>
-              <p>워크스페이스의 성장과 활동량을 확인하세요.</p>
+              <h3>{t.welcomeTitle ?? '환영합니다!'}</h3>
+              <p>{t.welcomeMessage ?? '워크스페이스 활동을 한눈에 확인하세요.'}</p>
             </div>
           </header>
           <div className={styles.statsGrid}>

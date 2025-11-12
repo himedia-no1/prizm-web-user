@@ -47,6 +47,7 @@ export default function SocialAuthPage({ searchParams }) {
   const locale = useLocale();
   const messages = useMessages();
   const localeStrings = messages?.common ?? {};
+  const authStrings = messages?.common?.auth ?? {};
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -70,7 +71,7 @@ export default function SocialAuthPage({ searchParams }) {
         setAuthState(session);
         router.replace('/workspace');
       } catch (err) {
-        setError('로그인에 실패했습니다. 다시 시도해주세요.');
+        setError(authStrings.loginError ?? '로그인에 실패했습니다. 다시 시도해주세요.');
       }
     });
   }, [searchParams, router, setAuthState]);
@@ -97,7 +98,7 @@ export default function SocialAuthPage({ searchParams }) {
         setAuthState(session);
         router.replace('/workspace');
       } catch (err) {
-        setError('로그인에 실패했습니다. 다시 시도해주세요.');
+        setError(authStrings.loginError ?? '로그인에 실패했습니다. 다시 시도해주세요.');
       }
     });
   };
@@ -134,7 +135,7 @@ export default function SocialAuthPage({ searchParams }) {
         {isPending && (
           <div className={styles.loadingState}>
             <div className="spinner" />
-            <span>로그인 중입니다...</span>
+            <span>{authStrings.loggingIn ?? '로그인 중입니다...'}</span>
           </div>
         )}
 

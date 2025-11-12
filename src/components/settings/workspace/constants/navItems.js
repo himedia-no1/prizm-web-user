@@ -8,7 +8,6 @@ import {
   Lock,
   FileText,
   AIIcon,
-  Search,
 } from '@/components/common/icons';
 
 export const navItems = [
@@ -20,5 +19,4 @@ export const navItems = [
   { id: 'security', icon: Lock, labelKey: 'navSecurity' },
   { id: 'audit', icon: FileText, labelKey: 'navAuditLog' },
   { id: 'ai-assistant', icon: AIIcon, labelKey: 'navAiAssistant' },
-  { id: 'ai-search', icon: Search, labelKey: 'navAiSearch' },
 ];
