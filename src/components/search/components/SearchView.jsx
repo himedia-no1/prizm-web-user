@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useTransition } from 'react';
 import { useMessages } from 'next-intl';
 import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon } from '@/components/common/icons';
 import { searchService } from '@/core/api/services';
@@ -30,13 +30,16 @@ export const SearchView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState(TAB_ITEMS[0].id);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const trimmed = query.trim();
     if (!trimmed) {
-      setResults([]);
-      setError(null);
-      setLoading(false);
+      startTransition(() => {
+        setResults([]);
+        setError(null);
+        setLoading(false);
+      });
       return;
     }
 

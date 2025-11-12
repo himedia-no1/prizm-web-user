@@ -50,6 +50,7 @@ const ChannelPageClient = ({
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState(initialMessages);
+  const [threadRepliesState, setThreadRepliesState] = useState(threadReplies);
 
   const channelDetails = useMemo(
     () => initialChannelDetails ?? fallbackChannelDetails ?? null,
@@ -138,13 +139,36 @@ const ChannelPageClient = ({
     closeModal();
   };
 
+  const handleThreadReplyEmojiSelect = (emoji, selectedMessage) => {
+    if (selectedMessage) {
+      setThreadRepliesState((prev) => {
+        const newReplies = { ...prev };
+        const threadId = selectedMessage.threadId;
+        if (newReplies[threadId]) {
+          newReplies[threadId] = newReplies[threadId].map((r) => {
+            if (r.id === selectedMessage.id) {
+              const reactions = { ...r.reactions };
+              reactions[emoji.emoji] = (reactions[emoji.emoji] || 0) + 1;
+              return { ...r, reactions };
+            }
+            return r;
+          });
+        }
+        return newReplies;
+      });
+    }
+    closeModal();
+  };
+
   const handleEmojiSelectForInput = (emoji) => {
     setMessage((prevMessage) => prevMessage + emoji.emoji);
     closeModal();
   };
 
   const handleOpenEmojiPicker = (selectedMessage) => {
-    openModal('emojiPicker', { onEmojiSelect: (emoji) => handleEmojiSelect(emoji, selectedMessage) });
+    const isThreadReply = !!selectedMessage.threadId;
+    const onEmojiSelect = isThreadReply ? handleThreadReplyEmojiSelect : handleEmojiSelect;
+    openModal('emojiPicker', { onEmojiSelect: (emoji) => onEmojiSelect(emoji, selectedMessage) });
   };
 
   const handleOpenModal = (type, props = {}) => {
@@ -254,9 +278,11 @@ const ChannelPageClient = ({
       {currentThread && (
           <ThreadSidebar
             threadMessage={currentThread}
-            threadReplies={threadReplies[currentThread.threadId] || []}
+            threadReplies={threadRepliesState[currentThread.threadId] || []}
             users={resolvedUsers}
             onClose={closeThread}
+            onReactEmoji={handleOpenEmojiPicker}
+            onTranslate={() => {}}
           />
       )}
 

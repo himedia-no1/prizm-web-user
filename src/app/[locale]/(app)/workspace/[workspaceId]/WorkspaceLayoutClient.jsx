@@ -2,6 +2,7 @@
 
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useMessages } from 'next-intl';
 import useStore from '@/core/store/useStore';
 import useDataStore from '@/core/store/dataStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
@@ -14,6 +15,7 @@ export const WorkspaceContext = createContext(null);
 const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const messages = useMessages();
   const openModal = useStore((state) => state.openModal);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const setCurrentWorkspace = useStore((state) => state.setCurrentWorkspace);
@@ -77,8 +79,8 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
 
   const safeWorkspace = useMemo(() => currentWorkspace ?? { id: workspaceId ?? 'workspace', name: 'Workspace' }, [currentWorkspace, workspaceId]);
   const safeCurrentUser = useMemo(
-    () => currentUser ?? { id: userId ?? 'user', name: '사용자', status: 'offline' },
-    [currentUser, userId],
+    () => currentUser ?? { id: userId ?? 'user', name: messages?.common?.defaultUser, status: 'offline' },
+    [currentUser, userId, messages?.common?.defaultUser],
   );
   const currentMembership = useMemo(
     () => workspaceMembers[userId] ?? { role: 'member' },

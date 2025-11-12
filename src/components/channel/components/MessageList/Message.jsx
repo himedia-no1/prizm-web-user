@@ -129,7 +129,6 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
 
         {showTranslationAsPrimary && (
           <div className={styles.translationMeta}>
-            <span>{messageStrings.translationNotice ?? 'Translated automatically.'}</span>
             <button
               type="button"
               className={styles.translationToggle}
@@ -139,8 +138,8 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
               }}
             >
               {isOriginalVisible
-                ? (messageStrings.hideOriginal ?? 'Hide original')
-                : (messageStrings.showOriginal ?? 'View original')}
+                ? messageStrings.hideOriginal
+                : messageStrings.showOriginal}
             </button>
           </div>
         )}

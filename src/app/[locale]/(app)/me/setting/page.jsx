@@ -1,7 +1,9 @@
 import { redirect } from 'next/navigation';
+import { getMessagesForLocale } from '@/i18n/messages';
 
-const DEFAULT_TAB = 'profile';
+export default async function UserSettingsIndexPage({ params }) {
+  const messages = await getMessagesForLocale(params.locale);
+  const t = messages?.userSettings;
 
-export default function UserSettingsIndexPage() {
-  redirect(`/me/setting/${DEFAULT_TAB}`);
+  redirect(`/me/setting/${t?.defaultTab}`);
 }

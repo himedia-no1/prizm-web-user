@@ -1,13 +1,3 @@
-
-'use client';
-
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useLocale, useMessages } from 'next-intl';
-import useStore from '@/core/store/useStore';
-import { setPreferredLocale } from '@/shared/lib/locale';
-import styles from './Preferences.module.css';
-
 export const LanguagePreferences = () => {
   const router = useRouter();
   const locale = useLocale();
@@ -18,10 +8,10 @@ export const LanguagePreferences = () => {
   const languageStrings = s.userSettings?.preferences?.language;
   const translationStrings = s.userSettings?.preferences?.translation;
   const languageOptions = {
-    ko: languageStrings?.korean ?? '한국어',
-    en: languageStrings?.english ?? 'English',
-    ja: languageStrings?.japanese ?? '日本語',
-    fr: languageStrings?.french ?? 'Français',
+    ko: s?.korean,
+    en: s?.english,
+    ja: s?.japanese,
+    fr: s?.french,
   };
   const [isUpdatingLocale, setIsUpdatingLocale] = useState(false);
 
@@ -41,14 +31,18 @@ export const LanguagePreferences = () => {
     }
   };
 
+  if (!languageStrings || !translationStrings) {
+    return null;
+  }
+
   return (
     <>
       <div className={styles.card}>
-        <h3 className={styles.title}>{languageStrings?.title ?? '언어 설정'}</h3>
-        <p className={styles.description}>{languageStrings?.description ?? '인터페이스 언어를 변경합니다.'}</p>
+        <h3 className={styles.title}>{languageStrings?.title}</h3>
+        <p className={styles.description}>{languageStrings?.description}</p>
         <div className={styles.optionRow}>
           <label htmlFor="language-select" className={styles.labelSmall}>
-            {languageStrings?.label ?? '언어'}
+            {languageStrings?.label}
           </label>
           <select
             id="language-select"
@@ -66,13 +60,13 @@ export const LanguagePreferences = () => {
       </div>
 
       <div className={styles.card}>
-        <h3 className={styles.title}>{translationStrings?.title ?? '자동 번역'}</h3>
+        <h3 className={styles.title}>{translationStrings?.title}</h3>
         <p className={styles.description}>
-          {translationStrings?.description ?? '메시지를 자동으로 내 언어로 번역합니다.'}
+          {translationStrings?.description}
         </p>
         <div className={styles.optionRow}>
           <label htmlFor="auto-translate-toggle">
-            {translationStrings?.label ?? '자동 번역 활성화'}
+            {translationStrings?.label}
           </label>
           <div className={styles.toggle}>
             <input
@@ -86,8 +80,8 @@ export const LanguagePreferences = () => {
         </div>
         <p className={`${styles.hint} ${styles.hintMarginTop}`}>
           {autoTranslateEnabled 
-            ? (translationStrings?.enabled ?? '자동 번역 켜짐')
-            : (translationStrings?.disabled ?? '자동 번역 꺼짐')
+            ? translationStrings?.enabled
+            : translationStrings?.disabled
           }
         </p>
       </div>

@@ -1,9 +1,8 @@
-'use client';
-
 import { Hash, Star } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 import styles from './FavoritesList.module.css';
+import { useMessages } from 'next-intl';
 
 export const FavoritesList = ({
   channelsIndex,
@@ -13,9 +12,11 @@ export const FavoritesList = ({
   onSelectChannel,
   onToggleFavorite,
   label,
-  emptyLabel = '즐겨찾기한 채널이 없습니다.',
 }) => {
-  const { unreadCounts } = useStore();
+  const messages = useMessages();
+  const t = messages?.common;
+
+  const unreadCounts = useChatStore((state) => state.unreadCounts);
   const favorites = favoriteChannels
     .map((id) => channelsIndex[id])
     .filter(Boolean);
@@ -52,7 +53,7 @@ export const FavoritesList = ({
               <button
                 type="button"
                 className="channel-favorite-button active"
-                aria-label="즐겨찾기 해제"
+                aria-label={t?.favorites?.remove}
                 onClick={(event) => {
                   event.stopPropagation();
                   onToggleFavorite?.(channel.id);

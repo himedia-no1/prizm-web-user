@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import { X, Send, Smile } from '@/components/common/icons';
 import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
+import { ThreadReplyMessage } from './ThreadSidebar/ThreadReplyMessage';
 import styles from './ThreadSidebar.module.css';
 
 export const ThreadSidebar = ({ 
@@ -77,56 +78,50 @@ export const ThreadSidebar = ({
         {threadReplies.map(reply => {
           const replyUser = users[reply.userId];
           const isMyMessage = reply.userId === currentUserId;
-          const replyAvatar =
-            replyUser.avatar || getPlaceholderImage(32, replyUser?.name?.[0] ?? '?');
           return (
-            <div 
-              key={reply.id} 
-              className="thread-reply"
-              onContextMenu={(e) => {
-                e.preventDefault();
-                setContextMenu({
-                  message: reply,
-                  position: { x: e.clientX, y: e.clientY },
-                  isMyMessage,
-                });
-              }}
-            >
-              <Image
-                src={replyAvatar}
-                alt={replyUser.name}
-                width={32}
-                height={32}
-                className="message__avatar"
-              />
-              <div>
-                <div className="message__header">
-                  <span className="message__username">{replyUser.name}</span>
-                  <span className="message__timestamp">{reply.timestamp}</span>
-                </div>
-                <p className="message__text">{reply.text}</p>
-              </div>
-            </div>
+            <ThreadReplyMessage
+              key={reply.id}
+              reply={reply}
+              user={replyUser}
+              onOpenContextMenu={(message, position) => setContextMenu({ message, position, isMyMessage })}
+            />
           );
         })}
       </div>
 
-      {contextMenu && (
-        <MessageContextMenu
-          message={contextMenu.message}
-          isMyMessage={contextMenu.isMyMessage}
-          position={contextMenu.position}
-          onClose={() => setContextMenu(null)}
-          onPin={onPin}
-          onStartThread={onStartThread}
-          onReply={onReply}
-          onForward={onForward}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          onReactEmoji={onReactEmoji}
-          onTranslate={onTranslate}
-        />
-      )}
+            {contextMenu && (
+
+              <MessageContextMenu
+
+                message={contextMenu.message}
+
+                isMyMessage={contextMenu.isMyMessage}
+
+                position={contextMenu.position}
+
+                onClose={() => setContextMenu(null)}
+
+                onPin={onPin}
+
+                onStartThread={onStartThread}
+
+                onReply={onReply}
+
+                onForward={onForward}
+
+                onEdit={onEdit}
+
+                onDelete={onDelete}
+
+                onReactEmoji={onReactEmoji}
+
+                onTranslate={onTranslate}
+
+                context="thread"
+
+              />
+
+            )}
 
       <div className="thread-reply-input-container">
         <div className="thread-reply-input-wrapper">

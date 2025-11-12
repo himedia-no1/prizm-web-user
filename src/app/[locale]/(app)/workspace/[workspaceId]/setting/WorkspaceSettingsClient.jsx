@@ -81,7 +81,7 @@ export default function WorkspaceSettingsClient({
       } catch (error) {
         if (!cancelled) {
           console.error('Failed to load workspace settings data:', error);
-          setSettingsError('설정 데이터를 불러오지 못했습니다.');
+          setSettingsError(workspaceStrings?.settingsError);
           setSettingsData(null);
         }
       } finally {
@@ -95,7 +95,7 @@ export default function WorkspaceSettingsClient({
     return () => {
       cancelled = true;
     };
-  }, [workspaceId]);
+  }, [workspaceId, workspaceStrings?.settingsError]);
 
   const memberMap = workspaceId ? workspaceMembers?.[workspaceId] ?? {} : {};
   const membersCount = Object.keys(memberMap).length;
@@ -145,7 +145,7 @@ export default function WorkspaceSettingsClient({
 
   const renderTabContent = () => {
     if (settingsLoading) {
-      return <div className={styles.loadingState}>설정 데이터를 불러오는 중입니다...</div>;
+      return <div className={styles.loadingState}>{workspaceStrings?.settingsLoading}</div>;
     }
 
     if (settingsError) {
@@ -212,7 +212,7 @@ export default function WorkspaceSettingsClient({
         <WorkspaceHeader
           workspaceName={workspaceName}
           onBack={handleBack}
-          title={workspaceStrings?.dashboardTitle ?? '워크스페이스 설정'}
+          title={workspaceStrings?.dashboardTitle}
         />
         <WorkspaceNav items={navItems} activeTab={activeTab} onTabChange={handleTabChange} strings={workspaceStrings || {}} />
       </div>

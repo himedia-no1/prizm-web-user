@@ -2,6 +2,7 @@ import { DEFAULT_LOCALE } from './config';
 
 // 동적으로 메시지 파일 로드
 export const getMessagesForLocale = async (locale) => {
+  const targetLocale = locale || DEFAULT_LOCALE;
   try {
     // 각 도메인별 메시지 파일을 동적으로 import
     const [
@@ -15,15 +16,15 @@ export const getMessagesForLocale = async (locale) => {
       message,
       search,
     ] = await Promise.all([
-      import(`../../messages/${locale}/landing.json`),
-      import(`../../messages/${locale}/common.json`),
-      import(`../../messages/${locale}/modals.json`),
-      import(`../../messages/${locale}/userSettings.json`),
-      import(`../../messages/${locale}/workspace.json`),
-      import(`../../messages/${locale}/workspaceManagement.json`),
-      import(`../../messages/${locale}/directory.json`),
-      import(`../../messages/${locale}/message.json`),
-      import(`../../messages/${locale}/search.json`),
+      import(`../../messages/${targetLocale}/landing.json`),
+      import(`../../messages/${targetLocale}/common.json`),
+      import(`../../messages/${targetLocale}/modals.json`),
+      import(`../../messages/${targetLocale}/userSettings.json`),
+      import(`../../messages/${targetLocale}/workspace.json`),
+      import(`../../messages/${targetLocale}/workspaceManagement.json`),
+      import(`../../messages/${targetLocale}/directory.json`),
+      import(`../../messages/${targetLocale}/message.json`),
+      import(`../../messages/${targetLocale}/search.json`),
     ]);
 
     // 네임스페이스 구조로 반환
@@ -39,10 +40,10 @@ export const getMessagesForLocale = async (locale) => {
       search: search.default,
     };
   } catch (error) {
-    console.error(`Failed to load messages for locale: ${locale}`, error);
+    console.error(`Failed to load messages for locale: ${targetLocale}`, error);
 
     // Fallback to default locale
-    if (locale !== DEFAULT_LOCALE) {
+    if (targetLocale !== DEFAULT_LOCALE) {
       return getMessagesForLocale(DEFAULT_LOCALE);
     }
 

@@ -1,4 +1,17 @@
-export const createChatSlice = (set, get) => ({
+import { create } from 'zustand';
+
+/**
+ * Chat Store
+ * - 채널/메시지 관리
+ * - 스레드 관리
+ * - 즐겨찾기 채널
+ * - 읽지 않음 카운트
+ * - 채널별 알림 설정
+ *
+ * 담당: 개발자 B (Chat)
+ */
+export const useChatStore = create((set, get) => ({
+  // Favorite Channels
   favoriteChannels: ['c1', 'c3'],
   toggleFavoriteChannel: (channelId) =>
     set((state) => {
@@ -9,9 +22,13 @@ export const createChatSlice = (set, get) => ({
           : [...state.favoriteChannels, channelId],
       };
     }),
+
+  // Thread
   currentThread: null,
-  openThread: (thread) => set({ currentThread: thread, modalType: null }),
+  openThread: (thread) => set({ currentThread: thread }),
   closeThread: () => set({ currentThread: null }),
+
+  // Unread Counts
   unreadCounts: {},
   setUnreadCount: (channelId, count) =>
     set((state) => ({
@@ -30,6 +47,8 @@ export const createChatSlice = (set, get) => ({
       delete newCounts[channelId];
       return { unreadCounts: newCounts };
     }),
+
+  // Channel Notification Settings
   channelNotificationSettings: {},
   setChannelNotifications: (channelId, enabled) =>
     set((state) => ({
@@ -54,6 +73,6 @@ export const createChatSlice = (set, get) => ({
       },
     }));
   },
-});
+}));
 
-export default createChatSlice;
+export default useChatStore;

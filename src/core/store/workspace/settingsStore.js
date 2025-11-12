@@ -1,9 +1,13 @@
 import { create } from 'zustand';
 
+/**
+ * Workspace Settings Store
+ * - 워크스페이스 설정 UI 상태
+ * - 초대 링크 관리
+ *
+ * 담당: 개발자 A (Workspace)
+ */
 export const useWorkspaceSettingsStore = create((set, get) => ({
-  activeWorkspaceId: null,
-  setActiveWorkspaceId: (workspaceId) => set({ activeWorkspaceId: workspaceId }),
-
   // 선택된 탭
   selectedTab: 'overview',
   setSelectedTab: (tab) => set({ selectedTab: tab }),
@@ -57,3 +61,5 @@ export const useWorkspaceSettingsStore = create((set, get) => ({
     });
   },
 }));
+
+export default useWorkspaceSettingsStore;

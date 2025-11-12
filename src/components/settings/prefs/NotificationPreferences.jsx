@@ -9,9 +9,9 @@ export const NotificationPreferences = ({ value = 'all', onChange }) => {
   const notificationStrings = messages?.userSettings?.preferences?.notifications;
   const options = useMemo(
     () => [
-      { id: 'all', label: notificationStrings?.options?.all ?? '모든 활동에 대해 알림' },
-      { id: 'mentions', label: notificationStrings?.options?.mentions ?? '멘션 및 DM만' },
-      { id: 'none', label: notificationStrings?.options?.none ?? '알림 끄기' },
+      { id: 'all', label: notificationStrings?.options?.all },
+      { id: 'mentions', label: notificationStrings?.options?.mentions },
+      { id: 'none', label: notificationStrings?.options?.none },
     ],
     [notificationStrings],
   );
@@ -22,10 +22,14 @@ export const NotificationPreferences = ({ value = 'all', onChange }) => {
     onChange?.(id);
   };
 
+  if (!notificationStrings) {
+    return null;
+  }
+
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>{notificationStrings?.title ?? '알림 설정'}</h3>
-      <p className={styles.description}>{notificationStrings?.description ?? '데스크톱 및 앱 알림을 관리하세요.'}</p>
+      <h3 className={styles.title}>{notificationStrings?.title}</h3>
+      <p className={styles.description}>{notificationStrings?.description}</p>
       <div className={styles.optionList}>
         {options.map((option) => (
           <label key={option.id} className={styles.option}>

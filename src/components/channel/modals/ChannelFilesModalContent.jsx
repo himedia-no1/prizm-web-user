@@ -18,12 +18,6 @@ export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
     const messages = useMessages();
     const t = messages?.modals?.channelFiles;
     const [activeFileTab, setActiveFileTab] = useState('all');
-    
-    if (!t) {
-        return null;
-    }
-
-    const tabs = getTabs(t);
 
     const filteredFiles = useMemo(() => {
         if (activeFileTab === 'all') {
@@ -47,6 +41,12 @@ export const ChannelFilesModalContent = ({ files = [], users = {} }) => {
         }
         return [];
     }, [files, activeFileTab]);
+
+    if (!t) {
+        return null;
+    }
+
+    const tabs = getTabs(t);
 
     return (
         <div className="channel-files-modal">

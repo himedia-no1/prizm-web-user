@@ -1,13 +1,15 @@
 import { redirect } from 'next/navigation';
 import SocialAuthPage from '@/components/auth/SocialAuthPage';
 import { getCurrentUserId, fetchAccessibleWorkspaces, fetchLastVisitedPath } from '@/features/workspace/actions';
+import { getMessagesForLocale } from '@/i18n/messages';
 
-const DEFAULT_WORKSPACE_ROUTE = '/workspace';
-
-async function resolveRedirectPath(userId) {
+async function resolveRedirectPath(userId, locale) {
   if (!userId) {
     return null;
   }
+
+  const messages = await getMessagesForLocale(locale);
+  const t = messages?.common;
 
   try {
     const lastVisited = await fetchLastVisitedPath();
@@ -17,7 +19,7 @@ async function resolveRedirectPath(userId) {
 
     const workspaces = await fetchAccessibleWorkspaces();
     if (workspaces.length > 0) {
-      return `${DEFAULT_WORKSPACE_ROUTE}/${workspaces[0].id}/dashboard`;
+      return `${t?.defaultWorkspaceRoute}/${workspaces[0].id}/dashboard`;
     }
   } catch (error) {
     console.error('Failed to resolve login redirect path:', error);
@@ -26,9 +28,9 @@ async function resolveRedirectPath(userId) {
   return null;
 }
 
-export default async function LoginPage({ searchParams }) {
+export default async function LoginPage({ searchParams, params }) {
   const userId = await getCurrentUserId();
-  const destination = await resolveRedirectPath(userId);
+  const destination = await resolveRedirectPath(userId, params.locale);
 
   if (destination) {
     redirect(destination);

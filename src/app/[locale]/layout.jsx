@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
 import '../globals.css';
 import AppWrapper from '../AppWrapper';
 import { getMessagesForLocale } from '@/i18n/messages';
@@ -16,10 +16,16 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-export const metadata = {
-  title: 'PRIZM - AI 기반 개발자 협업 메신저',
-  description: 'AI-powered developer collaboration messenger',
-};
+export async function generateMetadata({ params }) {
+  const { locale } = await params;
+  const messages = await getMessagesForLocale(locale);
+  const t = messages?.common;
+
+  return {
+    title: t?.appTitle,
+    description: 'AI-powered developer collaboration messenger',
+  };
+}
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -27,7 +33,6 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;
-
   if (!SUPPORTED_LOCALES.includes(locale)) {
     notFound();
   }

@@ -10,7 +10,7 @@ export const PreferencesTab = () => {
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.userSettings?.navPreferences ?? '환경 설정'}</h2>
+      <h2 className="settings-content__header">{s.userSettings?.navPreferences}</h2>
       <div className={styles.container}>
         <NotificationPreferences />
         <ThemePreferences />

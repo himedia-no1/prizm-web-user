@@ -83,5 +83,6 @@
     },
     "revoke": "Sign out on this device",
     "empty": "No other active sessions."
-  }
+  },
+  "defaultTab": "profile"
 }

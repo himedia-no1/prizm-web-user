@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect } from 'react';
@@ -18,21 +17,25 @@ export const ThemePreferences = () => {
     }
   }, [isDarkMode]);
 
+  if (!themeStrings) {
+    return null;
+  }
+
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>{themeStrings?.title ?? '테마 설정'}</h3>
-      <p className={styles.description}>{themeStrings?.description ?? '라이트/다크 모드를 전환할 수 있습니다.'}</p>
+      <h3 className={styles.title}>{themeStrings?.title}</h3>
+      <p className={styles.description}>{themeStrings?.description}</p>
       <div className={styles.optionRow}>
         <label htmlFor="theme-select" className={styles.label}>
-          {themeStrings?.label ?? '표시 모드'}
+          {themeStrings?.label}
         </label>
         <select
           id="theme-select"
           value={isDarkMode ? 'dark' : 'light'}
           onChange={(event) => setTheme(event.target.value)}
         >
-          <option value="light">{themeStrings?.light ?? '라이트 모드'}</option>
-          <option value="dark">{themeStrings?.dark ?? '다크 모드'}</option>
+          <option value="light">{themeStrings?.light}</option>
+          <option value="dark">{themeStrings?.dark}</option>
         </select>
       </div>
     </div>

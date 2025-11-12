@@ -9,27 +9,27 @@ export const DevicesTab = ({ deviceSessions }) => {
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.userSettings?.devices?.title ?? '로그인된 기기'}</h2>
+      <h2 className="settings-content__header">{s.userSettings?.devices?.title}</h2>
       <p className={styles.description}>
-        {s.userSettings?.devices?.description ?? '현재 로그인 중인 기기를 확인하고 원격으로 로그아웃할 수 있습니다.'}
+        {s.userSettings?.devices?.description}
       </p>
       <table className={styles.table}>
         <thead className={styles.thead}>
           <tr className={styles.tr}>
             <th className={styles.th}>
-              {s.userSettings?.devices?.table?.device ?? '기기'}
+              {s.userSettings?.devices?.table?.device}
             </th>
             <th className={styles.th}>
-              {s.userSettings?.devices?.table?.location ?? '위치'}
+              {s.userSettings?.devices?.table?.location}
             </th>
             <th className={styles.th}>
-              {s.userSettings?.devices?.table?.loggedInAt ?? '로그인 시각'}
+              {s.userSettings?.devices?.table?.loggedInAt}
             </th>
             <th className={styles.th}>
-              {s.userSettings?.devices?.table?.lastActive ?? '마지막 활동'}
+              {s.userSettings?.devices?.table?.lastActive}
             </th>
             <th className={styles.th}>
-              {s.userSettings?.devices?.table?.action ?? '조치'}
+              {s.userSettings?.devices?.table?.action}
             </th>
           </tr>
         </thead>
@@ -42,7 +42,7 @@ export const DevicesTab = ({ deviceSessions }) => {
               <td className={`${styles.td} ${styles.tdLastActive}`}>{session.lastActive}</td>
               <td className={styles.td}>
                 <button className={`profile-action-button ${styles.revokeButton}`}>
-                  {s.userSettings?.devices?.revoke ?? '이 기기에서 로그아웃'}
+                  {s.userSettings?.devices?.revoke}
                 </button>
               </td>
             </tr>

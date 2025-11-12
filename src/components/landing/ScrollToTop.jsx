@@ -1,12 +1,13 @@
-// src/components/layout/ScrollToTop.jsx
-'use client';
-
 import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 import { throttle } from '@/shared/utils/animations';
 import styles from './ScrollToTop.module.css';
+import { useMessages } from 'next-intl';
 
 export default function ScrollToTop() {
+    const messages = useMessages();
+    const t = messages?.common;
+
     const [isVisible, setIsVisible] = useState(false);
     const showThreshold = 400; // 400px
 
@@ -34,8 +35,8 @@ export default function ScrollToTop() {
         <button
             className={`${styles.scrollToTopBtn} ${isVisible ? styles.active : ''}`}
             onClick={scrollToTop}
-            title="맨 위로 이동"
-            aria-label="Scroll to top"
+            title={t?.scrollToTop}
+            aria-label={t?.scrollToTop}
         >
             <ArrowUp size={24} />
         </button>

@@ -97,8 +97,8 @@ export const LeftSidebar = ({
 
       <nav className="sidebar-nav">
         <FavoritesList
-          label={s.favorites ?? 'Favorites'}
-          emptyLabel={s.favoritesEmpty ?? 'No favourite channels yet.'}
+          label={s.favorites?.title ?? 'Favorites'}
+          emptyLabel={s.favorites?.empty ?? 'No favourite channels yet.'}
           channelsIndex={channelsIndex}
           favoriteChannels={favoriteChannels}
           currentChannelId={currentChannelId}

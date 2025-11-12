@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
 import useStore from '@/core/store/useStore';
@@ -25,7 +24,7 @@ const getTranslationText = (translation) => {
   return '';
 };
 
-export const ThreadReplyMessage = ({ reply, user, onOpenContextMenu }) => {
+export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }) => {
   const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
   const locale = useLocale();
   const messages = useMessages();
@@ -74,7 +73,7 @@ export const ThreadReplyMessage = ({ reply, user, onOpenContextMenu }) => {
       handleAutoTranslate();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reply.id, reply.language, locale, autoTranslateEnabled, handleAutoTranslate, translationState]);
+  }, [reply.id, reply.language, locale, autoTranslateEnabled, translationState]);
 
   const shouldTranslate =
     autoTranslateEnabled &&
@@ -89,6 +88,7 @@ export const ThreadReplyMessage = ({ reply, user, onOpenContextMenu }) => {
 
   return (
     <div 
+      key={reply.id}
       className="thread-reply"
       onContextMenu={(e) => {
         e.preventDefault();
@@ -152,4 +152,4 @@ export const ThreadReplyMessage = ({ reply, user, onOpenContextMenu }) => {
       </div>
     </div>
   );
-};
+});

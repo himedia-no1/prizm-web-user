@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, Plus, Hash, Star, StarOff } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useStore from '@/core/store/useStore';
+import { useMessages } from 'next-intl';
 
 export const CategorySection = ({
   category,
@@ -13,6 +14,9 @@ export const CategorySection = ({
   onToggleFavorite,
   canManage = false,
 }) => {
+  const messages = useMessages();
+  const t = messages?.common;
+
   const [isOpen, setIsOpen] = useState(true);
   const { unreadCounts } = useStore();
 
@@ -68,7 +72,7 @@ export const CategorySection = ({
                 <button
                   type="button"
                   className={`channel-favorite-button ${isFavorite ? 'active' : ''}`}
-                  aria-label={isFavorite ? '즐겨찾기 해제' : '즐겨찾기에 추가'}
+                  aria-label={isFavorite ? t?.favorites?.remove : t?.favorites?.add}
                   onClick={(event) => {
                     event.stopPropagation();
                     onToggleFavorite?.(channel.id);

@@ -22,9 +22,9 @@ export const ProfileTab = ({
 
   return (
     <div>
-      <h2 className="settings-content__header">{s.userSettings?.profile?.title ?? '내 프로필'}</h2>
+      <h2 className="settings-content__header">{s.userSettings?.profile?.title}</h2>
       <p className={styles.description}>
-        {s.userSettings?.profile?.description ?? '아바타와 기본 정보를 수정합니다.'}
+        {s.userSettings?.profile?.description}
       </p>
       <div
         className={`profile-modal__avatar-section ${styles.avatarSection}`}
@@ -39,11 +39,11 @@ export const ProfileTab = ({
         <button
           className={`profile-modal__avatar-edit ${styles.avatarEdit}`}
         >
-          {s.userSettings?.profile?.avatarChange ?? '변경'}
+          {s.userSettings?.profile?.avatarChange}
         </button>
       </div>
       <div className="settings-form-group">
-        <label htmlFor="realName">{s.userSettings?.profile?.nameLabel ?? '실제 이름'}</label>
+        <label htmlFor="realName">{s.userSettings?.profile?.nameLabel}</label>
         <input
           id="realName"
           type="text"
@@ -52,22 +52,22 @@ export const ProfileTab = ({
         />
       </div>
       <div className="settings-form-group">
-        <label htmlFor="email">{s.userSettings?.profile?.emailLabel ?? '이메일'}</label>
+        <label htmlFor="email">{s.userSettings?.profile?.emailLabel}</label>
         <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className="settings-form-group">
-        <label>{s.userSettings?.profile?.socialLoginLabel ?? '소셜 로그인'}</label>
+        <label>{s.userSettings?.profile?.socialLoginLabel}</label>
         <div className="social-login-info">
           {user.socialProvider === 'Google' && <Google size={20} />}
           {user.socialProvider === 'GitHub' && <GitHub size={20} />}
           {user.socialProvider === 'Microsoft' && <Microsoft size={20} />}
           <span>
-            {user.socialProvider} {s.userSettings?.profile?.socialLoginSuffix ?? '(으)로 가입함'}
+            {user.socialProvider} {s.userSettings?.profile?.socialLoginSuffix}
           </span>
         </div>
       </div>
       <button className="profile-modal__save-button">
-        {s.userSettings?.profile?.saveButton ?? '변경사항 저장'}
+        {s.userSettings?.profile?.saveButton}
       </button>
 
       <div className={styles.actions}>
@@ -75,36 +75,34 @@ export const ProfileTab = ({
           className={styles.actionCard}
         >
           <h3 className={styles.actionTitle}>
-            {s.userSettings?.profile?.deactivateTitle ?? '계정 비활성화'}
+            {s.userSettings?.profile?.deactivateTitle}
           </h3>
           <p className={styles.actionDescription}>
-            {s.userSettings?.profile?.deactivateDescription ??
-              '데이터를 유지한 채 일시적으로 계정을 잠급니다.'}
+            {s.userSettings?.profile?.deactivateDescription}
           </p>
           <button
             type="button"
             className={`profile-modal__save-button ${styles.deactivateButton}`}
             onClick={onDeactivate}
           >
-            {s.userSettings?.profile?.deactivateButton ?? '계정 비활성화'}
+            {s.userSettings?.profile?.deactivateButton}
           </button>
         </div>
         <div
           className={styles.deleteCard}
         >
           <h3 className={styles.deleteTitle}>
-            {s.userSettings?.profile?.deleteTitle ?? '계정 삭제'}
+            {s.userSettings?.profile?.deleteTitle}
           </h3>
           <p className={styles.deleteDescription}>
-            {s.userSettings?.profile?.deleteDescription ??
-              '계정과 관련 데이터를 영구적으로 삭제합니다.'}
+            {s.userSettings?.profile?.deleteDescription}
           </p>
           <button
             type="button"
             className={`profile-modal__save-button ${styles.deleteButton}`}
             onClick={onDelete}
           >
-            {s.userSettings?.profile?.deleteButton ?? '계정 삭제'}
+            {s.userSettings?.profile?.deleteButton}
           </button>
         </div>
       </div>

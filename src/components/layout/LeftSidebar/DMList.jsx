@@ -30,7 +30,7 @@ export const DMList = ({
           const user = users?.[dm.userId];
           const isActive = currentView === 'channel' && currentChannelId === dm.id;
           const unreadCount = unreadCounts[dm.id] || 0;
-          const displayName = user?.name ?? dm.name ?? '사용자';
+          const displayName = user?.name ?? dm.name ?? s.unknownUser;
           const avatarSrc = user?.avatar || getPlaceholderImage(32, displayName?.[0] ?? '?');
 
           return (

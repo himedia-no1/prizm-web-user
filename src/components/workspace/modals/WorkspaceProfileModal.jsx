@@ -124,7 +124,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
                 {s.modals.deactivateAccount.cancelButton}
               </button>
               <button onClick={handleSave} className={styles.save} disabled={saving}>
-                {saving ? '저장 중...' : s.modals.workspaceProfile.saveButton}
+                {saving ? s.modals.workspaceProfile.saving : s.modals.workspaceProfile.saveButton}
               </button>
             </div>
           </>

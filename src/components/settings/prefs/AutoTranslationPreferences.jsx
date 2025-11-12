@@ -1,26 +1,25 @@
-'use client';
-
-import { useState } from 'react';
-import { useMessages } from 'next-intl';
-import styles from './Preferences.module.css';
-
 export const AutoTranslationPreferences = () => {
   const messages = useMessages();
   const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(false);
   const [targetLanguage, setTargetLanguage] = useState('ko');
 
-  const translationStrings = messages?.userSettings?.preferences?.translation || {};
+  const translationStrings = messages?.userSettings?.preferences?.translation;
+  const commonStrings = messages?.common;
+
+  if (!translationStrings || !commonStrings) {
+    return null;
+  }
 
   return (
     <div className={styles.card}>
-      <h3 className={styles.title}>{translationStrings.title ?? '자동 번역'}</h3>
+      <h3 className={styles.title}>{translationStrings.title}</h3>
       <p className={styles.description}>
-        {translationStrings.description ?? '메시지를 자동으로 번역하여 표시할 수 있습니다.'}
+        {translationStrings.description}
       </p>
       
       <div className={styles.optionRow}>
         <label htmlFor="auto-translate-toggle">
-          {translationStrings.enableLabel ?? '자동 번역 활성화'}
+          {translationStrings.enableLabel}
         </label>
         <input
           id="auto-translate-toggle"
@@ -34,17 +33,17 @@ export const AutoTranslationPreferences = () => {
       {autoTranslateEnabled && (
         <div className={styles.optionRow}>
           <label htmlFor="target-language">
-            {translationStrings.targetLanguageLabel ?? '번역 대상 언어'}
+            {translationStrings.targetLanguageLabel}
           </label>
           <select
             id="target-language"
             value={targetLanguage}
             onChange={(e) => setTargetLanguage(e.target.value)}
           >
-            <option value="ko">{translationStrings.korean ?? '한국어'}</option>
-            <option value="en">{translationStrings.english ?? '영어'}</option>
-            <option value="ja">{translationStrings.japanese ?? '일본어'}</option>
-            <option value="zh">{translationStrings.chinese ?? '중국어'}</option>
+            <option value="ko">{commonStrings.korean}</option>
+            <option value="en">{commonStrings.english}</option>
+            <option value="ja">{commonStrings.japanese}</option>
+            <option value="zh">{commonStrings.chinese}</option>
           </select>
         </div>
       )}

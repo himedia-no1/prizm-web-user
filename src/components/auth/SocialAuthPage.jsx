@@ -74,7 +74,7 @@ export default function SocialAuthPage({ searchParams }) {
         setError(authStrings.loginError ?? '로그인에 실패했습니다. 다시 시도해주세요.');
       }
     });
-  }, [searchParams, router, setAuthState]);
+  }, [searchParams, router, setAuthState, authStrings.loginError]);
 
   const theme = isDarkMode ? 'dark' : 'light';
 

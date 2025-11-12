@@ -130,14 +130,14 @@ export const UserSettingsPage = ({
                         onClick={(event) => event.stopPropagation()}
                     >
                         <header className="channel-modal__header">
-                            <h3>{t('logout.modalTitle') ?? '로그아웃 하시겠어요?'}</h3>
+                            <h3>{t('logout.modalTitle')}</h3>
                             <button onClick={() => setShowLogoutModal(false)} className="channel-modal__close-button">
                                 <X size={18} />
                             </button>
                         </header>
                         <div className="channel-modal__content">
                             <p className={styles.modalDescription}>
-                                {t('logout.modalDescription') ?? '언제든 다시 로그인할 수 있습니다. 저장되지 않은 변경사항은 사라질 수 있습니다.'}
+                                {t('logout.modalDescription')}
                             </p>
                             <div className={styles.modalActions}>
                                 <button
@@ -145,7 +145,7 @@ export const UserSettingsPage = ({
                                     className={`profile-action-button ${styles.cancelButton}`}
                                     onClick={() => setShowLogoutModal(false)}
                                 >
-                                    {t('logout.cancel') ?? '취소'}
+                                    {t('logout.cancel')}
                                 </button>
                                 <button
                                     type="button"
@@ -154,8 +154,8 @@ export const UserSettingsPage = ({
                                     disabled={isLoggingOut}
                                 >
                                     {isLoggingOut
-                                        ? (t('logout.inProgress') ?? '로그아웃 중...')
-                                        : (t('logout.confirm') ?? '로그아웃')}
+                                        ? t('logout.inProgress')
+                                        : t('logout.confirm')}
                                 </button>
                             </div>
                         </div>

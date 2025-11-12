@@ -46,7 +46,7 @@ export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialSt
                   </span>
                 </div>
                 <strong className={styles.statValue}>{stat.value}</strong>
-                <span className={styles.statMeta}>기준: 최근 30일</span>
+                <span className={styles.statMeta}>{t.stats.last30Days}</span>
               </article>
             ))}
           </div>

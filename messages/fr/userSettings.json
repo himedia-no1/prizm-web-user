@@ -85,5 +85,6 @@
     },
     "revoke": "Se déconnecter sur cet appareil",
     "empty": "Aucune autre session active."
-  }
+  },
+  "defaultTab": "profile"
 }
