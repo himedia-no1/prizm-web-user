@@ -23,7 +23,8 @@
     "stats": {
       "totalMessages": "Total Messages",
       "activeMembers": "Active Members",
-      "activeChannels": "Active Channels"
+      "activeChannels": "Active Channels",
+      "last30Days": "Based on last 30 days"
     },
     "recentActivity": "Recent Activity",
     "noActivity": "No activity yet."
@@ -37,5 +38,23 @@
     "emptyQueryDesc": "Search through team conversations, files, and member info all in one place.",
     "noResults": "No results found",
     "noResultsDesc": "Try changing your keywords or filters and search again."
+  },
+  "forbidden": {
+    "title": "Cannot access workspace",
+    "description1": "Could not find information for the recently accessed workspace.",
+    "description2": "Please create a new workspace or enter an invite link.",
+    "createWorkspaceButton": "Create New Workspace",
+    "enterInviteCodeButton": "Enter Invite Code",
+    "metaDescription": "If you are already part of a workspace, please check your invite link again.",
+    "loginWithAnotherAccount": "Login with another account"
+  },
+  "joinPage": {
+    "invalidWorkspace": "Invalid workspace.",
+    "workspaceNotFound": "Workspace not found.",
+    "createWorkspaceLink": "Create New Workspace",
+    "inviteTitle": "{workspaceName} Workspace Invitation",
+    "inviteDescription": "Enter the invite code or ask the workspace administrator for an invite link.",
+    "enterInviteCodeButton": "Enter Invite Code",
+    "loginWithAnotherAccount": "Login with another account"
   }
 }

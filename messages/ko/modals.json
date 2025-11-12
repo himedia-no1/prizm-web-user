@@ -244,14 +244,16 @@
     "displayName": "표시 이름",
     "statusMessage": "상태 메시지",
     "avatar": "아바타",
-    "saveButton": "변경사항 저장"
+    "saveButton": "변경사항 저장",
+    "saving": "저장 중..."
   },
   "deactivateAccount": {
     "title": "계정 비활성화",
     "description": "정말 계정을 비활성화하시겠습니까? 데이터는 보존되지만 접근할 수 없습니다.",
     "confirmButton": "비활성화",
     "cancelButton": "취소",
-    "warning": "이 작업은 고객 지원팀에 문의하여 되돌릴 수 있습니다."
+    "warning": "이 작업은 고객 지원팀에 문의하여 되돌릴 수 있습니다.",
+    "processing": "처리 중..."
   },
   "deleteAccount": {
     "title": "계정 삭제",
@@ -260,7 +262,9 @@
     "cancelButton": "취소",
     "warning": "모든 데이터, 메시지, 워크스페이스가 영구적으로 삭제됩니다.",
     "typeToConfirm": "확인을 위해 \"삭제\"를 입력하세요",
-    "confirmPlaceholder": "삭제"
+    "confirmPlaceholder": "삭제",
+    "deleting": "삭제 중...",
+    "deleteFailed": "계정 삭제에 실패했습니다."
   },
   "aiAssistant": {
     "title": "AI 어시스턴트",
@@ -275,9 +279,8 @@
     "examples": {
       "greeting": "안녕하세요! 무엇을 도와드릴까요?",
       "question1": "프로젝트 일정 정리해줘",
-      "answer1": "네, 프로젝트 일정을 정리해드리겠습니다.",
-      "question2": "회의록 요약해줘",
-      "answer2": "회의록을 요약해드리겠습니다."
-    }
+      "answer1": "네, 프로젝트 일정을 정리해드리겠습니다."
+    },
+    "aiResponsePrefix": "\"{message}\"에 대한 답변입니다."
   }
 }

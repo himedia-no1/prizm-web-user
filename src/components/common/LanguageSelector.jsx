@@ -1,17 +1,19 @@
-'use client';
-
+import { useMessages } from 'next-intl';
 import { useState, useRef, useEffect } from 'react';
 import { Globe } from 'lucide-react';
 import styles from './LanguageSelector.module.css';
 
-const LANGUAGES = [
-  { code: 'ko', label: '한국어', flag: '🇰🇷' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'ja', label: '日本語', flag: '🇯🇵' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-];
-
 export default function LanguageSelector({ locale, onLocaleChange, variant = 'default' }) {
+  const messages = useMessages();
+  const t = messages?.common;
+
+  const LANGUAGES = [
+    { code: 'ko', label: t?.korean, flag: '🇰🇷' },
+    { code: 'en', label: t?.english, flag: '🇺🇸' },
+    { code: 'ja', label: t?.japanese, flag: '🇯🇵' },
+    { code: 'fr', label: t?.french, flag: '🇫🇷' },
+  ];
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 

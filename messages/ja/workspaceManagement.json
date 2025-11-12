@@ -13,6 +13,8 @@
   "navAiSearch": "AI検索",
   "dashboardTitle": "ワークスペースインサイト",
   "dashboardSubtitle": "アクティビティを監視し、ワークスペースを整理しましょう。",
+  "settingsError": "設定データの読み込みに失敗しました。",
+  "settingsLoading": "設定データを読み込み中...",
   "statMembers": "総メンバー数",
   "statChannels": "アクティブチャンネル",
   "statMessages": "本日のメッセージ",
@@ -141,14 +143,23 @@
       "deleteSuccess": "正常に削除されました。",
       "deleteError": "削除中にエラーが発生しました。",
       "reinspectSuccess": "再検査のリクエストが正常に送信されました。",
-      "reinspectError": "再検査をリクエスト中にエラーが発生しました。"
+      "reinspectError": "再検査をリクエスト中にエラーが発生しました。",
+      "loading": "学習データを読み込んでいます...",
+      "source": "ソース",
+      "author": "作成者",
+      "createdAt": "作成日",
+      "approved": "承認済み",
+      "actions": "アクション"
     },
     "modelSettings": {
       "title": "AI モデル設定",
       "embeddingModel": "埋め込みモデルを選択",
       "llmModel": "LLM モデルを選択",
       "temperature": "温度",
-      "maxTokens": "最大トークン数"
+      "maxTokens": "最大トークン数",
+      "chunkSize": "Chunk Size",
+      "overlap": "Overlap",
+      "topK": "Top K"
     },
     "logs": {
       "title": "ログと履歴",

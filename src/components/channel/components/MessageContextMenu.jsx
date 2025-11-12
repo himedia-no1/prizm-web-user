@@ -1,22 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import {
-  Smile,
-  CornerDownRight,
-  MessageSquare,
-  Bookmark,
-  Send,
-  Share,
-  Edit,
-  Trash,
-  Translate,
-  AlertTriangle,
-  MoreVertical,
-  Copy
-} from '@/components/common/icons';
-import styles from './MessageContextMenu.module.css';
-
 import { useMessages } from 'next-intl';
 import {
   Smile,
@@ -24,11 +8,9 @@ import {
   MessageSquare,
   Bookmark,
   Send,
-  Share,
   Edit,
   Trash,
   Translate,
-  AlertTriangle,
   MoreVertical,
   Copy
 } from '@/components/common/icons';
@@ -49,7 +31,8 @@ export const MessageContextMenu = ({
   onReactEmoji,
   onTranslate,
   onAnalyze,
-  onReport
+  onReport,
+  context = 'main',
 }) => {
   const menuRef = useRef(null);
   const [showFullMenu, setShowFullMenu] = useState(false);
@@ -66,11 +49,40 @@ export const MessageContextMenu = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
 
+  const isThread = context === 'thread';
+
   if (!position || !t) {
     return null;
   }
 
-  const commonActions = [
+  const threadActions = [
+    {
+      key: 'copy',
+      icon: <Copy size={18} />,
+      handler: () => {
+        navigator.clipboard.writeText(message.text);
+        onClose();
+      }
+    },
+    {
+      key: 'react',
+      icon: <Smile size={18} />,
+      handler: () => {
+        onReactEmoji(message);
+        onClose();
+      }
+    },
+    {
+      key: 'translate',
+      icon: <Translate size={18} />,
+      handler: () => {
+        onTranslate(message);
+        onClose();
+      }
+    }
+  ];
+
+  const mainChatActions = [
     {
       key: 'copy',
       icon: <Copy size={18} />,
@@ -105,6 +117,8 @@ export const MessageContextMenu = ({
     },
   ];
 
+  const commonActions = isThread ? threadActions : mainChatActions;
+
   const fullMenuActions = isMyMessage
     ? [
         { key: 'pin', icon: <Bookmark size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
@@ -138,7 +152,7 @@ export const MessageContextMenu = ({
               {action.icon}
             </button>
           ))}
-          {!isMyMessage && (
+          {!isMyMessage && !isThread && (
             <button
               onClick={() => {
                 onTranslate(message);
@@ -148,9 +162,9 @@ export const MessageContextMenu = ({
               <Translate size={18} />
             </button>
           )}
-          <button onClick={() => setShowFullMenu(true)} className="more-button">
+          {!isThread && <button onClick={() => setShowFullMenu(true)} className="more-button">
             <MoreVertical size={18} />
-          </button>
+          </button>}
         </div>
       ) : (
         <>

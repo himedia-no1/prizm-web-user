@@ -12,6 +12,7 @@
     "delete": "Delete",
     "more": "More"
   },
+  "aiAssistant": "AI Assistant",
   "translated": "Translated from {{lang}}",
   "translating": "Translating...",
   "translationNotice": "This message was translated.",

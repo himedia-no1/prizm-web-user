@@ -244,14 +244,16 @@
     "displayName": "表示名",
     "statusMessage": "ステータスメッセージ",
     "avatar": "アバター",
-    "saveButton": "変更を保存"
+    "saveButton": "変更を保存",
+    "saving": "保存中..."
   },
   "deactivateAccount": {
     "title": "アカウントの無効化",
     "description": "本当にアカウントを無効化しますか？データは保存されますが、アクセスできなくなります。",
     "confirmButton": "無効化",
     "cancelButton": "キャンセル",
-    "warning": "この操作は、サポートチームに連絡することで元に戻すことができます。"
+    "warning": "この操作は、サポートチームに連絡することで元に戻すことができます。",
+    "processing": "処理中..."
   },
   "deleteAccount": {
     "title": "アカウントの削除",
@@ -260,7 +262,9 @@
     "cancelButton": "キャンセル",
     "warning": "すべてのデータ、メッセージ、ワークスペースが完全に削除されます。",
     "typeToConfirm": "確認のため「削除」と入力してください",
-    "confirmPlaceholder": "削除"
+    "confirmPlaceholder": "削除",
+    "deleting": "削除中...",
+    "deleteFailed": "アカウントの削除に失敗しました。"
   },
   "aiAssistant": {
     "title": "AI アシスタント",
@@ -275,9 +279,8 @@
     "examples": {
       "greeting": "こんにちは。何かお手伝いできることはありますか?",
       "question1": "プロジェクトスケジュールを整理する",
-      "answer1": "プロジェクトスケジュールの整理をお手伝いします。",
-      "question2": "ミーティングノートを要約する",
-      "answer2": "ミーティングノートを要約させていただきます。"
-    }
+      "answer1": "プロジェクトスケジュールの整理をお手伝いします。"
+    },
+    "aiResponsePrefix": "\"{message}\"に対する回答です。"
   }
 }

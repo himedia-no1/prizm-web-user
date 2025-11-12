@@ -244,14 +244,16 @@
     "displayName": "Display name",
     "statusMessage": "Status message",
     "avatar": "Avatar",
-    "saveButton": "Save changes"
+    "saveButton": "Save changes",
+    "saving": "Saving..."
   },
   "deactivateAccount": {
     "title": "Deactivate Account",
     "description": "Are you sure you want to deactivate your account? Your data will be preserved but you won't be able to access it.",
     "confirmButton": "Deactivate",
     "cancelButton": "Cancel",
-    "warning": "This action can be reversed by contacting support."
+    "warning": "This action can be reversed by contacting support.",
+    "processing": "Processing..."
   },
   "deleteAccount": {
     "title": "Delete Account",
@@ -260,7 +262,9 @@
     "cancelButton": "Cancel",
     "warning": "All your data, messages, and workspaces will be permanently removed.",
     "typeToConfirm": "Type \"DELETE\" to confirm",
-    "confirmPlaceholder": "DELETE"
+    "confirmPlaceholder": "DELETE",
+    "deleting": "Deleting...",
+    "deleteFailed": "Failed to delete account."
   },
   "aiAssistant": {
     "title": "AI Assistant",
@@ -275,9 +279,8 @@
     "examples": {
       "greeting": "Hello! How can I help you?",
       "question1": "Organize project schedule",
-      "answer1": "Sure, I'll help you organize the project schedule.",
-      "question2": "Summarize meeting notes",
-      "answer2": "I'll summarize the meeting notes for you."
-    }
+      "answer1": "Yes, I will organize the project schedule."
+    },
+    "aiResponsePrefix": "This is the answer to \"{message}\"."
   }
 }

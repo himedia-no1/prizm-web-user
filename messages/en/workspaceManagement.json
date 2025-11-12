@@ -13,6 +13,8 @@
   "navAiSearch": "AI search",
   "dashboardTitle": "Workspace insights",
   "dashboardSubtitle": "Monitor activity and keep your workspace organised.",
+  "settingsError": "Failed to load settings data.",
+  "settingsLoading": "Loading settings data...",
   "statMembers": "Total members",
   "statChannels": "Active channels",
   "statMessages": "Messages today",
@@ -141,14 +143,23 @@
       "deleteSuccess": "Data deleted successfully.",
       "deleteError": "Failed to delete data.",
       "reinspectSuccess": "Reinspection requested successfully.",
-      "reinspectError": "Failed to request reinspection."
+      "reinspectError": "Failed to request reinspection.",
+      "loading": "Loading learning data...",
+      "source": "Source",
+      "author": "Author",
+      "createdAt": "Created At",
+      "approved": "Approved",
+      "actions": "Actions"
     },
     "modelSettings": {
       "title": "AI Model Settings",
       "embeddingModel": "Select Embedding Model",
       "llmModel": "Select LLM Model",
       "temperature": "Temperature",
-      "maxTokens": "Max Tokens"
+      "maxTokens": "Max Tokens",
+      "chunkSize": "Chunk Size",
+      "overlap": "Overlap",
+      "topK": "Top K"
     },
     "logs": {
       "title": "Logs & History",

@@ -6,16 +6,16 @@ import styles from './LearningControl.module.css';
 
 export default function LearningControl() {
     const messages = useMessages();
-    const ai = messages?.workspaceManagement?.ai?.learningControl ?? {};
+    const ai = messages?.workspaceManagement?.ai?.learningControl;
 
-    const [learningStatus, setLearningStatus] = useState(ai.statusPending ?? '대기중');
+    const [learningStatus, setLearningStatus] = useState(ai.statusPending);
     const [progress, setProgress] = useState(0);
     const [lastTrained, setLastTrained] = useState('2025-11-03 02:00');
 
     const [nextScheduledRun, setNextScheduledRun] = useState('내일 새벽 4:00');
 
     const handleRunLearning = () => {
-        setLearningStatus(ai.statusProcessing ?? '처리중');
+        setLearningStatus(ai.statusProcessing);
         // Simulate learning progress
         let currentProgress = 0;
         const interval = setInterval(() => {
@@ -23,25 +23,29 @@ export default function LearningControl() {
             setProgress(currentProgress);
             if (currentProgress >= 100) {
                 clearInterval(interval);
-                setLearningStatus(ai.statusCompleted ?? '완료');
+                setLearningStatus(ai.statusCompleted);
                 setLastTrained(new Date().toLocaleString());
             }
         }, 500);
     };
 
     const handleCancelLearning = () => {
-        setLearningStatus(ai.statusCancelled ?? '취소');
+        setLearningStatus(ai.statusCancelled);
         setProgress(0);
     };
+
+    if (!ai) {
+        return null;
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.controls}>
-                <button onClick={handleRunLearning} className={styles.runButton} disabled={learningStatus === (ai.statusProcessing ?? '처리중')}>
-                    AI 학습 실행
+                <button onClick={handleRunLearning} className={styles.runButton} disabled={learningStatus === ai.statusProcessing}>
+                    {ai.buttonRunLearning}
                 </button>
-                <button onClick={handleCancelLearning} className={styles.cancelButton} disabled={learningStatus !== (ai.statusProcessing ?? '처리중')}>
-                    학습 중단
+                <button onClick={handleCancelLearning} className={styles.cancelButton} disabled={learningStatus !== ai.statusProcessing}>
+                    {ai.buttonCancelLearning}
                 </button>
             </div>
             <div className={styles.status}>
@@ -50,8 +54,8 @@ export default function LearningControl() {
                 </div>
                 <div className={styles.statusText}>{learningStatus}</div>
             </div>
-            <div className={styles.timestamp}>최근 학습 일시: {lastTrained}</div>
-            <div className={styles.timestamp}>다음 학습 예정: {nextScheduledRun}</div>
+            <div className={styles.timestamp}>{ai.lastTrainedLabel}: {lastTrained}</div>
+            <div className={styles.timestamp}>{ai.nextScheduledLabel}: {nextScheduledRun}</div>
         </div>
     );
 }

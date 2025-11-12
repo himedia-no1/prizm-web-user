@@ -1,12 +1,14 @@
-'use client';
-
+import { useMessages } from 'next-intl';
 import styles from './SearchResultItem.module.css';
 
 export default function SearchResultItem({ result }) {
+  const messages = useMessages();
+  const t = messages?.search;
+
   const typeLabels = {
-    message: '메시지',
-    file: '파일',
-    user: '멤버',
+    message: t?.tabs?.messages,
+    file: t?.tabs?.files,
+    user: t?.tabs?.users,
   };
 
   const typeLabel = typeLabels[result.type] || result.type;

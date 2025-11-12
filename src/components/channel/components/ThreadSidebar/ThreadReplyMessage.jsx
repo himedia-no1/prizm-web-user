@@ -1,0 +1,155 @@
+
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { useMessages, useLocale } from 'next-intl';
+import useStore from '@/core/store/useStore';
+import { messageService } from '@/core/api/services';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
+import styles from './ThreadReplyMessage.module.css';
+
+const getTranslationText = (translation) => {
+  if (!translation) {
+    return '';
+  }
+
+  if (typeof translation === 'string') {
+    return translation;
+  }
+
+  if (typeof translation === 'object') {
+    return translation.text || translation.translatedText || '';
+  }
+
+  return '';
+};
+
+export const ThreadReplyMessage = ({ reply, user, onOpenContextMenu }) => {
+  const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
+  const locale = useLocale();
+  const messages = useMessages();
+  const messageStrings = messages?.message ?? {};
+  
+  const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
+  const [translatedText, setTranslatedText] = useState('');
+  const [isOriginalVisible, setIsOriginalVisible] = useState(false);
+
+  const handleAutoTranslate = useCallback(async () => {
+    setTranslationState('loading');
+    
+    setTimeout(async () => {
+      try {
+        const result = await messageService.translateMessage(reply.id, locale);
+        setTranslatedText(result.translatedText);
+        setTranslationState('done');
+        setIsOriginalVisible(false);
+      } catch (error) {
+        console.error('Translation failed:', error);
+        setTranslationState('none');
+      }
+    }, 500);
+  }, [reply.id, locale]);
+
+  useEffect(() => {
+    const cachedTranslation = getTranslationText(reply.translations?.[locale]);
+
+    if (cachedTranslation) {
+      setTranslatedText(cachedTranslation);
+      setTranslationState('done');
+    } else {
+      setTranslatedText('');
+      setTranslationState('none');
+    }
+  }, [reply.id, locale, reply.translations]);
+
+  useEffect(() => {
+    const shouldTranslate = 
+      autoTranslateEnabled && 
+      reply.language && 
+      reply.language !== locale &&
+      translationState === 'none';
+    
+    if (shouldTranslate) {
+      handleAutoTranslate();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reply.id, reply.language, locale, autoTranslateEnabled, handleAutoTranslate, translationState]);
+
+  const shouldTranslate =
+    autoTranslateEnabled &&
+    reply.language &&
+    reply.language !== locale;
+
+  const hasTranslatedResult = translationState === 'done' && translatedText;
+  const showTranslationAsPrimary = shouldTranslate && hasTranslatedResult;
+  const primaryText = showTranslationAsPrimary ? translatedText : reply.text;
+
+  const avatarSrc = user.avatar || getPlaceholderImage(32, user?.name?.[0] ?? '?');
+
+  return (
+    <div 
+      className="thread-reply"
+      onContextMenu={(e) => {
+        e.preventDefault();
+        onOpenContextMenu(reply, { x: e.clientX, y: e.clientY });
+      }}
+    >
+      <Image
+        src={avatarSrc}
+        alt={user.name}
+        width={32}
+        height={32}
+        className="message__avatar"
+      />
+      <div>
+        <div className="message__header">
+          <span className="message__username">{user.name}</span>
+          <span className="message__timestamp">{reply.timestamp}</span>
+        </div>
+        <p className="message__text">{primaryText}</p>
+        {showTranslationAsPrimary && (
+          <div className={styles.translationMeta}>
+            <button
+              type="button"
+              className={styles.translationToggle}
+              onClick={(event) => {
+                event.stopPropagation();
+                setIsOriginalVisible((prev) => !prev);
+              }}
+            >
+              {isOriginalVisible
+                ? messageStrings.hideOriginal
+                : messageStrings.showOriginal}
+            </button>
+          </div>
+        )}
+
+        {showTranslationAsPrimary && isOriginalVisible && (
+          <div className={styles.original}>
+            <span>{reply.text}</span>
+          </div>
+        )}
+
+        {!showTranslationAsPrimary && shouldTranslate && translationState === 'loading' && (
+          <div className={styles.translation}>
+            <span className={styles.translationLoading}>
+              {messageStrings.translating}
+            </span>
+          </div>
+        )}
+
+        {Object.keys(reply.reactions || {}).length > 0 && (
+          <div className={styles.reactions}>
+            {Object.entries(reply.reactions).map(([emoji, count]) => (
+              <button key={emoji} className={styles.reactionButton}>
+                <span>{emoji}</span>
+                <span className={styles.reactionButtonCount}>{count}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

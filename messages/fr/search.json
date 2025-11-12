@@ -8,6 +8,7 @@
     "files": "Fichiers",
     "users": "Membres"
   },
+  "resultsTitle": "Résultats de la recherche",
   "status": {
     "loading": "Chargement des résultats...",
     "prompt": "Saisissez un terme de recherche pour commencer.",

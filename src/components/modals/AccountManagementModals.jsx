@@ -48,7 +48,7 @@ export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
             {t('cancelButton')}
           </button>
           <button onClick={handleDeactivate} className={`${styles.confirm} ${styles.warning}`} disabled={loading}>
-            {loading ? '처리 중...' : t('confirmButton')}
+            {loading ? t('processing') : t('confirmButton')}
           </button>
         </div>
       </div>
@@ -71,7 +71,7 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
       onClose();
     } catch (error) {
       console.error('Failed to delete account:', error);
-      alert('계정 삭제에 실패했습니다.');
+      alert(t('deleteFailed'));
     } finally {
       setLoading(false);
     }
@@ -117,7 +117,7 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
             className={`${styles.confirm} ${styles.danger}`}
             disabled={loading || !isConfirmed}
           >
-            {loading ? '삭제 중...' : t('confirmButton')}
+            {loading ? t('deleting') : t('confirmButton')}
           </button>
         </div>
       </div>

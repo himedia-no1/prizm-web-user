@@ -244,23 +244,27 @@
     "displayName": "Display name",
     "statusMessage": "Status message",
     "avatar": "Avatar",
-    "saveButton": "Save changes"
+    "saveButton": "Save changes",
+    "saving": "Enregistrement..."
   },
   "deactivateAccount": {
-    "title": "Deactivate Account",
-    "description": "Are you sure you want to deactivate your account? Your data will be preserved but you won't be able to access it.",
-    "confirmButton": "Deactivate",
-    "cancelButton": "Cancel",
-    "warning": "This action can be reversed by contacting support."
+    "title": "Désactiver le compte",
+    "description": "Êtes-vous sûr de vouloir désactiver votre compte ? Vos données seront conservées mais vous ne pourrez plus y accéder.",
+    "confirmButton": "Désactiver",
+    "cancelButton": "Annuler",
+    "warning": "Cette action peut être annulée en contactant le support.",
+    "processing": "Traitement en cours..."
   },
   "deleteAccount": {
-    "title": "Delete Account",
-    "description": "Are you sure you want to permanently delete your account? This action cannot be undone.",
-    "confirmButton": "Delete permanently",
-    "cancelButton": "Cancel",
-    "warning": "All your data, messages, and workspaces will be permanently removed.",
-    "typeToConfirm": "Type \"DELETE\" to confirm",
-    "confirmPlaceholder": "DELETE"
+    "title": "Supprimer le compte",
+    "description": "Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est irréversible.",
+    "confirmButton": "Supprimer définitivement",
+    "cancelButton": "Annuler",
+    "warning": "Toutes vos données, messages et espaces de travail seront définitivement supprimés.",
+    "typeToConfirm": "Tapez \"SUPPRIMER\" pour confirmer",
+    "confirmPlaceholder": "SUPPRIMER",
+    "deleting": "Suppression en cours...",
+    "deleteFailed": "Échec de la suppression du compte."
   },
   "aiAssistant": {
     "title": "Assistant IA",
@@ -275,9 +279,8 @@
     "examples": {
       "greeting": "Bonjour! Comment puis-je vous aider?",
       "question1": "Organiser l'horaire du projet",
-      "answer1": "Bien sûr, je vais vous aider à organiser l'horaire du projet.",
-      "question2": "Résumer les notes de réunion",
-      "answer2": "Je vais résumer les notes de réunion pour vous."
-    }
+      "answer1": "Bien sûr, je vais vous aider à organiser l'horaire du projet."
+    },
+    "aiResponsePrefix": "Ceci est la réponse à \"{message}\"."
   }
 }

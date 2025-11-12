@@ -7,7 +7,7 @@ import { aiService } from '@/core/api/services';
 
 export default function LearningDataManagement() {
     const messages = useMessages();
-    const ai = messages?.workspaceManagement?.ai?.learningData ?? {};
+    const ai = messages?.workspaceManagement?.ai?.learningData;
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export default function LearningDataManagement() {
                     return;
                 }
                 console.error('Failed to load learning data:', err);
-                setError(ai.loadError ?? '학습 데이터를 불러오지 못했습니다.');
+                setError(ai.loadError);
                 setData([]);
             } finally {
                 if (active) {
@@ -43,7 +43,7 @@ export default function LearningDataManagement() {
         return () => {
             active = false;
         };
-    }, []);
+    }, [ai.loadError]);
 
     const handleToggleApproval = async (id) => {
         const target = data.find((item) => item.id === id);
@@ -59,11 +59,11 @@ export default function LearningDataManagement() {
         );
         try {
             await aiService.updateLearningDataApproval(id, nextApproved);
-            setActionFeedback(ai.approveSuccess ?? '승인 상태가 업데이트되었습니다.');
+            setActionFeedback(ai.approveSuccess);
         } catch (err) {
             console.error('Failed to update learning data approval:', err);
             setData(snapshot);
-            setActionFeedback(ai.approveError ?? '승인 상태를 변경하지 못했습니다.');
+            setActionFeedback(ai.approveError);
         }
     };
 
@@ -72,11 +72,11 @@ export default function LearningDataManagement() {
         setData((prev) => prev.filter((item) => item.id !== id));
         try {
             await aiService.deleteLearningData(id);
-            setActionFeedback(ai.deleteSuccess ?? '데이터가 삭제되었습니다.');
+            setActionFeedback(ai.deleteSuccess);
         } catch (err) {
             console.error('Failed to delete learning data:', err);
             setData(snapshot);
-            setActionFeedback(ai.deleteError ?? '데이터 삭제에 실패했습니다.');
+            setActionFeedback(ai.deleteError);
         }
     };
 
@@ -90,15 +90,19 @@ export default function LearningDataManagement() {
                     ),
                 );
             }
-            setActionFeedback(ai.reinspectSuccess ?? '재검토를 요청했습니다.');
+            setActionFeedback(ai.reinspectSuccess);
         } catch (err) {
             console.error('Failed to request reinspection:', err);
-            setActionFeedback(ai.reinspectError ?? '재검토 요청에 실패했습니다.');
+            setActionFeedback(ai.reinspectError);
         }
     };
 
+    if (!ai) {
+        return null;
+    }
+
     if (loading) {
-        return <div className={styles.container}>학습 데이터를 불러오는 중입니다...</div>;
+        return <div className={styles.container}>{ai.loading}</div>;
     }
 
     if (error) {
@@ -111,11 +115,11 @@ export default function LearningDataManagement() {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Source</th>
-                        <th>Author</th>
-                        <th>Created At</th>
-                        <th>Approved</th>
-                        <th>Actions</th>
+                        <th>{ai.source}</th>
+                        <th>{ai.author}</th>
+                        <th>{ai.createdAt}</th>
+                        <th>{ai.approved}</th>
+                        <th>{ai.actions}</th>
                     </tr>
                 </thead>
                 <tbody>

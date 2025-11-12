@@ -8,10 +8,16 @@
   "privacyPolicy": "개인정보 처리방침",
   "korean": "한국어",
   "english": "English",
+  "japanese": "일본어",
+  "french": "프랑스어",
   "channels": "채널",
   "categories": "카테고리",
-  "favorites": "즐겨찾기",
-  "favoritesEmpty": "즐겨찾기한 채널이 없습니다.",
+  "favorites": {
+    "title": "즐겨찾기",
+    "empty": "즐겨찾기한 채널이 없습니다.",
+    "add": "즐겨찾기에 추가",
+    "remove": "즐겨찾기 해제"
+  },
   "createCategory": "카테고리 만들기",
   "inviteMembers": "멤버 초대하기",
   "createNewWorkspace": "새 워크스페이스 생성",
@@ -41,5 +47,14 @@
   },
   "mySettings": "내 설정",
   "notifications": "알림",
-  "openInbox": "수신함 열기"
+  "openInbox": "수신함 열기",
+  "continueWith": "{provider}로 계속하기",
+  "unknownUser": "사용자",
+  "themeToggle": "테마 전환",
+  "scrollToTop": "맨 위로 이동",
+  "back": "뒤로",
+  "appTitle": "PRIZM - AI 기반 개발자 협업 메신저",
+  "defaultUser": "사용자",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
 }

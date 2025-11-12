@@ -18,7 +18,7 @@ export const CopyableLink = ({ url, label, copyLabel, copiedLabel }) => {
     <div className={styles.copyRow}>
       <code>{url}</code>
       <button type="button" onClick={handleCopy}>
-        {copied ? copiedLabel ?? '복사됨' : copyLabel ?? label ?? '복사'}
+        {copied ? copiedLabel : copyLabel ?? label}
       </button>
     </div>
   );

@@ -8,6 +8,7 @@
     "files": "ファイル",
     "users": "メンバー"
   },
+  "resultsTitle": "検索結果",
   "status": {
     "loading": "結果を読み込んでいます...",
     "prompt": "検索語を入力して開始してください。",

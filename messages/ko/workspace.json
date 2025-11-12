@@ -23,7 +23,8 @@
     "stats": {
       "totalMessages": "총 메시지",
       "activeMembers": "활성 멤버",
-      "activeChannels": "활성 채널"
+      "activeChannels": "활성 채널",
+      "last30Days": "기준: 최근 30일"
     },
     "recentActivity": "최근 활동",
     "noActivity": "아직 활동이 없습니다."
@@ -37,5 +38,23 @@
     "emptyQueryDesc": "팀 대화와 파일, 멤버 정보를 통합 검색으로 한 번에 찾을 수 있어요.",
     "noResults": "검색 결과가 없어요",
     "noResultsDesc": "키워드나 필터를 변경해 다시 시도해보세요."
+  },
+  "forbidden": {
+    "title": "워크스페이스에 접근할 수 없어요",
+    "description1": "최근에 접속한 워크스페이스 정보를 찾지 못했습니다.",
+    "description2": "새 워크스페이스를 만들거나 초대 링크를 입력해 주세요.",
+    "createWorkspaceButton": "새 워크스페이스 생성",
+    "enterInviteCodeButton": "초대 코드 입력하기",
+    "metaDescription": "이미 참여 중인 워크스페이스가 있다면 초대 링크를 다시 확인해 주세요.",
+    "loginWithAnotherAccount": "다른 계정으로 로그인"
+  },
+  "joinPage": {
+    "invalidWorkspace": "유효하지 않은 워크스페이스입니다.",
+    "workspaceNotFound": "워크스페이스를 찾을 수 없습니다.",
+    "createWorkspaceLink": "새 워크스페이스 만들기",
+    "inviteTitle": "{workspaceName} 워크스페이스 초대",
+    "inviteDescription": "초대 코드를 입력하거나 워크스페이스 관리자에게 초대 링크를 요청하세요.",
+    "enterInviteCodeButton": "초대 코드 입력하기",
+    "loginWithAnotherAccount": "다른 계정으로 로그인"
   }
 }

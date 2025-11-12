@@ -8,10 +8,16 @@
   "privacyPolicy": "プライバシーポリシー",
   "korean": "한국어",
   "english": "English",
+  "japanese": "日本語",
+  "french": "フランス語",
   "channels": "チャンネル",
   "categories": "カテゴリ",
-  "favorites": "お気に入り",
-  "favoritesEmpty": "お気に入りのチャンネルがありません。",
+  "favorites": {
+    "title": "お気に入り",
+    "empty": "お気に入りのチャンネルがありません。",
+    "add": "お気に入りに追加",
+    "remove": "お気に入りから削除"
+  },
   "createCategory": "カテゴリを作成",
   "inviteMembers": "メンバーを招待",
   "createNewWorkspace": "新しいワークスペースを作成",
@@ -41,5 +47,14 @@
   },
   "mySettings": "マイ設定",
   "notifications": "通知",
-  "openInbox": "受信トレイを開く"
+  "openInbox": "受信トレイを開く",
+  "continueWith": "{provider}で続行",
+  "unknownUser": "ユーザー",
+  "themeToggle": "テーマ切り替え",
+  "scrollToTop": "トップへスクロール",
+  "back": "戻る",
+  "appTitle": "PRIZM - AI搭載開発者コラボレーションメッセンジャー",
+  "defaultUser": "ユーザー",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
 }

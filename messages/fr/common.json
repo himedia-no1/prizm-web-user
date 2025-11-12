@@ -8,10 +8,16 @@
   "privacyPolicy": "Politique de confidentialité",
   "korean": "한국어",
   "english": "English",
+  "japanese": "Japonais",
+  "french": "Français",
   "channels": "Canaux",
   "categories": "Catégories",
-  "favorites": "Favoris",
-  "favoritesEmpty": "Aucun canal favori pour le moment.",
+  "favorites": {
+    "title": "Favoris",
+    "empty": "Aucun canal favori pour le moment.",
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris"
+  },
   "createCategory": "Créer une catégorie",
   "inviteMembers": "Inviter des membres",
   "createNewWorkspace": "Créer un nouvel espace de travail",
@@ -41,5 +47,14 @@
   },
   "mySettings": "Mes paramètres",
   "notifications": "Notifications",
-  "openInbox": "Ouvrir la boîte de réception"
+  "openInbox": "Ouvrir la boîte de réception",
+  "continueWith": "Continuer avec {provider}",
+  "unknownUser": "Utilisateur",
+  "themeToggle": "Basculer le thème",
+  "scrollToTop": "Remonter en haut",
+  "back": "Retour",
+  "appTitle": "PRIZM - Messagerie de collaboration pour développeurs alimentée par l'IA",
+  "defaultUser": "Utilisateur",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
 }

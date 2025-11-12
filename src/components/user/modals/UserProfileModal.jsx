@@ -63,25 +63,25 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                         <span
                             className={`dm-button__status ${user.status === 'online' ? 'online' : 'offline'} ${styles.status}`}
                         ></span>
-                        {user.status === 'online' ? (t.statusOnline ?? 'Online') : (t.statusOffline ?? 'Offline')}
+                        {user.status === 'online' ? t.statusOnline : t.statusOffline}
                     </p>
                     <div className="user-profile-modal__details">
                         <div>
-                            <strong>{t.realName ?? '실제 이름'}:</strong> {user.realName}
+                            <strong>{t.realName}:</strong> {user.realName}
                         </div>
                         <div>
-                            <strong>{t.email ?? '이메일'}:</strong> {user.email}
+                            <strong>{t.email}:</strong> {user.email}
                         </div>
                         {user.phone && (
                             <div>
-                                <strong>{t.phone ?? '전화번호'}:</strong> {user.phone}
+                                <strong>{t.phone}:</strong> {user.phone}
                             </div>
                         )}
                         <div>
-                            <strong>{t.socialProvider ?? '가입 경로'}:</strong> {user.socialProvider}
+                            <strong>{t.socialProvider}:</strong> {user.socialProvider}
                         </div>
                         <div>
-                            <strong>{t.role ?? '역할'}:</strong> {user.role}
+                            <strong>{t.role}:</strong> {user.role}
                         </div>
                     </div>
                     <button
@@ -89,7 +89,7 @@ export const UserProfileModal = ({ userId, onClose, onCreateDM }) => {
                         onClick={() => onCreateDM(user.id, router)}
                     >
                         <MessageSquare size={16} />
-                        {t.sendDM ?? 'DM 보내기'}
+                        {t.sendDM}
                     </button>
                 </div>
             </div>

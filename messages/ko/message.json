@@ -12,6 +12,7 @@
     "delete": "삭제하기",
     "more": "더보기"
   },
+  "aiAssistant": "AI 어시스턴트",
   "translated": "{{lang}}에서 번역됨",
   "translating": "번역 중...",
   "translationNotice": "이 문장은 번역되었습니다.",

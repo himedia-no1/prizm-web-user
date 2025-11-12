@@ -13,6 +13,8 @@
   "navAiSearch": "AI search",
   "dashboardTitle": "Workspace insights",
   "dashboardSubtitle": "Monitor activity and keep your workspace organised.",
+  "settingsError": "Échec du chargement des données de paramètres.",
+  "settingsLoading": "Chargement des données de paramètres...",
   "statMembers": "Total members",
   "statChannels": "Active channels",
   "statMessages": "Messages today",
@@ -141,14 +143,23 @@
       "deleteSuccess": "Supprimé avec succès.",
       "deleteError": "Une erreur s'est produite lors de la suppression.",
       "reinspectSuccess": "Demande de réinspection envoyée avec succès.",
-      "reinspectError": "Une erreur s'est produite lors de la demande de réinspection."
+      "reinspectError": "Une erreur s'est produite lors de la demande de réinspection.",
+      "loading": "Chargement des données d'apprentissage...",
+      "source": "Source",
+      "author": "Auteur",
+      "createdAt": "Créé le",
+      "approved": "Approuvé",
+      "actions": "Actions"
     },
     "modelSettings": {
       "title": "Paramètres du modèle IA",
       "embeddingModel": "Sélectionner le modèle d'incorporation",
       "llmModel": "Sélectionner le modèle LLM",
       "temperature": "Température",
-      "maxTokens": "Nombre maximum de tokens"
+      "maxTokens": "Nombre maximum de tokens",
+      "chunkSize": "Chunk Size",
+      "overlap": "Overlap",
+      "topK": "Top K"
     },
     "logs": {
       "title": "Logs et historique",

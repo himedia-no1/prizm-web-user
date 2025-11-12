@@ -1,10 +1,11 @@
-'use client';
-
+import { useMessages } from 'next-intl';
 import { useRef } from 'react';
 import { Paperclip, Smile, Send, AIIcon } from '@/components/common/icons';
 import styles from './MessageInput.module.css';
 
 export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onOpenModal, onOpenEmojiPicker }) => {
+  const messages = useMessages();
+  const t = messages?.message;
   const textareaRef = useRef(null);
 
   const handleInput = (e) => {
@@ -46,7 +47,7 @@ export const MessageInput = ({ channelName, message, setMessage, onToggleAI, onO
             <button
               onClick={onToggleAI}
               className="message-input__ai-button"
-              title="AI 어시스턴트"
+              title={t?.aiAssistant}
             >
               <AIIcon size={20} />
             </button>

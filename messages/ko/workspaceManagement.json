@@ -13,6 +13,8 @@
   "navAiSearch": "AI 검색",
   "dashboardTitle": "워크스페이스 인사이트",
   "dashboardSubtitle": "팀 활동을 모니터링하고 워크스페이스를 정돈하세요.",
+  "settingsError": "설정 데이터를 불러오지 못했습니다.",
+  "settingsLoading": "설정 데이터를 불러오는 중입니다...",
   "statMembers": "멤버",
   "statChannels": "활성 채널",
   "statMessages": "오늘 메시지",
@@ -141,14 +143,23 @@
       "deleteSuccess": "데이터가 삭제되었습니다.",
       "deleteError": "데이터 삭제에 실패했습니다.",
       "reinspectSuccess": "재검토를 요청했습니다.",
-      "reinspectError": "재검토 요청에 실패했습니다."
+      "reinspectError": "재검토 요청에 실패했습니다.",
+      "loading": "학습 데이터를 불러오는 중입니다...",
+      "source": "소스",
+      "author": "작성자",
+      "createdAt": "생성일",
+      "approved": "승인됨",
+      "actions": "작업"
     },
     "modelSettings": {
       "title": "AI 모델 / 설정 영역",
       "embeddingModel": "임베딩 모델 선택",
       "llmModel": "LLM 모델 선택",
       "temperature": "Temperature",
-      "maxTokens": "Max Tokens"
+      "maxTokens": "Max Tokens",
+      "chunkSize": "Chunk Size",
+      "overlap": "Overlap",
+      "topK": "Top K"
     },
     "logs": {
       "title": "로그 / 이력 영역",

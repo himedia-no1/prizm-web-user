@@ -7,17 +7,17 @@ import styles from './AIAssistantModal.module.css';
 
 const AIAssistantModal = ({ onClose }) => {
     const messages = useMessages();
-    const t = messages?.modals?.aiAssistant ?? {};
-    const examples = t?.examples ?? {};
+    const t = messages?.modals?.aiAssistant;
+    const examples = t?.examples;
 
     const [chatHistory, setChatHistory] = useState([
-        { id: 'ai-init', type: 'ai', text: examples.greeting ?? '안녕하세요! 무엇을 도와드릴까요?' },
-        { id: 'user-1', type: 'user', text: examples.question1 ?? '프로젝트 일정 정리해줘' },
-        { id: 'ai-1', type: 'ai', text: examples.answer1 ?? '네, 프로젝트 일정을 정리해드리겠습니다.' },
+        { id: 'ai-init', type: 'ai', text: examples.greeting },
+        { id: 'user-1', type: 'user', text: examples.question1 },
+        { id: 'ai-1', type: 'ai', text: examples.answer1 },
     ]);
     const [sessions, setSessions] = useState([
-        { id: 'session1', name: t?.sessions?.defaultName ?? '새 대화', timestamp: '오후 2:30' },
-        { id: 'session2', name: t?.sessions?.defaultName ?? '새 대화', timestamp: '오전 10:15' },
+        { id: 'session1', name: t?.sessions?.defaultName, timestamp: '오후 2:30' },
+        { id: 'session2', name: t?.sessions?.defaultName, timestamp: '오전 10:15' },
     ]);
     const [currentSessionId, setCurrentSessionId] = useState('session1');
     const [isSessionDropdownOpen, setIsSessionDropdownOpen] = useState(false);
@@ -27,7 +27,7 @@ const AIAssistantModal = ({ onClose }) => {
     const handleSendMessage = () => {
         if (!newMessage.trim()) return;
         const newUserMessage = { id: `user-${Date.now()}`, type: 'user', text: newMessage };
-        const aiResponse = { id: `ai-${Date.now()}`, type: 'ai', text: `"${newMessage}"에 대한 답변입니다.` };
+        const aiResponse = { id: `ai-${Date.now()}`, type: 'ai', text: t?.aiResponsePrefix?.replace('{message}', newMessage) };
         setChatHistory(prev => [...prev, newUserMessage, aiResponse]);
         setNewMessage('');
     };
@@ -36,12 +36,16 @@ const AIAssistantModal = ({ onClose }) => {
         chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [chatHistory]);
 
+    if (!t) {
+        return null;
+    }
+
     return (
         <div className="ai-modal">
             <header className={`ai-modal__header ${styles.header}`} onClick={() => setIsSessionDropdownOpen(!isSessionDropdownOpen)}>
                 <div className="ai-modal__title">
                     <AIIcon size={18} className="ai-modal__title-icon" />
-                    <span>{sessions.find(s => s.id === currentSessionId)?.name || t.title || 'AI Assistant'}</span>
+                    <span>{sessions.find(s => s.id === currentSessionId)?.name || t.title}</span>
                     <ChevronsUpDown size={16} className="ai-modal__header-chevron" />
                 </div>
                 <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="ai-modal__close-button">
@@ -52,7 +56,7 @@ const AIAssistantModal = ({ onClose }) => {
             {isSessionDropdownOpen && (
                 <div className="ai-session-dropdown">
                     <button className="ai-session-item new-chat">
-                        <Plus size={16}/> {t.newChat ?? '새로운 대화'}
+                        <Plus size={16}/> {t.newChat}
                     </button>
                     <div className="ws-dropdown__divider"></div>
                     {sessions.map(session => (
@@ -78,7 +82,7 @@ const AIAssistantModal = ({ onClose }) => {
                     <button className="ai-modal__attach-button">
                         <Paperclip size={18}/>
                     </button>
-                    <input type="text" placeholder={t.placeholder ?? 'AI에게 질문하거나 파일을 첨부하세요...'} className="ai-modal__input" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()} />
+                    <input type="text" placeholder={t.placeholder} className="ai-modal__input" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()} />
                     <button className="ai-modal__send-button" onClick={handleSendMessage}>
                         <Send size={18} />
                     </button>

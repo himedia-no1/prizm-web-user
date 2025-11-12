@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMessages } from 'next-intl';
 import styles from './SocialButton.module.css';
 
 const defaultOauthUrls = {
@@ -9,6 +10,9 @@ const defaultOauthUrls = {
 };
 
 export default function SocialButton({ icon, provider, onClick, disabled = false }) {
+  const messages = useMessages();
+  const t = messages?.common;
+
   const handleClick = () => {
     if (disabled) {
       return;
@@ -28,7 +32,7 @@ export default function SocialButton({ icon, provider, onClick, disabled = false
   return (
     <button className={styles.button} onClick={handleClick} disabled={disabled}>
       {icon}
-      <span>{provider}로 계속하기</span>
+      <span>{t?.continueWith?.replace('{provider}', provider) ?? `Continue with ${provider}`}</span>
     </button>
   );
 }

@@ -8,10 +8,16 @@
   "privacyPolicy": "Privacy Policy",
   "korean": "한국어",
   "english": "English",
+  "japanese": "Japanese",
+  "french": "French",
   "channels": "Channels",
   "categories": "Categories",
-  "favorites": "Favorites",
-  "favoritesEmpty": "No favourite channels yet.",
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favourite channels yet.",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
   "createCategory": "Create Category",
   "inviteMembers": "Invite Members",
   "createNewWorkspace": "Create New Workspace",
@@ -41,5 +47,14 @@
   },
   "mySettings": "My Settings",
   "notifications": "Notifications",
-  "openInbox": "Open inbox"
+  "openInbox": "Open inbox",
+  "continueWith": "Continue with {provider}",
+  "unknownUser": "User",
+  "themeToggle": "Toggle theme",
+  "scrollToTop": "Scroll to top",
+  "back": "Back",
+  "appTitle": "PRIZM - AI-powered Developer Collaboration Messenger",
+  "defaultUser": "User",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
 }
