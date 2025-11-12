@@ -12,7 +12,7 @@ import {
   AuditTab,
   AIAssistantTab,
 } from '@/components/settings/workspace/tabs';
-import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
+import { useWorkspaceSettingsStore } from '@/core/store/workspace';
 import { navItems } from '@/components/settings/workspace/constants/navItems';
 import { WorkspaceHeader } from '@/components/settings/workspace/components/WorkspaceHeader';
 import { WorkspaceNav } from '@/components/settings/workspace/components/WorkspaceNav';

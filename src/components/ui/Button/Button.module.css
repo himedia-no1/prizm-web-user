@@ -1,0 +1,142 @@
+/* Base Button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.button--sm {
+  padding: 4px 8px;
+  font-size: 0.875rem;
+}
+
+.button--md {
+  padding: 6px 12px;
+  font-size: 0.9375rem;
+}
+
+.button--lg {
+  padding: 10px 16px;
+  font-size: 1rem;
+}
+
+/* Variants */
+.button--primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.button--primary:hover:not(:disabled) {
+  background-color: var(--primary);
+  filter: brightness(1.1);
+}
+
+.button--secondary {
+  background-color: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background-color: var(--bg);
+}
+
+.button--channel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  background: none;
+  color: var(--text-secondary);
+}
+
+.button--channel:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+}
+
+[data-theme='dark'] .button--channel:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.button--favorite {
+  padding: 4px;
+  background: none;
+  color: var(--text-secondary);
+  border-radius: 0.25rem;
+}
+
+.button--favorite:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary);
+}
+
+[data-theme='dark'] .button--favorite:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.button--favorite.button--active {
+  color: #f59e0b;
+}
+
+.button--ghost {
+  background: none;
+  color: var(--text);
+}
+
+.button--ghost:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .button--ghost:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.button--danger {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.button--danger:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+/* Active State */
+.button--active {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Full Width */
+.button--full-width {
+  width: 100%;
+}
+
+/* Icon */
+.button__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.button__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

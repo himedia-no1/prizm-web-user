@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import useDataStore from '@/core/store/dataStore';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 import styles from './AppConnectList.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -15,7 +15,7 @@ export const AppConnectList = () => {
     const appConnect = useDataStore((state) => state.appConnect);
     const loadInitialData = useDataStore((state) => state.loadInitialData);
     const initialized = useDataStore((state) => state.initialized);
-    const unreadCounts = useStore((state) => state.unreadCounts ?? {});
+    const unreadCounts = useChatStore((state) => state.unreadCounts ?? {});
 
     useEffect(() => {
         if (!initialized) {

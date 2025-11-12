@@ -12,7 +12,7 @@ import { FavoritesList } from '@/components/layout/LeftSidebar/FavoritesList';
 import './LeftSidebar.module.css';
 
 import { useMessages } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 
 export const LeftSidebar = ({
   currentWorkspace,
@@ -37,8 +37,8 @@ export const LeftSidebar = ({
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const favoriteChannels = useStore((state) => state.favoriteChannels);
-  const toggleFavoriteChannel = useStore((state) => state.toggleFavoriteChannel);
+  const favoriteChannels = useChatStore((state) => state.favoriteChannels);
+  const toggleFavoriteChannel = useChatStore((state) => state.toggleFavoriteChannel);
   const {
     canManageWorkspace = false,
     canInviteMembers = false,

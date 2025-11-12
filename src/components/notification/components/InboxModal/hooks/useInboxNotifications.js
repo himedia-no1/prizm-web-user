@@ -1,24 +1,24 @@
 import { useEffect, useCallback } from 'react';
-import useStore from '@/core/store/useStore';
+import { useNotificationStore } from '@/core/store/chat';
 import { notificationService } from '@/core/api/services';
 
 export const useInboxNotifications = (isOpen) => {
-  const notifications = useStore((state) => state.notifications);
-  const { markNotificationAsRead, deleteNotification, markAllNotificationsAsRead } = useStore();
-  const { 
-    inboxState,
-    setInboxTab, 
-    toggleUnreadFilter, 
-    toggleNotificationSelection,
-    clearNotificationSelection,
-    setInboxLoading 
-  } = useStore();
+  const notifications = useNotificationStore((state) => state.notifications);
+  const markNotificationAsRead = useNotificationStore((state) => state.markNotificationAsRead);
+  const deleteNotification = useNotificationStore((state) => state.deleteNotification);
+  const markAllNotificationsAsRead = useNotificationStore((state) => state.markAllNotificationsAsRead);
+  const inboxState = useNotificationStore((state) => state.inboxState);
+  const setInboxTab = useNotificationStore((state) => state.setInboxTab);
+  const toggleUnreadFilter = useNotificationStore((state) => state.toggleUnreadFilter);
+  const toggleNotificationSelection = useNotificationStore((state) => state.toggleNotificationSelection);
+  const clearNotificationSelection = useNotificationStore((state) => state.clearNotificationSelection);
+  const setInboxLoading = useNotificationStore((state) => state.setInboxLoading);
 
   const loadNotifications = useCallback(async () => {
     setInboxLoading(true);
     try {
       const data = await notificationService.fetchNotifications();
-      useStore.setState({ notifications: data });
+      useNotificationStore.setState({ notifications: data });
     } catch (error) {
       console.error('Failed to load notifications:', error);
     } finally {

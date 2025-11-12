@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { Settings, Inbox } from '@/components/common/icons';
 import { workspaceService } from '@/core/api/services';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import { useRouter } from 'next/navigation';
 import styles from './CreateWorkspacePage.module.css';
 
@@ -12,7 +12,7 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
     const router = useRouter();
-    const openModal = useStore((state) => state.openModal);
+    const openModal = useUIStore((state) => state.openModal);
     const [mode, setMode] = useState(initialMode);
     const [workspaceName, setWorkspaceName] = useState('');
     const [inviteCode, setInviteCode] = useState('');

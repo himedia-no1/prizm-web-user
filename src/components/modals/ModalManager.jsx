@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { useMessages } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
+import { useChatStore } from '@/core/store/chat';
+import { useWorkspaceStore } from '@/core/store/workspace';
 
 // Standalone Modals
 import { GenericModal } from './GenericModal';
@@ -32,12 +34,12 @@ import { MentionModalContent } from './MentionModalContent';
 const ModalManager = () => {
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
-    const modalType = useStore((state) => state.modalType);
-    const modalProps = useStore((state) => state.modalProps);
-    const closeModal = useStore((state) => state.closeModal);
-    const openThread = useStore((state) => state.openThread);
-    const createDM = useStore((state) => state.createDM);
-    const openModal = useStore((state) => state.openModal);
+    const modalType = useUIStore((state) => state.modalType);
+    const modalProps = useUIStore((state) => state.modalProps);
+    const closeModal = useUIStore((state) => state.closeModal);
+    const openThread = useChatStore((state) => state.openThread);
+    const createDM = useWorkspaceStore((state) => state.createDM);
+    const openModal = useUIStore((state) => state.openModal);
 
     console.log('[ModalManager] Current modalType:', modalType);
     console.log('[ModalManager] Current modalProps:', modalProps);

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { useMessages } from 'next-intl';
 import { X, Upload } from 'lucide-react';
-import useStore from '@/core/store/useStore';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import { userService } from '@/core/api/services';
 import styles from './WorkspaceProfileModal.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
@@ -12,7 +12,8 @@ import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) => {
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const { getWorkspaceProfile, setWorkspaceProfile } = useStore();
+  const getWorkspaceProfile = useWorkspaceStore((state) => state.getWorkspaceProfile);
+  const setWorkspaceProfile = useWorkspaceStore((state) => state.setWorkspaceProfile);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState({

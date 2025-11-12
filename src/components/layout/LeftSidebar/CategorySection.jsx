@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, Plus, Hash, Star, StarOff } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 import { useMessages } from 'next-intl';
 
 export const CategorySection = ({
@@ -18,7 +18,7 @@ export const CategorySection = ({
   const t = messages?.common;
 
   const [isOpen, setIsOpen] = useState(true);
-  const { unreadCounts } = useStore();
+  const { unreadCounts } = useChatStore();
 
   return (
     <div className="nav-category">

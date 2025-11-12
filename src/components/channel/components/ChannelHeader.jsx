@@ -2,7 +2,7 @@
 
 import { useMessages } from 'next-intl';
 import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 import styles from './ChannelHeader.module.css';
 
 const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, t }) => {
@@ -18,8 +18,7 @@ const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, 
 export const ChatHeader = ({ channel, onOpenModal }) => {
   const messages = useMessages();
   const t = messages.workspace;
-  const toggleChannelNotifications = useStore((state) => state.toggleChannelNotifications);
-  const isChannelNotificationsEnabled = useStore((state) => state.isChannelNotificationsEnabled);
+  const { toggleChannelNotifications, isChannelNotificationsEnabled } = useChatStore();
 
   if (!channel) return null;
 

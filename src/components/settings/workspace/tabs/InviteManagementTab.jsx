@@ -2,7 +2,7 @@
 
 import { useMessages } from 'next-intl';
 import { Hash, Users } from '@/components/common/icons';
-import { useWorkspaceSettingsStore } from '@/core/store/workspace/useWorkspaceSettingsStore';
+import { useWorkspaceSettingsStore } from '@/core/store/workspace';
 import styles from './InviteManagementTab.module.css';
 
 export const InviteManagementTab = ({ invitations, inviteLinks }) => {

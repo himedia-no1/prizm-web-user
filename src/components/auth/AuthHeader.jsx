@@ -2,12 +2,13 @@
 
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import styles from './SocialButton.module.css';
 import { useMessages } from 'next-intl';
 
 export default function AuthHeader() {
-    const { isDarkMode, toggleDarkMode } = useStore();
+    const isDarkMode = useUIStore((state) => state.isDarkMode);
+    const toggleDarkMode = useUIStore((state) => state.toggleDarkMode);
     const messages = useMessages();
     const t = messages?.common;
 

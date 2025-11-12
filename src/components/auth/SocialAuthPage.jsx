@@ -7,7 +7,7 @@ import { Github } from 'lucide-react';
 import SocialButton from '@/components/auth/SocialButton';
 import LanguageSelector from '@/components/common/LanguageSelector';
 import { useAuthStore } from '@/core/store/authStore';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import { useLocale, useMessages } from 'next-intl';
 import { setPreferredLocale } from '@/shared/lib/locale';
 import { authenticateWithProvider } from './actions';
@@ -38,7 +38,7 @@ const providerOrder = ['Google', 'GitHub'];
 
 export default function SocialAuthPage({ searchParams }) {
   const router = useRouter();
-  const { isDarkMode, toggleDarkMode } = useStore();
+  const isDarkMode = useUIStore((state) => state.isDarkMode);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const setAuthState = useAuthStore((state) => state.setAuthState);
   const [error, setError] = useState(null);

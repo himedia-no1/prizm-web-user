@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import { messageService } from '@/core/api/services';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './ThreadReplyMessage.module.css';
@@ -25,11 +25,11 @@ const getTranslationText = (translation) => {
 };
 
 export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }) => {
-  const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
+  const autoTranslateEnabled = useUIStore((state) => state.autoTranslateEnabled);
   const locale = useLocale();
   const messages = useMessages();
   const messageStrings = messages?.message ?? {};
-  
+
   const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
   const [translatedText, setTranslatedText] = useState('');
   const [isOriginalVisible, setIsOriginalVisible] = useState(false);

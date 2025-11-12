@@ -16,8 +16,8 @@ const AIAssistantModal = ({ onClose }) => {
         { id: 'ai-1', type: 'ai', text: examples.answer1 },
     ]);
     const [sessions, setSessions] = useState([
-        { id: 'session1', name: t?.sessions?.defaultName, timestamp: '오후 2:30' },
-        { id: 'session2', name: t?.sessions?.defaultName, timestamp: '오전 10:15' },
+        { id: 'session1', name: t?.sessions?.defaultName, timestamp: '14:30' },
+        { id: 'session2', name: t?.sessions?.defaultName, timestamp: '10:15' },
     ]);
     const [currentSessionId, setCurrentSessionId] = useState('session1');
     const [isSessionDropdownOpen, setIsSessionDropdownOpen] = useState(false);

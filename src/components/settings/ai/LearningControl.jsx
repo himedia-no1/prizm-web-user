@@ -12,7 +12,7 @@ export default function LearningControl() {
     const [progress, setProgress] = useState(0);
     const [lastTrained, setLastTrained] = useState('2025-11-03 02:00');
 
-    const [nextScheduledRun, setNextScheduledRun] = useState('내일 새벽 4:00');
+    const [nextScheduledRun, setNextScheduledRun] = useState('2025-11-13 04:00');
 
     const handleRunLearning = () => {
         setLearningStatus(ai.statusProcessing);

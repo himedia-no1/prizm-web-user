@@ -1,6 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { Hash as HashIcon } from '@/components/common/icons';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import useDataStore from '@/core/store/dataStore';
 import { WorkspaceContext } from '@/app/[locale]/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
 import { useInviteStrings } from './hooks/useInviteStrings';
@@ -12,9 +13,9 @@ import styles from './InviteFlow.module.css';
 
 export const InviteFlow = ({ mode = 'member', channelId, channelName, workspaceId: workspaceIdProp }) => {
   const { invite: s, copy: copyStrings } = useInviteStrings(mode);
-  const openModal = useStore((state) => state.openModal);
-  const workspaceMemberships = useStore((state) => state.workspaceMemberships);
-  const fallbackWorkspace = useStore((state) => state.currentWorkspace);
+  const openModal = useUIStore((state) => state.openModal);
+  const workspaceMemberships = useWorkspaceStore((state) => state.workspaceMemberships);
+  const fallbackWorkspace = useWorkspaceStore((state) => state.currentWorkspace);
   
   const workspaceContext = useContext(WorkspaceContext);
   const users = useDataStore((state) => state.users);

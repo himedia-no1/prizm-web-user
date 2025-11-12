@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react';
 import { useMessages } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import styles from './Preferences.module.css';
 
 export const ThemePreferences = () => {
-  const isDarkMode = useStore((state) => state.isDarkMode);
-  const setTheme = useStore((state) => state.setTheme);
+  const isDarkMode = useUIStore((state) => state.isDarkMode);
+  const setTheme = useUIStore((state) => state.setTheme);
   const messages = useMessages();
   const themeStrings = messages?.userSettings?.preferences?.theme;
 

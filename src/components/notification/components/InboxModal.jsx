@@ -3,14 +3,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useMessages, useLocale } from 'next-intl';
 import { X, Check, Trash2, CheckCheck } from 'lucide-react';
-import useStore from '@/core/store/useStore';
+import { useNotificationStore } from '@/core/store/chat';
 import { notificationService } from '@/core/api/services';
 import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const { notifications, markNotificationAsRead, deleteNotification, markAllNotificationsAsRead } = useStore();
+  const { notifications, markNotificationAsRead, deleteNotification, markAllNotificationsAsRead, setNotifications } = useNotificationStore();
   const [activeTab, setActiveTab] = useState('all');
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -21,13 +21,13 @@ export const InboxModal = ({ isOpen, onClose }) => {
     setLoading(true);
     try {
       const data = await notificationService.fetchNotifications();
-      useStore.setState({ notifications: data });
+      setNotifications(data);
     } catch (error) {
       console.error('Failed to load notifications:', error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [setNotifications]);
 
   useEffect(() => {
     if (isOpen) {

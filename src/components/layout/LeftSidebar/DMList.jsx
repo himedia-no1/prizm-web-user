@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { StatusIndicator } from '@/components/ui/StatusIndicator';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
-import useStore from '@/core/store/useStore';
+import { useChatStore } from '@/core/store/chat';
 import styles from './DMList.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -18,7 +18,7 @@ export const DMList = ({
 }) => {
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const { unreadCounts } = useStore();
+  const { unreadCounts } = useChatStore();
 
   return (
     <div className="nav-group">

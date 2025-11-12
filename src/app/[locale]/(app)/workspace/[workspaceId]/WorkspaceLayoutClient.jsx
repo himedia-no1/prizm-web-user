@@ -3,7 +3,8 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useWorkspaceStore } from '@/core/store/workspace';
+import { useUIStore } from '@/core/store/shared';
 import useDataStore from '@/core/store/dataStore';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
@@ -16,11 +17,11 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
   const router = useRouter();
   const pathname = usePathname();
   const messages = useMessages();
-  const openModal = useStore((state) => state.openModal);
-  const isDarkMode = useStore((state) => state.isDarkMode);
-  const setCurrentWorkspace = useStore((state) => state.setCurrentWorkspace);
-  const setWorkspaceMemberships = useStore((state) => state.setWorkspaceMemberships);
-  const setCurrentWorkspaceRole = useStore((state) => state.setCurrentWorkspaceRole);
+  const openModal = useUIStore((state) => state.openModal);
+  const isDarkMode = useUIStore((state) => state.isDarkMode);
+  const setCurrentWorkspace = useWorkspaceStore((state) => state.setCurrentWorkspace);
+  const setWorkspaceMemberships = useWorkspaceStore((state) => state.setWorkspaceMemberships);
+  const setCurrentWorkspaceRole = useWorkspaceStore((state) => state.setCurrentWorkspaceRole);
   const workspaces = useDataStore((state) => state.workspaces);
   const categories = useDataStore((state) => state.categories);
   const dms = useDataStore((state) => state.dms);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
-import useStore from '@/core/store/useStore';
+import { useUIStore } from '@/core/store/shared';
 import { messageService } from '@/core/api/services';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './Message.module.css';
@@ -25,7 +25,7 @@ const getTranslationText = (translation) => {
 export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {
   const hasThread = message.threadId;
   const replyCount = hasThread ? 2 : 0;
-  const autoTranslateEnabled = useStore((state) => state.autoTranslateEnabled);
+  const { autoTranslateEnabled } = useUIStore();
   const locale = useLocale();
   const messages = useMessages();
   const messageStrings = messages?.message ?? {};
