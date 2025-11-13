@@ -75,39 +75,25 @@ export default function LogsHistory() {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Status</th>
-                        <th>Executor</th>
-                        <th>Duration</th>
-                        <th>Details</th>
+                        <th>{ai?.fileNameLabel || 'File Name'}</th>
+                        <th>{ai?.statusLabel || 'Status'}</th>
+                        <th>{ai?.executorLabel || 'Executor'}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {logs.map((log) => (
                         <tr key={log.id}>
-                            <td>{log.status}</td>
-                            <td>{log.executor}</td>
-                            <td>{log.duration}</td>
+                            <td>{log.fileName || log.file_name || '-'}</td>
                             <td>
-                                <button onClick={() => setShowDetails(log.id)} className={styles.detailsButton}>
-                                    {ai.viewDetailsButton}
-                                </button>
+                                <span className={`${styles.statusBadge} ${styles[`status-${log.status}`]}`}>
+                                    {log.status}
+                                </span>
                             </td>
+                            <td>{log.executor}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <button onClick={handleDownload} className={styles.downloadButton}>
-                {ai.downloadButton}
-            </button>
-            {showDetails && activeLog && (
-                <div className={styles.detailsModalOverlay}>
-                    <div className={styles.detailsModal}>
-                        <h3>{ai.logDetailsTitle}</h3>
-                        <pre>{JSON.stringify(activeLog.details, null, 2)}</pre>
-                        <button onClick={() => setShowDetails(null)}>{ai.closeButton}</button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
