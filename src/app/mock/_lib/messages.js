@@ -1,3 +1,44 @@
+// Mock Message Files (ERD: message_files)
+export const mockMessageFiles = {
+  'm1': [
+    {
+      id: 'file-1',
+      message_id: 'm1',
+      original_file_name: 'new_design_mockup.fig',
+      stored_file_name: '2024-01-15-abc123-new_design_mockup.fig',
+      file_type: 'OTHER',
+      file_size: 2457600, // 2.4MB
+      upload_user_id: 'u1',
+      uploaded_at: '2024-01-15T10:29:00Z',
+      cloud_storage_url: 'https://storage.example.com/files/2024-01-15-abc123-new_design_mockup.fig',
+    },
+    {
+      id: 'file-2',
+      message_id: 'm1',
+      original_file_name: 'screenshot.png',
+      stored_file_name: '2024-01-15-def456-screenshot.png',
+      file_type: 'IMAGE',
+      file_size: 389120, // 380KB
+      upload_user_id: 'u1',
+      uploaded_at: '2024-01-15T10:29:30Z',
+      cloud_storage_url: 'https://storage.example.com/files/2024-01-15-def456-screenshot.png',
+    },
+  ],
+  'm6': [
+    {
+      id: 'file-3',
+      message_id: 'm6',
+      original_file_name: 'code_review_notes.pdf',
+      stored_file_name: '2024-01-15-ghi789-code_review_notes.pdf',
+      file_type: 'PDF',
+      file_size: 524288, // 512KB
+      upload_user_id: 'u4',
+      uploaded_at: '2024-01-15T11:00:00Z',
+      cloud_storage_url: 'https://storage.example.com/files/2024-01-15-ghi789-code_review_notes.pdf',
+    },
+  ],
+};
+
 export const mockMessages = [
   {
     id: 'm1',
@@ -8,6 +49,7 @@ export const mockMessages = [
     threadId: 't1',
     channelId: 'c1',
     language: 'en',
+    files: mockMessageFiles['m1'] || [],
     translations: {
       ko: {
         text: '팀 여러분, 새로운 목업을 확인하세요!',
@@ -25,6 +67,7 @@ export const mockMessages = [
     threadId: null,
     channelId: 'c1',
     language: 'ko',
+    files: [],
     translations: {
       en: {
         text: 'Wow, that looks amazing. Great job @Alice!',
@@ -42,7 +85,8 @@ export const mockMessages = [
     threadId: null,
     pinned: true,
     channelId: 'c1',
-    language: 'en'
+    language: 'en',
+    files: [],
   },
   {
     id: 'm4',
@@ -53,6 +97,7 @@ export const mockMessages = [
     threadId: 't1',
     channelId: 'c3',
     language: 'ja',
+    files: [],
     translations: {
       en: {
         text: 'I really like the new color palette.',
@@ -74,7 +119,8 @@ export const mockMessages = [
     reactions: {'👍': 1},
     threadId: 't1',
     channelId: 'c3',
-    language: 'en'
+    language: 'en',
+    files: [],
   },
   {
     id: 'm6',
@@ -85,7 +131,8 @@ export const mockMessages = [
     threadId: 't2',
     pinned: true,
     channelId: 'c4',
-    language: 'en'
+    language: 'en',
+    files: mockMessageFiles['m6'] || [],
   },
 ];
 

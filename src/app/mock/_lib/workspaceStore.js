@@ -1,15 +1,19 @@
 import { mockUsers } from './users';
 
 const buildMembershipMap = (entries) =>
-  entries.reduce((acc, { userId, role, joinedAt }) => {
+  entries.reduce((acc, { userId, role_code, state_code, notify_code, joinedAt }) => {
     const user = mockUsers[userId];
     if (!user) {
       return acc;
     }
     acc[userId] = {
       userId,
-      role: role ?? user.role ?? 'member',
+      role_code: role_code ?? user.role_code ?? 'MEMBER',
+      state_code: state_code ?? 'ACTIVE',
+      notify_code: notify_code ?? 'ALL',
       joinedAt: joinedAt ?? user.joinedAt ?? '2023-01-01',
+      // Backward compatibility
+      role: (role_code ?? user.role_code ?? 'MEMBER').toLowerCase(),
     };
     return acc;
   }, {});
@@ -46,24 +50,24 @@ export const mockWorkspaces = [
 
 export const mockWorkspaceMembers = {
   ws1: buildMembershipMap([
-    { userId: 'u1', role: 'owner' },
-    { userId: 'u2', role: 'member' },
-    { userId: 'u3', role: 'member' },
-    { userId: 'u4', role: 'guest' },
-    { userId: 'u5', role: 'manager' },
-    { userId: 'u6', role: 'guest' },
-    { userId: 'u7', role: 'member' },
-    { userId: 'u8', role: 'guest' },
+    { userId: 'u1', role_code: 'OWNER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u2', role_code: 'MEMBER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u3', role_code: 'MEMBER', state_code: 'ACTIVE', notify_code: 'MENTION' },
+    { userId: 'u4', role_code: 'GUEST', state_code: 'ACTIVE', notify_code: 'MENTION' },
+    { userId: 'u5', role_code: 'MANAGER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u6', role_code: 'GUEST', state_code: 'SUSPENDED', notify_code: 'NOTHING' },
+    { userId: 'u7', role_code: 'MEMBER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u8', role_code: 'GUEST', state_code: 'ACTIVE', notify_code: 'NOTHING' },
   ]),
   ws2: buildMembershipMap([
-    { userId: 'u1', role: 'owner' },
-    { userId: 'u3', role: 'member' },
-    { userId: 'u5', role: 'manager' },
+    { userId: 'u1', role_code: 'OWNER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u3', role_code: 'MEMBER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u5', role_code: 'MANAGER', state_code: 'ACTIVE', notify_code: 'MENTION' },
   ]),
   ws3: buildMembershipMap([
-    { userId: 'u1', role: 'owner' },
-    { userId: 'u4', role: 'guest' },
-    { userId: 'u6', role: 'guest' },
+    { userId: 'u1', role_code: 'OWNER', state_code: 'ACTIVE', notify_code: 'ALL' },
+    { userId: 'u4', role_code: 'GUEST', state_code: 'ACTIVE', notify_code: 'MENTION' },
+    { userId: 'u6', role_code: 'GUEST', state_code: 'ACTIVE', notify_code: 'NOTHING' },
   ]),
 };
 
@@ -121,6 +125,9 @@ export const createWorkspace = ({ name, owner }) => {
   mockWorkspaceMembers[workspace.id] = {
     [owner]: {
       userId: owner,
+      role_code: 'OWNER',
+      state_code: 'ACTIVE',
+      notify_code: 'ALL',
       role: 'owner',
       joinedAt: new Date().toISOString(),
     },

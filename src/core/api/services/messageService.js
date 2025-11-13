@@ -95,4 +95,53 @@ export const messageService = {
       data: { emoji },
     });
   },
+
+  /**
+   * 파일 업로드 (ERD: message_files)
+   * @param {File} file - 업로드할 파일
+   * @param {string} messageId - 메시지 ID
+   * @param {string} userId - 업로드 사용자 ID
+   */
+  async uploadFile(file, messageId, userId) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('messageId', messageId);
+    formData.append('userId', userId);
+
+    const response = await axiosInstance.post('/mock/messages/files', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+
+  /**
+   * 메시지의 파일 목록 조회
+   * @param {string} messageId - 메시지 ID
+   */
+  async getMessageFiles(messageId) {
+    const response = await axiosInstance.get('/mock/messages/files', {
+      params: { messageId },
+    });
+    return response.data;
+  },
+
+  /**
+   * 파일 삭제
+   * @param {string} fileId - 파일 ID
+   */
+  async deleteFile(fileId) {
+    const response = await axiosInstance.delete(`/mock/messages/files/${fileId}`);
+    return response.data;
+  },
+
+  /**
+   * 파일 정보 조회
+   * @param {string} fileId - 파일 ID
+   */
+  async getFileInfo(fileId) {
+    const response = await axiosInstance.get(`/mock/messages/files/${fileId}`);
+    return response.data;
+  },
 };

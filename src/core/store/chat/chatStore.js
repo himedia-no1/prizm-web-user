@@ -95,6 +95,58 @@ export const useChatStore = create((set, get) => ({
       },
     }));
   },
+
+  // Message Translations Cache (ERD: message_translations)
+  messageTranslations: {}, // { messageId: { targetLang: translationData } }
+
+  /**
+   * 번역 캐시 저장
+   * @param {string} messageId - 메시지 ID
+   * @param {string} targetLang - 목표 언어
+   * @param {object} translationData - { text, sourceLang, targetLang }
+   */
+  cacheTranslation: (messageId, targetLang, translationData) =>
+    set((state) => ({
+      messageTranslations: {
+        ...state.messageTranslations,
+        [messageId]: {
+          ...(state.messageTranslations[messageId] || {}),
+          [targetLang]: translationData,
+        },
+      },
+    })),
+
+  /**
+   * 캐시된 번역 조회
+   * @param {string} messageId - 메시지 ID
+   * @param {string} targetLang - 목표 언어
+   */
+  getTranslation: (messageId, targetLang) => {
+    const translations = get().messageTranslations[messageId];
+    return translations?.[targetLang] || null;
+  },
+
+  /**
+   * 특정 메시지의 모든 번역 조회
+   * @param {string} messageId - 메시지 ID
+   */
+  getMessageTranslations: (messageId) => {
+    return get().messageTranslations[messageId] || {};
+  },
+
+  /**
+   * 번역 캐시 클리어
+   * @param {string} messageId - 메시지 ID (선택사항, 없으면 전체 클리어)
+   */
+  clearTranslationCache: (messageId) =>
+    set((state) => {
+      if (messageId) {
+        const newCache = { ...state.messageTranslations };
+        delete newCache[messageId];
+        return { messageTranslations: newCache };
+      }
+      return { messageTranslations: {} };
+    }),
 }));
 
 export default useChatStore;
