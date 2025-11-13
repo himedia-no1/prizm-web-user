@@ -64,7 +64,6 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
           onNavigateToCreateWorkspace={handleNavigateToCreateWorkspace}
           onOpenModal={handleOpenModal}
           onCollapse={() => setIsLeftSidebarCollapsed(true)}
-          onLeaveWorkspace={handleLeaveWorkspace}
         />
 
         {children}

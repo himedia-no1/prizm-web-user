@@ -26,7 +26,7 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
 
   const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
   const notificationsEnabled = isChannelNotificationsEnabled(channel.id);
-  const canManageChannel = currentWorkspaceRole === 'OWNER' || currentWorkspaceRole === 'MANAGER';
+  const canManageChannel = currentWorkspaceRole === 'owner' || currentWorkspaceRole === 'manager';
   const subtitle = buildSubtitle({
     members: channel.members,
     topic: channel.topic,

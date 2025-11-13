@@ -147,6 +147,12 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
   };
 
   const handleOpenModal = (type, props = {}) => {
+    // 워크스페이스 탈퇴 처리
+    if (type === '__LEAVE_WORKSPACE__') {
+      handleLeaveWorkspace(props.workspaceId);
+      return;
+    }
+
     const enhancedProps = { ...props };
     if ((type === 'inviteMember' || type === 'inviteGuest') && !enhancedProps.workspaceId) {
       enhancedProps.workspaceId = workspaceId;

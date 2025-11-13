@@ -19,6 +19,7 @@ import { CreateCategoryModalContent } from '@/components/channel/modals/CreateCa
 import { FileUploadModalContent } from './FileUploadModalContent';
 import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFilesModalContent';
 import { ChannelSettingsModalContent } from '@/components/channel/modals/ChannelSettingsModalContent';
+import { LeaveWorkspaceModal } from './LeaveWorkspaceModal';
 import { MentionModalContent } from './MentionModalContent';
 
 const standaloneRegistry = new Map();
@@ -68,6 +69,9 @@ registerStandaloneModal('deleteAccount', ({ dependencies, modalProps }) => (
 ));
 registerStandaloneModal('forwardMessage', ({ dependencies, modalProps }) => (
   <MessageForwardModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+));
+registerStandaloneModal('leaveWorkspace', ({ dependencies, modalProps }) => (
+  <LeaveWorkspaceModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
 ));
 
 registerContentModal('addChannel', ({ modalProps }) => <AddChannelModalContent {...modalProps} />);

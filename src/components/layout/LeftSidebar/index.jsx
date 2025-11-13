@@ -32,7 +32,6 @@ export const LeftSidebar = ({
   onNavigateToCreateWorkspace,
   onOpenModal,
   onCollapse,
-  onLeaveWorkspace,
 }) => {
   const [isWorkspaceDropdownOpen, setIsWorkspaceDropdownOpen] = useState(false);
   const messages = useMessages();
@@ -90,7 +89,6 @@ export const LeftSidebar = ({
         onSwitchWorkspace={onSwitchWorkspace}
         onNavigateToCreateWorkspace={onNavigateToCreateWorkspace}
         onOpenModal={onOpenModal}
-        onLeaveWorkspace={onLeaveWorkspace}
         permissions={{ canManageWorkspace, canInviteMembers }}
       />
 
