@@ -78,6 +78,7 @@ export const useChannelPageState = ({
     message: threadState.message,
     setMessage: threadState.setMessage,
     handleStartThread: threadState.handleStartThread,
+    closeThread: threadState.closeThread,
 
     // Context Menu
     contextMenu: contextMenuState.contextMenu,

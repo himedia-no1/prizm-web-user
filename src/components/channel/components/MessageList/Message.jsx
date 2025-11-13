@@ -36,9 +36,7 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
 
   const handleAutoTranslate = useCallback(async () => {
     setTranslationState('loading');
-    
-    // 실제로는 서버에서 WebSocket으로 번역 완료 이벤트를 받지만,
-    // 테스트 환경에서는 API로 직접 호출
+
     setTimeout(async () => {
       try {
         const result = await messageService.translateMessage(message.id, locale);
@@ -49,11 +47,21 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
         console.error('Translation failed:', error);
         setTranslationState('none');
       }
-    }, 500); // 번역 중 상태를 보여주기 위한 지연
+    }, 500);
   }, [message.id, locale]);
 
+  // 자동번역 설정 변경 또는 메시지 변경 시 상태 업데이트
   useEffect(() => {
     setIsOriginalVisible(false);
+
+    // 자동번역이 꺼져있으면 항상 원문만 표시
+    if (!autoTranslateEnabled) {
+      setTranslatedText('');
+      setTranslationState('none');
+      return;
+    }
+
+    // 자동번역이 켜져있을 때만 캐시된 번역 확인
     const cachedTranslation = getTranslationText(message.translations?.[locale]);
 
     if (cachedTranslation) {
@@ -62,31 +70,23 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
     } else {
       setTranslatedText('');
       setTranslationState('none');
-    }
-  }, [message.id, locale, message.translations]);
 
-  useEffect(() => {
-    // 자동 번역이 활성화되어 있고, 메시지 언어가 사용자 언어와 다를 때만 번역
-    const shouldTranslate = 
-      autoTranslateEnabled && 
-      message.language && 
-      message.language !== locale &&
-      translationState === 'none';
-    
-    if (shouldTranslate) {
-      handleAutoTranslate();
+      // 자동번역이 켜져있고 메시지 언어가 다르면 번역 요청
+      if (message.language && message.language !== locale) {
+        handleAutoTranslate();
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message.id, message.language, locale, autoTranslateEnabled]);
+  }, [message.id, locale, autoTranslateEnabled, message.translations, message.language, handleAutoTranslate]);
 
-  const shouldTranslate =
+  // 번역된 텍스트를 기본으로 표시할지 결정
+  const shouldShowTranslation =
     autoTranslateEnabled &&
     message.language &&
-    message.language !== locale;
+    message.language !== locale &&
+    translationState === 'done' &&
+    translatedText;
 
-  const hasTranslatedResult = translationState === 'done' && translatedText;
-  const showTranslationAsPrimary = shouldTranslate && hasTranslatedResult;
-  const primaryText = showTranslationAsPrimary ? translatedText : message.text;
+  const primaryText = shouldShowTranslation ? translatedText : message.text;
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -123,11 +123,11 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
           </span>
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
-        <p className={`${styles.text}${showTranslationAsPrimary ? ` ${styles.textTranslated}` : ''}`}>
+        <p className={`${styles.text}${shouldShowTranslation ? ` ${styles.textTranslated}` : ''}`}>
           {primaryText}
         </p>
 
-        {showTranslationAsPrimary && (
+        {shouldShowTranslation && (
           <div className={styles.translationMeta}>
             <button
               type="button"
@@ -144,13 +144,13 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
           </div>
         )}
 
-        {showTranslationAsPrimary && isOriginalVisible && (
+        {shouldShowTranslation && isOriginalVisible && (
           <div className={styles.original}>
             <span>{message.text}</span>
           </div>
         )}
 
-        {!showTranslationAsPrimary && shouldTranslate && translationState === 'loading' && (
+        {autoTranslateEnabled && translationState === 'loading' && (
           <div className={styles.translation}>
             <span className={styles.translationLoading}>
               {messageStrings.translating ?? 'Translating...'}

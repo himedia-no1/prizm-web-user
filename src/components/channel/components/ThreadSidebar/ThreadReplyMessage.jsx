@@ -36,7 +36,7 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
 
   const handleAutoTranslate = useCallback(async () => {
     setTranslationState('loading');
-    
+
     setTimeout(async () => {
       try {
         const result = await messageService.translateMessage(reply.id, locale);
@@ -50,7 +50,18 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
     }, 500);
   }, [reply.id, locale]);
 
+  // 자동번역 설정 변경 또는 메시지 변경 시 상태 업데이트
   useEffect(() => {
+    setIsOriginalVisible(false);
+
+    // 자동번역이 꺼져있으면 항상 원문만 표시
+    if (!autoTranslateEnabled) {
+      setTranslatedText('');
+      setTranslationState('none');
+      return;
+    }
+
+    // 자동번역이 켜져있을 때만 캐시된 번역 확인
     const cachedTranslation = getTranslationText(reply.translations?.[locale]);
 
     if (cachedTranslation) {
@@ -59,30 +70,23 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
     } else {
       setTranslatedText('');
       setTranslationState('none');
-    }
-  }, [reply.id, locale, reply.translations]);
 
-  useEffect(() => {
-    const shouldTranslate = 
-      autoTranslateEnabled && 
-      reply.language && 
-      reply.language !== locale &&
-      translationState === 'none';
-    
-    if (shouldTranslate) {
-      handleAutoTranslate();
+      // 자동번역이 켜져있고 메시지 언어가 다르면 번역 요청
+      if (reply.language && reply.language !== locale) {
+        handleAutoTranslate();
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reply.id, reply.language, locale, autoTranslateEnabled, translationState]);
+  }, [reply.id, locale, autoTranslateEnabled, reply.translations, reply.language, handleAutoTranslate]);
 
-  const shouldTranslate =
+  // 번역된 텍스트를 기본으로 표시할지 결정
+  const shouldShowTranslation =
     autoTranslateEnabled &&
     reply.language &&
-    reply.language !== locale;
+    reply.language !== locale &&
+    translationState === 'done' &&
+    translatedText;
 
-  const hasTranslatedResult = translationState === 'done' && translatedText;
-  const showTranslationAsPrimary = shouldTranslate && hasTranslatedResult;
-  const primaryText = showTranslationAsPrimary ? translatedText : reply.text;
+  const primaryText = shouldShowTranslation ? translatedText : reply.text;
 
   const avatarSrc = user.avatar || getPlaceholderImage(32, user?.name?.[0] ?? '?');
 
@@ -108,7 +112,7 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
           <span className="message__timestamp">{reply.timestamp}</span>
         </div>
         <p className="message__text">{primaryText}</p>
-        {showTranslationAsPrimary && (
+        {shouldShowTranslation && (
           <div className={styles.translationMeta}>
             <button
               type="button"
@@ -125,13 +129,13 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
           </div>
         )}
 
-        {showTranslationAsPrimary && isOriginalVisible && (
+        {shouldShowTranslation && isOriginalVisible && (
           <div className={styles.original}>
             <span>{reply.text}</span>
           </div>
         )}
 
-        {!showTranslationAsPrimary && shouldTranslate && translationState === 'loading' && (
+        {autoTranslateEnabled && translationState === 'loading' && (
           <div className={styles.translation}>
             <span className={styles.translationLoading}>
               {messageStrings.translating}

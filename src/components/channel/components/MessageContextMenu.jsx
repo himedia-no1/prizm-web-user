@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useMessages } from 'next-intl';
+import { useMessages, useLocale } from 'next-intl';
+import { useUIStore } from '@/core/store/shared';
 import {
   Smile,
   CornerDownRight,
@@ -39,6 +40,14 @@ export const MessageContextMenu = ({
   const [adjustedPosition, setAdjustedPosition] = useState(position);
   const messages = useMessages();
   const t = messages.message?.actions;
+  const { autoTranslateEnabled } = useUIStore();
+  const locale = useLocale();
+
+  // 번역 버튼 표시 조건: 자동번역이 꺼져있고 + 메시지 언어가 사용자 언어와 다를 때
+  const shouldShowTranslateButton =
+    !autoTranslateEnabled &&
+    message.language &&
+    message.language !== locale;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -90,7 +99,35 @@ export const MessageContextMenu = ({
     return null;
   }
 
-  // 기본 액션바: 복사/이모지/답글/번역/더보기
+  // 스레드 컨텍스트 액션바: 복사/이모지/(번역)
+  const threadActions = [
+    {
+      key: 'copy',
+      icon: <Copy size={18} />,
+      handler: () => {
+        navigator.clipboard.writeText(message.text);
+        onClose();
+      }
+    },
+    {
+      key: 'react',
+      icon: <Smile size={18} />,
+      handler: () => {
+        onReactEmoji(message);
+        onClose();
+      }
+    },
+    ...(shouldShowTranslateButton ? [{
+      key: 'translate',
+      icon: <Translate size={18} />,
+      handler: () => {
+        onTranslate(message);
+        onClose();
+      }
+    }] : []),
+  ];
+
+  // 메인 채팅 액션바: 복사/이모지/답글/(번역)/더보기
   const mainChatActions = [
     {
       key: 'copy',
@@ -116,14 +153,14 @@ export const MessageContextMenu = ({
         onClose();
       }
     },
-    {
+    ...(shouldShowTranslateButton ? [{
       key: 'translate',
       icon: <Translate size={18} />,
       handler: () => {
         onTranslate(message);
         onClose();
       }
-    },
+    }] : []),
   ];
 
   const commonActions = isThread ? threadActions : mainChatActions;
@@ -151,14 +188,16 @@ export const MessageContextMenu = ({
     >
       {!showFullMenu ? (
         <div className="message-action-bar">
-          {mainChatActions.map(action => (
+          {commonActions.map(action => (
             <button key={action.key} onClick={action.handler}>
               {action.icon}
             </button>
           ))}
-          <button onClick={() => setShowFullMenu(true)} className="more-button">
-            <MoreVertical size={18} />
-          </button>
+          {!isThread && (
+            <button onClick={() => setShowFullMenu(true)} className="more-button">
+              <MoreVertical size={18} />
+            </button>
+          )}
         </div>
       ) : (
         <>

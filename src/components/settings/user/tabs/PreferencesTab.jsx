@@ -1,7 +1,7 @@
 'use client';
 
 import { useMessages } from 'next-intl';
-import { NotificationPreferences, ThemePreferences, LanguagePreferences, AutoTranslationPreferences } from '@/components/settings/prefs';
+import { NotificationPreferences, ThemePreferences, LanguagePreferences } from '@/components/settings/prefs';
 import styles from './PreferencesTab.module.css';
 
 export const PreferencesTab = () => {
@@ -15,7 +15,6 @@ export const PreferencesTab = () => {
         <NotificationPreferences />
         <ThemePreferences />
         <LanguagePreferences />
-        <AutoTranslationPreferences />
       </div>
     </div>
   );

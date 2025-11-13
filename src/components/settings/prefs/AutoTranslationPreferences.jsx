@@ -1,18 +1,32 @@
-import { useState } from 'react';
+'use client';
+
 import { useMessages } from 'next-intl';
+import { useUIStore } from '@/core/store/shared';
 import styles from './Preferences.module.css';
 
 export const AutoTranslationPreferences = () => {
   const messages = useMessages();
-  const [autoTranslateEnabled, setAutoTranslateEnabled] = useState(false);
-  const [targetLanguage, setTargetLanguage] = useState('ko');
+  const { autoTranslateEnabled, toggleAutoTranslate } = useUIStore();
+
+  console.log('[AutoTranslationPreferences] Component mounted, autoTranslateEnabled:', autoTranslateEnabled);
 
   const translationStrings = messages?.userSettings?.preferences?.translation;
   const commonStrings = messages?.common;
 
   if (!translationStrings || !commonStrings) {
+    console.warn('[AutoTranslationPreferences] Missing translation strings');
     return null;
   }
+
+  const handleToggle = (e) => {
+    console.log('[AutoTranslationPreferences] handleToggle called!', e);
+    console.log('[AutoTranslationPreferences] Toggling auto-translate from', autoTranslateEnabled, 'to', !autoTranslateEnabled);
+    toggleAutoTranslate();
+  };
+
+  const handleClick = (e) => {
+    console.log('[AutoTranslationPreferences] Checkbox clicked!', e.target.checked);
+  };
 
   return (
     <div className={styles.card}>
@@ -20,37 +34,27 @@ export const AutoTranslationPreferences = () => {
       <p className={styles.description}>
         {translationStrings.description}
       </p>
-      
+
       <div className={styles.optionRow}>
-        <label htmlFor="auto-translate-toggle">
+        <label
+          htmlFor="auto-translate-toggle"
+          onClick={() => console.log('[AutoTranslationPreferences] Label clicked')}
+        >
           {translationStrings.enableLabel}
         </label>
         <input
           id="auto-translate-toggle"
           type="checkbox"
           checked={autoTranslateEnabled}
-          onChange={(e) => setAutoTranslateEnabled(e.target.checked)}
+          onChange={handleToggle}
+          onClick={handleClick}
+          onMouseDown={(e) => console.log('[AutoTranslationPreferences] Mouse down on checkbox')}
           className={styles.autoWidth}
         />
       </div>
-
-      {autoTranslateEnabled && (
-        <div className={styles.optionRow}>
-          <label htmlFor="target-language">
-            {translationStrings.targetLanguageLabel}
-          </label>
-          <select
-            id="target-language"
-            value={targetLanguage}
-            onChange={(e) => setTargetLanguage(e.target.value)}
-          >
-            <option value="ko">{commonStrings.korean}</option>
-            <option value="en">{commonStrings.english}</option>
-            <option value="ja">{commonStrings.japanese}</option>
-            <option value="zh">{commonStrings.chinese}</option>
-          </select>
-        </div>
-      )}
+      <div style={{marginTop: '10px', fontSize: '12px', color: '#666'}}>
+        Debug: autoTranslateEnabled = {String(autoTranslateEnabled)}
+      </div>
     </div>
   );
 };
