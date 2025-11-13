@@ -493,7 +493,36 @@ button { font-family: inherit; }
 
 /* AI Modal */
 
-.ai-modal { position: fixed; bottom: 6rem; right: 2rem; width: 400px; height: 500px; background-color: var(--card-bg); border-radius: 0.75rem; box-shadow: 0 8px 24px var(--shadow); border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 50; resize: both; min-width: 300px; min-height: 400px; }
+@keyframes aiModalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ai-modal {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 400px;
+  height: 500px;
+  background-color: var(--card-bg);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 50;
+  resize: both;
+  min-width: 300px;
+  min-height: 400px;
+  animation: aiModalSlideUp 0.3s ease-out;
+}
 
 .ai-modal__header { height: 3.5rem; border-bottom: 1px solid var(--border); flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 0.75rem 0 1rem; cursor: pointer; }
 

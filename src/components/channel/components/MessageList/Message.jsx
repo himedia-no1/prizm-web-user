@@ -91,8 +91,8 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
   const handleClick = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const rect = event.currentTarget.getBoundingClientRect();
-    onOpenContextMenu(message, { x: rect.left, y: rect.top - 40 });
+    // 사용자가 클릭한 실제 위치 사용 (디스코드/슬랙 방식)
+    onOpenContextMenu(message, { x: event.clientX, y: event.clientY });
   };
 
   const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');

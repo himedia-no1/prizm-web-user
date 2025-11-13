@@ -1,16 +1,16 @@
 {
   "actions": {
-    "copy": "Copy",
-    "react": "Add reaction",
-    "reply": "Reply",
-    "translate": "Translate",
-    "forward": "Forward",
-    "pin": "Pin message",
-    "unpin": "Unpin message",
-    "startThread": "Start thread",
-    "edit": "Edit",
-    "delete": "Delete",
-    "more": "More"
+    "copy": "Copier",
+    "react": "Ajouter une réaction",
+    "reply": "Répondre",
+    "translate": "Traduire",
+    "forward": "Transférer",
+    "pin": "Épingler",
+    "unpin": "Désépingler",
+    "startThread": "Démarrer un fil",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "more": "Plus"
   },
   "aiAssistant": "Assistant IA",
   "translated": "Translated from {{lang}}",
