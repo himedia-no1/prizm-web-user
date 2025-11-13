@@ -21,6 +21,8 @@
   "createCategory": "카테고리 만들기",
   "inviteMembers": "멤버 초대하기",
   "createNewWorkspace": "새 워크스페이스 생성",
+  "leaveWorkspace": "워크스페이스 탈퇴",
+  "leaveWorkspaceConfirm": "정말 이 워크스페이스를 영구적으로 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
   "dashboard": "대시보드",
   "search": "검색",
   "directMessages": "다이렉트 메시지",

@@ -1,5 +1,5 @@
 import { useMessages } from 'next-intl';
-import { Settings, Plus, Mail } from '@/components/common/icons';
+import { Settings, Plus, Mail, AlertTriangle } from '@/components/common/icons';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,
@@ -10,6 +10,7 @@ export const WorkspaceDropdown = ({
   onSwitchWorkspace,
   onNavigateToCreateWorkspace,
   onOpenModal,
+  onLeaveWorkspace,
   permissions = {},
 }) => {
   const messages = useMessages();
@@ -36,6 +37,20 @@ export const WorkspaceDropdown = ({
         )}
       </div>
 
+      <button
+        className="ws-dropdown__button ws-dropdown__leave-button"
+        onClick={() => {
+          if (confirm(s.leaveWorkspaceConfirm || '정말 이 워크스페이스를 영구적으로 탈퇴하시겠습니까?')) {
+            onLeaveWorkspace?.(currentWorkspace.id);
+            onClose();
+          }
+        }}
+      >
+        <AlertTriangle size={16} />
+        <span>{s.leaveWorkspace || '워크스페이스 탈퇴'}</span>
+      </button>
+
+      <div className="ws-dropdown__divider"></div>
 
       {canInviteMembers && (
         <button

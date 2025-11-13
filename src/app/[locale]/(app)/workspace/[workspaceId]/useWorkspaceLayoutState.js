@@ -196,6 +196,22 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
     router.push('/workspace/new');
   };
 
+  const handleLeaveWorkspace = async (workspaceIdToLeave) => {
+    try {
+      // TODO: API 호출하여 워크스페이스 탈퇴 처리
+      console.log('Leaving workspace:', workspaceIdToLeave);
+      // 탈퇴 후 다른 워크스페이스로 이동
+      const remainingWorkspaces = workspacesList.filter(ws => ws.id !== workspaceIdToLeave);
+      if (remainingWorkspaces.length > 0) {
+        router.push(`/workspace/${remainingWorkspaces[0].id}/dashboard`);
+      } else {
+        router.push('/workspace/new');
+      }
+    } catch (error) {
+      console.error('Failed to leave workspace:', error);
+    }
+  };
+
   return {
     isLeftSidebarCollapsed,
     setIsLeftSidebarCollapsed,
@@ -216,6 +232,7 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
     handleNavigateToSettings,
     handleNavigateToUserSettings,
     handleNavigateToCreateWorkspace,
+    handleLeaveWorkspace,
     contextValue,
     isSettingsRoute,
   };

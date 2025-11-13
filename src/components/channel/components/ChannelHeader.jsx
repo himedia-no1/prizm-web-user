@@ -1,8 +1,9 @@
 'use client';
 
 import { useMessages } from 'next-intl';
-import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Info, Bell } from '@/components/common/icons';
+import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Settings, Bell } from '@/components/common/icons';
 import { useChatStore } from '@/core/store/chat';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import styles from './ChannelHeader.module.css';
 
 const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, t }) => {
@@ -19,11 +20,13 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
   const messages = useMessages();
   const t = messages.workspace;
   const { toggleChannelNotifications, isChannelNotificationsEnabled } = useChatStore();
+  const currentWorkspaceRole = useWorkspaceStore((state) => state.currentWorkspaceRole);
 
   if (!channel) return null;
 
   const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
   const notificationsEnabled = isChannelNotificationsEnabled(channel.id);
+  const canManageChannel = currentWorkspaceRole === 'OWNER' || currentWorkspaceRole === 'MANAGER';
   const subtitle = buildSubtitle({
     members: channel.members,
     topic: channel.topic,
@@ -68,9 +71,20 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
         <button onClick={() => onOpenModal('channelFiles')}>
           <Folder size={20} />
         </button>
-        <button onClick={() => onOpenModal('info')}>
-          <Info size={20} />
-        </button>
+        {canManageChannel && !isDirectMessage && (
+          <button
+            onClick={() => onOpenModal('channelSettings', {
+              channelDetails: channel,
+              onSave: async (data) => {
+                console.log('Save channel settings:', data);
+                // TODO: API 호출하여 채널 정보 업데이트
+              }
+            })}
+            aria-label={t.channelSettings || 'Channel Settings'}
+          >
+            <Settings size={20} />
+          </button>
+        )}
       </div>
     </header>
   );

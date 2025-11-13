@@ -18,6 +18,7 @@ import { SearchModalContent } from '@/components/search/modals/SearchModalConten
 import { CreateCategoryModalContent } from '@/components/channel/modals/CreateCategoryModalContent';
 import { FileUploadModalContent } from './FileUploadModalContent';
 import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFilesModalContent';
+import { ChannelSettingsModalContent } from '@/components/channel/modals/ChannelSettingsModalContent';
 import { MentionModalContent } from './MentionModalContent';
 
 const standaloneRegistry = new Map();
@@ -96,4 +97,5 @@ registerContentModal('search', ({ modalProps }) => <SearchModalContent {...modal
 registerContentModal('createCategory', ({ modalProps }) => <CreateCategoryModalContent {...modalProps} />);
 registerContentModal('fileUpload', ({ modalProps }) => <FileUploadModalContent {...modalProps} />);
 registerContentModal('channelFiles', ({ modalProps }) => <ChannelFilesModalContent {...modalProps} />);
+registerContentModal('channelSettings', ({ modalProps }) => <ChannelSettingsModalContent {...modalProps} />);
 registerContentModal('mention', ({ modalProps }) => <MentionModalContent {...modalProps} />);
