@@ -3,10 +3,6 @@ import { useState } from 'react';
 export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {
   const hasThread = message.threadId;
   const replyCount = hasThread ? 2 : 0; // TODO: Get actual count
-  const [showTranslation, setShowTranslation] = useState(false);
-  const [translatedText, setTranslatedText] = useState(null);
-  const [showAnalysis, setShowAnalysis] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState(null);
 
   const handleClick = (event) => {
     event.preventDefault();
@@ -50,28 +46,9 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
         </div>
         <p className="message__text">{message.text}</p>
 
-        {showTranslation && (
+        {message.translatedText && (
           <div className="message-translation">
-            {translatedText ? (
-              <>
-                <p>{translatedText}</p>
-                <button>더 자연스럽게 번역 (AI)</button>
-              </>
-            ) : (
-              <p className="loading-text">번역 중...</p>
-            )}
-          </div>
-        )}
-
-        {showAnalysis && (
-          <div className="message-analysis">
-            {analysisResult ? (
-              <p>
-                <strong>AI 분석:</strong> {analysisResult}
-              </p>
-            ) : (
-              <p className="loading-text">분석 중...</p>
-            )}
+            <p>{message.translatedText}</p>
           </div>
         )}
 

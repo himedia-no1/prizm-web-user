@@ -3,7 +3,9 @@
 import { useMemo, useState } from 'react';
 import useStore from '@/store/useStore';
 import { useAuthStore } from '@/store/authStore';
+import { useDataStore } from '@/store/dataStore';
 import { useChat } from '@/hooks/useChat';
+import { translateMessageAPI } from '@/api/translationAPI';
 import { ChatHeader } from '@/components/layout/ChatHeader';
 import { MessageList } from '@/components/chat/MessageList';
 import { MessageInput } from '@/components/chat/MessageInput';
@@ -27,6 +29,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
   const openThread = useStore((state) => state.openThread);
   const closeThread = useStore((state) => state.closeThread);
   const user = useAuthStore((state) => state.user);
+  const updateMessage = useDataStore((state) => state.updateMessage);
 
   const [contextMenu, setContextMenu] = useState({ visible: false, message: null, position: null });
   const [message, setMessage] = useState('');
@@ -56,6 +59,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
       text: msg.content,
       timestamp: msg.timestamp || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       reactions: msg.reactions || {},
+      translatedText: msg.translatedText,
     })),
   [messages, userNameToIdMap]);
 
@@ -75,6 +79,16 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
 
   const handleCloseContextMenu = () => {
     setContextMenu({ visible: false, message: null, position: null });
+  };
+
+  const handleTranslate = async (selectedMessage) => {
+    try {
+      const translatedText = await translateMessageAPI(selectedMessage.text);
+      updateMessage(channelId, selectedMessage.id, { translatedText });
+    } catch (error) {
+      console.error('Failed to translate message:', error);
+      // Optionally, show an error to the user
+    }
   };
 
   const handleOpenUserProfile = (userId) => {
@@ -155,7 +169,7 @@ const ChannelPageClient = ({ channelId: channelParam }) => {
           onEdit={() => console.log('Edit')}
           onDelete={() => console.log('Delete')}
           onReactEmoji={handleOpenEmojiPicker}
-          onTranslate={() => console.log('Translate')}
+          onTranslate={handleTranslate}
           onAnalyze={() => console.log('Analyze')}
           onReport={() => console.log('Report')}
         />

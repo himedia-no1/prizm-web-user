@@ -78,7 +78,7 @@ export const MessageContextMenu = ({
     },
   ];
 
-  const fullMenuActions = isMyMessage
+  /*const fullMenuActions = isMyMessage
     ? [
         { key: 'pin', icon: <Bookmark size={16} />, text: '고정하기', handler: () => { onPin(message); onClose(); } },
         { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
@@ -100,7 +100,22 @@ export const MessageContextMenu = ({
         { key: 'analyze', icon: <Sparkles size={16} />, text: 'AI로 분석', handler: () => { onAnalyze(message); onClose(); } },
         { divider: true },
         { key: 'report', icon: <AlertTriangle size={16} />, text: '신고하기', danger: true, handler: () => { onReport(message); onClose(); } },
-      ];
+      ];*/
+  const fullMenuActions = [
+    { key: 'pin', icon: <Bookmark size={16} />, text: '고정하기', handler: () => { onPin(message); onClose(); } },
+    { key: 'threadFull', icon: <MessageSquare size={16} />, text: '스레드 시작', handler: () => { onStartThread(message); onClose(); } },
+    { key: 'replyFull', icon: <CornerDownRight size={16} />, text: '답글달기', handler: () => { onReply(message); onClose(); } },
+    { key: 'forward', icon: <Send size={16} />, text: '전달하기', handler: () => { onForward(message); onClose(); } },
+    { key: 'share', icon: <Share size={16} />, text: '공유', handler: () => { onShare(message); onClose(); } },
+    { divider: true },
+    { key: 'edit', icon: <Edit size={16} />, text: '수정', handler: () => { onEdit(message); onClose(); } },
+    { key: 'delete', icon: <Trash size={16} />, text: '삭제', danger: true, handler: () => { onDelete(message); onClose(); } },
+    { divider: true },
+    { key: 'translate', icon: <Translate size={16} />, text: '번역하기', handler: () => { onTranslate(message); onClose(); } },
+    { key: 'analyze', icon: <Sparkles size={16} />, text: 'AI로 분석', handler: () => { onAnalyze(message); onClose(); } },
+    { divider: true },
+    { key: 'report', icon: <AlertTriangle size={16} />, text: '신고하기', danger: true, handler: () => { onReport(message); onClose(); } },
+  ];
 
   return (
     <div
@@ -116,7 +131,7 @@ export const MessageContextMenu = ({
               {action.icon}
             </button>
           ))}
-          {!isMyMessage && (
+          {/*{!isMyMessage && (*/}
             <button
               onClick={() => {
                 onTranslate(message);
@@ -125,7 +140,7 @@ export const MessageContextMenu = ({
             >
               <Translate size={18} />
             </button>
-          )}
+          {/*)}*/}
           <button onClick={() => setShowFullMenu(true)} className="more-button">
             <MoreVertical size={18} />
           </button>
