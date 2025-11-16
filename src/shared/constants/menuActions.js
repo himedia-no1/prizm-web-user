@@ -2,7 +2,7 @@ import {
   Smile,
   CornerDownRight,
   MessageSquare,
-  Bookmark,
+  Pin,
   Send,
   Share,
   Edit,
@@ -64,7 +64,7 @@ export const getMyMessageActions = (handlers) => [
 export const getOtherMessageActions = (handlers) => [
   {
     key: 'pin',
-    icon: <Bookmark size={18} />,
+    icon: <Pin size={18} />,
     handler: handlers.onPin
   },
   {

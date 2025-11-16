@@ -1,23 +1,31 @@
-.ai-fab {
-  position: absolute;
-  bottom: 6rem;
-  right: 2rem;
-  width: 3.5rem;
-  height: 3.5rem;
-  background-color: var(--primary);
-  color: white;
-  border-radius: 9999px;
-  box-shadow: 0 4px 12px var(--shadow);
-  display: flex;
+.aiFab {
+  position: fixed;
+  bottom: 5rem;
+  right: 1.5rem;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  z-index: 40;
-  border: none;
+  width: auto;
+  height: auto;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--primary);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
   cursor: pointer;
-  transition: all 0.2s ease;
+  gap: 0.5rem;
+  transition: var(--transition-default);
+  z-index: 40;
 }
 
-.ai-fab:hover {
-  filter: brightness(1.1);
-  transform: scale(1.1);
+.aiFab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  color: var(--primary);
+}
+
+.aiFab:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }

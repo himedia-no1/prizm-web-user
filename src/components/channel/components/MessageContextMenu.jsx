@@ -7,7 +7,7 @@ import {
   Smile,
   CornerDownRight,
   MessageSquare,
-  Bookmark,
+  Pin,
   Send,
   Edit,
   Trash,
@@ -168,14 +168,14 @@ export const MessageContextMenu = ({
   // 더보기 메뉴: 고정/스레드시작/수정/삭제
   const fullMenuActions = isMyMessage
     ? [
-        { key: 'pin', icon: <Bookmark size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
+        { key: 'pin', icon: <Pin size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
         { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
         { divider: true },
         { key: 'edit', icon: <Edit size={16} />, text: t.edit, handler: () => { onEdit(message); onClose(); } },
         { key: 'delete', icon: <Trash size={16} />, text: t.delete, danger: true, handler: () => { onDelete(message); onClose(); } },
       ]
     : [
-        { key: 'pin', icon: <Bookmark size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
+        { key: 'pin', icon: <Pin size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
         { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
       ];
 

@@ -29,6 +29,7 @@ export { Sun } from './Sun';
 // Feature Icons
 export { Search } from './Search';
 export { Bookmark } from './Bookmark';
+export { Pin } from './Pin';
 export { Info } from './Info';
 export { Bell } from './Bell';
 export { BellOff } from './BellOff';

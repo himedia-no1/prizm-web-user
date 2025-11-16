@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useMessages } from 'next-intl';
-import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Bell } from '@/components/common/icons';
+import { Hash, Users, Search, Pin, MessageSquare, Folder, Bell } from '@/components/common/icons';
 import { useChatStore } from '@/core/store/chat';
 import { NotificationSettingsModal } from '@/components/modals/NotificationSettingsModal';
 import styles from './ChannelHeader.module.css';
@@ -66,7 +66,7 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleS
         <button
           onClick={() => onOpenSidebarPanel?.('pinned', { channelId: channel.id })}
         >
-          <Bookmark size={20} />
+          <Pin size={20} />
         </button>
         <button
           onClick={() => onOpenSidebarPanel?.('threads', { channelId: channel.id })}

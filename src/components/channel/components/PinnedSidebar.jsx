@@ -3,7 +3,7 @@
 import { useMessages } from 'next-intl';
 import Image from 'next/image';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
-import { X, Bookmark } from '@/components/common/icons';
+import { X, Pin } from '@/components/common/icons';
 import styles from './PinnedSidebar.module.css';
 
 export const PinnedSidebar = ({ pinnedMessages = [], users = {}, onClose }) => {
@@ -15,7 +15,7 @@ export const PinnedSidebar = ({ pinnedMessages = [], users = {}, onClose }) => {
       <header className="thread-header">
         <div>
           <h3 className="thread-header__title">
-            <Bookmark size={18} />
+            <Pin size={18} />
             <span>{t?.titles?.pinned || 'Pinned Messages'}</span>
           </h3>
           <p className="thread-header__subtitle">
@@ -53,7 +53,7 @@ export const PinnedSidebar = ({ pinnedMessages = [], users = {}, onClose }) => {
           })
         ) : (
           <div className={styles.emptyState}>
-            <Bookmark size={48} className={styles.emptyIcon} />
+            <Pin size={48} className={styles.emptyIcon} />
             <p className={styles.emptyText}>
               {t?.genericModal?.noPinnedMessages || 'No pinned messages yet'}
             </p>

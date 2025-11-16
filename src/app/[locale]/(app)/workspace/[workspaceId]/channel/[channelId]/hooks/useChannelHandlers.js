@@ -87,8 +87,14 @@ export const useChannelHandlers = ({
     closeModal();
   };
 
-  const handleOpenEmojiPicker = (selectedMessage) => {
-    const isThreadReply = !!selectedMessage.threadId;
+  const handleOpenEmojiPicker = (selectedMessage, options = {}) => {
+    if (!selectedMessage) {
+      const fallbackSelect = options.onEmojiSelect ?? handleEmojiSelectForInput;
+      openModal('emojiPicker', { onEmojiSelect: fallbackSelect });
+      return;
+    }
+
+    const isThreadReply = Boolean(selectedMessage.threadId);
     const onEmojiSelect = isThreadReply ? handleThreadReplyEmojiSelect : handleEmojiSelect;
     openModal('emojiPicker', { onEmojiSelect: (emoji) => onEmojiSelect(emoji, selectedMessage) });
   };
