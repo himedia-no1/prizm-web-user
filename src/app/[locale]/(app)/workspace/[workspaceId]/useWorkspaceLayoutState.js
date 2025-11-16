@@ -7,6 +7,7 @@ import { useWorkspaceStore } from '@/core/store/workspace';
 import { useChatStore } from '@/core/store/chat';
 import { useUIStore } from '@/core/store/shared';
 import useDataStore from '@/core/store/dataStore';
+import { SUPPORTED_LOCALES } from '@/i18n/config';
 
 export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId }) => {
   const router = useRouter();
@@ -34,14 +35,27 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
   const [isLeftSidebarCollapsed, setIsLeftSidebarCollapsed] = useState(false);
 
   const { currentView, currentChannelId } = useMemo(() => {
-    const parts = pathname.split('/');
-    if (parts.length > 5 && parts[4] === 'channel') {
-      return { currentView: 'channel', currentChannelId: parts[5] };
+    if (!pathname) {
+      return { currentView: 'dashboard', currentChannelId: null };
     }
-    if (parts.length > 4) {
-      return { currentView: parts[4], currentChannelId: null };
+
+    const segments = pathname.split('/').filter(Boolean);
+    const normalizedSegments =
+      segments.length > 0 && SUPPORTED_LOCALES.includes(segments[0])
+        ? segments.slice(1)
+        : segments;
+
+    if (normalizedSegments[0] !== 'workspace') {
+      return { currentView: 'dashboard', currentChannelId: null };
     }
-    return { currentView: 'dashboard', currentChannelId: null };
+
+    const viewSegment = normalizedSegments[2];
+
+    if (viewSegment === 'channel' && normalizedSegments[3]) {
+      return { currentView: 'channel', currentChannelId: normalizedSegments[3] };
+    }
+
+    return { currentView: viewSegment ?? 'dashboard', currentChannelId: null };
   }, [pathname]);
 
   useEffect(() => {
