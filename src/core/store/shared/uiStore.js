@@ -20,6 +20,12 @@ export const useUIStore = create((set) => ({
   openModal: (type, props = {}) => set({ modalType: type, modalProps: props }),
   closeModal: () => set({ modalType: null, modalProps: {} }),
 
+  // Sidebar Panel (우측 패널: pinned, threads, channelFiles 등)
+  sidebarPanelType: null,
+  sidebarPanelProps: {},
+  openSidebarPanel: (type, props = {}) => set({ sidebarPanelType: type, sidebarPanelProps: props }),
+  closeSidebarPanel: () => set({ sidebarPanelType: null, sidebarPanelProps: {} }),
+
   // Auto Translation
   autoTranslateEnabled: true,
   toggleAutoTranslate: () => set((state) => ({ autoTranslateEnabled: !state.autoTranslateEnabled })),

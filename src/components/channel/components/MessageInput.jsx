@@ -1,12 +1,22 @@
 import { useMessages } from 'next-intl';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Paperclip, Smile, Send } from '@/components/common/icons';
+import { MentionDropdown } from './MentionDropdown';
 import styles from './MessageInput.module.css';
 
-export const MessageInput = ({ channelName, message, setMessage, onOpenModal, onOpenEmojiPicker }) => {
+export const MessageInput = ({
+  channelName,
+  message,
+  setMessage,
+  onOpenModal,
+  onOpenEmojiPicker,
+  availableUsers = []
+}) => {
   const messages = useMessages();
   const t = messages?.message;
   const textareaRef = useRef(null);
+  const containerRef = useRef(null);
+  const [mentionState, setMentionState] = useState({ show: false, query: '', startIndex: -1 });
 
   const handleInput = (e) => {
     setMessage(e.target.value);
@@ -22,9 +32,28 @@ export const MessageInput = ({ channelName, message, setMessage, onOpenModal, on
     const textBeforeCursor = text.substring(0, cursorPosition);
     const lastAtIndex = textBeforeCursor.lastIndexOf('@');
 
-    if (lastAtIndex !== -1 && cursorPosition - lastAtIndex === 1) {
-      onOpenModal?.('mention');
+    if (lastAtIndex !== -1 && (lastAtIndex === 0 || /\s/.test(textBeforeCursor[lastAtIndex - 1]))) {
+      const query = textBeforeCursor.substring(lastAtIndex + 1);
+      if (!query.includes(' ')) {
+        setMentionState({ show: true, query, startIndex: lastAtIndex });
+        return;
+      }
     }
+
+    setMentionState({ show: false, query: '', startIndex: -1 });
+  };
+
+  const handleMentionSelect = (user) => {
+    const beforeMention = message.substring(0, mentionState.startIndex);
+    const afterMention = message.substring(textareaRef.current.selectionStart);
+    const newMessage = `${beforeMention}@${user.username || user.name} ${afterMention}`;
+
+    setMessage(newMessage);
+    setMentionState({ show: false, query: '', startIndex: -1 });
+
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 0);
   };
 
   const placeholder = t?.inputPlaceholder
@@ -32,7 +61,7 @@ export const MessageInput = ({ channelName, message, setMessage, onOpenModal, on
     : `Message #${channelName}`;
 
   return (
-    <div className="message-input-container">
+    <div className="message-input-container" ref={containerRef}>
       <div className="message-input-wrapper">
         <button
           className="message-input__file-button"
@@ -61,6 +90,16 @@ export const MessageInput = ({ channelName, message, setMessage, onOpenModal, on
           </div>
         </div>
       </div>
+
+      {mentionState.show && (
+        <MentionDropdown
+          users={availableUsers}
+          searchQuery={mentionState.query}
+          position={{ bottom: '100%', left: '60px' }}
+          onSelect={handleMentionSelect}
+          onClose={() => setMentionState({ show: false, query: '', startIndex: -1 })}
+        />
+      )}
     </div>
   );
 };

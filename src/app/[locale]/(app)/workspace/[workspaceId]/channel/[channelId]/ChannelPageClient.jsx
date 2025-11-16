@@ -5,12 +5,24 @@ import { MessageList } from '@/components/channel/components/MessageList';
 import { MessageInput } from '@/components/channel/components/MessageInput';
 import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
 import { ThreadSidebar } from '@/components/channel/components/ThreadSidebar';
+import { ThreadListSidebar } from '@/components/channel/components/ThreadListSidebar';
+import { PinnedSidebar } from '@/components/channel/components/PinnedSidebar';
+import { ChannelFilesSidebar } from '@/components/channel/components/ChannelFilesSidebar';
+import { MessageSearchBar } from '@/components/channel/components/MessageSearchBar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
+import { useUIStore } from '@/core/store/shared';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
+import { useState, useMemo } from 'react';
 
 const ChannelPageClient = (props) => {
   useLastWorkspacePath();
+  const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
+  const sidebarPanelProps = useUIStore((state) => state.sidebarPanelProps);
+  const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
+  const closeSidebarPanel = useUIStore((state) => state.closeSidebarPanel);
+
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const {
     channel,
     messages,
@@ -30,10 +42,32 @@ const ChannelPageClient = (props) => {
     closeThread,
   } = useChannelPageState(props);
 
+  const matchedMessages = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    return messages.filter(msg =>
+      msg.text?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [messages, searchQuery]);
+
   return (
     <>
-      <main className="main-chat-area">
-        <ChatHeader channel={channel} onOpenModal={handleOpenModal} />
+      <main className="main-chat-area" style={{ position: 'relative' }}>
+        {showSearchBar && (
+          <MessageSearchBar
+            onSearch={handleSearch}
+            onClose={handleToggleSearch}
+            onNavigate={handleSearchNavigate}
+            currentMatch={matchedMessages.length > 0 ? currentMatchIndex + 1 : 0}
+            totalMatches={matchedMessages.length}
+          />
+        )}
+
+        <ChatHeader
+          channel={channel}
+          onOpenModal={handleOpenModal}
+          onOpenSidebarPanel={openSidebarPanel}
+          onToggleSearch={handleToggleSearch}
+        />
 
         <MessageList
           messages={messages}
@@ -64,6 +98,31 @@ const ChannelPageClient = (props) => {
           onClose={closeThread}
           onReactEmoji={handleOpenEmojiPicker}
           onTranslate={() => {}}
+        />
+      )}
+
+      {!currentThread && sidebarPanelType === 'pinned' && (
+        <PinnedSidebar
+          pinnedMessages={channel?.pinnedMessages || []}
+          users={resolvedUsers}
+          onClose={closeSidebarPanel}
+        />
+      )}
+
+      {!currentThread && sidebarPanelType === 'threads' && (
+        <ThreadListSidebar
+          threadMessages={channel?.threadMessages || []}
+          users={resolvedUsers}
+          onClose={closeSidebarPanel}
+          onOpenThread={handleStartThread}
+        />
+      )}
+
+      {!currentThread && sidebarPanelType === 'channelFiles' && (
+        <ChannelFilesSidebar
+          files={channel?.files || []}
+          users={resolvedUsers}
+          onClose={closeSidebarPanel}
         />
       )}
 

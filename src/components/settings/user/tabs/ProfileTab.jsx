@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
+import { ProfilePhotoUploadModal } from '@/components/modals/ProfilePhotoUploadModal';
 import styles from './ProfileTab.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -18,6 +20,13 @@ export const ProfileTab = ({
   const s = { ...(messages?.common ?? {}), ...messages };
 
   const avatarSrc = user.avatar || getPlaceholderImage(72, user?.realName?.[0] ?? '?');
+  const [showPhotoUploadModal, setShowPhotoUploadModal] = useState(false);
+
+  const handlePhotoUpload = (file) => {
+    // TODO: API 호출하여 프로필 사진 업로드
+    console.log('Uploading photo:', file);
+    // 임시로 로컬 미리보기 처리 (실제는 API 응답으로 처리)
+  };
 
   return (
     <div>
@@ -37,6 +46,7 @@ export const ProfileTab = ({
         />
         <button
           className={`profile-modal__avatar-edit ${styles.avatarEdit}`}
+          onClick={() => setShowPhotoUploadModal(true)}
         >
           {s.userSettings?.profile?.avatarChange}
         </button>
@@ -72,6 +82,13 @@ export const ProfileTab = ({
           {s.userSettings?.profile?.deleteButton}
         </button>
       </div>
+
+      <ProfilePhotoUploadModal
+        isOpen={showPhotoUploadModal}
+        onClose={() => setShowPhotoUploadModal(false)}
+        onUpload={handlePhotoUpload}
+        currentAvatar={avatarSrc}
+      />
     </div>
   );
 };

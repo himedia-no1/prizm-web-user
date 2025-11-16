@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { Hash, Users, Search, Bookmark, MessageSquare, Folder, Settings, Bell } from '@/components/common/icons';
 import { useChatStore } from '@/core/store/chat';
 import { useWorkspaceStore } from '@/core/store/workspace';
+import { NotificationSettingsModal } from '@/components/modals/NotificationSettingsModal';
 import styles from './ChannelHeader.module.css';
 
 const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, t }) => {
@@ -16,11 +18,12 @@ const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, 
   return memberLabel || topicText || (type === 'dm' ? t.directConversation : t.teamConversation);
 };
 
-export const ChatHeader = ({ channel, onOpenModal }) => {
+export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleSearch }) => {
   const messages = useMessages();
   const t = messages.workspace;
   const { toggleChannelNotifications, isChannelNotificationsEnabled } = useChatStore();
   const currentWorkspaceRole = useWorkspaceStore((state) => state.currentWorkspaceRole);
+  const [showNotificationSettings, setShowNotificationSettings] = useState(false);
 
   if (!channel) return null;
 
@@ -50,25 +53,24 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
         <button
           type="button"
           className={`chat-header__notification-button ${notificationsEnabled ? '' : 'muted'}`}
-          onClick={() => toggleChannelNotifications(channel.id)}
-          aria-pressed={!notificationsEnabled}
-          aria-label={notificationsEnabled ? t.turnOffNotifications : t.turnOnNotifications}
+          onClick={() => setShowNotificationSettings(true)}
+          aria-label={t.notificationSettings || 'Notification Settings'}
         >
           <Bell size={20} />
         </button>
-        <button onClick={() => onOpenModal('search')}>
+        <button onClick={onToggleSearch}>
           <Search size={20} />
         </button>
         <button onClick={() => onOpenModal('members')}>
           <Users size={20} />
         </button>
-        <button onClick={() => onOpenModal('pinned')}>
+        <button onClick={() => onOpenSidebarPanel?.('pinned', { channelId: channel.id })}>
           <Bookmark size={20} />
         </button>
-        <button onClick={() => onOpenModal('threads')}>
+        <button onClick={() => onOpenSidebarPanel?.('threads', { channelId: channel.id })}>
           <MessageSquare size={20} />
         </button>
-        <button onClick={() => onOpenModal('channelFiles')}>
+        <button onClick={() => onOpenSidebarPanel?.('channelFiles', { channelId: channel.id })}>
           <Folder size={20} />
         </button>
         {canManageChannel && !isDirectMessage && (
@@ -86,6 +88,16 @@ export const ChatHeader = ({ channel, onOpenModal }) => {
           </button>
         )}
       </div>
+
+      <NotificationSettingsModal
+        isOpen={showNotificationSettings}
+        onClose={() => setShowNotificationSettings(false)}
+        channelName={channel.displayName || channel.name}
+        currentSettings={{
+          level: notificationsEnabled ? 'all' : 'nothing',
+          muteUntil: 'unmuted'
+        }}
+      />
     </header>
   );
 };
