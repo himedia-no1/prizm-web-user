@@ -294,5 +294,17 @@
     "nothingDesc": "どのメッセージも通知を受け取りません",
     "cancel": "キャンセル",
     "save": "設定を保存"
+  },
+  "workspaceNotificationSettings": {
+    "title": "ワークスペース通知設定",
+    "notificationLevel": "通知レベル",
+    "allMessages": "すべてのメッセージ",
+    "allMessagesDesc": "このワークスペースのすべてのメッセージで通知を受け取ります",
+    "mentionsOnly": "@メンション及びDMのみ",
+    "mentionsOnlyDesc": "メンションまたはDMを受け取った場合のみ通知を受け取ります",
+    "nothing": "通知なし",
+    "nothingDesc": "このワークスペースのどのメッセージも通知を受け取りません",
+    "cancel": "キャンセル",
+    "save": "設定を保存"
   }
 }

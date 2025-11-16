@@ -294,5 +294,17 @@
     "nothingDesc": "Do not get notified for any messages",
     "cancel": "Cancel",
     "save": "Save Settings"
+  },
+  "workspaceNotificationSettings": {
+    "title": "Workspace Notification Settings",
+    "notificationLevel": "Notification Level",
+    "allMessages": "All Messages",
+    "allMessagesDesc": "Get notified for all messages in this workspace",
+    "mentionsOnly": "@mentions & DMs Only",
+    "mentionsOnlyDesc": "Only get notified when you are mentioned or receive a DM",
+    "nothing": "Nothing",
+    "nothingDesc": "Do not get notified for any messages in this workspace",
+    "cancel": "Cancel",
+    "save": "Save Settings"
   }
 }

@@ -21,6 +21,7 @@ import { ChannelFilesModalContent } from '@/components/channel/modals/ChannelFil
 import { ChannelSettingsModalContent } from '@/components/channel/modals/ChannelSettingsModalContent';
 import { LeaveWorkspaceModal } from './LeaveWorkspaceModal';
 import { MentionModalContent } from './MentionModalContent';
+import { WorkspaceNotificationSettingsModal } from './WorkspaceNotificationSettingsModal';
 
 const standaloneRegistry = new Map();
 const contentRegistry = new Map();
@@ -72,6 +73,9 @@ registerStandaloneModal('forwardMessage', ({ dependencies, modalProps }) => (
 ));
 registerStandaloneModal('leaveWorkspace', ({ dependencies, modalProps }) => (
   <LeaveWorkspaceModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+));
+registerStandaloneModal('workspaceNotificationSettings', ({ dependencies, modalProps }) => (
+  <WorkspaceNotificationSettingsModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
 ));
 
 registerContentModal('addChannel', ({ modalProps }) => <AddChannelModalContent {...modalProps} />);

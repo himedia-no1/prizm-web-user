@@ -294,5 +294,17 @@
     "nothingDesc": "Ne pas recevoir de notification pour les messages",
     "cancel": "Annuler",
     "save": "Enregistrer les paramètres"
+  },
+  "workspaceNotificationSettings": {
+    "title": "Paramètres de notification de l'espace de travail",
+    "notificationLevel": "Niveau de notification",
+    "allMessages": "Tous les messages",
+    "allMessagesDesc": "Recevoir des notifications pour tous les messages dans cet espace de travail",
+    "mentionsOnly": "@mentions et DMs uniquement",
+    "mentionsOnlyDesc": "Recevoir des notifications uniquement pour les mentions et les messages directs",
+    "nothing": "Aucune",
+    "nothingDesc": "Ne pas recevoir de notifications pour les messages de cet espace de travail",
+    "cancel": "Annuler",
+    "save": "Enregistrer les paramètres"
   }
 }
