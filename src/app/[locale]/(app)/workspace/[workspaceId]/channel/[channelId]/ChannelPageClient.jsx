@@ -34,6 +34,7 @@ const ChannelPageClient = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [replyingTo, setReplyingTo] = useState(null); // 답글 대상 메시지
+  const [pinnedMessages, setPinnedMessages] = useState([]); // 고정된 메시지 목록
 
   const {
     channel,
@@ -95,6 +96,21 @@ const ChannelPageClient = (props) => {
 
   const handleCancelReply = () => {
     setReplyingTo(null);
+  };
+
+  const handlePin = (message) => {
+    // 이미 고정된 메시지인지 확인
+    const isPinned = pinnedMessages.some(msg => msg.id === message.id);
+
+    if (isPinned) {
+      // 고정 해제
+      setPinnedMessages(prev => prev.filter(msg => msg.id !== message.id));
+      console.log('Unpinned message:', message.id);
+    } else {
+      // 고정 추가
+      setPinnedMessages(prev => [...prev, message]);
+      console.log('Pinned message:', message.id);
+    }
   };
 
   return (
@@ -173,7 +189,7 @@ const ChannelPageClient = (props) => {
 
       {!currentThread && sidebarPanelType === 'pinned' && (
         <PinnedSidebar
-          pinnedMessages={channel?.pinnedMessages || []}
+          pinnedMessages={pinnedMessages}
           users={resolvedUsers}
           onClose={closeSidebarPanel}
         />
@@ -210,7 +226,7 @@ const ChannelPageClient = (props) => {
           isMyMessage={contextMenu.message?.userId === 'u1'}
           position={contextMenu.position}
           onClose={handleCloseContextMenu}
-          onPin={() => console.log('Pin')}
+          onPin={handlePin}
           onStartThread={handleStartThread}
           onReply={handleReply}
           onForward={(msg) => {
