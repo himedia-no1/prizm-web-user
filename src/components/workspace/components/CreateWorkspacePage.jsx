@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import { useMessages } from 'next-intl';
-import { Settings, Inbox } from '@/components/common/icons';
+import { Inbox } from '@/components/common/icons';
 import { workspaceService } from '@/core/api/services';
 import { useUIStore } from '@/core/store/shared';
 import { useRouter } from 'next/navigation';
+import UserProfileHeader from '@/components/common/UserProfileHeader';
 import styles from './CreateWorkspacePage.module.css';
 
 export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistingWorkspace = false }) => {
@@ -47,6 +48,11 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
 
     return (
         <div className={styles['workspace-creation-layout']}>
+            {/* Header with user profile */}
+            <div className={styles['header']}>
+                <UserProfileHeader />
+            </div>
+
             <div className={styles['main-content']}>
             <div className={styles['create-workspace-container']}>
                 <h1>{s.workspace.create}</h1>
@@ -115,13 +121,6 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
         </div>
         {!hasExistingWorkspace && (
                 <div className={styles['bottom-left-actions']}>
-                    <button
-                        className={styles['icon-button']}
-                        title={s.mySettings}
-                        onClick={() => router.push('/me/setting/profile')}
-                    >
-                        <Settings size={20} />
-                    </button>
                     <button
                         className={styles['icon-button']}
                         title={s.notifications}

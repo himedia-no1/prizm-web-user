@@ -101,6 +101,17 @@ export function middleware(request) {
     });
   }
 
+  // /invite/[inviteCode] - allow both logged in and logged out users
+  if (normalizedPathname.startsWith('/invite/')) {
+    return finalizeResponse({
+      request,
+      pathname,
+      pathLocale,
+      activeLocale,
+      localeAware,
+    });
+  }
+
   if (!refreshToken) {
     if (normalizedPathname === '/workspace') {
       return NextResponse.redirect(new URL('/login', request.url));

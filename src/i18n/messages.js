@@ -15,6 +15,7 @@ export const getMessagesForLocale = async (locale) => {
       directory,
       message,
       search,
+      invite,
     ] = await Promise.all([
       import(`../../messages/${targetLocale}/landing.json`),
       import(`../../messages/${targetLocale}/common.json`),
@@ -25,6 +26,7 @@ export const getMessagesForLocale = async (locale) => {
       import(`../../messages/${targetLocale}/directory.json`),
       import(`../../messages/${targetLocale}/message.json`),
       import(`../../messages/${targetLocale}/search.json`),
+      import(`../../messages/${targetLocale}/invite.json`),
     ]);
 
     // 네임스페이스 구조로 반환
@@ -38,6 +40,7 @@ export const getMessagesForLocale = async (locale) => {
       directory: directory.default,
       message: message.default,
       search: search.default,
+      invite: invite.default,
     };
   } catch (error) {
     console.error(`Failed to load messages for locale: ${targetLocale}`, error);

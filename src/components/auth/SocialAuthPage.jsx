@@ -58,6 +58,7 @@ export default function SocialAuthPage({ searchParams }) {
   useEffect(() => {
     const provider = searchParams?.provider;
     const code = searchParams?.code;
+    const inviteCode = searchParams?.inviteCode;
 
     if (!provider || !code || oauthHandledRef.current) {
       return;
@@ -69,6 +70,27 @@ export default function SocialAuthPage({ searchParams }) {
       try {
         const session = await authenticateWithProvider(provider);
         setAuthState(session);
+
+        // If there's an invite code, auto-join workspace
+        if (inviteCode) {
+          try {
+            const joinResponse = await fetch('/api/workspaces/join', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ inviteCode })
+            });
+
+            if (joinResponse.ok) {
+              const data = await joinResponse.json();
+              router.replace(`/workspace/${data.workspaceId}/dashboard`);
+              return;
+            }
+          } catch (joinErr) {
+            console.error('Failed to join workspace after login:', joinErr);
+          }
+        }
+
+        // Default redirect if no invite or join failed
         router.replace('/workspace');
       } catch (err) {
         setError(authStrings.loginError || 'Login failed. Please try again.');
