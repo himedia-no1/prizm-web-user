@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
 import { useUIStore } from '@/core/store/shared';
 import { messageService } from '@/core/api/services';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
+import { Copy, Smile, CornerDownRight, MoreVertical } from '@/components/common/icons';
 import styles from './Message.module.css';
 
 const getTranslationText = (translation) => {
@@ -44,6 +45,10 @@ export const Message = ({
   onStartThread,
   onOpenUserProfile,
   onOpenContextMenu,
+  onReply,
+  onReactEmoji,
+  onTranslateMessage,
+  currentUserId = 'u1',
   searchQuery = '',
   replyToMessage = null,
   replyToUser = null,
@@ -59,6 +64,12 @@ export const Message = ({
   const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
   const [translatedText, setTranslatedText] = useState('');
   const [isOriginalVisible, setIsOriginalVisible] = useState(false);
+  const [inlineActionsState, setInlineActionsState] = useState({ visible: false, position: null });
+  const messageRef = useRef(null);
+  const isMyMessage = message.userId === currentUserId;
+  const manualTranslatedText = getTranslationText(message.manualTranslations?.[locale]);
+  const canManualTranslate = !isMyMessage && !autoTranslateEnabled;
+  const canShowInlineActions = !autoTranslateEnabled;
 
   const handleAutoTranslate = useCallback(async () => {
     setTranslationState('loading');
@@ -76,14 +87,37 @@ export const Message = ({
     }, 500);
   }, [message.id, locale]);
 
+  useEffect(() => {
+    if (!inlineActionsState.visible) return;
+
+    const handleClickOutside = (event) => {
+      if (messageRef.current && !messageRef.current.contains(event.target)) {
+        setInlineActionsState({ visible: false, position: null });
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [inlineActionsState.visible]);
+
+  useEffect(() => {
+    if (autoTranslateEnabled && inlineActionsState.visible) {
+      setInlineActionsState({ visible: false, position: null });
+    }
+  }, [autoTranslateEnabled, inlineActionsState.visible]);
+
   // 자동번역 설정 변경 또는 메시지 변경 시 상태 업데이트
   useEffect(() => {
     setIsOriginalVisible(false);
 
-    // 자동번역이 꺼져있으면 항상 원문만 표시
     if (!autoTranslateEnabled) {
-      setTranslatedText('');
-      setTranslationState('none');
+      if (manualTranslatedText) {
+        setTranslatedText(manualTranslatedText);
+        setTranslationState('done');
+      } else {
+        setTranslatedText('');
+        setTranslationState('none');
+      }
       return;
     }
 
@@ -102,31 +136,81 @@ export const Message = ({
         handleAutoTranslate();
       }
     }
-  }, [message.id, locale, autoTranslateEnabled, message.translations, message.language, handleAutoTranslate]);
+  }, [
+    message.id,
+    locale,
+    autoTranslateEnabled,
+    message.translations,
+    message.language,
+    message.manualTranslations,
+    manualTranslatedText,
+    handleAutoTranslate,
+  ]);
 
   // 번역된 텍스트를 기본으로 표시할지 결정
   const shouldShowTranslation =
-    autoTranslateEnabled &&
-    message.language &&
-    message.language !== locale &&
-    translationState === 'done' &&
-    translatedText;
+    Boolean(translatedText) && translationState === 'done';
 
   const primaryText = shouldShowTranslation ? translatedText : message.text;
 
-  const handleClick = (event) => {
-    event.preventDefault();
+  const handleManualTranslate = async (event) => {
+    event?.stopPropagation?.();
+    if (!onTranslateMessage) return;
+    setTranslationState('loading');
+    try {
+      await onTranslateMessage(message);
+    } catch (error) {
+      console.error('Manual translation failed:', error);
+      setTranslationState('none');
+    }
+  };
+
+  const handleMessageClick = (event) => {
+    if (canShowInlineActions) {
+      event.preventDefault();
+      event.stopPropagation();
+      const rect = messageRef.current?.getBoundingClientRect();
+      setInlineActionsState((prev) => ({
+        visible: !prev.visible,
+        position: rect ? { top: event.clientY - rect.top, right: rect.right - event.clientX } : null,
+      }));
+      return;
+    }
+    onOpenContextMenu(message, { x: event.clientX, y: event.clientY }, { defaultFullMenu: false });
+  };
+
+  const handleCopy = (event) => {
     event.stopPropagation();
-    // 사용자가 클릭한 실제 위치 사용 (디스코드/슬랙 방식)
-    onOpenContextMenu(message, { x: event.clientX, y: event.clientY });
+    if (message.text && typeof navigator !== 'undefined') {
+      navigator.clipboard.writeText(message.text);
+    }
+  };
+
+  const handleInlineReply = (event) => {
+    event.stopPropagation();
+    onReply?.(message);
+  };
+
+  const handleInlineEmoji = (event) => {
+    event.stopPropagation();
+    onReactEmoji?.(message);
+  };
+
+  const handleInlineMore = (event) => {
+    event.stopPropagation();
+    const rect = event.currentTarget.getBoundingClientRect();
+    onOpenContextMenu(message, { x: rect.right, y: rect.bottom }, { defaultFullMenu: true });
+    setInlineActionsState({ visible: false, position: null });
   };
 
   const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
 
   return (
     <div
+      ref={messageRef}
+      data-message-id={message.id}
       className={styles.messageContainer}
-      onClick={handleClick}
+      onClick={handleMessageClick}
     >
       <Image
         src={avatarSrc}
@@ -231,6 +315,60 @@ export const Message = ({
           </button>
         )}
       </div>
+
+      {canShowInlineActions && (
+        <div
+          className={`${styles.inlineActions} ${
+            inlineActionsState.visible ? styles.inlineActionsVisible : ''
+          }`}
+          style={
+            inlineActionsState.position
+              ? {
+                  top: inlineActionsState.position.top,
+                  right: inlineActionsState.position.right,
+                }
+              : undefined
+          }
+        >
+          <button type="button" className={styles.inlineActionButton} onClick={handleCopy} aria-label="Copy message">
+            <Copy size={16} />
+          </button>
+          <button
+            type="button"
+            className={styles.inlineActionButton}
+            onClick={handleInlineEmoji}
+            aria-label="React with emoji"
+          >
+            <Smile size={16} />
+          </button>
+          <button
+            type="button"
+            className={styles.inlineActionButton}
+            onClick={handleInlineReply}
+            aria-label="Reply"
+          >
+            <CornerDownRight size={16} />
+          </button>
+          {canManualTranslate && (
+            <button
+              type="button"
+              className={styles.inlineActionButton}
+              onClick={handleManualTranslate}
+              aria-label="Translate message"
+            >
+              <Image src="/icon.png" alt="Translate" width={16} height={16} />
+            </button>
+          )}
+          <button
+            type="button"
+            className={styles.inlineActionButton}
+            onClick={handleInlineMore}
+            aria-label="More actions"
+          >
+            <MoreVertical size={16} />
+          </button>
+        </div>
+      )}
     </div>
   );
 };

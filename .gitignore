@@ -4,6 +4,9 @@ ehthumbs.db
 Icon?
 desktop.ini
 
+!src/components/common/icons/
+!src/components/common/icons/*.jsx
+
 .idea/
 .vscode/
 *.code-workspace

@@ -8,6 +8,10 @@ export const MessageList = ({
   onStartThread,
   onOpenUserProfile,
   onOpenContextMenu,
+  onReply,
+  onReactEmoji,
+  onTranslateMessage,
+  currentUserId,
   searchQuery = '',
   currentSearchIndex = -1
 }) => {
@@ -68,6 +72,10 @@ export const MessageList = ({
               onStartThread={onStartThread}
               onOpenUserProfile={onOpenUserProfile}
               onOpenContextMenu={onOpenContextMenu}
+              onReply={onReply}
+              onReactEmoji={onReactEmoji}
+              onTranslateMessage={onTranslateMessage}
+              currentUserId={currentUserId}
               searchQuery={searchQuery}
               replyToMessage={replyToMessage}
               replyToUser={replyToMessage ? users[replyToMessage.userId] : null}

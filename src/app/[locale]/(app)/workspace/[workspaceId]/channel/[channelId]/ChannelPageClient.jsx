@@ -16,9 +16,11 @@ import { messageService } from '@/core/api/services';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import { useState, useMemo, useEffect } from 'react';
+import { useLocale } from 'next-intl';
 
 const ChannelPageClient = (props) => {
   useLastWorkspacePath();
+  const locale = useLocale();
   const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
   const sidebarPanelProps = useUIStore((state) => state.sidebarPanelProps);
   const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
@@ -56,6 +58,8 @@ const ChannelPageClient = (props) => {
     closeThread,
     setMessages,
   } = useChannelPageState(props);
+
+  const currentUserId = 'u1';
 
   const matchedMessages = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -121,6 +125,29 @@ const ChannelPageClient = (props) => {
     }
   };
 
+  const handleTranslateMessage = async (targetMessage) => {
+    try {
+      const result = await messageService.translateMessage(targetMessage.id, locale);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === targetMessage.id
+            ? {
+                ...msg,
+                manualTranslations: {
+                  ...(msg.manualTranslations || {}),
+                  [locale]: result.translatedText,
+                },
+              }
+            : msg,
+        ),
+      );
+      return result;
+    } catch (error) {
+      console.error('메시지 번역 실패:', error);
+      throw error;
+    }
+  };
+
   const handleStartThreadSafe = (selectedMessage) => {
     if (sidebarPanelType) {
       closeSidebarPanel();
@@ -154,6 +181,10 @@ const ChannelPageClient = (props) => {
           onStartThread={handleStartThreadSafe}
           onOpenUserProfile={handleOpenUserProfile}
           onOpenContextMenu={handleOpenContextMenu}
+          onReply={handleReply}
+          onReactEmoji={handleOpenEmojiPicker}
+          onTranslateMessage={handleTranslateMessage}
+          currentUserId={currentUserId}
           searchQuery={searchQuery}
           currentSearchIndex={currentMatchIndex}
         />
@@ -239,8 +270,9 @@ const ChannelPageClient = (props) => {
       {contextMenu.visible && (
         <MessageContextMenu
           message={contextMenu.message}
-          isMyMessage={contextMenu.message?.userId === 'u1'}
+          isMyMessage={contextMenu.message?.userId === currentUserId}
           position={contextMenu.position}
+          defaultFullMenu={contextMenu.defaultFullMenu}
           onClose={handleCloseContextMenu}
           onPin={handlePin}
           onStartThread={handleStartThreadSafe}
@@ -253,7 +285,8 @@ const ChannelPageClient = (props) => {
           onEdit={() => console.log('Edit')}
           onDelete={() => console.log('Delete')}
           onReactEmoji={handleOpenEmojiPicker}
-          onTranslate={() => {
+          onTranslate={(msg) => {
+            handleTranslateMessage(msg);
             handleCloseContextMenu();
           }}
           onAnalyze={() => console.log('Analyze')}

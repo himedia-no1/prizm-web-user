@@ -199,6 +199,59 @@
   background-color: rgba(0, 0, 0, 0.03);
 }
 
+.inlineActions {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 0.25rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.inlineActionsVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.inlineActionButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.inlineActionButton:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--text);
+  border-color: var(--border);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .inlineActionButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.inlineActionButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 [data-theme='dark'] .replyPreview:hover {
   background-color: rgba(255, 255, 255, 0.03);
 }

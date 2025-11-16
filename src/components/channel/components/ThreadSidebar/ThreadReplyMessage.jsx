@@ -96,7 +96,7 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
       className="thread-reply"
       onContextMenu={(e) => {
         e.preventDefault();
-        onOpenContextMenu(reply, { x: e.clientX, y: e.clientY });
+        onOpenContextMenu(reply, { x: e.clientX, y: e.clientY }, { defaultFullMenu: false });
       }}
     >
       <Image

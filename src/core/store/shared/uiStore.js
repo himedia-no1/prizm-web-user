@@ -27,7 +27,7 @@ export const useUIStore = create((set) => ({
   closeSidebarPanel: () => set({ sidebarPanelType: null, sidebarPanelProps: {} }),
 
   // Auto Translation
-  autoTranslateEnabled: true,
+  autoTranslateEnabled: false,
   toggleAutoTranslate: () => set((state) => ({ autoTranslateEnabled: !state.autoTranslateEnabled })),
   setAutoTranslate: (enabled) => set({ autoTranslateEnabled: enabled }),
 }));

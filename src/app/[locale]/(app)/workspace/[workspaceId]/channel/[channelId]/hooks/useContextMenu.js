@@ -12,13 +12,15 @@ export const useContextMenu = () => {
     visible: false,
     message: null,
     position: null,
+    defaultFullMenu: false,
   });
 
-  const handleOpenContextMenu = (selectedMessage, position) => {
+  const handleOpenContextMenu = (selectedMessage, position, options = {}) => {
     setContextMenu({
       visible: true,
       message: selectedMessage,
       position,
+      defaultFullMenu: Boolean(options.defaultFullMenu),
     });
   };
 
@@ -27,6 +29,7 @@ export const useContextMenu = () => {
       visible: false,
       message: null,
       position: null,
+      defaultFullMenu: false,
     });
   };
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
 import { useUIStore } from '@/core/store/shared';
 import {
@@ -34,20 +35,21 @@ export const MessageContextMenu = ({
   onAnalyze,
   onReport,
   context = 'main',
+  defaultFullMenu = false,
 }) => {
   const menuRef = useRef(null);
-  const [showFullMenu, setShowFullMenu] = useState(false);
+  const [showFullMenu, setShowFullMenu] = useState(defaultFullMenu);
   const [adjustedPosition, setAdjustedPosition] = useState(position);
   const messages = useMessages();
-  const t = messages.message?.actions;
+  const t = messages.message?.actions ?? {};
   const { autoTranslateEnabled } = useUIStore();
   const locale = useLocale();
 
   // 번역 버튼 표시 조건: 자동번역이 꺼져있고 + 메시지 언어가 사용자 언어와 다를 때
-  const shouldShowTranslateButton =
-    !autoTranslateEnabled &&
-    message.language &&
-    message.language !== locale;
+  const shouldShowTranslateButton = !autoTranslateEnabled && !isMyMessage;
+  const translateIcon = shouldShowTranslateButton ? (
+    <Image src="/icon.png" alt="Translate" width={18} height={18} />
+  ) : null;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -93,9 +95,13 @@ export const MessageContextMenu = ({
     setAdjustedPosition({ x, y });
   }, [position, showFullMenu]);
 
+  useEffect(() => {
+    setShowFullMenu(defaultFullMenu);
+  }, [defaultFullMenu]);
+
   const isThread = context === 'thread';
 
-  if (!position || !t) {
+  if (!position) {
     return null;
   }
 
@@ -117,14 +123,18 @@ export const MessageContextMenu = ({
         onClose();
       }
     },
-    ...(shouldShowTranslateButton ? [{
-      key: 'translate',
-      icon: <Translate size={18} />,
-      handler: () => {
-        onTranslate(message);
-        onClose();
-      }
-    }] : []),
+    ...(shouldShowTranslateButton
+      ? [
+          {
+            key: 'translate',
+            icon: translateIcon,
+            handler: () => {
+              onTranslate(message);
+              onClose();
+            }
+          }
+        ]
+      : []),
   ];
 
   // 메인 채팅 액션바: 복사/이모지/답글/(번역)/더보기
@@ -153,31 +163,120 @@ export const MessageContextMenu = ({
         onClose();
       }
     },
-    ...(shouldShowTranslateButton ? [{
-      key: 'translate',
-      icon: <Translate size={18} />,
-      handler: () => {
-        onTranslate(message);
-        onClose();
-      }
-    }] : []),
+    ...(shouldShowTranslateButton
+      ? [
+          {
+            key: 'translate',
+            icon: translateIcon,
+            handler: () => {
+              onTranslate(message);
+              onClose();
+            }
+          }
+        ]
+      : []),
   ];
 
   const commonActions = isThread ? threadActions : mainChatActions;
 
-  // 더보기 메뉴: 고정/스레드시작/수정/삭제
-  const fullMenuActions = isMyMessage
-    ? [
-        { key: 'pin', icon: <Pin size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
-        { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
-        { divider: true },
-        { key: 'edit', icon: <Edit size={16} />, text: t.edit, handler: () => { onEdit(message); onClose(); } },
-        { key: 'delete', icon: <Trash size={16} />, text: t.delete, danger: true, handler: () => { onDelete(message); onClose(); } },
-      ]
-    : [
-        { key: 'pin', icon: <Pin size={16} />, text: t.pin, handler: () => { onPin(message); onClose(); } },
-        { key: 'startThread', icon: <MessageSquare size={16} />, text: t.startThread, handler: () => { onStartThread(message); onClose(); } },
-      ];
+  const baseFullMenuActions = [
+    {
+      key: 'copyFull',
+      icon: <Copy size={16} />,
+      text: t?.copy || 'Copy',
+      handler: () => {
+        if (message?.text && typeof navigator !== 'undefined') {
+          navigator.clipboard.writeText(message.text);
+        }
+        onClose();
+      },
+    },
+    {
+      key: 'reactFull',
+      icon: <Smile size={16} />,
+      text: t?.react || 'Add reaction',
+      handler: () => {
+        onReactEmoji(message);
+        onClose();
+      },
+    },
+    ...(!isThread
+      ? [
+          {
+            key: 'replyFull',
+            icon: <CornerDownRight size={16} />,
+            text: t?.reply || 'Reply',
+            handler: () => {
+              onReply(message);
+              onClose();
+            },
+          },
+        ]
+      : []),
+    ...(shouldShowTranslateButton
+      ? [
+          {
+            key: 'translateFull',
+            icon: <Image src="/icon.png" alt="Translate" width={16} height={16} />,
+            text: t?.translate || 'Translate',
+            handler: () => {
+              onTranslate(message);
+              onClose();
+            },
+          },
+        ]
+      : []),
+  ];
+
+  const moderationActions = [
+    {
+      key: 'pin',
+      icon: <Pin size={16} />,
+      text: t?.pin || 'Pin',
+      handler: () => {
+        onPin(message);
+        onClose();
+      },
+    },
+    ...(!isThread
+      ? [
+          {
+            key: 'startThread',
+            icon: <MessageSquare size={16} />,
+            text: t?.startThread || 'Open thread',
+            handler: () => {
+              onStartThread(message);
+              onClose();
+            },
+          },
+        ]
+      : []),
+    ...(isMyMessage
+      ? [
+          {
+            key: 'edit',
+            icon: <Edit size={16} />,
+            text: t?.edit || 'Edit',
+            handler: () => {
+              onEdit(message);
+              onClose();
+            },
+          },
+          {
+            key: 'delete',
+            icon: <Trash size={16} />,
+            text: t?.delete || 'Delete',
+            danger: true,
+            handler: () => {
+              onDelete(message);
+              onClose();
+            },
+          },
+        ]
+      : []),
+  ];
+
+  const fullMenuActions = [...baseFullMenuActions, ...moderationActions];
 
   return (
     <div

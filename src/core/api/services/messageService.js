@@ -150,8 +150,16 @@ export const messageService = {
    * @param {string|number} messageId - 메시지 ID
    */
   async pinMessage(messageId) {
-    const response = await axiosInstance.post(`/mock/messages/${messageId}/pin`);
-    return response.data;
+    try {
+      const response = await axiosInstance.post(`/mock/messages/${messageId}/pin`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        console.warn('[messageService.pinMessage] Mock endpoint not found, applying optimistic pin.');
+        return { success: true };
+      }
+      throw error;
+    }
   },
 
   /**
@@ -159,7 +167,15 @@ export const messageService = {
    * @param {string|number} messageId - 메시지 ID
    */
   async unpinMessage(messageId) {
-    const response = await axiosInstance.delete(`/mock/messages/${messageId}/pin`);
-    return response.data;
+    try {
+      const response = await axiosInstance.delete(`/mock/messages/${messageId}/pin`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        console.warn('[messageService.unpinMessage] Mock endpoint not found, applying optimistic unpin.');
+        return { success: true };
+      }
+      throw error;
+    }
   },
 };
