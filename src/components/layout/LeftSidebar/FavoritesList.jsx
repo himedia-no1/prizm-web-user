@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Hash, Star } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';
 import { useChatStore } from '@/core/store/chat';
@@ -15,6 +16,7 @@ export const FavoritesList = ({
 }) => {
   const messages = useMessages();
   const t = messages?.common;
+  const [hoveredChannel, setHoveredChannel] = useState(null);
 
   const unreadCounts = useChatStore((state) => state.unreadCounts);
   const favorites = favoriteChannels
@@ -35,8 +37,14 @@ export const FavoritesList = ({
         {favorites.map((channel) => {
           const isActive = currentView === 'channel' && currentChannelId === channel.id;
           const unreadCount = unreadCounts[channel.id] || 0;
+          const isHovered = hoveredChannel === channel.id;
           return (
-            <li key={channel.id} className="channel-row">
+            <li
+              key={channel.id}
+              className="channel-row"
+              onMouseEnter={() => setHoveredChannel(channel.id)}
+              onMouseLeave={() => setHoveredChannel(null)}
+            >
               <button
                 onClick={() => onSelectChannel(channel.id)}
                 className={`channel-button ${isActive ? 'active' : ''}`}
@@ -50,17 +58,19 @@ export const FavoritesList = ({
                   <span className="favorite-category-label">{channel.categoryName}</span>
                 </div>
               </button>
-              <button
-                type="button"
-                className="channel-favorite-button active"
-                aria-label={t?.favorites?.remove}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  onToggleFavorite?.(channel.id);
-                }}
-              >
-                <Star size={14} />
-              </button>
+              {isHovered && (
+                <button
+                  type="button"
+                  className="channel-favorite-button active"
+                  aria-label={t?.favorites?.remove}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    onToggleFavorite?.(channel.id);
+                  }}
+                >
+                  <Star size={14} />
+                </button>
+              )}
             </li>
           );
         })}

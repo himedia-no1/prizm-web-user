@@ -8,12 +8,13 @@ import { ThreadSidebar } from '@/components/channel/components/ThreadSidebar';
 import { ThreadListSidebar } from '@/components/channel/components/ThreadListSidebar';
 import { PinnedSidebar } from '@/components/channel/components/PinnedSidebar';
 import { ChannelFilesSidebar } from '@/components/channel/components/ChannelFilesSidebar';
+import { MembersSidebar } from '@/components/channel/components/MembersSidebar';
 import { MessageSearchBar } from '@/components/channel/components/MessageSearchBar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
 import { useUIStore } from '@/core/store/shared';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 const ChannelPageClient = (props) => {
   useLastWorkspacePath();
@@ -22,7 +23,17 @@ const ChannelPageClient = (props) => {
   const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
   const closeSidebarPanel = useUIStore((state) => state.closeSidebarPanel);
 
+  // 채널 이동 시 사이드바 패널 자동 닫기
+  useEffect(() => {
+    return () => {
+      closeSidebarPanel();
+    };
+  }, [props.channelId, closeSidebarPanel]);
+
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+
   const {
     channel,
     messages,
@@ -49,9 +60,43 @@ const ChannelPageClient = (props) => {
     );
   }, [messages, searchQuery]);
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    setCurrentMatchIndex(0);
+  };
+
+  const handleSearchNavigate = (direction) => {
+    if (matchedMessages.length === 0) return;
+
+    if (direction === 'next') {
+      setCurrentMatchIndex(prev =>
+        prev < matchedMessages.length - 1 ? prev + 1 : 0
+      );
+    } else {
+      setCurrentMatchIndex(prev =>
+        prev > 0 ? prev - 1 : matchedMessages.length - 1
+      );
+    }
+  };
+
+  const handleToggleSearch = () => {
+    setShowSearchBar(prev => !prev);
+    if (showSearchBar) {
+      setSearchQuery('');
+      setCurrentMatchIndex(0);
+    }
+  };
+
   return (
     <>
-      <main className="main-chat-area" style={{ position: 'relative' }}>
+      <main className="main-chat-area">
+        <ChatHeader
+          channel={channel}
+          onOpenModal={handleOpenModal}
+          onOpenSidebarPanel={openSidebarPanel}
+          onToggleSearch={handleToggleSearch}
+        />
+
         {showSearchBar && (
           <MessageSearchBar
             onSearch={handleSearch}
@@ -61,13 +106,6 @@ const ChannelPageClient = (props) => {
             totalMatches={matchedMessages.length}
           />
         )}
-
-        <ChatHeader
-          channel={channel}
-          onOpenModal={handleOpenModal}
-          onOpenSidebarPanel={openSidebarPanel}
-          onToggleSearch={handleToggleSearch}
-        />
 
         <MessageList
           messages={messages}
@@ -122,6 +160,14 @@ const ChannelPageClient = (props) => {
         <ChannelFilesSidebar
           files={channel?.files || []}
           users={resolvedUsers}
+          onClose={closeSidebarPanel}
+        />
+      )}
+
+      {!currentThread && sidebarPanelType === 'members' && (
+        <MembersSidebar
+          channelId={sidebarPanelProps?.channelId || channel?.id}
+          workspaceId={sidebarPanelProps?.workspaceId}
           onClose={closeSidebarPanel}
         />
       )}
