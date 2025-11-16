@@ -58,16 +58,24 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleS
         <button onClick={onToggleSearch}>
           <Search size={20} />
         </button>
-        <button onClick={() => onOpenSidebarPanel?.('members', { channelId: channel.id, workspaceId: channel.workspaceId })}>
+        <button
+          onClick={() => onOpenSidebarPanel?.('members', { channelId: channel.id, workspaceId: channel.workspaceId })}
+        >
           <Users size={20} />
         </button>
-        <button onClick={() => onOpenSidebarPanel?.('pinned', { channelId: channel.id })}>
+        <button
+          onClick={() => onOpenSidebarPanel?.('pinned', { channelId: channel.id })}
+        >
           <Bookmark size={20} />
         </button>
-        <button onClick={() => onOpenSidebarPanel?.('threads', { channelId: channel.id })}>
+        <button
+          onClick={() => onOpenSidebarPanel?.('threads', { channelId: channel.id })}
+        >
           <MessageSquare size={20} />
         </button>
-        <button onClick={() => onOpenSidebarPanel?.('channelFiles', { channelId: channel.id })}>
+        <button
+          onClick={() => onOpenSidebarPanel?.('channelFiles', { channelId: channel.id })}
+        >
           <Folder size={20} />
         </button>
       </div>

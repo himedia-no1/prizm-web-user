@@ -144,4 +144,22 @@ export const messageService = {
     const response = await axiosInstance.get(`/mock/messages/files/${fileId}`);
     return response.data;
   },
+
+  /**
+   * 메시지 고정
+   * @param {string|number} messageId - 메시지 ID
+   */
+  async pinMessage(messageId) {
+    const response = await axiosInstance.post(`/mock/messages/${messageId}/pin`);
+    return response.data;
+  },
+
+  /**
+   * 메시지 고정 해제
+   * @param {string|number} messageId - 메시지 ID
+   */
+  async unpinMessage(messageId) {
+    const response = await axiosInstance.delete(`/mock/messages/${messageId}/pin`);
+    return response.data;
+  },
 };

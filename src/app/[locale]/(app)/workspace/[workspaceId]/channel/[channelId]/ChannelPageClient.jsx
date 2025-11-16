@@ -12,6 +12,7 @@ import { MembersSidebar } from '@/components/channel/components/MembersSidebar';
 import { MessageSearchBar } from '@/components/channel/components/MessageSearchBar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
 import { useUIStore } from '@/core/store/shared';
+import { messageService } from '@/core/api/services';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import { useState, useMemo, useEffect } from 'react';
@@ -34,12 +35,12 @@ const ChannelPageClient = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
   const [replyingTo, setReplyingTo] = useState(null); // 답글 대상 메시지
-  const [pinnedMessages, setPinnedMessages] = useState([]); // 고정된 메시지 목록
 
   const {
     channel,
     messages,
     resolvedUsers,
+    pinnedMessages,
     message,
     setMessage,
     currentThread,
@@ -98,19 +99,33 @@ const ChannelPageClient = (props) => {
     setReplyingTo(null);
   };
 
-  const handlePin = (message) => {
-    // 이미 고정된 메시지인지 확인
-    const isPinned = pinnedMessages.some(msg => msg.id === message.id);
+  const handlePin = async (message) => {
+    const isPinned = !!message.pinned;
+    const applyPinnedState = (nextPinned) => {
+      setMessages((prev) =>
+        prev.map((msg) => (msg.id === message.id ? { ...msg, pinned: nextPinned } : msg)),
+      );
+    };
 
-    if (isPinned) {
-      // 고정 해제
-      setPinnedMessages(prev => prev.filter(msg => msg.id !== message.id));
-      console.log('Unpinned message:', message.id);
-    } else {
-      // 고정 추가
-      setPinnedMessages(prev => [...prev, message]);
-      console.log('Pinned message:', message.id);
+    applyPinnedState(!isPinned);
+
+    try {
+      if (isPinned) {
+        await messageService.unpinMessage(message.id);
+      } else {
+        await messageService.pinMessage(message.id);
+      }
+    } catch (error) {
+      console.error('메시지 고정 상태 변경 실패:', error);
+      applyPinnedState(isPinned);
     }
+  };
+
+  const handleStartThreadSafe = (selectedMessage) => {
+    if (sidebarPanelType) {
+      closeSidebarPanel();
+    }
+    handleStartThread(selectedMessage);
   };
 
   return (
@@ -136,7 +151,7 @@ const ChannelPageClient = (props) => {
         <MessageList
           messages={messages}
           users={resolvedUsers}
-          onStartThread={handleStartThread}
+          onStartThread={handleStartThreadSafe}
           onOpenUserProfile={handleOpenUserProfile}
           onOpenContextMenu={handleOpenContextMenu}
           searchQuery={searchQuery}
@@ -162,6 +177,7 @@ const ChannelPageClient = (props) => {
               text: text,
               timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
               reply_id: replyingTo?.id || null,
+              pinned: false,
             };
 
             // 메시지 목록에 추가
@@ -200,7 +216,7 @@ const ChannelPageClient = (props) => {
           threadMessages={channel?.threadMessages || []}
           users={resolvedUsers}
           onClose={closeSidebarPanel}
-          onOpenThread={handleStartThread}
+          onOpenThread={handleStartThreadSafe}
         />
       )}
 
@@ -227,7 +243,7 @@ const ChannelPageClient = (props) => {
           position={contextMenu.position}
           onClose={handleCloseContextMenu}
           onPin={handlePin}
-          onStartThread={handleStartThread}
+          onStartThread={handleStartThreadSafe}
           onReply={handleReply}
           onForward={(msg) => {
             handleOpenModal('forwardMessage', { message: msg });
