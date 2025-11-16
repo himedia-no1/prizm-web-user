@@ -111,7 +111,12 @@ const ChannelPageClient = (props) => {
       );
     };
 
-    applyPinnedState(!isPinned);
+    const nextPinnedState = !isPinned;
+    applyPinnedState(nextPinnedState);
+
+    if (nextPinnedState) {
+      openSidebarPanel('pinned', { channelId: channel?.id });
+    }
 
     try {
       if (isPinned) {
@@ -230,7 +235,13 @@ const ChannelPageClient = (props) => {
           users={resolvedUsers}
           onClose={closeThread}
           onReactEmoji={handleOpenEmojiPicker}
-          onTranslate={() => {}}
+          onTranslate={handleTranslateMessage}
+          onPin={handlePin}
+          onStartThread={handleStartThreadSafe}
+          onReply={handleReply}
+          onForward={(msg) => handleOpenModal('forwardMessage', { message: msg })}
+          onEdit={() => console.log('Edit from thread')}
+          onDelete={() => console.log('Delete from thread')}
         />
       )}
 
