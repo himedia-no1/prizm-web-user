@@ -227,7 +227,9 @@ button { font-family: inherit; }
 
 .nav-category__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; padding-left: 0.5rem; margin-top: 2px; }
 
-.channel-button { display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; padding: 6px 8px; border-radius: 0.375rem; background: none; border: none; cursor: pointer; color: var(--text-secondary); }
+.channel-row { display: flex; align-items: center; gap: 0.25rem; }
+
+.channel-button { display: flex; align-items: center; justify-content: space-between; width: 100%; text-align: left; padding: 6px 8px; border-radius: 0.375rem; background: none; border: none; cursor: pointer; color: var(--text-secondary); flex: 1; }
 
 .channel-button:hover { background-color: rgba(0, 0, 0, 0.05); color: var(--text); }
 
@@ -251,7 +253,10 @@ button { font-family: inherit; }
 
 .channel-favorite-button.active { color: var(--primary); }
 
-.channel-hover-actions { display: flex; align-items: center; gap: 0.25rem; margin-left: 0.5rem; }
+.channel-hover-actions { display: flex; align-items: center; gap: 0.25rem; margin-left: 0.5rem; opacity: 0; pointer-events: none; transition: opacity 0.15s ease; }
+
+.channel-row:hover .channel-hover-actions,
+.channel-hover-actions:focus-within { opacity: 1; pointer-events: auto; }
 
 .channel-action-button { border: none; background: none; color: var(--text-secondary); display: inline-flex; align-items: center; justify-content: center; padding: 0.25rem; border-radius: 0.375rem; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease; }
 

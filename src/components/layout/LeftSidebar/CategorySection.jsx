@@ -19,7 +19,6 @@ export const CategorySection = ({
   const t = messages?.common;
 
   const [isOpen, setIsOpen] = useState(true);
-  const [hoveredChannel, setHoveredChannel] = useState(null);
   const { unreadCounts } = useChatStore();
   const currentWorkspaceRole = useWorkspaceStore((state) => state.currentWorkspaceRole);
   const isManager = currentWorkspaceRole === 'owner' || currentWorkspaceRole === 'manager';
@@ -59,18 +58,15 @@ export const CategorySection = ({
             const isActive = currentView === 'channel' && currentChannelId === channel.id;
             const isFavorite = favoriteChannels.includes(channel.id);
             const unreadCount = unreadCounts[channel.id] || 0;
-            const isHovered = hoveredChannel === channel.id;
             return (
               <li
                 key={channel.id}
                 className="channel-row"
-                onMouseEnter={() => setHoveredChannel(channel.id)}
-                onMouseLeave={() => setHoveredChannel(null)}
+            >
+              <button
+                onClick={() => onSelectChannel(channel.id)}
+                className={`channel-button ${isActive ? 'active' : ''}`}
               >
-                <button
-                  onClick={() => onSelectChannel(channel.id)}
-                  className={`channel-button ${isActive ? 'active' : ''}`}
-                >
                   <span className="channel-button__name">
                     <Hash size={16} />
                     <span>{channel.name}</span>
@@ -79,57 +75,55 @@ export const CategorySection = ({
                     <UnreadBadge count={unreadCount} />
                   </div>
                 </button>
-                {isHovered && (
-                  <div className="channel-hover-actions">
-                    {isManager && (
-                      <>
-                        <button
-                          type="button"
-                          className="channel-action-button"
-                          aria-label="Channel Settings"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            onOpenModal?.('channelSettings', {
-                              channelDetails: channel,
-                              onSave: async (data) => {
-                                console.log('Save channel settings:', data);
-                              },
-                            });
-                          }}
-                        >
-                          <Settings size={14} />
-                        </button>
-                        <button
-                          type="button"
-                          className="channel-action-button"
-                          aria-label="Invite Guest"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            onOpenModal?.('generic', {
-                              type: 'inviteGuest',
-                              channelId: channel.id,
-                              channelName: channel.name,
-                              workspaceId: category.workspaceId,
-                            });
-                          }}
-                        >
-                          <UserPlus size={14} />
-                        </button>
-                      </>
-                    )}
-                    <button
-                      type="button"
-                      className={`channel-action-button channel-favorite-button ${isFavorite ? 'active' : ''}`}
-                      aria-label={isFavorite ? t?.favorites?.remove : t?.favorites?.add}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onToggleFavorite?.(channel.id);
-                      }}
-                    >
-                      {isFavorite ? <Star size={14} /> : <StarOff size={14} />}
-                    </button>
-                  </div>
-                )}
+                <div className="channel-hover-actions">
+                  {isManager && (
+                    <>
+                      <button
+                        type="button"
+                        className="channel-action-button"
+                        aria-label="Channel Settings"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onOpenModal?.('channelSettings', {
+                            channelDetails: channel,
+                            onSave: async (data) => {
+                              console.log('Save channel settings:', data);
+                            },
+                          });
+                        }}
+                      >
+                        <Settings size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        className="channel-action-button"
+                        aria-label="Invite Guest"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          onOpenModal?.('generic', {
+                            type: 'inviteGuest',
+                            channelId: channel.id,
+                            channelName: channel.name,
+                            workspaceId: category.workspaceId,
+                          });
+                        }}
+                      >
+                        <UserPlus size={14} />
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    className={`channel-action-button channel-favorite-button ${isFavorite ? 'active' : ''}`}
+                    aria-label={isFavorite ? t?.favorites?.remove : t?.favorites?.add}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onToggleFavorite?.(channel.id);
+                    }}
+                  >
+                    {isFavorite ? <Star size={14} /> : <StarOff size={14} />}
+                  </button>
+                </div>
               </li>
             );
           })}
