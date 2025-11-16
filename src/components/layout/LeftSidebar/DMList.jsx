@@ -1,8 +1,12 @@
 'use client';
 
-import { Plus } from '@/components/common/icons';
-import { StatusIndicator } from '@/components/common/StatusIndicator';
-import useStrings from '@/hooks/useStrings';
+import Image from 'next/image';
+import { useMessages } from 'next-intl';
+import { StatusIndicator } from '@/components/ui/StatusIndicator';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
+import { useChatStore } from '@/core/store/chat';
+import styles from './DMList.module.css';
+import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
 export const DMList = ({
   dms,
@@ -11,32 +15,23 @@ export const DMList = ({
   currentChannelId,
   currentView,
   onSelectChannel,
-  onOpenModal,
 }) => {
-  const s = useStrings();
-  const existingDMUserIds = dms.map((dm) => dm.userId);
-  const excludeUserIds = currentUser?.id ? [currentUser.id] : [];
+  const messages = useMessages();
+  const s = { ...(messages?.common ?? {}), ...messages };
+  const { unreadCounts } = useChatStore();
 
   return (
     <div className="nav-group">
       <div className="nav-group__header">
         <span>{s.directMessages}</span>
-        <button
-          className="nav-category__add-button"
-          onClick={() =>
-            onOpenModal?.('addDM', {
-              excludeUserIds,
-              existingDMUserIds,
-            })
-          }
-        >
-          <Plus size={14} />
-        </button>
       </div>
-      <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
+      <ul className={`nav-category__list ${styles.list}`}>
         {dms.map(dm => {
-          const user = users[dm.userId];
+          const user = users?.[dm.userId];
           const isActive = currentView === 'channel' && currentChannelId === dm.id;
+          const unreadCount = unreadCounts[dm.id] || 0;
+          const displayName = user?.name ?? dm.name ?? s.unknownUser;
+          const avatarSrc = user?.avatar || getPlaceholderImage(32, displayName?.[0] ?? '?');
 
           return (
             <li key={dm.id}>
@@ -46,14 +41,23 @@ export const DMList = ({
               >
                 <span className="channel-button__name">
                   <div className="dm-button__avatar-container">
-                    <img src={user.avatar} alt={user.name} className="dm-button__avatar" />
+                    <Image
+                      src={avatarSrc}
+                      alt={displayName}
+                      width={32}
+                      height={32}
+                      className="dm-button__avatar"
+                    />
                     <StatusIndicator
-                      status={user.status}
+                      status={user?.status}
                       className="dm-button__status"
                     />
                   </div>
-                  <span>{user.name}</span>
+                  <span>{displayName}</span>
                 </span>
+                <div className="channel-button__trail">
+                  <UnreadBadge count={unreadCount} />
+                </div>
               </button>
             </li>
           );

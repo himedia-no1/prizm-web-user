@@ -1,0 +1,310 @@
+{
+  "titles": {
+    "search": "チャンネル内検索",
+    "members": "メンバー一覧",
+    "pinned": "固定メッセージ",
+    "threads": "スレッド一覧",
+    "info": "チャンネル情報",
+    "notifications": "通知",
+    "createCategory": "新規カテゴリ作成",
+    "inviteMember": "メンバーを招待",
+    "inviteGuest": "ゲストを招待",
+    "inviteResult": "招待完了のお知らせ",
+    "fileUpload": "ファイルアップロード",
+    "channelFiles": "チャンネルファイル",
+    "mention": "@ ユーザーに言及",
+    "addChannel": "チャンネル追加"
+  },
+  "addChannel": {
+    "description": "{{category}}カテゴリに新しいチャンネルを追加します。",
+    "nameLabel": "チャンネル名",
+    "namePlaceholder": "例：design-review",
+    "descLabel": "説明",
+    "descPlaceholder": "チャンネルの目的を簡単に記述してください。",
+    "submit": "チャンネル作成"
+  },
+  "inviteMember": {
+    "description": "メールアドレスまたは有効期限付きの招待リンクでチームメンバーを招待します。",
+    "tabs": {
+      "direct": "メールで招待",
+      "link": "招待リンク生成"
+    },
+    "email": {
+      "searchLabel": "招待するメンバーのメールアドレスを検索",
+      "searchPlaceholder": "名前またはメールアドレスを入力してください",
+      "emptySelection": "選択されたメンバーがいません。",
+      "groupLabel": "グループ設定",
+      "sendButton": "招待を送信",
+      "successTitle": "招待メールを送信しました",
+      "successSubtitle": "各メンバーには追跡可能な専用リンクが発行されます。",
+      "copyLink": "招待リンクをコピー"
+    },
+    "link": {
+      "description": "リンクの有効期限と使用制限を設定してください。",
+      "expirationLabel": "有効期限",
+      "expirationOptions": {
+        "24h": "24時間",
+        "7d": "7日",
+        "30d": "30日",
+        "never": "期限なし"
+      },
+      "usageLabel": "使用制限",
+      "usageOptions": {
+        "1": "1回",
+        "5": "5回",
+        "10": "10回",
+        "50": "50回",
+        "unlimited": "無制限",
+        "single": "1回"
+      },
+      "generateButton": "招待リンク生成",
+      "copyButton": "リンクをコピー",
+      "successTitle": "招待リンクの準備が完了しました",
+      "successSubtitle": "チームメンバーと以下のリンクを共有してください。"
+    },
+    "history": {
+      "title": "生成された招待リンク",
+      "empty": "まだ生成されたリンクがありません。",
+      "created": "作成日",
+      "expires": "有効期限",
+      "usage": "使用制限"
+    }
+  },
+  "inviteGuest": {
+    "description": "{{channel}}チャンネルにゲストを招待するか、有効期限付きのリンクを生成します。",
+    "tabs": {
+      "direct": "メールで招待",
+      "link": "ゲストリンク生成"
+    },
+    "email": {
+      "searchLabel": "ゲストのメールアドレスを検索",
+      "searchPlaceholder": "ゲストのメールアドレスを入力してください",
+      "emptySelection": "選択されたゲストがいません。",
+      "sendButton": "招待を送信",
+      "successTitle": "ゲスト招待を送信しました",
+      "successSubtitle": "専用リンクを通じてゲストがチャンネルに参加できます。",
+      "copyLink": "ゲストリンクをコピー"
+    },
+    "link": {
+      "description": "有効期限と使用制限を設定してからリンクを共有してください。",
+      "expirationLabel": "有効期限",
+      "expirationOptions": {
+        "24h": "24時間",
+        "7d": "7日",
+        "30d": "30日",
+        "never": "期限なし"
+      },
+      "usageLabel": "使用制限",
+      "usageOptions": {
+        "1": "1回",
+        "5": "5回",
+        "10": "10回",
+        "50": "50回",
+        "unlimited": "無制限",
+        "single": "1回"
+      },
+      "generateButton": "ゲストリンク生成",
+      "copyButton": "リンクをコピー",
+      "successTitle": "ゲストリンクの準備が完了しました",
+      "successSubtitle": "外部コラボレーターとリンクを共有してください。"
+    },
+    "history": {
+      "title": "ゲストリンク履歴",
+      "empty": "まだ生成されたゲストリンクがありません。",
+      "created": "作成日",
+      "expires": "有効期限",
+      "usage": "使用制限"
+    },
+    "context": {
+      "channelPrefix": "チャンネル"
+    }
+  },
+  "members": {
+    "inviteGuest": "ゲストを招待",
+    "searchPlaceholder": "メンバーを検索...",
+    "tabAll": "全て",
+    "tabMember": "メンバー",
+    "tabGuest": "ゲスト",
+    "tabAdmin": "管理者",
+    "noResults": "検索結果がありません"
+  },
+  "profileSettings": {
+    "title": "プロフィール設定",
+    "changePhoto": "写真を変更",
+    "displayName": "表示名",
+    "status": "ステータス",
+    "statusOnline": "オンライン",
+    "statusOffline": "オフライン",
+    "save": "保存"
+  },
+  "userProfile": {
+    "online": "オンライン",
+    "offline": "オフライン",
+    "realName": "実名",
+    "email": "メール",
+    "phone": "電話番号",
+    "joinMethod": "参加方法",
+    "role": "役割",
+    "sendDM": "DMを送信"
+  },
+  "channelFiles": {
+    "tabAll": "全て",
+    "tabFiles": "ファイル",
+    "tabMedia": "メディア",
+    "tabLinks": "リンク",
+    "uploadedBy": "アップロード者:",
+    "unknownUser": "不明",
+    "download": "ダウンロード",
+    "noFiles": "ファイルが見つかりません"
+  },
+  "messageForward": {
+    "noChannels": "転送可能なチャンネルがありません",
+    "selectedCount": "{{count}}件選択中",
+    "forwarding": "転送中..."
+  },
+  "inviteResult": {
+    "title": "招待完了のお知らせ",
+    "memberDescription": "以下のチームメンバーに固有の招待リンクが含まれたメールを送信しました。",
+    "guestDescription": "以下のゲストに固有の招待リンクが含まれたメールを送信しました。",
+    "linkDescription": "必要な方にこのリンクを共有してください。",
+    "close": "閉じる",
+    "codeLabel": "コード",
+    "createdLabel": "作成日",
+    "usageOptions": {
+      "1use": "1回使用",
+      "5uses": "5回使用",
+      "10uses": "10回使用",
+      "50uses": "50回使用",
+      "unlimited": "無制限"
+    },
+    "copy": "コピー",
+    "copied": "コピーしました",
+    "code": "コード",
+    "expiration": "有効期限",
+    "usageLimit": "使用制限",
+    "created": "作成日"
+  },
+  "userProfileModal": {
+    "realName": "実名：",
+    "email": "メール：",
+    "phone": "電話番号：",
+    "joinMethod": "参加方法：",
+    "role": "役割：",
+    "sendDM": "DMを送信"
+  },
+  "genericModal": {
+    "searchPlaceholder": "チャット内の検索ワードを入力...",
+    "noPinnedMessages": "固定されたメッセージがありません。",
+    "viewThread": "スレッドを表示",
+    "noThreads": "開始されたスレッドがありません。",
+    "channelInfo": "チーム全体のための一般的なお知らせと会話チャンネルです。",
+    "noNotifications": "新しい通知はありません。",
+    "categoryNameLabel": "カテゴリ名",
+    "categoryNamePlaceholder": "例：デザインチーム",
+    "createButton": "作成",
+    "fileUploadPrompt": "ここにファイルをドラッグするか、クリックしてアップロードしてください。",
+    "selectFileButton": "ファイル選択",
+    "uploadButton": "アップロード",
+    "linksTab": "リンク",
+    "mediaTab": "メディア",
+    "docsTab": "ドキュメント",
+    "noLinks": "このチャンネルで共有されたリンクがありません。",
+    "noMedia": "このチャンネルで共有された写真・動画がありません。",
+    "noDocs": "このチャンネルで共有されたドキュメントファイルがありません。",
+    "channelDescriptionPlaceholder": "チャンネルの説明がまだ追加されていません。",
+    "channelFiles": {
+      "filesTab": "ファイル",
+      "uploadedBy": "アップロード：",
+      "unknownUser": "不明",
+      "download": "ダウンロード",
+      "noFiles": "アップロードされたファイルがありません。"
+    }
+  },
+  "inbox": {
+    "title": "受信トレイ",
+    "empty": "通知がありません。",
+    "tabs": {
+      "all": "すべて",
+      "important": "重要なメッセージ",
+      "byWorkspace": "ワークスペース別"
+    },
+    "actions": {
+      "markAsRead": "既読にする",
+      "delete": "削除",
+      "markAllRead": "すべて既読にする"
+    },
+    "filters": {
+      "unreadOnly": "未読のみ",
+      "showAll": "すべて表示"
+    }
+  },
+  "workspaceProfile": {
+    "title": "ワークスペースプロフィール",
+    "description": "このワークスペースで使用するプロフィールを設定してください。",
+    "displayName": "表示名",
+    "statusMessage": "ステータスメッセージ",
+    "avatar": "アバター",
+    "saveButton": "変更を保存",
+    "saving": "保存中..."
+  },
+  "deactivateAccount": {
+    "title": "アカウントの無効化",
+    "description": "本当にアカウントを無効化しますか？データは保存されますが、アクセスできなくなります。",
+    "confirmButton": "無効化",
+    "cancelButton": "キャンセル",
+    "warning": "この操作は、サポートチームに連絡することで元に戻すことができます。",
+    "processing": "処理中..."
+  },
+  "deleteAccount": {
+    "title": "アカウントの削除",
+    "description": "本当にアカウントを永久に削除しますか？この操作は元に戻せません。",
+    "confirmButton": "完全に削除",
+    "cancelButton": "キャンセル",
+    "warning": "すべてのデータ、メッセージ、ワークスペースが完全に削除されます。",
+    "typeToConfirm": "確認のため「削除」と入力してください",
+    "confirmPlaceholder": "削除",
+    "deleting": "削除中...",
+    "deleteFailed": "アカウントの削除に失敗しました。"
+  },
+  "aiAssistant": {
+    "title": "AI アシスタント",
+    "newChat": "新規チャット",
+    "placeholder": "メッセージを入力...",
+    "send": "送信",
+    "sessions": {
+      "title": "チャット履歴",
+      "newSession": "新規セッション",
+      "defaultName": "新規チャット"
+    },
+    "examples": {
+      "greeting": "こんにちは。何かお手伝いできることはありますか?",
+      "question1": "プロジェクトスケジュールを整理する",
+      "answer1": "プロジェクトスケジュールの整理をお手伝いします。"
+    },
+    "aiResponsePrefix": "\"{message}\"に対する回答です。"
+  },
+  "notificationSettings": {
+    "title": "通知設定",
+    "notificationLevel": "通知レベル",
+    "allMessages": "すべてのメッセージ",
+    "allMessagesDesc": "新しいメッセージごとに通知を受け取ります",
+    "mentionsOnly": "@メンションのみ",
+    "mentionsOnlyDesc": "メンションされた場合のみ通知を受け取ります",
+    "nothing": "通知なし",
+    "nothingDesc": "どのメッセージも通知を受け取りません",
+    "cancel": "キャンセル",
+    "save": "設定を保存"
+  },
+  "workspaceNotificationSettings": {
+    "title": "ワークスペース通知設定",
+    "notificationLevel": "通知レベル",
+    "allMessages": "すべてのメッセージ",
+    "allMessagesDesc": "このワークスペースのすべてのメッセージで通知を受け取ります",
+    "mentionsOnly": "@メンション及びDMのみ",
+    "mentionsOnlyDesc": "メンションまたはDMを受け取った場合のみ通知を受け取ります",
+    "nothing": "通知なし",
+    "nothingDesc": "このワークスペースのどのメッセージも通知を受け取りません",
+    "cancel": "キャンセル",
+    "save": "設定を保存"
+  }
+}

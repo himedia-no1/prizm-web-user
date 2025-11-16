@@ -1,0 +1,60 @@
+{
+  "settings": "ワークスペース設定",
+  "create": "ワークスペース作成",
+  "joinWithLink": "招待リンクで参加",
+  "inviteCodePlaceholder": "招待コードを入力してください",
+  "joinButton": "ワークスペースに参加",
+  "createWorkspacePlaceholder": "例: 私の会社のプロジェクト",
+  "creating": "作成中...",
+  "joining": "参加中...",
+  "invalidInviteCode": "招待コードが無効です。",
+  "inviteCodeExample": "例: ABC123XYZ",
+  "member": "メンバー",
+  "members": "メンバー",
+  "directConversation": "ダイレクトメッセージ",
+  "teamConversation": "チームの会話",
+  "unknownChannel": "不明なチャンネル",
+  "turnOffNotifications": "通知をオフにする",
+  "turnOnNotifications": "通知をオンにする",
+  "dashboard": {
+    "title": "ダッシュボード",
+    "welcomeTitle": "ようこそ!",
+    "welcomeMessage": "ワークスペースアクティビティをひとめで確認できます。",
+    "stats": {
+      "totalMessages": "合計メッセージ数",
+      "activeMembers": "アクティブメンバー",
+      "activeChannels": "アクティブチャネル",
+      "last30Days": "過去30日間"
+    },
+    "recentActivity": "最近のアクティビティ",
+    "noActivity": "まだアクティビティがありません。"
+  },
+  "search": {
+    "resultsTitle": "検索結果",
+    "searching": "検索中...",
+    "searchingDesc": "チームのナレッジを検索しています。しばらくお待ちください。",
+    "error": "問題が発生しました",
+    "emptyQuery": "必要な情報を見つけましょう",
+    "emptyQueryDesc": "チームの会話、ファイル、メンバー情報を一括で検索できます。",
+    "noResults": "検索結果がありません",
+    "noResultsDesc": "キーワードやフィルターを変更して、もう一度お試しください。"
+  },
+  "forbidden": {
+    "title": "ワークスペースにアクセスできません",
+    "description1": "最近アクセスしたワークスペースの情報が見つかりませんでした。",
+    "description2": "新しいワークスペースを作成するか、招待リンクを入力してください。",
+    "createWorkspaceButton": "新しいワークスペースを作成",
+    "enterInviteCodeButton": "招待コードを入力",
+    "metaDescription": "すでにワークスペースに参加している場合は、招待リンクをもう一度確認してください。",
+    "loginWithAnotherAccount": "別のアカウントでログイン"
+  },
+  "joinPage": {
+    "invalidWorkspace": "無効なワークスペースです。",
+    "workspaceNotFound": "ワークスペースが見つかりません。",
+    "createWorkspaceLink": "新しいワークスペースを作成",
+    "inviteTitle": "{workspaceName} ワークスペースへの招待",
+    "inviteDescription": "招待コードを入力するか、ワークスペース管理者に招待リンクを依頼してください。",
+    "enterInviteCodeButton": "招待コードを入力",
+    "loginWithAnotherAccount": "別のアカウントでログイン"
+  }
+}

@@ -1,0 +1,15 @@
+.emojiModal {
+  max-width: 450px;
+  width: 90vw;
+}
+
+.pickerWrapper {
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.pickerWrapper aside {
+  border: none !important;
+}

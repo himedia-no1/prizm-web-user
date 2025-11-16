@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p ${PORT:-8081}",
+    "dev": "next dev -p ${PORT:-3031}",
     "build": "next build",
-    "start": "next start -p ${PORT:-8081}",
+    "start": "next start -p ${PORT:-3031}",
     "lint": "eslint"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "emoji-picker-react": "^4.15.0",
     "lucide-react": "^0.548.0",
     "next": "16.0.1",
+    "next-intl": "^4.5.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-dropzone": "^14.3.8",

@@ -1,6 +1,9 @@
-'use client';
-
-import { Hash, Star, StarOff, Plus } from '@/components/common/icons';
+import { useState } from 'react';
+import { Hash, Star } from '@/components/common/icons';
+import { UnreadBadge } from '@/components/ui/UnreadBadge';
+import { useChatStore } from '@/core/store/chat';
+import styles from './FavoritesList.module.css';
+import { useMessages } from 'next-intl';
 
 export const FavoritesList = ({
   channelsIndex,
@@ -9,63 +12,68 @@ export const FavoritesList = ({
   currentView,
   onSelectChannel,
   onToggleFavorite,
-  onOpenFavoriteModal,
   label,
-  emptyLabel = '즐겨찾기한 채널이 없습니다.',
 }) => {
+  const messages = useMessages();
+  const t = messages?.common;
+  const [hoveredChannel, setHoveredChannel] = useState(null);
+
+  const unreadCounts = useChatStore((state) => state.unreadCounts);
   const favorites = favoriteChannels
     .map((id) => channelsIndex[id])
     .filter(Boolean);
+
+  if (favorites.length === 0) {
+    return null;
+  }
 
   return (
     <div className="nav-group">
       <div className="nav-group__header">
         <span>{label}</span>
-        <button
-          type="button"
-          className="nav-category__add-button"
-          onClick={() => onOpenFavoriteModal?.()}
-        >
-          <Plus size={14} />
-        </button>
       </div>
 
-      {favorites.length === 0 ? (
-        <p className="favorites-empty">{emptyLabel}</p>
-      ) : (
-        <ul className="nav-category__list" style={{ paddingLeft: 0 }}>
-          {favorites.map((channel) => {
-            const isActive = currentView === 'channel' && currentChannelId === channel.id;
-            return (
-              <li key={channel.id} className="channel-row">
-                <button
-                  onClick={() => onSelectChannel(channel.id)}
-                  className={`channel-button ${isActive ? 'active' : ''}`}
-                >
-                  <span className="channel-button__name">
-                    <Hash size={16} />
-                    <span>{channel.name}</span>
-                  </span>
-                  <div className="channel-button__trail">
-                    <span className="favorite-category-label">{channel.categoryName}</span>
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  className="channel-favorite-button active"
-                  aria-label="즐겨찾기 해제"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    onToggleFavorite?.(channel.id);
-                  }}
-                >
-                  <Star size={14} />
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      <ul className={`nav-category__list ${styles.list}`}>
+        {favorites.map((channel) => {
+          const isActive = currentView === 'channel' && currentChannelId === channel.id;
+          const unreadCount = unreadCounts[channel.id] || 0;
+          const isHovered = hoveredChannel === channel.id;
+          return (
+            <li
+              key={channel.id}
+              className="channel-row"
+              onMouseEnter={() => setHoveredChannel(channel.id)}
+              onMouseLeave={() => setHoveredChannel(null)}
+            >
+              <button
+                onClick={() => onSelectChannel(channel.id)}
+                className={`channel-button ${isActive ? 'active' : ''}`}
+              >
+                <span className="channel-button__name">
+                  <Hash size={16} />
+                  <span>{channel.name}</span>
+                </span>
+                <div className="channel-button__trail">
+                  <UnreadBadge count={unreadCount} />
+                  <span className="favorite-category-label">{channel.categoryName}</span>
+                </div>
+              </button>
+              <button
+                type="button"
+                className="channel-favorite-button active"
+                aria-label={t?.favorites?.remove}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onToggleFavorite?.(channel.id);
+                }}
+                style={{ opacity: isHovered ? 1 : 0 }}
+              >
+                <Star size={14} />
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };

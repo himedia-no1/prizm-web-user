@@ -1,0 +1,40 @@
+{
+  "heroPill": "Recherche unifiée",
+  "placeholder": "Rechercher des messages, des fichiers et des membres dans tout l'espace de travail",
+  "submitButton": "Rechercher",
+  "tabs": {
+    "all": "Tout",
+    "messages": "Messages",
+    "files": "Fichiers",
+    "users": "Membres"
+  },
+  "resultsTitle": "Résultats de la recherche",
+  "status": {
+    "loading": "Chargement des résultats...",
+    "prompt": "Saisissez un terme de recherche pour commencer.",
+    "error": "Une erreur est survenue lors de la recherche.",
+    "noResults": "Aucun résultat correspondant trouvé. Essayez un autre mot-clé ou filtre.",
+    "resultsFound": "{count} résultats sont prêts."
+  },
+  "loading": {
+    "title": "Recherche en cours...",
+    "description": "Nous parcourons les connaissances de votre équipe. Veuillez patienter un instant."
+  },
+  "error": {
+    "title": "Un problème est survenu",
+    "description": "Une erreur est survenue lors de la recherche."
+  },
+  "empty": {
+    "title": "Trouvez ce dont vous avez besoin",
+    "description": "Trouvez instantanément les conversations d'équipe, les fichiers et les informations sur les membres grâce à la recherche unifiée."
+  },
+  "noResults": {
+    "title": "Aucun résultat trouvé",
+    "description": "Essayez de modifier vos mots-clés ou vos filtres."
+  },
+  "inChannelPlaceholder": "Rechercher dans ce canal...",
+  "inChannelNoResults": "Aucun résultat trouvé",
+  "previousMatch": "Résultat précédent",
+  "nextMatch": "Résultat suivant",
+  "close": "Fermer"
+}

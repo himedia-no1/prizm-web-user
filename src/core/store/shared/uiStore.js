@@ -1,0 +1,35 @@
+import { create } from 'zustand';
+
+/**
+ * UI Store (공통)
+ * - 테마 (다크모드)
+ * - Modal 상태
+ * - 자동 번역 설정
+ *
+ * 담당: 공통 (모든 개발자)
+ */
+export const useUIStore = create((set) => ({
+  // Theme
+  isDarkMode: false,
+  toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
+  setTheme: (mode) => set({ isDarkMode: mode === 'dark' }),
+
+  // Modal
+  modalType: null,
+  modalProps: {},
+  openModal: (type, props = {}) => set({ modalType: type, modalProps: props }),
+  closeModal: () => set({ modalType: null, modalProps: {} }),
+
+  // Sidebar Panel (우측 패널: pinned, threads, channelFiles 등)
+  sidebarPanelType: null,
+  sidebarPanelProps: {},
+  openSidebarPanel: (type, props = {}) => set({ sidebarPanelType: type, sidebarPanelProps: props }),
+  closeSidebarPanel: () => set({ sidebarPanelType: null, sidebarPanelProps: {} }),
+
+  // Auto Translation
+  autoTranslateEnabled: false,
+  toggleAutoTranslate: () => set((state) => ({ autoTranslateEnabled: !state.autoTranslateEnabled })),
+  setAutoTranslate: (enabled) => set({ autoTranslateEnabled: enabled }),
+}));
+
+export default useUIStore;

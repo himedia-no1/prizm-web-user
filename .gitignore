@@ -4,6 +4,9 @@ ehthumbs.db
 Icon?
 desktop.ini
 
+!src/components/common/icons/
+!src/components/common/icons/*.jsx
+
 .idea/
 .vscode/
 *.code-workspace
@@ -39,6 +42,7 @@ out/
 *.eslintcache
 
 venv/
+.venv/
 instance/
 .mypy_cache/
 .pytest_cache/

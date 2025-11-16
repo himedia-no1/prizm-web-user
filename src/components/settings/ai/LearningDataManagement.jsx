@@ -1,39 +1,125 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMessages } from 'next-intl';
 import styles from './LearningDataManagement.module.css';
-
-const mockData = [
-    { id: 1, source: 'document.pdf', author: 'User 1', created_at: '2025-10-28', is_approved: true },
-    { id: 2, source: 'chat_channel_general', author: 'User 2', created_at: '2025-10-29', is_approved: false },
-    { id: 3, source: 'note_20251030', author: 'User 3', created_at: '2025-10-30', is_approved: true },
-];
+import { aiService } from '@/core/api/services';
 
 export default function LearningDataManagement() {
-    const [data, setData] = useState(mockData);
+    const messages = useMessages();
+    const ai = messages?.workspaceManagement?.ai?.learningData;
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [actionFeedback, setActionFeedback] = useState(null);
 
-    const handleToggleApproval = (id) => {
-        setData(data.map(item => item.id === id ? { ...item, is_approved: !item.is_approved } : item));
+    useEffect(() => {
+        let active = true;
+
+        const loadLearningData = async () => {
+            try {
+                const payload = await aiService.fetchLearningData();
+                if (!active) {
+                    return;
+                }
+                setData(Array.isArray(payload) ? payload : []);
+                setError(null);
+            } catch (err) {
+                if (!active) {
+                    return;
+                }
+                console.error('Failed to load learning data:', err);
+                setError(ai.loadError);
+                setData([]);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadLearningData();
+
+        return () => {
+            active = false;
+        };
+    }, [ai.loadError]);
+
+    const handleToggleApproval = async (id) => {
+        const target = data.find((item) => item.id === id);
+        if (!target) {
+            return;
+        }
+        const nextApproved = !target.approved;
+        const snapshot = data.map((item) => ({ ...item }));
+        setData((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, approved: nextApproved } : item,
+            ),
+        );
+        try {
+            await aiService.updateLearningDataApproval(id, nextApproved);
+            setActionFeedback(ai.approveSuccess);
+        } catch (err) {
+            console.error('Failed to update learning data approval:', err);
+            setData(snapshot);
+            setActionFeedback(ai.approveError);
+        }
     };
 
-    const handleRemoveData = (id) => {
-        setData(data.filter(item => item.id !== id));
+    const handleRemoveData = async (id) => {
+        const snapshot = data.map((item) => ({ ...item }));
+        setData((prev) => prev.filter((item) => item.id !== id));
+        try {
+            await aiService.deleteLearningData(id);
+            setActionFeedback(ai.deleteSuccess);
+        } catch (err) {
+            console.error('Failed to delete learning data:', err);
+            setData(snapshot);
+            setActionFeedback(ai.deleteError);
+        }
     };
 
-    const handleReinspectData = (id) => {
-        console.log(`Reinspecting data with id: ${id}`);
+    const handleReinspectData = async (id) => {
+        try {
+            const response = await aiService.reinspectLearningData(id);
+            if (response?.item) {
+                setData((prev) =>
+                    prev.map((item) =>
+                        item.id === id ? { ...item, ...response.item } : item,
+                    ),
+                );
+            }
+            setActionFeedback(ai.reinspectSuccess);
+        } catch (err) {
+            console.error('Failed to request reinspection:', err);
+            setActionFeedback(ai.reinspectError);
+        }
     };
+
+    if (!ai) {
+        return null;
+    }
+
+    if (loading) {
+        return <div className={styles.container}>{ai.loading}</div>;
+    }
+
+    if (error) {
+        return <div className={styles.container}>{error}</div>;
+    }
 
     return (
         <div className={styles.container}>
+            {actionFeedback && <div className={styles.feedback}>{actionFeedback}</div>}
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Source</th>
-                        <th>Author</th>
-                        <th>Created At</th>
-                        <th>Approved</th>
-                        <th>Actions</th>
+                        <th>{ai.source}</th>
+                        <th>{ai.author}</th>
+                        <th>{ai.createdAt}</th>
+                        <th>{ai.approved}</th>
+                        <th>{ai.actions}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,10 +127,10 @@ export default function LearningDataManagement() {
                         <tr key={item.id}>
                             <td>{item.source}</td>
                             <td>{item.author}</td>
-                            <td>{item.created_at}</td>
+                            <td>{item.createdAt}</td>
                             <td>
                                 <label className={styles.switch}>
-                                    <input type="checkbox" checked={item.is_approved} onChange={() => handleToggleApproval(item.id)} />
+                                    <input type="checkbox" checked={item.approved} onChange={() => handleToggleApproval(item.id)} />
                                     <span className={styles.slider}></span>
                                 </label>
                             </td>

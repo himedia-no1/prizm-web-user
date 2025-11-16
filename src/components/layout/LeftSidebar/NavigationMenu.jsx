@@ -1,10 +1,9 @@
+import { useMessages } from 'next-intl';
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
 
 export const NavigationMenu = ({ currentView, onSelectView }) => {
-  const { language } = useStore();
-  const s = strings[language];
+  const messages = useMessages();
+  const s = messages?.common ?? {};
 
   const directoryLabel = typeof s.directory === 'object' ? s.directory.title : s.directory;
 

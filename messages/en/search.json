@@ -1,0 +1,40 @@
+{
+  "heroPill": "Unified Search",
+  "placeholder": "Search for messages, files, and members across the workspace",
+  "submitButton": "Search",
+  "tabs": {
+    "all": "All",
+    "messages": "Messages",
+    "files": "Files",
+    "users": "Members"
+  },
+  "resultsTitle": "Search Results",
+  "status": {
+    "loading": "Loading results...",
+    "prompt": "Enter a search term to begin.",
+    "error": "An error occurred during the search.",
+    "noResults": "No matching results found. Try another keyword or filter.",
+    "resultsFound": "{count} results are ready."
+  },
+  "loading": {
+    "title": "Searching...",
+    "description": "We're looking through your team's knowledge. Please wait a moment."
+  },
+  "error": {
+    "title": "A problem occurred",
+    "description": "An error occurred while searching."
+  },
+  "empty": {
+    "title": "Find what you need",
+    "description": "Instantly find team conversations, files, and member information with unified search."
+  },
+  "noResults": {
+    "title": "No results found",
+    "description": "Try changing your keywords or filters."
+  },
+  "inChannelPlaceholder": "Search in this channel...",
+  "inChannelNoResults": "No results found",
+  "previousMatch": "Previous match",
+  "nextMatch": "Next match",
+  "close": "Close"
+}

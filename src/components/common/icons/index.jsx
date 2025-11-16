@@ -13,7 +13,9 @@ export { Plus } from './Plus';
 
 // Navigation Icons
 export { CornerDownRight } from './CornerDownRight';
+export { Download } from './Download';
 export { ChevronDown } from './ChevronDown';
+export { ChevronUp } from './ChevronUp';
 export { ChevronsUpDown } from './ChevronsUpDown';
 export { ChevronsLeft } from './ChevronsLeft';
 export { ChevronsRight } from './ChevronsRight';
@@ -27,10 +29,13 @@ export { Sun } from './Sun';
 // Feature Icons
 export { Search } from './Search';
 export { Bookmark } from './Bookmark';
+export { Pin } from './Pin';
 export { Info } from './Info';
 export { Bell } from './Bell';
+export { BellOff } from './BellOff';
 export { Mail } from './Mail';
 export { User } from './User';
+export { UserPlus } from './UserPlus';
 export { AtSign } from './AtSign';
 export { LayoutDashboard } from './LayoutDashboard';
 export { LayoutGrid } from './LayoutGrid';
@@ -48,6 +53,7 @@ export { Share } from './Share';
 export { Translate } from './Translate';
 export { AlertTriangle } from './AlertTriangle';
 export { Star } from './Star';
+export { Copy } from './Copy';
 export { StarOff } from './StarOff';
 
 // Social Login Icons

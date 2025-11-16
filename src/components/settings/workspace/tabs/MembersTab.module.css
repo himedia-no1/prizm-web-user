@@ -1,0 +1,22 @@
+.description { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.section { margin-bottom: 2rem; }
+.sectionTitle { font-size: 1.05rem; font-weight: 600; }
+.sectionDescription { color: var(--text-secondary); margin: 0.35rem 0 1rem; }
+.empty { color: var(--text-tertiary); font-size: 0.9rem; }
+.memberItem { align-items: center; gap: 1rem; padding: 0.75rem 0; }
+.memberDetails { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; }
+.memberInfo { font-size: 0.8rem; color: var(--text-secondary); }
+.memberMeta { font-size: 0.75rem; color: var(--text-tertiary); }
+.unblockButton { padding: 0.4rem 0.75rem; }
+.actions { display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.actionButton { width: auto; }
+.secondaryButton { background: var(--primary-light); }
+.checkbox { margin: 0; }
+.participantDetails { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.status { font-size: 0.8rem; text-transform: capitalize; }
+.onlineStatus { color: #16a34a; }
+.offlineStatus { color: var(--text-secondary); }
+.historyItem { padding: 0.75rem 0; gap: 1rem; }
+.historyDetails { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.historyAction { font-size: 0.85rem; color: var(--text-secondary); }
+.historyTimestamp { font-size: 0.8rem; color: var(--text-tertiary); }

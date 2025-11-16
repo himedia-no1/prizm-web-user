@@ -1,0 +1,310 @@
+{
+  "titles": {
+    "search": "Search in Channel",
+    "members": "Members",
+    "pinned": "Pinned Messages",
+    "threads": "Threads",
+    "info": "Channel Info",
+    "notifications": "Notifications",
+    "createCategory": "Create Category",
+    "inviteMember": "Invite member",
+    "inviteGuest": "Invite guest",
+    "inviteResult": "Invitation summary",
+    "fileUpload": "Upload Files",
+    "channelFiles": "Channel Files",
+    "mention": "Mention",
+    "addChannel": "Add Channel"
+  },
+  "addChannel": {
+    "description": "Add a new channel to {{category}}.",
+    "nameLabel": "Channel name",
+    "namePlaceholder": "e.g. design-review",
+    "descLabel": "Description",
+    "descPlaceholder": "Briefly describe the purpose of this channel.",
+    "submit": "Create channel"
+  },
+  "inviteMember": {
+    "description": "Invite teammates by email or share a time-bound invite link.",
+    "tabs": {
+      "direct": "Invite by email",
+      "link": "Generate invite link"
+    },
+    "email": {
+      "searchLabel": "Search teammate email",
+      "searchPlaceholder": "Enter a name or email address",
+      "emptySelection": "No recipients selected.",
+      "groupLabel": "Assign to groups",
+      "sendButton": "Send invites",
+      "successTitle": "Invitations sent",
+      "successSubtitle": "Each teammate receives a personalised, traceable link.",
+      "copyLink": "Copy invite link"
+    },
+    "link": {
+      "description": "Configure expiration and usage limits before sharing.",
+      "expirationLabel": "Expiration",
+      "expirationOptions": {
+        "24h": "24 hours",
+        "7d": "7 days",
+        "30d": "30 days",
+        "never": "No expiration"
+      },
+      "usageLabel": "Usage limit",
+      "usageOptions": {
+        "1": "1 use",
+        "5": "5 uses",
+        "10": "10 uses",
+        "50": "50 uses",
+        "unlimited": "Unlimited",
+        "single": "1 use"
+      },
+      "generateButton": "Generate invite link",
+      "copyButton": "Copy link",
+      "successTitle": "Invite link ready",
+      "successSubtitle": "Share this link with your team."
+    },
+    "history": {
+      "title": "Invite link history",
+      "empty": "No invite links generated yet.",
+      "created": "Created",
+      "expires": "Expires",
+      "usage": "Usage limit"
+    }
+  },
+  "inviteGuest": {
+    "description": "Invite guests to {{channel}} or generate a time-bound guest link.",
+    "tabs": {
+      "direct": "Invite by email",
+      "link": "Generate guest link"
+    },
+    "email": {
+      "searchLabel": "Search guest email",
+      "searchPlaceholder": "Enter a guest email address",
+      "emptySelection": "No guests selected.",
+      "sendButton": "Send guest invites",
+      "successTitle": "Guest invitations sent",
+      "successSubtitle": "Guests can join via the personalised link below.",
+      "copyLink": "Copy guest link"
+    },
+    "link": {
+      "description": "Configure expiration and usage limits before sharing.",
+      "expirationLabel": "Expiration",
+      "expirationOptions": {
+        "24h": "24 hours",
+        "7d": "7 days",
+        "30d": "30 days",
+        "never": "No expiration"
+      },
+      "usageLabel": "Usage limit",
+      "usageOptions": {
+        "1": "1 use",
+        "5": "5 uses",
+        "10": "10 uses",
+        "50": "50 uses",
+        "unlimited": "Unlimited",
+        "single": "1 use"
+      },
+      "generateButton": "Generate guest link",
+      "copyButton": "Copy link",
+      "successTitle": "Guest link ready",
+      "successSubtitle": "Share this link with external collaborators."
+    },
+    "history": {
+      "title": "Guest link history",
+      "empty": "No guest links generated yet.",
+      "created": "Created",
+      "expires": "Expires",
+      "usage": "Usage limit"
+    },
+    "context": {
+      "channelPrefix": "Channel"
+    }
+  },
+  "members": {
+    "inviteGuest": "Inviter un invité au canal",
+    "searchPlaceholder": "Rechercher des membres...",
+    "tabAll": "Tous",
+    "tabMember": "Membres",
+    "tabGuest": "Invités",
+    "tabAdmin": "Administrateurs",
+    "noResults": "Aucun résultat trouvé"
+  },
+  "profileSettings": {
+    "title": "Paramètres du profil",
+    "changePhoto": "Changer la photo",
+    "displayName": "Nom d'affichage",
+    "status": "Statut",
+    "statusOnline": "En ligne",
+    "statusOffline": "Hors ligne",
+    "save": "Enregistrer"
+  },
+  "userProfile": {
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "realName": "Nom réel",
+    "email": "Email",
+    "phone": "Téléphone",
+    "joinMethod": "Méthode d'inscription",
+    "role": "Rôle",
+    "sendDM": "Envoyer un message privé"
+  },
+  "channelFiles": {
+    "tabAll": "Tous",
+    "tabFiles": "Fichiers",
+    "tabMedia": "Médias",
+    "tabLinks": "Liens",
+    "uploadedBy": "Téléversé par",
+    "unknownUser": "Inconnu",
+    "download": "Télécharger",
+    "noFiles": "Aucun fichier trouvé"
+  },
+  "messageForward": {
+    "noChannels": "Aucun canal disponible pour transférer",
+    "selectedCount": "{{count}} sélectionné(s)",
+    "forwarding": "Transfert en cours..."
+  },
+  "inviteResult": {
+    "title": "Récapitulatif de l'invitation",
+    "memberDescription": "Les membres suivants ont reçu des emails d'invitation avec des liens uniques.",
+    "guestDescription": "Les invités suivants ont reçu des emails d'invitation avec des liens uniques.",
+    "linkDescription": "Partagez ce lien avec toute personne qui devrait rejoindre.",
+    "close": "Fermer",
+    "codeLabel": "Code",
+    "createdLabel": "Créé",
+    "usageOptions": {
+      "1use": "1 utilisation",
+      "5uses": "5 utilisations",
+      "10uses": "10 utilisations",
+      "50uses": "50 utilisations",
+      "unlimited": "Illimité"
+    },
+    "copy": "Copier",
+    "copied": "Copié !",
+    "code": "Code",
+    "expiration": "Expiration",
+    "usageLimit": "Limite d'utilisation",
+    "created": "Créé"
+  },
+  "userProfileModal": {
+    "realName": "Real Name:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "joinMethod": "Join Method:",
+    "role": "Role:",
+    "sendDM": "Send DM"
+  },
+  "genericModal": {
+    "searchPlaceholder": "Search in chat...",
+    "noPinnedMessages": "No pinned messages.",
+    "viewThread": "View thread",
+    "noThreads": "No threads started.",
+    "channelInfo": "This is a general announcement and conversation channel for the whole team.",
+    "noNotifications": "No new notifications.",
+    "categoryNameLabel": "Category Name",
+    "categoryNamePlaceholder": "e.g. Design Team",
+    "createButton": "Create",
+    "fileUploadPrompt": "Drag and drop files here, or click to upload.",
+    "selectFileButton": "Select File",
+    "uploadButton": "Upload",
+    "linksTab": "Links",
+    "mediaTab": "Media",
+    "docsTab": "Documents",
+    "noLinks": "No links shared in this channel.",
+    "noMedia": "No photos/videos shared in this channel.",
+    "noDocs": "No documents shared in this channel.",
+    "channelDescriptionPlaceholder": "A description for this channel has not been added yet.",
+    "channelFiles": {
+      "filesTab": "Files",
+      "uploadedBy": "Uploaded by:",
+      "unknownUser": "Unknown",
+      "download": "Download",
+      "noFiles": "No files uploaded yet."
+    }
+  },
+  "inbox": {
+    "title": "Inbox",
+    "empty": "No notifications yet.",
+    "tabs": {
+      "all": "All",
+      "important": "Important",
+      "byWorkspace": "By Workspace"
+    },
+    "actions": {
+      "markAsRead": "Mark as read",
+      "delete": "Delete",
+      "markAllRead": "Mark all as read"
+    },
+    "filters": {
+      "unreadOnly": "Unread only",
+      "showAll": "Show all"
+    }
+  },
+  "workspaceProfile": {
+    "title": "Workspace Profile",
+    "description": "Set your profile for this workspace.",
+    "displayName": "Display name",
+    "statusMessage": "Status message",
+    "avatar": "Avatar",
+    "saveButton": "Save changes",
+    "saving": "Enregistrement..."
+  },
+  "deactivateAccount": {
+    "title": "Désactiver le compte",
+    "description": "Êtes-vous sûr de vouloir désactiver votre compte ? Vos données seront conservées mais vous ne pourrez plus y accéder.",
+    "confirmButton": "Désactiver",
+    "cancelButton": "Annuler",
+    "warning": "Cette action peut être annulée en contactant le support.",
+    "processing": "Traitement en cours..."
+  },
+  "deleteAccount": {
+    "title": "Supprimer le compte",
+    "description": "Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est irréversible.",
+    "confirmButton": "Supprimer définitivement",
+    "cancelButton": "Annuler",
+    "warning": "Toutes vos données, messages et espaces de travail seront définitivement supprimés.",
+    "typeToConfirm": "Tapez \"SUPPRIMER\" pour confirmer",
+    "confirmPlaceholder": "SUPPRIMER",
+    "deleting": "Suppression en cours...",
+    "deleteFailed": "Échec de la suppression du compte."
+  },
+  "aiAssistant": {
+    "title": "Assistant IA",
+    "newChat": "Nouveau chat",
+    "placeholder": "Entrez votre message...",
+    "send": "Envoyer",
+    "sessions": {
+      "title": "Historique des conversations",
+      "newSession": "Nouvelle session",
+      "defaultName": "Nouveau chat"
+    },
+    "examples": {
+      "greeting": "Bonjour! Comment puis-je vous aider?",
+      "question1": "Organiser l'horaire du projet",
+      "answer1": "Bien sûr, je vais vous aider à organiser l'horaire du projet."
+    },
+    "aiResponsePrefix": "Ceci est la réponse à \"{message}\"."
+  },
+  "notificationSettings": {
+    "title": "Paramètres de notification",
+    "notificationLevel": "Niveau de notification",
+    "allMessages": "Tous les messages",
+    "allMessagesDesc": "Recevoir une notification pour chaque nouveau message",
+    "mentionsOnly": "@mentions uniquement",
+    "mentionsOnlyDesc": "Recevoir une notification uniquement lorsque vous êtes mentionné",
+    "nothing": "Aucune",
+    "nothingDesc": "Ne pas recevoir de notification pour les messages",
+    "cancel": "Annuler",
+    "save": "Enregistrer les paramètres"
+  },
+  "workspaceNotificationSettings": {
+    "title": "Paramètres de notification de l'espace de travail",
+    "notificationLevel": "Niveau de notification",
+    "allMessages": "Tous les messages",
+    "allMessagesDesc": "Recevoir des notifications pour tous les messages dans cet espace de travail",
+    "mentionsOnly": "@mentions et DMs uniquement",
+    "mentionsOnlyDesc": "Recevoir des notifications uniquement pour les mentions et les messages directs",
+    "nothing": "Aucune",
+    "nothingDesc": "Ne pas recevoir de notifications pour les messages de cet espace de travail",
+    "cancel": "Annuler",
+    "save": "Enregistrer les paramètres"
+  }
+}

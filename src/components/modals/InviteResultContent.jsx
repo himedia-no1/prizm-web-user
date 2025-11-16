@@ -1,4 +1,4 @@
-import useStrings from '@/hooks/useStrings';
+import { useMessages } from 'next-intl';
 import { Users as UsersIcon, Share } from '@/components/common/icons';
 import { CopyableLink } from './InviteFlowContent';
 import styles from './InviteResultContent.module.css';
@@ -24,10 +24,14 @@ const formatTimestamp = (value) => {
 };
 
 export const InviteResultContent = ({ mode = 'member', resultType = 'direct', entries = [], link, onClose }) => {
-  const strings = useStrings();
-  const inviteStrings = mode === 'guest' ? strings.modals?.inviteGuest : strings.modals?.inviteMember;
-  const copyStrings = strings.copy ?? {};
-  const resultStrings = strings.modals?.inviteResult ?? {};
+  const messages = useMessages() ?? {};
+  const inviteStrings = mode === 'guest' ? messages.modals?.inviteGuest : messages.modals?.inviteMember;
+  const copyStrings = messages.copy;
+  const resultStrings = messages.modals?.inviteResult;
+
+  if (!inviteStrings || !copyStrings || !resultStrings) {
+    return null;
+  }
 
   const description =
     resultType === 'link'
@@ -41,7 +45,7 @@ export const InviteResultContent = ({ mode = 'member', resultType = 'direct', en
       <header className={styles.header}>
         <Share size={18} />
         <div>
-          <h3>{inviteStrings?.link?.successTitle ?? inviteStrings?.email?.successTitle ?? resultStrings.title}</h3>
+          <h3>{inviteStrings.link?.successTitle ?? inviteStrings.email?.successTitle ?? resultStrings.title}</h3>
           <p>{description}</p>
         </div>
       </header>
@@ -59,8 +63,8 @@ export const InviteResultContent = ({ mode = 'member', resultType = 'direct', en
               </div>
               <CopyableLink
                 url={entry.url}
-                copyLabel={copyStrings?.copy ?? 'Copy'}
-                copiedLabel={copyStrings?.copied ?? 'Copied!'}
+                copyLabel={copyStrings.copy}
+                copiedLabel={copyStrings.copied}
               />
             </li>
           ))}
@@ -69,31 +73,31 @@ export const InviteResultContent = ({ mode = 'member', resultType = 'direct', en
         <div className={styles.linkSummary}>
           <CopyableLink
             url={link?.url}
-            copyLabel={copyStrings?.copy ?? 'Copy'}
-            copiedLabel={copyStrings?.copied ?? 'Copied!'}
+            copyLabel={copyStrings.copy}
+            copiedLabel={copyStrings.copied}
           />
           <dl className={styles.linkDetails}>
             {link?.code && (
               <div>
-                <dt>{resultStrings.codeLabel ?? 'Code'}</dt>
+                <dt>{resultStrings.codeLabel}</dt>
                 <dd>{link.code}</dd>
               </div>
             )}
             {link?.expiration && (
               <div>
-                <dt>{inviteStrings?.link?.expirationLabel ?? 'Expiration'}</dt>
-                <dd>{inviteStrings?.link?.expirationOptions?.[link.expiration] ?? link.expiration}</dd>
+                <dt>{inviteStrings.link?.expirationLabel}</dt>
+                <dd>{inviteStrings.link?.expirationOptions?.[link.expiration] ?? link.expiration}</dd>
               </div>
             )}
             {link?.usage && (
               <div>
-                <dt>{inviteStrings?.link?.usageLabel ?? 'Usage limit'}</dt>
-                <dd>{formatUsage(link.usage, inviteStrings?.link?.usageOptions, USAGE_FALLBACK)}</dd>
+                <dt>{inviteStrings.link?.usageLabel}</dt>
+                <dd>{formatUsage(link.usage, inviteStrings.link?.usageOptions, USAGE_FALLBACK)}</dd>
               </div>
             )}
             {link?.createdAt && (
               <div>
-                <dt>{resultStrings.createdLabel ?? 'Created'}</dt>
+                <dt>{resultStrings.createdLabel}</dt>
                 <dd>{formatTimestamp(link.createdAt)}</dd>
               </div>
             )}
@@ -103,7 +107,7 @@ export const InviteResultContent = ({ mode = 'member', resultType = 'direct', en
 
       <div className={styles.actions}>
         <button type="button" className="profile-modal__save-button" onClick={() => onClose?.()}>
-          {resultStrings.close ?? 'Close'}
+          {resultStrings.close}
         </button>
       </div>
     </div>

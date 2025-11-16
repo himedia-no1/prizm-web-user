@@ -1,0 +1,7 @@
+.header { border-bottom: none; }
+.closeButton { margin-left: auto; }
+.banner { height: 80px; }
+.content { padding-top: 0; }
+.avatarSection { margin-top: -40px; margin-bottom: 1rem; }
+.avatar { width: 80px; height: 80px; }
+.status { position: static; display: inline-block; margin-right: 4px; }

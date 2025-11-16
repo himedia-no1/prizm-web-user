@@ -52,3 +52,22 @@
   background-color: var(--card-bg);
   color: var(--text);
 }
+
+.label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.labelSmall {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.autoWidth {
+  width: auto;
+}

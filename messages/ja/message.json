@@ -1,0 +1,27 @@
+{
+  "actions": {
+    "copy": "コピー",
+    "react": "リアクションを追加",
+    "reply": "返信",
+    "translate": "翻訳",
+    "forward": "転送",
+    "pin": "ピン留め",
+    "unpin": "ピン留め解除",
+    "startThread": "スレッドを開始",
+    "edit": "編集",
+    "delete": "削除",
+    "more": "もっと見る"
+  },
+  "aiAssistant": "AIアシスタント",
+  "translated": "Translated from {{lang}}",
+  "translating": "Translating...",
+  "translationNotice": "This message was translated.",
+  "showOriginal": "原文を表示",
+  "hideOriginal": "原文を隠す",
+  "forwardTo": "Forward to",
+  "forwardSuccess": "Message forwarded",
+  "thread": "スレッド",
+  "repliesTo": "{name}への返信",
+  "replyToThread": "スレッドに返信する...",
+  "inputPlaceholder": "#{{channelName}}にメッセージを送信"
+}

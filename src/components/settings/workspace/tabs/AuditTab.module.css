@@ -1,0 +1,5 @@
+.description { color: var(--text-secondary); margin-bottom: 1.25rem; }
+.logItem { padding: 0.75rem 0; }
+.logDetails { color: var(--text-secondary); font-size: 0.85rem; }
+.logTime { margin-left: auto; font-size: 0.8rem; color: var(--text-secondary); }
+.viewMoreButton { width: auto; }

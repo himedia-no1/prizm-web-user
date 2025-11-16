@@ -1,0 +1,328 @@
+{
+  "titles": {
+    "search": "채널 내 검색",
+    "members": "멤버 목록",
+    "pinned": "고정된 메시지",
+    "threads": "스레드 목록",
+    "info": "채널 정보",
+    "channelSettings": "채널 설정",
+    "notifications": "알림",
+    "createCategory": "새 카테고리 만들기",
+    "inviteMember": "멤버 초대하기",
+    "inviteGuest": "게스트 초대하기",
+    "inviteResult": "초대 완료 안내",
+    "fileUpload": "파일 업로드",
+    "channelFiles": "채널 파일",
+    "mention": "@ 사용자 언급하기",
+    "addChannel": "채널 추가"
+  },
+  "addChannel": {
+    "description": "{{category}} 카테고리에 새 채널을 추가합니다.",
+    "nameLabel": "채널 이름",
+    "namePlaceholder": "예: design-review",
+    "descLabel": "설명",
+    "descPlaceholder": "채널의 목적을 간단히 작성하세요.",
+    "submit": "채널 만들기"
+  },
+  "inviteMember": {
+    "description": "이메일이나 유효 기간이 있는 초대 링크로 팀원을 초대하세요.",
+    "tabs": {
+      "direct": "이메일로 초대",
+      "link": "초대 링크 생성"
+    },
+    "email": {
+      "searchLabel": "초대할 멤버 이메일 검색",
+      "searchPlaceholder": "이름 또는 이메일을 입력하세요",
+      "emptySelection": "선택된 멤버가 없습니다.",
+      "groupLabel": "그룹 설정",
+      "sendButton": "초대 보내기",
+      "successTitle": "초대 메일을 전송했습니다.",
+      "successSubtitle": "각 멤버에게 추적 가능한 전용 링크가 발급됩니다.",
+      "copyLink": "초대 링크 복사"
+    },
+    "link": {
+      "description": "링크 만료와 사용 제한을 설정하세요.",
+      "expirationLabel": "만료 시간",
+      "expirationOptions": {
+        "24h": "24시간",
+        "7d": "7일",
+        "30d": "30일",
+        "never": "만료 없음"
+      },
+      "usageLabel": "사용 제한",
+      "usageOptions": {
+        "1": "1회",
+        "5": "5회",
+        "10": "10회",
+        "50": "50회",
+        "unlimited": "무제한",
+        "single": "1회"
+      },
+      "generateButton": "초대 링크 생성",
+      "copyButton": "링크 복사",
+      "successTitle": "초대 링크가 준비되었습니다.",
+      "successSubtitle": "팀원에게 아래 링크를 공유하세요."
+    },
+    "history": {
+      "title": "생성된 초대 링크",
+      "empty": "아직 생성된 링크가 없습니다.",
+      "created": "생성",
+      "expires": "만료",
+      "usage": "사용 제한"
+    }
+  },
+  "inviteGuest": {
+    "description": "{{channel}} 채널에 게스트를 초대하거나 유효 기간이 있는 링크를 생성하세요.",
+    "tabs": {
+      "direct": "이메일로 초대",
+      "link": "게스트 링크 생성"
+    },
+    "email": {
+      "searchLabel": "게스트 이메일 검색",
+      "searchPlaceholder": "게스트 이메일을 입력하세요",
+      "emptySelection": "선택된 게스트가 없습니다.",
+      "sendButton": "초대 보내기",
+      "successTitle": "게스트 초대를 전송했습니다.",
+      "successSubtitle": "전용 링크를 통해 게스트가 채널에 참여할 수 있습니다.",
+      "copyLink": "게스트 링크 복사"
+    },
+    "link": {
+      "description": "만료와 사용 제한을 설정한 뒤 링크를 공유하세요.",
+      "expirationLabel": "만료 시간",
+      "expirationOptions": {
+        "24h": "24시간",
+        "7d": "7일",
+        "30d": "30일",
+        "never": "만료 없음"
+      },
+      "usageLabel": "사용 제한",
+      "usageOptions": {
+        "1": "1회",
+        "5": "5회",
+        "10": "10회",
+        "50": "50회",
+        "unlimited": "무제한",
+        "single": "1회"
+      },
+      "generateButton": "게스트 링크 생성",
+      "copyButton": "링크 복사",
+      "successTitle": "게스트 링크가 준비되었습니다.",
+      "successSubtitle": "외부 협업자와 링크를 공유하세요."
+    },
+    "history": {
+      "title": "게스트 링크 기록",
+      "empty": "아직 생성된 게스트 링크가 없습니다.",
+      "created": "생성",
+      "expires": "만료",
+      "usage": "사용 제한"
+    },
+    "context": {
+      "channelPrefix": "채널"
+    }
+  },
+  "members": {
+    "inviteGuest": "게스트 초대",
+    "searchPlaceholder": "멤버 검색...",
+    "tabAll": "전체",
+    "tabMember": "멤버",
+    "tabGuest": "게스트",
+    "tabAdmin": "관리자",
+    "noResults": "검색 결과가 없습니다"
+  },
+  "profileSettings": {
+    "title": "프로필 설정",
+    "changePhoto": "사진 변경",
+    "displayName": "표시 이름",
+    "status": "상태",
+    "statusOnline": "온라인",
+    "statusOffline": "오프라인",
+    "save": "저장"
+  },
+  "userProfile": {
+    "online": "온라인",
+    "offline": "오프라인",
+    "realName": "실제 이름",
+    "email": "이메일",
+    "phone": "전화번호",
+    "joinMethod": "가입 경로",
+    "role": "역할",
+    "sendDM": "DM 보내기"
+  },
+  "channelFiles": {
+    "tabAll": "전체",
+    "tabFiles": "파일",
+    "tabMedia": "미디어",
+    "tabLinks": "링크",
+    "uploadedBy": "업로드:",
+    "unknownUser": "알 수 없음",
+    "download": "다운로드",
+    "noFiles": "파일이 없습니다"
+  },
+  "channelSettings": {
+    "nameLabel": "채널 이름",
+    "namePlaceholder": "채널 이름을 입력하세요",
+    "topicLabel": "채널 주제",
+    "topicPlaceholder": "채널 주제를 입력하세요 (선택사항)",
+    "cancelButton": "취소",
+    "saveButton": "저장",
+    "savingButton": "저장 중..."
+  },
+  "messageForward": {
+    "noChannels": "전달할 수 있는 채널이 없습니다",
+    "selectedCount": "{{count}}개 선택됨",
+    "forwarding": "전달 중..."
+  },
+  "inviteResult": {
+    "title": "초대 완료 안내",
+    "memberDescription": "다음 팀원에게 고유한 초대 링크가 포함된 이메일을 보냈습니다.",
+    "guestDescription": "다음 게스트에게 고유한 초대 링크가 포함된 이메일을 보냈습니다.",
+    "linkDescription": "필요한 사람에게 이 링크를 공유하세요.",
+    "close": "닫기",
+    "codeLabel": "코드",
+    "createdLabel": "생성일",
+    "usageOptions": {
+      "1use": "1회 사용",
+      "5uses": "5회 사용",
+      "10uses": "10회 사용",
+      "50uses": "50회 사용",
+      "unlimited": "무제한"
+    },
+    "copy": "복사",
+    "copied": "복사됨",
+    "code": "코드",
+    "expiration": "만료",
+    "usageLimit": "사용 제한",
+    "created": "생성일"
+  },
+  "userProfileModal": {
+    "realName": "실제 이름:",
+    "email": "이메일:",
+    "phone": "전화번호:",
+    "joinMethod": "가입 경로:",
+    "role": "역할:",
+    "sendDM": "DM 보내기"
+  },
+  "genericModal": {
+    "searchPlaceholder": "채팅방 내 검색어 입력...",
+    "noPinnedMessages": "고정된 메시지가 없습니다.",
+    "viewThread": "스레드 보기",
+    "noThreads": "시작된 스레드가 없습니다.",
+    "channelInfo": "팀 전체를 위한 일반 공지 및 대화 채널입니다.",
+    "noNotifications": "새로운 알림이 없습니다.",
+    "categoryNameLabel": "카테고리 이름",
+    "categoryNamePlaceholder": "예: 디자인 팀",
+    "createButton": "만들기",
+    "fileUploadPrompt": "여기에 파일을 드래그하거나 클릭하여 업로드하세요.",
+    "selectFileButton": "파일 선택",
+    "uploadButton": "업로드",
+    "linksTab": "링크",
+    "mediaTab": "미디어",
+    "docsTab": "문서",
+    "noLinks": "채널에 공유된 링크가 없습니다.",
+    "noMedia": "채널에 공유된 사진/동영상이 없습니다.",
+    "noDocs": "채널에 공유된 문서 파일이 없습니다.",
+    "channelDescriptionPlaceholder": "채널 설명이 아직 추가되지 않았습니다.",
+    "channelFiles": {
+      "filesTab": "파일",
+      "uploadedBy": "업로드:",
+      "unknownUser": "Unknown",
+      "download": "다운로드",
+      "noFiles": "업로드된 파일이 없습니다."
+    }
+  },
+  "inbox": {
+    "title": "수신함",
+    "empty": "알림이 없습니다.",
+    "tabs": {
+      "all": "전체",
+      "important": "중요한 메시지",
+      "byWorkspace": "워크스페이스별"
+    },
+    "actions": {
+      "markAsRead": "읽음 처리",
+      "delete": "삭제",
+      "markAllRead": "모두 읽음 처리"
+    },
+    "filters": {
+      "unreadOnly": "읽지 않은 항목만",
+      "showAll": "전체 표시"
+    }
+  },
+  "workspaceProfile": {
+    "title": "워크스페이스 프로필",
+    "description": "이 워크스페이스에서 사용할 프로필을 설정하세요.",
+    "displayName": "표시 이름",
+    "statusMessage": "상태 메시지",
+    "avatar": "아바타",
+    "saveButton": "변경사항 저장",
+    "saving": "저장 중..."
+  },
+  "deactivateAccount": {
+    "title": "계정 비활성화",
+    "description": "정말 계정을 비활성화하시겠습니까? 데이터는 보존되지만 접근할 수 없습니다.",
+    "confirmButton": "비활성화",
+    "cancelButton": "취소",
+    "warning": "이 작업은 고객 지원팀에 문의하여 되돌릴 수 있습니다.",
+    "processing": "처리 중..."
+  },
+  "deleteAccount": {
+    "title": "계정 삭제",
+    "description": "정말 계정을 영구적으로 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+    "confirmButton": "영구 삭제",
+    "cancelButton": "취소",
+    "warning": "모든 데이터, 메시지, 워크스페이스가 영구적으로 삭제됩니다.",
+    "typeToConfirm": "확인을 위해 \"삭제\"를 입력하세요",
+    "confirmPlaceholder": "삭제",
+    "deleting": "삭제 중...",
+    "deleteFailed": "계정 삭제에 실패했습니다."
+  },
+  "aiAssistant": {
+    "title": "AI 어시스턴트",
+    "newChat": "새로운 대화",
+    "placeholder": "메시지를 입력하세요...",
+    "send": "전송",
+    "sessions": {
+      "title": "대화 기록",
+      "newSession": "새 세션",
+      "defaultName": "새 대화"
+    },
+    "examples": {
+      "greeting": "안녕하세요! 무엇을 도와드릴까요?",
+      "question1": "프로젝트 일정 정리해줘",
+      "answer1": "네, 프로젝트 일정을 정리해드리겠습니다."
+    },
+    "aiResponsePrefix": "\"{message}\"에 대한 답변입니다."
+  },
+  "leaveWorkspace": {
+    "title": "워크스페이스 탈퇴",
+    "description": "정말 이 워크스페이스를 영구적으로 탈퇴하시겠습니까?",
+    "warning": "이 작업은 되돌릴 수 없으며, 워크스페이스의 모든 메시지 및 파일에 대한 접근 권한을 잃게 됩니다.",
+    "confirmButton": "영구 탈퇴",
+    "cancelButton": "취소",
+    "leaving": "탈퇴 중..."
+  },
+  "notificationSettings": {
+    "title": "알림 설정",
+    "notificationLevel": "알림 레벨",
+    "allMessages": "모든 메시지",
+    "allMessagesDesc": "새 메시지가 올 때마다 알림을 받습니다",
+    "mentionsOnly": "@멘션만",
+    "mentionsOnlyDesc": "나를 멘션한 경우에만 알림을 받습니다",
+    "nothing": "알림 없음",
+    "nothingDesc": "어떤 메시지도 알림을 받지 않습니다",
+    "cancel": "취소",
+    "save": "설정 저장"
+  },
+  "workspaceNotificationSettings": {
+    "title": "워크스페이스 알림 설정",
+    "notificationLevel": "알림 레벨",
+    "allMessages": "모든 메시지",
+    "allMessagesDesc": "이 워크스페이스의 모든 메시지에 대해 알림을 받습니다",
+    "mentionsOnly": "@멘션 및 DM만",
+    "mentionsOnlyDesc": "멘션되거나 DM을 받은 경우에만 알림을 받습니다",
+    "nothing": "알림 없음",
+    "nothingDesc": "이 워크스페이스의 어떤 메시지도 알림을 받지 않습니다",
+    "cancel": "취소",
+    "save": "설정 저장"
+  }
+}

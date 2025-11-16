@@ -1,0 +1,177 @@
+/* Layout */
+.workspace-creation-layout {
+  display: flex;
+  height: 100vh;
+  background: var(--bg);
+  position: relative;
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 10;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.create-workspace-container {
+  width: 100%;
+  max-width: 600px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px var(--shadow);
+}
+
+.create-workspace-container h1 {
+  margin: 0 0 2rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.create-workspace-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: var(--bg);
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.tab-button.active {
+  background: var(--card-bg);
+  color: var(--primary);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.tab-button:hover:not(.active) {
+  color: var(--text);
+}
+
+.create-workspace-form {
+  margin-bottom: 1.5rem;
+}
+
+.workspace-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.workspace-form-group label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.workspace-form-group input,
+.workspace-form-group select {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.workspace-form-group input:focus,
+.workspace-form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.workspace-primary-button {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workspace-primary-button:hover:not(:disabled) {
+  background: #7c52c7;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(140, 101, 209, 0.4);
+}
+
+.workspace-primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.workspace-cancel-button {
+  width: 100%;
+  padding: 0.875rem;
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.workspace-cancel-button:hover {
+  background: var(--bg);
+  border-color: var(--text-secondary);
+}
+
+/* 왼쪽 아래 구석 아이콘 버튼 - 테두리 없이 아이콘만 */
+.bottom-left-actions {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  display: flex;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:hover {
+  color: var(--primary);
+  transform: scale(1.1);
+}

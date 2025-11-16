@@ -1,0 +1,60 @@
+{
+  "settings": "Workspace Settings",
+  "create": "Create Workspace",
+  "joinWithLink": "Join with invite link",
+  "inviteCodePlaceholder": "Enter invite code",
+  "joinButton": "Join Workspace",
+  "createWorkspacePlaceholder": "ex: Projet de mon entreprise",
+  "creating": "Création en cours...",
+  "joining": "Adhésion en cours...",
+  "invalidInviteCode": "Code d'invitation invalide.",
+  "inviteCodeExample": "ex: ABC123XYZ",
+  "member": "membre",
+  "members": "membres",
+  "directConversation": "Conversation directe",
+  "teamConversation": "Conversation d'équipe",
+  "unknownChannel": "Canal inconnu",
+  "turnOffNotifications": "Désactiver les notifications",
+  "turnOnNotifications": "Activer les notifications",
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcomeTitle": "Bienvenue!",
+    "welcomeMessage": "Consultez l'activité de votre espace de travail en un coup d'oeil.",
+    "stats": {
+      "totalMessages": "Messages totaux",
+      "activeMembers": "Membres actifs",
+      "activeChannels": "Canaux actifs",
+      "last30Days": "Basé sur les 30 derniers jours"
+    },
+    "recentActivity": "Activité récente",
+    "noActivity": "Aucune activité pour le moment."
+  },
+  "search": {
+    "resultsTitle": "Résultats de recherche",
+    "searching": "Recherche en cours...",
+    "searchingDesc": "Nous parcourons les connaissances de votre équipe. Veuillez patienter un instant.",
+    "error": "Une erreur s'est produite",
+    "emptyQuery": "Trouvez les informations dont vous avez besoin",
+    "emptyQueryDesc": "Recherchez dans les conversations d'équipe, les fichiers et les informations des membres en un seul endroit.",
+    "noResults": "Aucun résultat trouvé",
+    "noResultsDesc": "Essayez de modifier vos mots-clés ou vos filtres et recherchez à nouveau."
+  },
+  "forbidden": {
+    "title": "Accès à l'espace de travail interdit",
+    "description1": "Impossible de trouver les informations pour l'espace de travail récemment accédé.",
+    "description2": "Veuillez créer un nouvel espace de travail ou entrer un lien d'invitation.",
+    "createWorkspaceButton": "Créer un nouvel espace de travail",
+    "enterInviteCodeButton": "Entrer le code d'invitation",
+    "metaDescription": "Si vous faites déjà partie d'un espace de travail, veuillez vérifier à nouveau votre lien d'invitation.",
+    "loginWithAnotherAccount": "Se connecter avec un autre compte"
+  },
+  "joinPage": {
+    "invalidWorkspace": "Espace de travail invalide.",
+    "workspaceNotFound": "Espace de travail introuvable.",
+    "createWorkspaceLink": "Créer un nouvel espace de travail",
+    "inviteTitle": "Invitation à l'espace de travail {workspaceName}",
+    "inviteDescription": "Entrez le code d'invitation ou demandez un lien d'invitation à l'administrateur de l'espace de travail.",
+    "enterInviteCodeButton": "Entrer le code d'invitation",
+    "loginWithAnotherAccount": "Se connecter avec un autre compte"
+  }
+}

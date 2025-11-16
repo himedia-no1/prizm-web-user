@@ -1,0 +1,27 @@
+{
+  "actions": {
+    "copy": "Copier",
+    "react": "Ajouter une réaction",
+    "reply": "Répondre",
+    "translate": "Traduire",
+    "forward": "Transférer",
+    "pin": "Épingler",
+    "unpin": "Désépingler",
+    "startThread": "Démarrer un fil",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "more": "Plus"
+  },
+  "aiAssistant": "Assistant IA",
+  "translated": "Translated from {{lang}}",
+  "translating": "Translating...",
+  "translationNotice": "This message was translated.",
+  "showOriginal": "View original",
+  "hideOriginal": "Hide original",
+  "forwardTo": "Forward to",
+  "forwardSuccess": "Message forwarded",
+  "thread": "Fil de discussion",
+  "repliesTo": "Réponses à {name}",
+  "replyToThread": "Répondre au fil...",
+  "inputPlaceholder": "Message #{{channelName}}"
+}

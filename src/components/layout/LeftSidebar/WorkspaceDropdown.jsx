@@ -1,6 +1,6 @@
-import { Settings, Plus, Mail } from '@/components/common/icons';
-import useStore from '@/store/useStore';
-import { strings } from '@/constants/strings';
+import { useState } from 'react';
+import { useMessages } from 'next-intl';
+import { Settings, Plus, Mail, AlertTriangle, Bell } from '@/components/common/icons';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,
@@ -10,57 +10,120 @@ export const WorkspaceDropdown = ({
   onNavigateToSettings,
   onSwitchWorkspace,
   onNavigateToCreateWorkspace,
-  onOpenModal
+  onOpenModal,
+  permissions = {},
 }) => {
-  const { language } = useStore();
-  const s = strings[language];
+  const messages = useMessages();
+  const s = messages?.common ?? {};
+  const { canManageWorkspace = false, canInviteMembers = false } = permissions;
+  const [hoveredWorkspace, setHoveredWorkspace] = useState(null);
+  const [isCurrentWsHovered, setIsCurrentWsHovered] = useState(false);
 
   if (!isOpen) return null;
 
   return (
     <div className="ws-dropdown">
-      <div className="ws-dropdown__current-ws">
+      <div
+        className="ws-dropdown__current-ws"
+        onMouseEnter={() => setIsCurrentWsHovered(true)}
+        onMouseLeave={() => setIsCurrentWsHovered(false)}
+      >
         <span className="ws-dropdown__button-icon">{currentWorkspace.icon}</span>
         <span className="ws-dropdown__button-name">{currentWorkspace.name}</span>
-        <button
-          className="ws-dropdown__settings-button"
-          onClick={() => {
-            onNavigateToSettings();
-            onClose();
-          }}
-        >
-          <Settings size={16} />
-        </button>
+        {isCurrentWsHovered && (
+          <button
+            className="ws-dropdown__notification-button ws-dropdown__notification-button--current"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenModal('workspaceNotificationSettings', {
+                workspaceId: currentWorkspace.id,
+                workspaceName: currentWorkspace.name,
+              });
+            }}
+            aria-label="Notification Settings"
+          >
+            <Bell size={16} />
+          </button>
+        )}
+        {canManageWorkspace && (
+          <button
+            className="ws-dropdown__settings-button"
+            onClick={() => {
+              onNavigateToSettings();
+              onClose();
+            }}
+          >
+            <Settings size={16} />
+          </button>
+        )}
       </div>
 
-
       <button
-        className="ws-dropdown__button ws-dropdown__action-button"
+        className="ws-dropdown__button ws-dropdown__leave-button"
         onClick={() => {
-          onOpenModal('inviteMember');
+          onOpenModal('leaveWorkspace', {
+            workspaceName: currentWorkspace.name,
+            onConfirm: () => onOpenModal('__LEAVE_WORKSPACE__', { workspaceId: currentWorkspace.id })
+          });
           onClose();
         }}
       >
-        <Mail size={16} />
-        <span>{s.inviteMembers}</span>
+        <AlertTriangle size={16} />
+        <span>{s.leaveWorkspace || '워크스페이스 탈퇴'}</span>
       </button>
+
+      <div className="ws-dropdown__divider"></div>
+
+      {canInviteMembers && (
+        <button
+          className="ws-dropdown__button ws-dropdown__action-button"
+          onClick={() => {
+            onOpenModal('inviteMember', { workspaceId: currentWorkspace.id });
+            onClose();
+          }}
+        >
+          <Mail size={16} />
+          <span>{s.inviteMembers}</span>
+        </button>
+      )}
 
       <div className="ws-dropdown__divider"></div>
 
       {workspaces
         .filter(ws => ws.id !== currentWorkspace.id)
         .map(ws => (
-          <button
+          <div
             key={ws.id}
-            onClick={() => {
-              onSwitchWorkspace(ws.id);
-              onClose();
-            }}
-            className="ws-dropdown__button"
+            className="ws-dropdown__item-wrapper"
+            onMouseEnter={() => setHoveredWorkspace(ws.id)}
+            onMouseLeave={() => setHoveredWorkspace(null)}
           >
-            <span className="ws-dropdown__button-icon">{ws.icon}</span>
-            <span className="ws-dropdown__button-name">{ws.name}</span>
-          </button>
+            <button
+              onClick={() => {
+                onSwitchWorkspace(ws.id);
+                onClose();
+              }}
+              className="ws-dropdown__button"
+            >
+              <span className="ws-dropdown__button-icon">{ws.icon}</span>
+              <span className="ws-dropdown__button-name">{ws.name}</span>
+            </button>
+            {hoveredWorkspace === ws.id && (
+              <button
+                className="ws-dropdown__notification-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenModal('workspaceNotificationSettings', {
+                    workspaceId: ws.id,
+                    workspaceName: ws.name,
+                  });
+                }}
+                aria-label="Notification Settings"
+              >
+                <Bell size={16} />
+              </button>
+            )}
+          </div>
         ))}
 
       <div className="ws-dropdown__divider"></div>

@@ -1,0 +1,60 @@
+{
+  "welcome": "Welcome",
+  "startWithSocial": "Get started easily with your social account",
+  "github": "Continue with GitHub",
+  "google": "Continue with Google",
+  "terms": "By continuing, you agree to our Terms of Service and Privacy Policy.",
+  "termsOfService": "Terms of Service",
+  "privacyPolicy": "Privacy Policy",
+  "korean": "한국어",
+  "english": "English",
+  "japanese": "Japanese",
+  "french": "French",
+  "channels": "Channels",
+  "categories": "Categories",
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favourite channels yet.",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "createCategory": "Create Category",
+  "inviteMembers": "Invite Members",
+  "createNewWorkspace": "Create New Workspace",
+  "dashboard": "Dashboard",
+  "search": "Search",
+  "directMessages": "Direct Messages",
+  "appConnect": "App Connect",
+  "online": "Online",
+  "offline": "Offline",
+  "directory": "Directory",
+  "inbox": "Inbox",
+  "unreadCount": "{{count}}",
+  "unreadCountMax": "99+",
+  "statusLabels": {
+    "online": "Online",
+    "offline": "Offline",
+    "away": "Away",
+    "busy": "Do not disturb"
+  },
+  "copy": {
+    "copy": "Copy",
+    "copied": "Copied!"
+  },
+  "auth": {
+    "loginError": "Login failed. Please try again.",
+    "loggingIn": "Logging in..."
+  },
+  "mySettings": "My Settings",
+  "notifications": "Notifications",
+  "openInbox": "Open inbox",
+  "continueWith": "Continue with {provider}",
+  "unknownUser": "User",
+  "themeToggle": "Toggle theme",
+  "scrollToTop": "Scroll to top",
+  "back": "Back",
+  "appTitle": "PRIZM - AI-powered Developer Collaboration Messenger",
+  "defaultUser": "User",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
+}

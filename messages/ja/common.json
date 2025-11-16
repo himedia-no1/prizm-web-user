@@ -1,0 +1,60 @@
+{
+  "welcome": "ようこそ",
+  "startWithSocial": "ソーシャルアカウントで簡単に始めましょう",
+  "github": "GitHubで続行",
+  "google": "Googleで続行",
+  "terms": "続行することで、利用規約とプライバシーポリシーに同意したものとみなされます。",
+  "termsOfService": "利用規約",
+  "privacyPolicy": "プライバシーポリシー",
+  "korean": "한국어",
+  "english": "English",
+  "japanese": "日本語",
+  "french": "フランス語",
+  "channels": "チャンネル",
+  "categories": "カテゴリ",
+  "favorites": {
+    "title": "お気に入り",
+    "empty": "お気に入りのチャンネルがありません。",
+    "add": "お気に入りに追加",
+    "remove": "お気に入りから削除"
+  },
+  "createCategory": "カテゴリを作成",
+  "inviteMembers": "メンバーを招待",
+  "createNewWorkspace": "新しいワークスペースを作成",
+  "dashboard": "ダッシュボード",
+  "search": "検索",
+  "directMessages": "ダイレクトメッセージ",
+  "appConnect": "アプリ接続",
+  "online": "オンライン",
+  "offline": "オフライン",
+  "directory": "ディレクトリ",
+  "inbox": "受信トレイ",
+  "unreadCount": "{{count}}",
+  "unreadCountMax": "99+",
+  "statusLabels": {
+    "online": "オンライン",
+    "offline": "オフライン",
+    "away": "退席中",
+    "busy": "取り込み中"
+  },
+  "copy": {
+    "copy": "コピー",
+    "copied": "コピーしました"
+  },
+  "auth": {
+    "loginError": "ログインに失敗しました。もう一度お試しください。",
+    "loggingIn": "ログイン中..."
+  },
+  "mySettings": "マイ設定",
+  "notifications": "通知",
+  "openInbox": "受信トレイを開く",
+  "continueWith": "{provider}で続行",
+  "unknownUser": "ユーザー",
+  "themeToggle": "テーマ切り替え",
+  "scrollToTop": "トップへスクロール",
+  "back": "戻る",
+  "appTitle": "PRIZM - AI搭載開発者コラボレーションメッセンジャー",
+  "defaultUser": "ユーザー",
+  "loginPath": "/login",
+  "defaultWorkspaceRoute": "/workspace"
+}

@@ -71,3 +71,11 @@ input:checked + .slider:before {
     font-size: 1.2rem;
     margin-right: 0.5rem;
 }
+
+.feedback {
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    background: var(--bg-muted, #f4f4f5);
+    color: var(--text-muted, #52525b);
+    font-size: 0.875rem;
+}
