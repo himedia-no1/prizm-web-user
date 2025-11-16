@@ -4,8 +4,8 @@ import React, { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ArrowLeft, User, X } from '@/components/common/icons';
-import { ProfileTab, PreferencesTab, DevicesTab } from '@/components/settings/user/tabs';
-import { DeactivateAccountModal, DeleteAccountModal } from '@/components/modals';
+import { ProfileTab, PreferencesTab } from '@/components/settings/user/tabs';
+import { DeleteAccountModal } from '@/components/modals';
 import { useAuthStore } from '@/core/store/authStore';
 import styles from './UserSettingsPage.module.css';
 
@@ -31,7 +31,6 @@ export const UserSettingsPage = ({
     const [username, setUsername] = useState(fallbackUser.realName);
     const [email, setEmail] = useState(fallbackUser.email);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
-    const [showDeactivateModal, setShowDeactivateModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const logout = useAuthStore((state) => state.logout);
@@ -68,16 +67,12 @@ export const UserSettingsPage = ({
                         setUsername={setUsername}
                         email={email}
                         setEmail={setEmail}
-                        onDeactivate={() => setShowDeactivateModal(true)}
                         onDelete={() => setShowDeleteModal(true)}
                     />
                 );
 
             case 'prefs':
                 return <PreferencesTab />;
-
-            case 'devices':
-                return <DevicesTab deviceSessions={deviceSessions} />;
 
             default:
                 return null;
@@ -101,12 +96,6 @@ export const UserSettingsPage = ({
                         onClick={() => handleTabChange('profile')}
                     >
                         <span>{t('navProfile')}</span>
-                    </button>
-                    <button
-                        className={`settings-sidebar__button ${activeTab === 'devices' ? 'active' : ''}`}
-                        onClick={() => handleTabChange('devices')}
-                    >
-                        <span>{t('navDevices')}</span>
                     </button>
                     <button
                         className={`settings-sidebar__button ${activeTab === 'prefs' ? 'active' : ''}`}
@@ -163,11 +152,6 @@ export const UserSettingsPage = ({
                 </div>
             )}
 
-            <DeactivateAccountModal
-                isOpen={showDeactivateModal}
-                onClose={() => setShowDeactivateModal(false)}
-                userId={fallbackUser.id}
-            />
             <DeleteAccountModal
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
