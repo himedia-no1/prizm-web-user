@@ -79,10 +79,10 @@ export const CategorySection = ({
                     <UnreadBadge count={unreadCount} />
                   </div>
                 </button>
-                {isHovered ? (
-                  <>
+                {isHovered && (
+                  <div className="channel-hover-actions">
                     {isManager && (
-                      <div className="channel-hover-actions">
+                      <>
                         <button
                           type="button"
                           className="channel-action-button"
@@ -93,7 +93,7 @@ export const CategorySection = ({
                               channelDetails: channel,
                               onSave: async (data) => {
                                 console.log('Save channel settings:', data);
-                              }
+                              },
                             });
                           }}
                         >
@@ -115,11 +115,11 @@ export const CategorySection = ({
                         >
                           <UserPlus size={14} />
                         </button>
-                      </div>
+                      </>
                     )}
                     <button
                       type="button"
-                      className={`channel-favorite-button ${isFavorite ? 'active' : ''}`}
+                      className={`channel-action-button channel-favorite-button ${isFavorite ? 'active' : ''}`}
                       aria-label={isFavorite ? t?.favorites?.remove : t?.favorites?.add}
                       onClick={(event) => {
                         event.stopPropagation();
@@ -128,20 +128,8 @@ export const CategorySection = ({
                     >
                       {isFavorite ? <Star size={14} /> : <StarOff size={14} />}
                     </button>
-                  </>
-                ) : isFavorite ? (
-                  <button
-                    type="button"
-                    className="channel-favorite-button active"
-                    aria-label={t?.favorites?.remove}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      onToggleFavorite?.(channel.id);
-                    }}
-                  >
-                    <Star size={14} />
-                  </button>
-                ) : null}
+                  </div>
+                )}
               </li>
             );
           })}
