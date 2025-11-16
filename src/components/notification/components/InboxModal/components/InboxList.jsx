@@ -1,31 +1,31 @@
-import styles from '../InboxModal.module.css';
+import styles from '../../InboxModal.module.css';
 
-export const InboxList = ({ 
-  notifications, 
-  selectedIds, 
-  onToggleSelection, 
+export const InboxList = ({
+  notifications,
+  selectedIds,
+  onToggleSelection,
   formatTimestamp,
   loading,
-  emptyMessage 
+  emptyMessage,
 }) => {
   if (loading) {
     return (
-      <div className={styles['inbox-loading']}>
+      <div className={styles.loading}>
         <div className="spinner" />
       </div>
     );
   }
 
   if (notifications.length === 0) {
-    return <div className={styles['inbox-empty']}>{emptyMessage}</div>;
+    return <div className={styles.empty}>{emptyMessage}</div>;
   }
 
   return (
-    <div className={styles['inbox-list']}>
+    <div className={styles.list}>
       {notifications.map((notif) => (
         <div
           key={notif.id}
-          className={`${styles['inbox-item']} ${notif.read ? styles.read : styles.unread} ${
+          className={`${styles.item} ${notif.read ? styles.read : styles.unread} ${
             selectedIds.includes(notif.id) ? styles.selected : ''
           }`}
         >
@@ -33,15 +33,15 @@ export const InboxList = ({
             type="checkbox"
             checked={selectedIds.includes(notif.id)}
             onChange={() => onToggleSelection(notif.id)}
-            className={styles['inbox-checkbox']}
+            className={styles.checkbox}
           />
-          <div className={styles['inbox-item-content']}>
-            <div className={styles['inbox-item-header']}>
+          <div className={styles.itemContent}>
+            <div className={styles.itemHeader}>
               <strong>{notif.title}</strong>
-              {notif.important && <span className={styles['inbox-badge-important']}>!</span>}
+              {notif.important && <span className={styles.badgeImportant}>!</span>}
             </div>
-            <div className={styles['inbox-item-message']}>{notif.message}</div>
-            <div className={styles['inbox-item-meta']}>{formatTimestamp(notif.timestamp)}</div>
+            <div className={styles.itemMessage}>{notif.message}</div>
+            <div className={styles.itemMeta}>{formatTimestamp(notif.timestamp)}</div>
           </div>
         </div>
       ))}

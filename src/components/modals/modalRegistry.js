@@ -44,66 +44,115 @@ export const getContentModal = (type, modalProps, dependencies) => {
   return factory ? factory({ modalProps, dependencies }) : null;
 };
 
-registerStandaloneModal('profileSettings', ({ dependencies, modalProps }) => (
-  <ProfileSettingsModal {...modalProps} onClose={dependencies.closeModal} />
-));
-registerStandaloneModal('userProfile', ({ dependencies, modalProps }) => (
-  <UserProfileModal {...modalProps} onClose={dependencies.closeModal} onCreateDM={dependencies.createDM} />
-));
-registerStandaloneModal('aiAssistant', ({ dependencies, modalProps }) => (
-  <AIAssistantModal {...modalProps} onClose={dependencies.closeModal} />
-));
-registerStandaloneModal('emojiPicker', ({ dependencies, modalProps }) => (
-  <EmojiPickerModal {...modalProps} onClose={dependencies.closeModal} />
-));
-registerStandaloneModal('notifications', ({ dependencies }) => (
-  <InboxModal isOpen={true} onClose={dependencies.closeModal} />
-));
-registerStandaloneModal('workspaceProfile', ({ dependencies, modalProps }) => (
-  <WorkspaceProfileModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
-registerStandaloneModal('deactivateAccount', ({ dependencies, modalProps }) => (
-  <DeactivateAccountModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
-registerStandaloneModal('deleteAccount', ({ dependencies, modalProps }) => (
-  <DeleteAccountModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
-registerStandaloneModal('forwardMessage', ({ dependencies, modalProps }) => (
-  <MessageForwardModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
-registerStandaloneModal('leaveWorkspace', ({ dependencies, modalProps }) => (
-  <LeaveWorkspaceModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
-registerStandaloneModal('workspaceNotificationSettings', ({ dependencies, modalProps }) => (
-  <WorkspaceNotificationSettingsModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
-));
+const standaloneModals = [
+  {
+    type: 'profileSettings',
+    factory: ({ dependencies, modalProps }) => (
+      <ProfileSettingsModal {...modalProps} onClose={dependencies.closeModal} />
+    ),
+  },
+  {
+    type: 'userProfile',
+    factory: ({ dependencies, modalProps }) => (
+      <UserProfileModal {...modalProps} onClose={dependencies.closeModal} onCreateDM={dependencies.createDM} />
+    ),
+  },
+  {
+    type: 'aiAssistant',
+    factory: ({ dependencies, modalProps }) => (
+      <AIAssistantModal {...modalProps} onClose={dependencies.closeModal} />
+    ),
+  },
+  {
+    type: 'emojiPicker',
+    factory: ({ dependencies, modalProps }) => (
+      <EmojiPickerModal {...modalProps} onClose={dependencies.closeModal} />
+    ),
+  },
+  {
+    type: 'notifications',
+    factory: ({ dependencies }) => <InboxModal isOpen={true} onClose={dependencies.closeModal} />,
+  },
+  {
+    type: 'workspaceProfile',
+    factory: ({ dependencies, modalProps }) => (
+      <WorkspaceProfileModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+  {
+    type: 'deactivateAccount',
+    factory: ({ dependencies, modalProps }) => (
+      <DeactivateAccountModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+  {
+    type: 'deleteAccount',
+    factory: ({ dependencies, modalProps }) => (
+      <DeleteAccountModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+  {
+    type: 'forwardMessage',
+    factory: ({ dependencies, modalProps }) => (
+      <MessageForwardModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+  {
+    type: 'leaveWorkspace',
+    factory: ({ dependencies, modalProps }) => (
+      <LeaveWorkspaceModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+  {
+    type: 'workspaceNotificationSettings',
+    factory: ({ dependencies, modalProps }) => (
+      <WorkspaceNotificationSettingsModal isOpen={true} onClose={dependencies.closeModal} {...modalProps} />
+    ),
+  },
+];
 
-registerContentModal('addChannel', ({ modalProps }) => <AddChannelModalContent {...modalProps} />);
-registerContentModal('pinned', ({ modalProps }) => <PinnedModalContent {...modalProps} />);
-registerContentModal('threads', ({ dependencies, modalProps }) => (
-  <ThreadsModalContent onOpenThread={dependencies.openThread} {...modalProps} />
-));
-registerContentModal('info', ({ modalProps }) => <InfoModalContent {...modalProps} />);
-registerContentModal('inviteMember', ({ modalProps }) => (
-  <InviteFlowContent mode="member" {...modalProps} />
-));
-registerContentModal('inviteGuest', ({ modalProps }) => (
-  <InviteFlowContent mode="guest" {...modalProps} />
-));
-registerContentModal('inviteResult', ({ modalProps, dependencies }) => (
-  <InviteResultContent {...modalProps} onClose={dependencies.closeModal} />
-));
-registerContentModal('members', ({ modalProps, dependencies }) => (
-  <MembersModalContent
-    {...modalProps}
-    onInviteGuest={
-      modalProps.permissions?.canInviteMembers ? dependencies.buildInviteGuestHandler(modalProps) : undefined
-    }
-  />
-));
-registerContentModal('search', ({ modalProps }) => <SearchModalContent {...modalProps} />);
-registerContentModal('createCategory', ({ modalProps }) => <CreateCategoryModalContent {...modalProps} />);
-registerContentModal('fileUpload', ({ modalProps }) => <FileUploadModalContent {...modalProps} />);
-registerContentModal('channelFiles', ({ modalProps }) => <ChannelFilesModalContent {...modalProps} />);
-registerContentModal('channelSettings', ({ modalProps }) => <ChannelSettingsModalContent {...modalProps} />);
-registerContentModal('mention', ({ modalProps }) => <MentionModalContent {...modalProps} />);
+const contentModals = [
+  { type: 'addChannel', factory: ({ modalProps }) => <AddChannelModalContent {...modalProps} /> },
+  { type: 'pinned', factory: ({ modalProps }) => <PinnedModalContent {...modalProps} /> },
+  {
+    type: 'threads',
+    factory: ({ dependencies, modalProps }) => (
+      <ThreadsModalContent onOpenThread={dependencies.openThread} {...modalProps} />
+    ),
+  },
+  { type: 'info', factory: ({ modalProps }) => <InfoModalContent {...modalProps} /> },
+  {
+    type: 'inviteMember',
+    factory: ({ modalProps }) => <InviteFlowContent mode="member" {...modalProps} />,
+  },
+  {
+    type: 'inviteGuest',
+    factory: ({ modalProps }) => <InviteFlowContent mode="guest" {...modalProps} />,
+  },
+  {
+    type: 'inviteResult',
+    factory: ({ modalProps, dependencies }) => (
+      <InviteResultContent {...modalProps} onClose={dependencies.closeModal} />
+    ),
+  },
+  {
+    type: 'members',
+    factory: ({ modalProps, dependencies }) => (
+      <MembersModalContent
+        {...modalProps}
+        onInviteGuest={
+          modalProps.permissions?.canInviteMembers ? dependencies.buildInviteGuestHandler(modalProps) : undefined
+        }
+      />
+    ),
+  },
+  { type: 'search', factory: ({ modalProps }) => <SearchModalContent {...modalProps} /> },
+  { type: 'createCategory', factory: ({ modalProps }) => <CreateCategoryModalContent {...modalProps} /> },
+  { type: 'fileUpload', factory: ({ modalProps }) => <FileUploadModalContent {...modalProps} /> },
+  { type: 'channelFiles', factory: ({ modalProps }) => <ChannelFilesModalContent {...modalProps} /> },
+  { type: 'channelSettings', factory: ({ modalProps }) => <ChannelSettingsModalContent {...modalProps} /> },
+  { type: 'mention', factory: ({ modalProps }) => <MentionModalContent {...modalProps} /> },
+];
+
+standaloneModals.forEach(({ type, factory }) => registerStandaloneModal(type, factory));
+contentModals.forEach(({ type, factory }) => registerContentModal(type, factory));

@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useLocale, useMessages } from 'next-intl';
-import { useUIStore } from '@/core/store/shared';
+import { useAutoTranslateSetting } from '@/core/store/shared/hooks/useAutoTranslateSetting';
 import { setPreferredLocale } from '@/shared/lib/locale';
 import styles from './Preferences.module.css';
 
 export const LanguagePreferences = () => {
   const locale = useLocale();
   const messages = useMessages();
-  const { autoTranslateEnabled, toggleAutoTranslate } = useUIStore();
+  const { autoTranslateEnabled, toggleAutoTranslate } = useAutoTranslateSetting();
   const s = { ...(messages?.common ?? {}), ...messages };
   const languageStrings = s.userSettings?.preferences?.language;
   const translationStrings = s.userSettings?.preferences?.translation;

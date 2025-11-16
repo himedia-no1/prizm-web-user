@@ -1,27 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
 import { useUIStore } from '@/core/store/shared';
-import { messageService } from '@/core/api/services';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
-import { Copy, Smile, CornerDownRight, MoreVertical } from '@/components/common/icons';
+import { useMessageTranslation } from '@/components/channel/hooks/useMessageTranslation';
+import { InlineActions } from './InlineActions';
+import { ReplyPreview } from './ReplyPreview';
 import styles from './Message.module.css';
-
-const getTranslationText = (translation) => {
-  if (!translation) {
-    return '';
-  }
-
-  if (typeof translation === 'string') {
-    return translation;
-  }
-
-  if (typeof translation === 'object') {
-    return translation.text || translation.translatedText || '';
-  }
-
-  return '';
-};
 
 // 텍스트에서 검색어를 하이라이트하는 함수
 const highlightText = (text, searchQuery) => {
@@ -60,32 +45,24 @@ export const Message = ({
   const locale = useLocale();
   const messages = useMessages();
   const messageStrings = messages?.message ?? {};
-  
-  const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
-  const [translatedText, setTranslatedText] = useState('');
-  const [isOriginalVisible, setIsOriginalVisible] = useState(false);
   const [inlineActionsState, setInlineActionsState] = useState({ visible: false, position: null });
   const messageRef = useRef(null);
   const isMyMessage = message.userId === currentUserId;
-  const manualTranslatedText = getTranslationText(message.manualTranslations?.[locale]);
   const canManualTranslate = !isMyMessage && !autoTranslateEnabled;
   const canShowInlineActions = !autoTranslateEnabled;
-
-  const handleAutoTranslate = useCallback(async () => {
-    setTranslationState('loading');
-
-    setTimeout(async () => {
-      try {
-        const result = await messageService.translateMessage(message.id, locale);
-        setTranslatedText(result.translatedText);
-        setTranslationState('done');
-        setIsOriginalVisible(false);
-      } catch (error) {
-        console.error('Translation failed:', error);
-        setTranslationState('none');
-      }
-    }, 500);
-  }, [message.id, locale]);
+  const {
+    translationState,
+    translatedText,
+    shouldShowTranslation,
+    isOriginalVisible,
+    toggleOriginalVisibility,
+    handleManualTranslate,
+  } = useMessageTranslation({
+    message,
+    locale,
+    autoTranslateEnabled,
+    manualTranslateCallback: onTranslateMessage,
+  });
 
   useEffect(() => {
     if (!inlineActionsState.visible) return;
@@ -106,64 +83,9 @@ export const Message = ({
     }
   }, [autoTranslateEnabled, inlineActionsState.visible]);
 
-  // 자동번역 설정 변경 또는 메시지 변경 시 상태 업데이트
-  useEffect(() => {
-    setIsOriginalVisible(false);
-
-    if (!autoTranslateEnabled) {
-      if (manualTranslatedText) {
-        setTranslatedText(manualTranslatedText);
-        setTranslationState('done');
-      } else {
-        setTranslatedText('');
-        setTranslationState('none');
-      }
-      return;
-    }
-
-    // 자동번역이 켜져있을 때만 캐시된 번역 확인
-    const cachedTranslation = getTranslationText(message.translations?.[locale]);
-
-    if (cachedTranslation) {
-      setTranslatedText(cachedTranslation);
-      setTranslationState('done');
-    } else {
-      setTranslatedText('');
-      setTranslationState('none');
-
-      // 자동번역이 켜져있고 메시지 언어가 다르면 번역 요청
-      if (message.language && message.language !== locale) {
-        handleAutoTranslate();
-      }
-    }
-  }, [
-    message.id,
-    locale,
-    autoTranslateEnabled,
-    message.translations,
-    message.language,
-    message.manualTranslations,
-    manualTranslatedText,
-    handleAutoTranslate,
-  ]);
-
-  // 번역된 텍스트를 기본으로 표시할지 결정
-  const shouldShowTranslation =
-    Boolean(translatedText) && translationState === 'done';
+  const shouldShowInlineActionsTranslate = canManualTranslate && Boolean(onTranslateMessage);
 
   const primaryText = shouldShowTranslation ? translatedText : message.text;
-
-  const handleManualTranslate = async (event) => {
-    event?.stopPropagation?.();
-    if (!onTranslateMessage) return;
-    setTranslationState('loading');
-    try {
-      await onTranslateMessage(message);
-    } catch (error) {
-      console.error('Manual translation failed:', error);
-      setTranslationState('none');
-    }
-  };
 
   const handleMessageClick = (event) => {
     if (canShowInlineActions) {
@@ -237,25 +159,7 @@ export const Message = ({
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
 
-        {/* 답글 미리보기 (디스코드 스타일) */}
-        {replyToMessage && replyToUser && (
-          <div
-            className={styles.replyPreview}
-            onClick={(e) => {
-              e.stopPropagation();
-              onReplyClick?.(replyToMessage.id);
-            }}
-          >
-            <div className={styles.replyLine} />
-            <div className={styles.replyContent}>
-              <span className={styles.replyUsername}>{replyToUser.name}</span>
-              <span className={styles.replyText}>
-                {replyToMessage.text?.substring(0, 50)}
-                {replyToMessage.text?.length > 50 ? '...' : ''}
-              </span>
-            </div>
-          </div>
-        )}
+        <ReplyPreview replyToMessage={replyToMessage} replyToUser={replyToUser} onReplyClick={onReplyClick} />
 
         <p className={`${styles.text}${shouldShowTranslation ? ` ${styles.textTranslated}` : ''}`}>
           {searchQuery ? highlightText(primaryText, searchQuery) : primaryText}
@@ -266,14 +170,9 @@ export const Message = ({
             <button
               type="button"
               className={styles.translationToggle}
-              onClick={(event) => {
-                event.stopPropagation();
-                setIsOriginalVisible((prev) => !prev);
-              }}
+              onClick={toggleOriginalVisibility}
             >
-              {isOriginalVisible
-                ? messageStrings.hideOriginal
-                : messageStrings.showOriginal}
+              {isOriginalVisible ? messageStrings.hideOriginal : messageStrings.showOriginal}
             </button>
           </div>
         )}
@@ -317,57 +216,16 @@ export const Message = ({
       </div>
 
       {canShowInlineActions && (
-        <div
-          className={`${styles.inlineActions} ${
-            inlineActionsState.visible ? styles.inlineActionsVisible : ''
-          }`}
-          style={
-            inlineActionsState.position
-              ? {
-                  top: inlineActionsState.position.top,
-                  right: inlineActionsState.position.right,
-                }
-              : undefined
-          }
-        >
-          <button type="button" className={styles.inlineActionButton} onClick={handleCopy} aria-label="Copy message">
-            <Copy size={16} />
-          </button>
-          <button
-            type="button"
-            className={styles.inlineActionButton}
-            onClick={handleInlineEmoji}
-            aria-label="React with emoji"
-          >
-            <Smile size={16} />
-          </button>
-          <button
-            type="button"
-            className={styles.inlineActionButton}
-            onClick={handleInlineReply}
-            aria-label="Reply"
-          >
-            <CornerDownRight size={16} />
-          </button>
-          {canManualTranslate && (
-            <button
-              type="button"
-              className={styles.inlineActionButton}
-              onClick={handleManualTranslate}
-              aria-label="Translate message"
-            >
-              <Image src="/icon.png" alt="Translate" width={16} height={16} />
-            </button>
-          )}
-          <button
-            type="button"
-            className={styles.inlineActionButton}
-            onClick={handleInlineMore}
-            aria-label="More actions"
-          >
-            <MoreVertical size={16} />
-          </button>
-        </div>
+        <InlineActions
+          isVisible={inlineActionsState.visible}
+          position={inlineActionsState.position}
+          onCopy={handleCopy}
+          onEmoji={handleInlineEmoji}
+          onReply={handleInlineReply}
+          onTranslate={handleManualTranslate}
+          onMore={handleInlineMore}
+          showTranslateButton={shouldShowInlineActionsTranslate}
+        />
       )}
     </div>
   );

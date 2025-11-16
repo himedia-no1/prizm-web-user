@@ -81,6 +81,11 @@
   border-bottom-color: var(--primary);
 }
 
+.tabActive {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
 .toolbar {
   display: flex;
   align-items: center;
@@ -129,7 +134,9 @@
   color: var(--primary);
 }
 
-.actionBtn.delete:hover {
+.actionBtnDelete {}
+
+.actionBtnDelete:hover {
   background: rgba(239, 68, 68, 0.1);
   border-color: #ef4444;
   color: #ef4444;

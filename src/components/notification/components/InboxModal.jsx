@@ -1,85 +1,32 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useMessages, useLocale } from 'next-intl';
-import { X, Check, Trash2, CheckCheck } from 'lucide-react';
-import { useNotificationStore } from '@/core/store/chat';
-import { notificationService } from '@/core/api/services';
+import { X } from 'lucide-react';
+import { InboxTabs } from './InboxModal/components/InboxTabs';
+import { InboxToolbar } from './InboxModal/components/InboxToolbar';
+import { InboxList } from './InboxModal/components/InboxList';
+import { useInboxNotifications } from './InboxModal/hooks/useInboxNotifications';
 import styles from './InboxModal.module.css';
 
 export const InboxModal = ({ isOpen, onClose }) => {
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const { notifications, markNotificationAsRead, deleteNotification, markAllNotificationsAsRead, setNotifications } = useNotificationStore();
-  const [activeTab, setActiveTab] = useState('all');
-  const [showUnreadOnly, setShowUnreadOnly] = useState(false);
-  const [selectedIds, setSelectedIds] = useState([]);
-  const [loading, setLoading] = useState(false);
   const locale = useLocale();
-
-  const loadNotifications = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await notificationService.fetchNotifications();
-      setNotifications(data);
-    } catch (error) {
-      console.error('Failed to load notifications:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [setNotifications]);
-
-  useEffect(() => {
-    if (isOpen) {
-      loadNotifications();
-    }
-  }, [isOpen, loadNotifications]);
+  const {
+    notifications,
+    activeTab,
+    showUnreadOnly,
+    selectedIds,
+    loading,
+    setActiveTab,
+    toggleUnreadFilter,
+    toggleSelection,
+    handleMarkAsRead,
+    handleDelete,
+    handleMarkAllRead,
+  } = useInboxNotifications(isOpen);
 
   if (!isOpen) return null;
-
-  const filteredNotifications = notifications.filter((notif) => {
-    if (showUnreadOnly && notif.read) return false;
-    if (activeTab === 'important' && !notif.important) return false;
-    if (activeTab === 'byWorkspace' && !notif.workspaceId) return false;
-    return true;
-  });
-
-  const handleMarkAsRead = async () => {
-    if (selectedIds.length === 0) return;
-    try {
-      await Promise.all(selectedIds.map((id) => notificationService.markAsRead(id)));
-      selectedIds.forEach((id) => markNotificationAsRead(id));
-      setSelectedIds([]);
-    } catch (error) {
-      console.error('Failed to mark as read:', error);
-    }
-  };
-
-  const handleDelete = async () => {
-    if (selectedIds.length === 0) return;
-    try {
-      await Promise.all(selectedIds.map((id) => notificationService.deleteNotification(id)));
-      selectedIds.forEach((id) => deleteNotification(id));
-      setSelectedIds([]);
-    } catch (error) {
-      console.error('Failed to delete notifications:', error);
-    }
-  };
-
-  const handleMarkAllRead = async () => {
-    try {
-      await notificationService.markAllAsRead();
-      markAllNotificationsAsRead();
-    } catch (error) {
-      console.error('Failed to mark all as read:', error);
-    }
-  };
-
-  const toggleSelection = (id) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((selectedId) => selectedId !== id) : [...prev, id]
-    );
-  };
 
   const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp);
@@ -100,7 +47,7 @@ export const InboxModal = ({ isOpen, onClose }) => {
       if (diffHours < 24) return `${diffHours}h ago`;
       if (diffDays < 7) return `${diffDays}d ago`;
     }
-    
+
     return date.toLocaleDateString();
   };
 
@@ -114,90 +61,26 @@ export const InboxModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className={styles.tabs}>
-          <button
-            className={`${styles.tab} ${activeTab === 'all' ? styles.active : ''}`}
-            onClick={() => setActiveTab('all')}
-          >
-            {s.modals.inbox.tabs.all}
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'important' ? styles.active : ''}`}
-            onClick={() => setActiveTab('important')}
-          >
-            {s.modals.inbox.tabs.important}
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'byWorkspace' ? styles.active : ''}`}
-            onClick={() => setActiveTab('byWorkspace')}
-          >
-            {s.modals.inbox.tabs.byWorkspace}
-          </button>
-        </div>
+        <InboxTabs activeTab={activeTab} onTabChange={setActiveTab} strings={s.modals.inbox} />
 
-        <div className={styles.toolbar}>
-          <label className={styles.filter}>
-            <input
-              type="checkbox"
-              checked={showUnreadOnly}
-              onChange={(e) => setShowUnreadOnly(e.target.checked)}
-            />
-            {s.modals.inbox.filters.unreadOnly}
-          </label>
+        <InboxToolbar
+          showUnreadOnly={showUnreadOnly}
+          onToggleUnreadFilter={toggleUnreadFilter}
+          selectedCount={selectedIds.length}
+          onMarkAsRead={handleMarkAsRead}
+          onDelete={handleDelete}
+          onMarkAllRead={handleMarkAllRead}
+          strings={s.modals.inbox}
+        />
 
-          <div className={styles.actions}>
-            {selectedIds.length > 0 && (
-              <>
-                <button onClick={handleMarkAsRead} className={styles.actionBtn}>
-                  <Check size={16} />
-                  {s.modals.inbox.actions.markAsRead}
-                </button>
-                <button onClick={handleDelete} className={`${styles.actionBtn} ${styles.delete}`}>
-                  <Trash2 size={16} />
-                  {s.modals.inbox.actions.delete}
-                </button>
-              </>
-            )}
-            <button onClick={handleMarkAllRead} className={styles.actionBtn}>
-              <CheckCheck size={16} />
-              {s.modals.inbox.actions.markAllRead}
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.list}>
-          {loading ? (
-            <div className={styles.loading}>
-              <div className="spinner" />
-            </div>
-          ) : filteredNotifications.length === 0 ? (
-            <div className={styles.empty}>{s.modals.inbox.empty}</div>
-          ) : (
-            filteredNotifications.map((notif) => (
-              <div
-                key={notif.id}
-                className={`${styles.item} ${notif.read ? styles.read : styles.unread} ${
-                  selectedIds.includes(notif.id) ? styles.selected : ''
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(notif.id)}
-                  onChange={() => toggleSelection(notif.id)}
-                  className={styles.checkbox}
-                />
-                <div className={styles.itemContent}>
-                  <div className={styles.itemHeader}>
-                    <strong>{notif.title}</strong>
-                    {notif.important && <span className={styles.badgeImportant}>!</span>}
-                  </div>
-                  <div className={styles.itemMessage}>{notif.message}</div>
-                  <div className={styles.itemMeta}>{formatTimestamp(notif.timestamp)}</div>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+        <InboxList
+          notifications={notifications}
+          selectedIds={selectedIds}
+          onToggleSelection={toggleSelection}
+          formatTimestamp={formatTimestamp}
+          loading={loading}
+          emptyMessage={s.modals.inbox.empty}
+        />
       </div>
     </div>
   );

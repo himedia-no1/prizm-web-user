@@ -1,90 +1,29 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { useMessages, useLocale } from 'next-intl';
 import { useUIStore } from '@/core/store/shared';
-import { messageService } from '@/core/api/services';
+import { useMessageTranslation } from '@/components/channel/hooks/useMessageTranslation';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './ThreadReplyMessage.module.css';
-
-const getTranslationText = (translation) => {
-  if (!translation) {
-    return '';
-  }
-
-  if (typeof translation === 'string') {
-    return translation;
-  }
-
-  if (typeof translation === 'object') {
-    return translation.text || translation.translatedText || '';
-  }
-
-  return '';
-};
 
 export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }) => {
   const autoTranslateEnabled = useUIStore((state) => state.autoTranslateEnabled);
   const locale = useLocale();
   const messages = useMessages();
   const messageStrings = messages?.message ?? {};
-
-  const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
-  const [translatedText, setTranslatedText] = useState('');
-  const [isOriginalVisible, setIsOriginalVisible] = useState(false);
-
-  const handleAutoTranslate = useCallback(async () => {
-    setTranslationState('loading');
-
-    setTimeout(async () => {
-      try {
-        const result = await messageService.translateMessage(reply.id, locale);
-        setTranslatedText(result.translatedText);
-        setTranslationState('done');
-        setIsOriginalVisible(false);
-      } catch (error) {
-        console.error('Translation failed:', error);
-        setTranslationState('none');
-      }
-    }, 500);
-  }, [reply.id, locale]);
-
-  // 자동번역 설정 변경 또는 메시지 변경 시 상태 업데이트
-  useEffect(() => {
-    setIsOriginalVisible(false);
-
-    // 자동번역이 꺼져있으면 항상 원문만 표시
-    if (!autoTranslateEnabled) {
-      setTranslatedText('');
-      setTranslationState('none');
-      return;
-    }
-
-    // 자동번역이 켜져있을 때만 캐시된 번역 확인
-    const cachedTranslation = getTranslationText(reply.translations?.[locale]);
-
-    if (cachedTranslation) {
-      setTranslatedText(cachedTranslation);
-      setTranslationState('done');
-    } else {
-      setTranslatedText('');
-      setTranslationState('none');
-
-      // 자동번역이 켜져있고 메시지 언어가 다르면 번역 요청
-      if (reply.language && reply.language !== locale) {
-        handleAutoTranslate();
-      }
-    }
-  }, [reply.id, locale, autoTranslateEnabled, reply.translations, reply.language, handleAutoTranslate]);
-
-  // 번역된 텍스트를 기본으로 표시할지 결정
-  const shouldShowTranslation =
-    autoTranslateEnabled &&
-    reply.language &&
-    reply.language !== locale &&
-    translationState === 'done' &&
-    translatedText;
+  const {
+    translationState,
+    translatedText,
+    shouldShowTranslation,
+    isOriginalVisible,
+    toggleOriginalVisibility,
+  } = useMessageTranslation({
+    message: reply,
+    locale,
+    autoTranslateEnabled,
+  });
 
   const primaryText = shouldShowTranslation ? translatedText : reply.text;
 
@@ -117,10 +56,7 @@ export const ThreadReplyMessage = React.memo(({ reply, user, onOpenContextMenu }
             <button
               type="button"
               className={styles.translationToggle}
-              onClick={(event) => {
-                event.stopPropagation();
-                setIsOriginalVisible((prev) => !prev);
-              }}
+              onClick={toggleOriginalVisibility}
             >
               {isOriginalVisible
                 ? messageStrings.hideOriginal

@@ -1,12 +1,12 @@
 'use client';
 
 import { useMessages } from 'next-intl';
-import { useUIStore } from '@/core/store/shared';
+import { useAutoTranslateSetting } from '@/core/store/shared/hooks/useAutoTranslateSetting';
 import styles from './Preferences.module.css';
 
 export const AutoTranslationPreferences = () => {
   const messages = useMessages();
-  const { autoTranslateEnabled, toggleAutoTranslate } = useUIStore();
+  const { autoTranslateEnabled, toggleAutoTranslate } = useAutoTranslateSetting();
 
   console.log('[AutoTranslationPreferences] Component mounted, autoTranslateEnabled:', autoTranslateEnabled);
 

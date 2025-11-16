@@ -4,8 +4,8 @@ import { useEffect, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Github } from 'lucide-react';
-import SocialButton from '@/components/auth/SocialButton';
-import LanguageSelector from '@/components/common/LanguageSelector';
+import { SocialProviderList } from '@/components/auth/components/SocialProviderList';
+import { AuthLegalFooter } from '@/components/auth/components/AuthLegalFooter';
 import { useAuthStore } from '@/core/store/authStore';
 import { useUIStore } from '@/core/store/shared';
 import { useLocale, useMessages } from 'next-intl';
@@ -134,23 +134,14 @@ export default function SocialAuthPage({ searchParams }) {
           <p>{localeStrings.startWithSocial}</p>
         </div>
 
-        <div className={styles.socialButtons}>
-          {providerOrder.map((provider) => {
-            const iconMap = {
-              Google: <GoogleIcon />,
-              GitHub: <Github size={24} />,
-            };
-            return (
-              <SocialButton
-                key={provider}
-                icon={iconMap[provider]}
-                provider={provider}
-                onClick={handleProviderLogin}
-                disabled={isPending}
-              />
-            );
-          })}
-        </div>
+        <SocialProviderList
+          providers={providerOrder.map((provider) => ({
+            name: provider,
+            icon: provider === 'Google' ? <GoogleIcon /> : <Github size={24} />,
+          }))}
+          disabled={isPending}
+          onProviderClick={handleProviderLogin}
+        />
 
         {error && <p className={styles.errorMessage}>{error}</p>}
 
@@ -161,26 +152,11 @@ export default function SocialAuthPage({ searchParams }) {
           </div>
         )}
 
-        <div className={styles.footer}>
-          <p>
-            {localeStrings.terms.split(localeStrings.termsOfService)[0]}
-            <a href="#" className={styles.link}>
-              {localeStrings.termsOfService}
-            </a>{' '}
-            {localeStrings.terms.includes(localeStrings.privacyPolicy) && localeStrings.privacyPolicy && (
-              <>
-                {localeStrings.terms.split(localeStrings.termsOfService)[1]?.split(localeStrings.privacyPolicy)[0]}
-                <a href="#" className={styles.link}>
-                  {localeStrings.privacyPolicy}
-                </a>
-                {localeStrings.terms.split(localeStrings.privacyPolicy)[1]}
-              </>
-            )}
-          </p>
-          <div className={styles.languageSelectorWrapper}>
-            <LanguageSelector locale={locale} onLocaleChange={handleLocaleChange} variant="footer" />
-          </div>
-        </div>
+        <AuthLegalFooter
+          localeStrings={localeStrings}
+          locale={locale}
+          onLocaleChange={handleLocaleChange}
+        />
       </div>
     </div>
   );

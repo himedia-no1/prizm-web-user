@@ -2,9 +2,10 @@ import { useMessages } from 'next-intl';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
-import { X, Send, Smile } from '@/components/common/icons';
+import { Send, Smile } from '@/components/common/icons';
 import { MessageContextMenu } from '@/components/channel/components/MessageContextMenu';
 import { ThreadReplyMessage } from './ThreadSidebar/ThreadReplyMessage';
+import { ThreadSidebarHeader } from './ThreadSidebar/ThreadSidebarHeader';
 import styles from './ThreadSidebar.module.css';
 
 export const ThreadSidebar = ({ 
@@ -45,15 +46,11 @@ export const ThreadSidebar = ({
 
   return (
     <aside className="thread-sidebar">
-      <header className="thread-header">
-        <div>
-          <h3 className="thread-header__title">{t.thread}</h3>
-          <p className="thread-header__subtitle">{t.repliesTo.replace('{name}', originalUser.name)}</p>
-        </div>
-        <button onClick={onClose} className="thread-header__close-button">
-          <X size={18} />
-        </button>
-      </header>
+      <ThreadSidebarHeader
+        title={t.thread}
+        subtitle={t.repliesTo.replace('{name}', originalUser.name)}
+        onClose={onClose}
+      />
 
       <div className="thread-original-message">
         <div className={`message__content ${styles.messageContent}`}>

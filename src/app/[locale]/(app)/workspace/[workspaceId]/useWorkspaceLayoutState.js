@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { useWorkspaceStore } from '@/core/store/workspace';
-import { useChatStore } from '@/core/store/chat';
 import { useUIStore } from '@/core/store/shared';
 import useDataStore from '@/core/store/dataStore';
 import { SUPPORTED_LOCALES } from '@/i18n/config';
+import { useWorkspaceResolvedData } from './hooks/useWorkspaceResolvedData';
 
 export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId }) => {
   const router = useRouter();
@@ -15,18 +15,27 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
   const messages = useMessages();
   const openModal = useUIStore((state) => state.openModal);
   const isDarkMode = useUIStore((state) => state.isDarkMode);
+  const {
+    workspacesList,
+    categories,
+    dms,
+    users,
+    safeWorkspace,
+    safeCurrentUser,
+    workspaceMembers,
+    permissionFlags,
+    currentMembership,
+  } = useWorkspaceResolvedData({
+    workspaceId,
+    initialWorkspace,
+    userId,
+    defaultUserName: messages?.common?.defaultUser,
+  });
 
   // Workspace Store
   const setCurrentWorkspace = useWorkspaceStore((state) => state.setCurrentWorkspace);
   const setWorkspaceMemberships = useWorkspaceStore((state) => state.setWorkspaceMemberships);
   const setCurrentWorkspaceRole = useWorkspaceStore((state) => state.setCurrentWorkspaceRole);
-  const workspaces = useWorkspaceStore((state) => state.workspaces);
-  const categories = useWorkspaceStore((state) => state.categories);
-  const users = useWorkspaceStore((state) => state.users);
-  const workspaceMembersMap = useWorkspaceStore((state) => state.workspaceMembers);
-
-  // Chat Store
-  const dms = useChatStore((state) => state.dms);
 
   // Bootstrap
   const loadInitialData = useDataStore((state) => state.loadInitialData);
@@ -65,63 +74,6 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
       });
     }
   }, [initialized, loadInitialData]);
-
-  const workspacesList = useMemo(() => {
-    if (workspaces && workspaces.length > 0) {
-      return workspaces;
-    }
-    if (initialWorkspace) {
-      return [initialWorkspace];
-    }
-    return [];
-  }, [workspaces, initialWorkspace]);
-
-  const currentWorkspace = useMemo(() => {
-    if (initialWorkspace) {
-      return initialWorkspace;
-    }
-    return workspacesList.find((ws) => ws.id === workspaceId) ?? workspacesList[0] ?? null;
-  }, [initialWorkspace, workspacesList, workspaceId]);
-
-  const currentUser = useMemo(() => {
-    if (userId && users[userId]) {
-      return users[userId];
-    }
-    const fallback = Object.values(users ?? {})[0];
-    return fallback ?? null;
-  }, [users, userId]);
-
-  const workspaceMembers = useMemo(
-    () => workspaceMembersMap?.[workspaceId] ?? {},
-    [workspaceId, workspaceMembersMap],
-  );
-
-  const safeWorkspace = useMemo(
-    () => currentWorkspace ?? { id: workspaceId ?? 'workspace', name: 'Workspace' },
-    [currentWorkspace, workspaceId],
-  );
-
-  const safeCurrentUser = useMemo(
-    () => currentUser ?? { id: userId ?? 'user', name: messages?.common?.defaultUser, status: 'offline' },
-    [currentUser, userId, messages?.common?.defaultUser],
-  );
-
-  const currentMembership = useMemo(
-    () => workspaceMembers[userId] ?? { role: 'member' },
-    [workspaceMembers, userId],
-  );
-
-  const permissionFlags = useMemo(() => {
-    const role = currentMembership.role ?? 'member';
-    const isPrivileged = role === 'owner' || role === 'manager';
-    return {
-      role,
-      canManageWorkspace: isPrivileged,
-      canInviteMembers: isPrivileged,
-      canManageCategories: isPrivileged,
-      canManageAppConnect: isPrivileged,
-    };
-  }, [currentMembership]);
 
   useEffect(() => {
     document.documentElement.dataset.theme = isDarkMode ? 'dark' : 'light';
