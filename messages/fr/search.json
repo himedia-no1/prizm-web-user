@@ -31,5 +31,10 @@
   "noResults": {
     "title": "Aucun résultat trouvé",
     "description": "Essayez de modifier vos mots-clés ou vos filtres."
-  }
+  },
+  "inChannelPlaceholder": "Rechercher dans ce canal...",
+  "inChannelNoResults": "Aucun résultat trouvé",
+  "previousMatch": "Résultat précédent",
+  "nextMatch": "Résultat suivant",
+  "close": "Fermer"
 }

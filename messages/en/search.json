@@ -31,5 +31,10 @@
   "noResults": {
     "title": "No results found",
     "description": "Try changing your keywords or filters."
-  }
+  },
+  "inChannelPlaceholder": "Search in this channel...",
+  "inChannelNoResults": "No results found",
+  "previousMatch": "Previous match",
+  "nextMatch": "Next match",
+  "close": "Close"
 }

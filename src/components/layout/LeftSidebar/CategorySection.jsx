@@ -80,42 +80,43 @@ export const CategorySection = ({
                   </div>
                 </button>
                 {isHovered ? (
-                  isManager ? (
-                    <div className="channel-hover-actions">
-                      <button
-                        type="button"
-                        className="channel-action-button"
-                        aria-label="Channel Settings"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          onOpenModal?.('channelSettings', {
-                            channelDetails: channel,
-                            onSave: async (data) => {
-                              console.log('Save channel settings:', data);
-                            }
-                          });
-                        }}
-                      >
-                        <Settings size={14} />
-                      </button>
-                      <button
-                        type="button"
-                        className="channel-action-button"
-                        aria-label="Invite Guest"
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          onOpenModal?.('generic', {
-                            type: 'inviteGuest',
-                            channelId: channel.id,
-                            channelName: channel.name,
-                            workspaceId: category.workspaceId,
-                          });
-                        }}
-                      >
-                        <UserPlus size={14} />
-                      </button>
-                    </div>
-                  ) : (
+                  <>
+                    {isManager && (
+                      <div className="channel-hover-actions">
+                        <button
+                          type="button"
+                          className="channel-action-button"
+                          aria-label="Channel Settings"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onOpenModal?.('channelSettings', {
+                              channelDetails: channel,
+                              onSave: async (data) => {
+                                console.log('Save channel settings:', data);
+                              }
+                            });
+                          }}
+                        >
+                          <Settings size={14} />
+                        </button>
+                        <button
+                          type="button"
+                          className="channel-action-button"
+                          aria-label="Invite Guest"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onOpenModal?.('generic', {
+                              type: 'inviteGuest',
+                              channelId: channel.id,
+                              channelName: channel.name,
+                              workspaceId: category.workspaceId,
+                            });
+                          }}
+                        >
+                          <UserPlus size={14} />
+                        </button>
+                      </div>
+                    )}
                     <button
                       type="button"
                       className={`channel-favorite-button ${isFavorite ? 'active' : ''}`}
@@ -127,7 +128,7 @@ export const CategorySection = ({
                     >
                       {isFavorite ? <Star size={14} /> : <StarOff size={14} />}
                     </button>
-                  )
+                  </>
                 ) : isFavorite ? (
                   <button
                     type="button"

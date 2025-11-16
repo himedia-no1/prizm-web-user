@@ -58,19 +58,18 @@ export const FavoritesList = ({
                   <span className="favorite-category-label">{channel.categoryName}</span>
                 </div>
               </button>
-              {isHovered && (
-                <button
-                  type="button"
-                  className="channel-favorite-button active"
-                  aria-label={t?.favorites?.remove}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    onToggleFavorite?.(channel.id);
-                  }}
-                >
-                  <Star size={14} />
-                </button>
-              )}
+              <button
+                type="button"
+                className="channel-favorite-button active"
+                aria-label={t?.favorites?.remove}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onToggleFavorite?.(channel.id);
+                }}
+                style={{ opacity: isHovered ? 1 : 0 }}
+              >
+                <Star size={14} />
+              </button>
             </li>
           );
         })}

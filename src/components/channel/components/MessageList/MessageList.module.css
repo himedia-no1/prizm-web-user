@@ -6,3 +6,7 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+.currentSearchMatch {
+  animation: highlightPulse 0.5s ease-in-out;
+}

@@ -31,5 +31,10 @@
   "noResults": {
     "title": "検索結果がありません",
     "description": "キーワードやフィルターを変更して、もう一度お試しください。"
-  }
+  },
+  "inChannelPlaceholder": "このチャンネルで検索...",
+  "inChannelNoResults": "検索結果がありません",
+  "previousMatch": "前の結果",
+  "nextMatch": "次の結果",
+  "close": "閉じる"
 }

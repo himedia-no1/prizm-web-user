@@ -31,5 +31,10 @@
   "noResults": {
     "title": "검색 결과가 없어요",
     "description": "키워드나 필터를 변경해 다시 시도해보세요."
-  }
+  },
+  "inChannelPlaceholder": "이 채널에서 검색...",
+  "inChannelNoResults": "검색 결과가 없습니다",
+  "previousMatch": "이전 결과",
+  "nextMatch": "다음 결과",
+  "close": "닫기"
 }

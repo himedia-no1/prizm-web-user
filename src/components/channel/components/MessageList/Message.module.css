@@ -182,3 +182,23 @@
 .threadReply:hover {
   text-decoration: underline;
 }
+
+/* Search Highlight */
+.currentSearchHighlight {
+  background-color: rgba(251, 191, 36, 0.15) !important;
+  border-left: 3px solid #f59e0b;
+  padding-left: calc(0.75rem - 3px);
+}
+
+[data-theme='dark'] .currentSearchHighlight {
+  background-color: rgba(251, 191, 36, 0.1) !important;
+}
+
+@keyframes highlightPulse {
+  0%, 100% {
+    background-color: rgba(251, 191, 36, 0.15);
+  }
+  50% {
+    background-color: rgba(251, 191, 36, 0.3);
+  }
+}

@@ -84,7 +84,7 @@ export const MessageSearchBar = ({
 
       {query && totalMatches === 0 && (
         <div className={styles.noResults}>
-          {t?.noResults || 'No results found'}
+          {t?.inChannelNoResults || 'No results found'}
         </div>
       )}
     </div>

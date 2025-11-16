@@ -113,6 +113,8 @@ const ChannelPageClient = (props) => {
           onStartThread={handleStartThread}
           onOpenUserProfile={handleOpenUserProfile}
           onOpenContextMenu={handleOpenContextMenu}
+          searchQuery={searchQuery}
+          currentSearchIndex={currentMatchIndex}
         />
 
         <MessageInput

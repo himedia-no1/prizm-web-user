@@ -22,7 +22,32 @@ const getTranslationText = (translation) => {
   return '';
 };
 
-export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpenContextMenu }) => {
+// 텍스트에서 검색어를 하이라이트하는 함수
+const highlightText = (text, searchQuery) => {
+  if (!searchQuery || !text) return text;
+
+  const parts = text.split(new RegExp(`(${searchQuery})`, 'gi'));
+  return parts.map((part, index) =>
+    part.toLowerCase() === searchQuery.toLowerCase() ? (
+      <mark key={index} style={{ backgroundColor: '#fef08a', padding: '2px 0' }}>
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+};
+
+export const Message = ({
+  message,
+  user,
+  onStartThread,
+  onOpenUserProfile,
+  onOpenContextMenu,
+  searchQuery = '',
+  isSearchMatch = false,
+  isCurrentSearchMatch = false
+}) => {
   const hasThread = message.threadId;
   const replyCount = hasThread ? 2 : 0;
   const { autoTranslateEnabled } = useUIStore();
@@ -98,7 +123,10 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
   const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
 
   return (
-    <div className={styles.messageContainer} onClick={handleClick}>
+    <div
+      className={`${styles.messageContainer} ${isCurrentSearchMatch ? styles.currentSearchHighlight : ''}`}
+      onClick={handleClick}
+    >
       <Image
         src={avatarSrc}
         alt={user.name}
@@ -124,7 +152,7 @@ export const Message = ({ message, user, onStartThread, onOpenUserProfile, onOpe
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
         <p className={`${styles.text}${shouldShowTranslation ? ` ${styles.textTranslated}` : ''}`}>
-          {primaryText}
+          {searchQuery ? highlightText(primaryText, searchQuery) : primaryText}
         </p>
 
         {shouldShowTranslation && (
