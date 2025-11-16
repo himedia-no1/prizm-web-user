@@ -88,19 +88,6 @@ export function middleware(request) {
       : NextResponse.next();
   }
 
-  if (normalizedPathname === '/login') {
-    if (refreshToken) {
-      return NextResponse.redirect(new URL('/workspace', request.url));
-    }
-    return finalizeResponse({
-      request,
-      pathname,
-      pathLocale,
-      activeLocale,
-      localeAware,
-    });
-  }
-
   // /invite/[inviteCode] - allow both logged in and logged out users
   if (normalizedPathname.startsWith('/invite/')) {
     return finalizeResponse({

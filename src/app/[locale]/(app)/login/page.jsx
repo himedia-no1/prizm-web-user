@@ -1,39 +1,21 @@
 import { redirect } from 'next/navigation';
 import SocialAuthPage from '@/components/auth/SocialAuthPage';
-import { getCurrentUserId, fetchAccessibleWorkspaces, fetchLastVisitedPath } from '@/features/workspace/actions';
-import { getMessagesForLocale } from '@/i18n/messages';
+import { hasRefreshToken, fetchLastVisitedPath } from '@/features/workspace/actions';
 
-async function resolveRedirectPath(userId, locale) {
-  if (!userId) {
-    return null;
-  }
+export default async function LoginPage({ searchParams }) {
+  const isLoggedIn = await hasRefreshToken();
 
-  const messages = await getMessagesForLocale(locale);
-  const t = messages?.common;
-
-  try {
-    const lastVisited = await fetchLastVisitedPath();
-    if (lastVisited) {
-      return lastVisited;
+  if (isLoggedIn) {
+    try {
+      const lastVisited = await fetchLastVisitedPath();
+      if (lastVisited) {
+        redirect(lastVisited);
+      }
+    } catch (error) {
+      console.error('Failed to load last visited path:', error);
     }
 
-    const workspaces = await fetchAccessibleWorkspaces();
-    if (workspaces.length > 0) {
-      return `${t?.defaultWorkspaceRoute}/${workspaces[0].id}/dashboard`;
-    }
-  } catch (error) {
-    console.error('Failed to resolve login redirect path:', error);
-  }
-
-  return null;
-}
-
-export default async function LoginPage({ searchParams, params }) {
-  const userId = await getCurrentUserId();
-  const destination = await resolveRedirectPath(userId, params.locale);
-
-  if (destination) {
-    redirect(destination);
+    redirect('/workspace');
   }
 
   return <SocialAuthPage searchParams={searchParams} />;

@@ -1,17 +1,30 @@
 import { redirect } from 'next/navigation';
-import { callBff } from '@/shared/server/bffClient';
+import {
+  fetchAccessibleWorkspaces,
+  fetchLastVisitedPath,
+  hasRefreshToken,
+} from '@/features/workspace/actions';
 
 export default async function WorkspacePage() {
-  const response = await callBff({ method: 'GET', url: '/mock/workspaces/last-visited' });
+  const isLoggedIn = await hasRefreshToken();
 
-  if (response.status === 401) {
+  if (!isLoggedIn) {
     redirect('/login');
   }
 
-  const lastVisitedPath = response.data?.lastVisitedPath;
-  if (lastVisitedPath) {
-    redirect(lastVisitedPath);
+  try {
+    const lastVisitedPath = await fetchLastVisitedPath();
+    if (lastVisitedPath) {
+      redirect(lastVisitedPath);
+    }
+  } catch (error) {
+    console.error('Failed to resolve last workspace path:', error);
   }
 
-  redirect('/workspace/none');
+  const workspaces = await fetchAccessibleWorkspaces();
+  if (workspaces.length > 0 && workspaces[0]?.id) {
+    redirect(`/workspace/${workspaces[0].id}/dashboard`);
+  }
+
+  redirect('/workspace/new');
 }

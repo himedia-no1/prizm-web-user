@@ -23,35 +23,17 @@ export async function validateAndGetWorkspace(workspaceId) {
     return { workspace: response.data, userId };
   }
 
-  if (response.status === 403) {
-    return handleWorkspaceForbidden();
-  }
-
-  if (response.status === 404) {
-    return handleWorkspaceNotFound();
+  if (response.status === 403 || response.status === 404) {
+    await redirectToFallbackWorkspace();
   }
 
   throw new Error(`Failed to load workspace ${workspaceId}`);
 }
 
-async function handleWorkspaceNotFound() {
-  const lastVisitedPath = await fetchLastVisitedPath();
-  if (lastVisitedPath) {
-    redirect(lastVisitedPath);
-  }
-
-  const workspaces = await fetchAccessibleWorkspaces();
-  if (workspaces.length > 0) {
-    redirect(`/workspace/${workspaces[0].id}/dashboard`);
-  }
-
-  redirect('/workspace/new');
-}
-
-async function handleWorkspaceForbidden() {
-  const workspaces = await fetchAccessibleWorkspaces();
-  if (workspaces.length > 0) {
-    redirect(`/workspace/${workspaces[0].id}/dashboard`);
+async function redirectToFallbackWorkspace() {
+  const fallbackPath = await resolveAccessibleWorkspaceDashboard();
+  if (fallbackPath) {
+    redirect(fallbackPath);
   }
   redirect('/workspace/new');
 }
@@ -70,4 +52,17 @@ export async function fetchLastVisitedPath() {
     return response.data?.lastVisitedPath ?? null;
   }
   return null;
+}
+
+async function resolveAccessibleWorkspaceDashboard() {
+  const workspaces = await fetchAccessibleWorkspaces();
+  if (workspaces.length > 0 && workspaces[0]?.id) {
+    return `/workspace/${workspaces[0].id}/dashboard`;
+  }
+  return null;
+}
+
+export async function hasRefreshToken() {
+  const cookieStore = await cookies();
+  return Boolean(cookieStore.get(COOKIE_KEYS.refreshToken)?.value);
 }
