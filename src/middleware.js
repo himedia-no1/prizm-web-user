@@ -8,12 +8,15 @@ import {
 
 const REFRESH_TOKEN_COOKIE = 'refresh_token';
 const PUBLIC_PREFIXES = ['/api', '/mock', '/_next', '/favicon.ico'];
+const STATIC_FILE_REGEX = /\.(?:png|jpg|jpeg|webp|gif|svg|ico)$/i;
 const JOIN_PATH_REGEX = /^\/workspace\/[^/]+\/join/;
 const PROTECTED_PREFIXES = ['/workspace', '/me'];
 const LOCALE_PREFIX_REGEX = new RegExp(`^/(${SUPPORTED_LOCALES.join('|')})(/|$)`, 'i');
 
+const isStaticAsset = (pathname = '') => STATIC_FILE_REGEX.test(pathname);
+
 const shouldHandleLocale = (pathname) =>
-  !PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  !PUBLIC_PREFIXES.some((prefix) => pathname.startsWith(prefix)) && !isStaticAsset(pathname);
 
 const extractLocaleFromPath = (pathname = '') => {
   const match = pathname.match(LOCALE_PREFIX_REGEX);
@@ -81,6 +84,10 @@ export function middleware(request) {
   const preferredLocale = parsePreferredLocale(request);
   const activeLocale = pathLocale ?? preferredLocale;
   const localeAware = shouldHandleLocale(pathname);
+
+  if (isStaticAsset(normalizedPathname)) {
+    return NextResponse.next();
+  }
 
   if (isPublicRequest(normalizedPathname)) {
     return localeAware
