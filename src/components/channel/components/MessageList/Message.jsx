@@ -50,7 +50,7 @@ export const Message = ({
   onReplyClick
 }) => {
   const hasThread = message.threadId;
-  const replyCount = hasThread ? 2 : 0;
+  const threadCount = message.threadCount || 0;
   const { autoTranslateEnabled } = useUIStore();
   const locale = useLocale();
   const messages = useMessages();
@@ -219,7 +219,7 @@ export const Message = ({
           </div>
         )}
 
-        {hasThread && (
+        {hasThread && threadCount > 0 && (
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -227,7 +227,7 @@ export const Message = ({
             }}
             className={styles.threadReply}
           >
-            {replyCount} {replyCount > 1 ? 'replies' : 'reply'}
+            {threadCount} {threadCount === 1 ? 'thread' : 'threads'}
           </button>
         )}
       </div>
