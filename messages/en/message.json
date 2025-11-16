@@ -23,5 +23,6 @@
   "thread": "Thread",
   "repliesTo": "Replies to {name}",
   "replyToThread": "Reply to thread...",
-  "inputPlaceholder": "Message #{{channelName}}"
+  "inputPlaceholder": "Message #{{channelName}}",
+  "replyingTo": "Replying to"
 }

@@ -23,5 +23,6 @@
   "thread": "스레드",
   "repliesTo": "{name}님에게 보내는 답장",
   "replyToThread": "스레드에 답장...",
-  "inputPlaceholder": "#{{channelName}}에 메시지 보내기"
+  "inputPlaceholder": "#{{channelName}}에 메시지 보내기",
+  "replyingTo": "답글 작성 중"
 }

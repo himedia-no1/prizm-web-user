@@ -45,8 +45,9 @@ export const Message = ({
   onOpenUserProfile,
   onOpenContextMenu,
   searchQuery = '',
-  isSearchMatch = false,
-  isCurrentSearchMatch = false
+  replyToMessage = null,
+  replyToUser = null,
+  onReplyClick
 }) => {
   const hasThread = message.threadId;
   const replyCount = hasThread ? 2 : 0;
@@ -124,7 +125,7 @@ export const Message = ({
 
   return (
     <div
-      className={`${styles.messageContainer} ${isCurrentSearchMatch ? styles.currentSearchHighlight : ''}`}
+      className={styles.messageContainer}
       onClick={handleClick}
     >
       <Image
@@ -151,6 +152,27 @@ export const Message = ({
           </span>
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
+
+        {/* 답글 미리보기 (디스코드 스타일) */}
+        {replyToMessage && replyToUser && (
+          <div
+            className={styles.replyPreview}
+            onClick={(e) => {
+              e.stopPropagation();
+              onReplyClick?.(replyToMessage.id);
+            }}
+          >
+            <div className={styles.replyLine} />
+            <div className={styles.replyContent}>
+              <span className={styles.replyUsername}>{replyToUser.name}</span>
+              <span className={styles.replyText}>
+                {replyToMessage.text?.substring(0, 50)}
+                {replyToMessage.text?.length > 50 ? '...' : ''}
+              </span>
+            </div>
+          </div>
+        )}
+
         <p className={`${styles.text}${shouldShowTranslation ? ` ${styles.textTranslated}` : ''}`}>
           {searchQuery ? highlightText(primaryText, searchQuery) : primaryText}
         </p>

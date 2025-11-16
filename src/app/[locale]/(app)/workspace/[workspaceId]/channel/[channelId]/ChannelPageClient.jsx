@@ -33,6 +33,7 @@ const ChannelPageClient = (props) => {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+  const [replyingTo, setReplyingTo] = useState(null); // 답글 대상 메시지
 
   const {
     channel,
@@ -51,6 +52,7 @@ const ChannelPageClient = (props) => {
     handleOpenModal,
     handleEmojiSelectForInput,
     closeThread,
+    setMessages,
   } = useChannelPageState(props);
 
   const matchedMessages = useMemo(() => {
@@ -85,6 +87,14 @@ const ChannelPageClient = (props) => {
       setSearchQuery('');
       setCurrentMatchIndex(0);
     }
+  };
+
+  const handleReply = (message) => {
+    setReplyingTo(message);
+  };
+
+  const handleCancelReply = () => {
+    setReplyingTo(null);
   };
 
   return (
@@ -125,6 +135,26 @@ const ChannelPageClient = (props) => {
           onOpenEmojiPicker={() =>
             handleOpenModal('emojiPicker', { onEmojiSelect: handleEmojiSelectForInput })
           }
+          replyingTo={replyingTo}
+          replyingToUser={replyingTo ? resolvedUsers[replyingTo.userId] : null}
+          onCancelReply={handleCancelReply}
+          onSendMessage={(text) => {
+            // 메시지 전송 (목업)
+            const newMessage = {
+              id: `msg-${Date.now()}`,
+              userId: 'u1', // 현재 사용자
+              text: text,
+              timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+              reply_id: replyingTo?.id || null,
+            };
+
+            // 메시지 목록에 추가
+            setMessages([...messages, newMessage]);
+
+            // 답글 모드 해제 및 입력창 초기화
+            setReplyingTo(null);
+            setMessage('');
+          }}
         />
 
         <AIFab onClick={() => handleOpenModal('aiAssistant')} />
@@ -182,7 +212,7 @@ const ChannelPageClient = (props) => {
           onClose={handleCloseContextMenu}
           onPin={() => console.log('Pin')}
           onStartThread={handleStartThread}
-          onReply={() => console.log('Reply')}
+          onReply={handleReply}
           onForward={(msg) => {
             handleOpenModal('forwardMessage', { message: msg });
             handleCloseContextMenu();

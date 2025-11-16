@@ -59,6 +59,7 @@ export const useChannelData = ({
       userId: 'u2',
       text: '검색 기능은 2단계에서 진행할 계획입니다.',
       timestamp: '10:32 AM',
+      reply_id: 'msg-4', // msg-4에 대한 답글
     },
     {
       id: 'msg-6',
@@ -72,6 +73,7 @@ export const useChannelData = ({
       text: '네, 디자인 시안은 이미 공유드렸습니다. 확인 부탁드립니다.',
       timestamp: '10:37 AM',
       reactions: { '✅': 2 },
+      reply_id: 'msg-6', // msg-6에 대한 답글
     },
     {
       id: 'msg-8',
@@ -84,6 +86,7 @@ export const useChannelData = ({
       userId: 'u1',
       text: 'API 개발은 이번 주 금요일까지 완료할 예정입니다.',
       timestamp: '10:42 AM',
+      reply_id: 'msg-8', // msg-8에 대한 답글
     },
     {
       id: 'msg-10',
@@ -96,6 +99,7 @@ export const useChannelData = ({
       userId: 'u2',
       text: '검색 기능 테스트는 제가 담당하겠습니다.',
       timestamp: '10:47 AM',
+      reply_id: 'msg-10', // msg-10에 대한 답글
     },
     {
       id: 'msg-12',

@@ -35,20 +35,32 @@ export const MessageList = ({
     }
   }, [currentSearchIndex, searchQuery, messages]);
 
+  // 답글 클릭 시 원본 메시지로 스크롤
+  const handleReplyClick = (replyId) => {
+    const targetElement = messageRefs.current[replyId];
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+      // 잠깐 하이라이트 효과
+      targetElement.style.backgroundColor = 'rgba(251, 191, 36, 0.2)';
+      setTimeout(() => {
+        targetElement.style.backgroundColor = '';
+      }, 1500);
+    }
+  };
+
   return (
     <div className={styles.messageList} ref={messageListRef}>
       {messages.map(msg => {
-        const isMatch = searchQuery && msg.text?.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchedMessages = searchQuery ? messages.filter(m =>
-          m.text?.toLowerCase().includes(searchQuery.toLowerCase())
-        ) : [];
-        const isCurrentMatch = isMatch && matchedMessages[currentSearchIndex]?.id === msg.id;
+        // 답글인 경우 원본 메시지 찾기
+        const replyToMessage = msg.reply_id ? messages.find(m => m.id === msg.reply_id) : null;
 
         return (
           <div
             key={msg.id}
             ref={el => messageRefs.current[msg.id] = el}
-            className={isCurrentMatch ? styles.currentSearchMatch : ''}
           >
             <Message
               message={msg}
@@ -57,8 +69,9 @@ export const MessageList = ({
               onOpenUserProfile={onOpenUserProfile}
               onOpenContextMenu={onOpenContextMenu}
               searchQuery={searchQuery}
-              isSearchMatch={isMatch}
-              isCurrentSearchMatch={isCurrentMatch}
+              replyToMessage={replyToMessage}
+              replyToUser={replyToMessage ? users[replyToMessage.userId] : null}
+              onReplyClick={handleReplyClick}
             />
           </div>
         );

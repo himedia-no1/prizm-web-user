@@ -183,22 +183,51 @@
   text-decoration: underline;
 }
 
-/* Search Highlight */
-.currentSearchHighlight {
-  background-color: rgba(251, 191, 36, 0.15) !important;
-  border-left: 3px solid #f59e0b;
-  padding-left: calc(0.75rem - 3px);
+/* Reply Preview (Discord Style) */
+.replyPreview {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
 }
 
-[data-theme='dark'] .currentSearchHighlight {
-  background-color: rgba(251, 191, 36, 0.1) !important;
+.replyPreview:hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
-@keyframes highlightPulse {
-  0%, 100% {
-    background-color: rgba(251, 191, 36, 0.15);
-  }
-  50% {
-    background-color: rgba(251, 191, 36, 0.3);
-  }
+[data-theme='dark'] .replyPreview:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.replyLine {
+  width: 2px;
+  background-color: var(--text-tertiary, #d1d5db);
+  border-radius: 1px;
+  margin-left: 0.25rem;
+  flex-shrink: 0;
+}
+
+.replyContent {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  overflow: hidden;
+}
+
+.replyUsername {
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.replyText {
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
