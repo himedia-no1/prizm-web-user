@@ -282,5 +282,17 @@
       "answer1": "プロジェクトスケジュールの整理をお手伝いします。"
     },
     "aiResponsePrefix": "\"{message}\"に対する回答です。"
+  },
+  "notificationSettings": {
+    "title": "通知設定",
+    "notificationLevel": "通知レベル",
+    "allMessages": "すべてのメッセージ",
+    "allMessagesDesc": "新しいメッセージごとに通知を受け取ります",
+    "mentionsOnly": "@メンションのみ",
+    "mentionsOnlyDesc": "メンションされた場合のみ通知を受け取ります",
+    "nothing": "通知なし",
+    "nothingDesc": "どのメッセージも通知を受け取りません",
+    "cancel": "キャンセル",
+    "save": "設定を保存"
   }
 }

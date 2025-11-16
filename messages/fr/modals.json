@@ -282,5 +282,17 @@
       "answer1": "Bien sûr, je vais vous aider à organiser l'horaire du projet."
     },
     "aiResponsePrefix": "Ceci est la réponse à \"{message}\"."
+  },
+  "notificationSettings": {
+    "title": "Paramètres de notification",
+    "notificationLevel": "Niveau de notification",
+    "allMessages": "Tous les messages",
+    "allMessagesDesc": "Recevoir une notification pour chaque nouveau message",
+    "mentionsOnly": "@mentions uniquement",
+    "mentionsOnlyDesc": "Recevoir une notification uniquement lorsque vous êtes mentionné",
+    "nothing": "Aucune",
+    "nothingDesc": "Ne pas recevoir de notification pour les messages",
+    "cancel": "Annuler",
+    "save": "Enregistrer les paramètres"
   }
 }

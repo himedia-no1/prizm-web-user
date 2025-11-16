@@ -300,5 +300,17 @@
     "confirmButton": "영구 탈퇴",
     "cancelButton": "취소",
     "leaving": "탈퇴 중..."
+  },
+  "notificationSettings": {
+    "title": "알림 설정",
+    "notificationLevel": "알림 레벨",
+    "allMessages": "모든 메시지",
+    "allMessagesDesc": "새 메시지가 올 때마다 알림을 받습니다",
+    "mentionsOnly": "@멘션만",
+    "mentionsOnlyDesc": "나를 멘션한 경우에만 알림을 받습니다",
+    "nothing": "알림 없음",
+    "nothingDesc": "어떤 메시지도 알림을 받지 않습니다",
+    "cancel": "취소",
+    "save": "설정 저장"
   }
 }

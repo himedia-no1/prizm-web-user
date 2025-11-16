@@ -10,11 +10,10 @@ export const NotificationSettingsModal = ({ isOpen, onClose, channelName, curren
   const t = messages?.modals?.notificationSettings;
 
   const [notificationLevel, setNotificationLevel] = useState(currentSettings.level || 'all');
-  const [muteUntil, setMuteUntil] = useState(currentSettings.muteUntil || 'unmuted');
 
   const handleSave = () => {
     // TODO: API 호출하여 알림 설정 저장
-    console.log('Saving notification settings:', { notificationLevel, muteUntil });
+    console.log('Saving notification settings:', { notificationLevel });
     onClose?.();
   };
 
@@ -105,94 +104,6 @@ export const NotificationSettingsModal = ({ isOpen, onClose, channelName, curren
                   <p className={styles.optionDescription}>
                     {t?.nothingDesc || 'Do not get notified for any messages'}
                   </p>
-                </div>
-              </label>
-            </div>
-          </section>
-
-          <section className={styles.section}>
-            <h4 className={styles.sectionTitle}>
-              {t?.muteChannel || 'Mute Channel'}
-            </h4>
-
-            <div className={styles.optionGroup}>
-              <label className={`${styles.option} ${muteUntil === 'unmuted' ? styles.selected : ''}`}>
-                <input
-                  type="radio"
-                  name="muteUntil"
-                  value="unmuted"
-                  checked={muteUntil === 'unmuted'}
-                  onChange={(e) => setMuteUntil(e.target.value)}
-                  className={styles.radio}
-                />
-                <div className={styles.optionContent}>
-                  <span className={styles.optionTitle}>
-                    {t?.unmuted || 'Unmuted'}
-                  </span>
-                </div>
-              </label>
-
-              <label className={`${styles.option} ${muteUntil === '15min' ? styles.selected : ''}`}>
-                <input
-                  type="radio"
-                  name="muteUntil"
-                  value="15min"
-                  checked={muteUntil === '15min'}
-                  onChange={(e) => setMuteUntil(e.target.value)}
-                  className={styles.radio}
-                />
-                <div className={styles.optionContent}>
-                  <span className={styles.optionTitle}>
-                    {t?.for15min || 'For 15 minutes'}
-                  </span>
-                </div>
-              </label>
-
-              <label className={`${styles.option} ${muteUntil === '1hour' ? styles.selected : ''}`}>
-                <input
-                  type="radio"
-                  name="muteUntil"
-                  value="1hour"
-                  checked={muteUntil === '1hour'}
-                  onChange={(e) => setMuteUntil(e.target.value)}
-                  className={styles.radio}
-                />
-                <div className={styles.optionContent}>
-                  <span className={styles.optionTitle}>
-                    {t?.for1hour || 'For 1 hour'}
-                  </span>
-                </div>
-              </label>
-
-              <label className={`${styles.option} ${muteUntil === '24hours' ? styles.selected : ''}`}>
-                <input
-                  type="radio"
-                  name="muteUntil"
-                  value="24hours"
-                  checked={muteUntil === '24hours'}
-                  onChange={(e) => setMuteUntil(e.target.value)}
-                  className={styles.radio}
-                />
-                <div className={styles.optionContent}>
-                  <span className={styles.optionTitle}>
-                    {t?.for24hours || 'For 24 hours'}
-                  </span>
-                </div>
-              </label>
-
-              <label className={`${styles.option} ${muteUntil === 'forever' ? styles.selected : ''}`}>
-                <input
-                  type="radio"
-                  name="muteUntil"
-                  value="forever"
-                  checked={muteUntil === 'forever'}
-                  onChange={(e) => setMuteUntil(e.target.value)}
-                  className={styles.radio}
-                />
-                <div className={styles.optionContent}>
-                  <span className={styles.optionTitle}>
-                    {t?.untilITurnItBackOn || 'Until I turn it back on'}
-                  </span>
                 </div>
               </label>
             </div>

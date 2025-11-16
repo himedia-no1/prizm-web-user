@@ -282,5 +282,17 @@
       "answer1": "Yes, I will organize the project schedule."
     },
     "aiResponsePrefix": "This is the answer to \"{message}\"."
+  },
+  "notificationSettings": {
+    "title": "Notification Settings",
+    "notificationLevel": "Notification Level",
+    "allMessages": "All Messages",
+    "allMessagesDesc": "Get notified for every new message",
+    "mentionsOnly": "@mentions Only",
+    "mentionsOnlyDesc": "Only get notified when you are mentioned",
+    "nothing": "Nothing",
+    "nothingDesc": "Do not get notified for any messages",
+    "cancel": "Cancel",
+    "save": "Save Settings"
   }
 }
