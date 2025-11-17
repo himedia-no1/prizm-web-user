@@ -17,6 +17,7 @@ import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import { useState, useMemo, useEffect } from 'react';
 import { useLocale } from 'next-intl';
+import { useChat } from '@/shared/hooks/useChat'; // Added import
 
 const ChannelPageClient = (props) => {
   useLastWorkspacePath();
@@ -26,17 +27,7 @@ const ChannelPageClient = (props) => {
   const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
   const closeSidebarPanel = useUIStore((state) => state.closeSidebarPanel);
 
-  // 채널 이동 시 사이드바 패널 자동 닫기
-  useEffect(() => {
-    return () => {
-      closeSidebarPanel();
-    };
-  }, [props.channelId, closeSidebarPanel]);
-
-  const [showSearchBar, setShowSearchBar] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
-  const [replyingTo, setReplyingTo] = useState(null); // 답글 대상 메시지
+  const { sendMessage: sendChatMessage, messages: realTimeMessages, isConnected } = useChat(props.channelId); // Added hook instantiation
 
   const {
     channel,
@@ -58,6 +49,29 @@ const ChannelPageClient = (props) => {
     closeThread,
     setMessages,
   } = useChannelPageState(props);
+
+  // 채널 이동 시 사이드바 패널 자동 닫기
+  useEffect(() => {
+    return () => {
+      closeSidebarPanel();
+    };
+  }, [props.channelId, closeSidebarPanel]);
+
+  // useChat에서 받은 실시간 메시지를 메인 메시지 목록에 추가
+  useEffect(() => {
+    if (realTimeMessages.length > 0) {
+      setMessages(prev => {
+        const existingIds = new Set(prev.map(m => m.id));
+        const uniqueNewMessages = realTimeMessages.filter(m => !existingIds.has(m.id));
+        return [...prev, ...uniqueNewMessages];
+      });
+    }
+  }, [realTimeMessages, setMessages]);
+
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+  const [replyingTo, setReplyingTo] = useState(null); // 답글 대상 메시지
 
   const currentUserId = 'u1';
 
@@ -206,18 +220,9 @@ const ChannelPageClient = (props) => {
           replyingToUser={replyingTo ? resolvedUsers[replyingTo.userId] : null}
           onCancelReply={handleCancelReply}
           onSendMessage={(text) => {
-            // 메시지 전송 (목업)
-            const newMessage = {
-              id: `msg-${Date.now()}`,
-              userId: 'u1', // 현재 사용자
-              text: text,
-              timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-              reply_id: replyingTo?.id || null,
-              pinned: false,
-            };
-
-            // 메시지 목록에 추가
-            setMessages([...messages, newMessage]);
+            // 메시지 전송 (실제 웹소켓 통신)
+            const senderId = 'u1'; // TODO: 실제 사용자 ID로 교체
+            sendChatMessage(text, senderId);
 
             // 답글 모드 해제 및 입력창 초기화
             setReplyingTo(null);

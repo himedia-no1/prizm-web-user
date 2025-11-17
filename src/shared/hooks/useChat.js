@@ -17,7 +17,7 @@ export const useChat = (channelId) => {
         }
 
         // ✅ 백엔드의 WebSocket 엔드포인트
-        const socket = new SockJS("http://localhost:8080/ws-stomp");
+        const socket = new SockJS(`${process.env.NEXT_PUBLIC_BACKEND_WS_URL}`);
 
         const client = new Client({
             webSocketFactory: () => socket,
@@ -80,7 +80,7 @@ export const useChat = (channelId) => {
             };
 
             stompClient.publish({
-                destination: "/exchange/amq.topic/chatroom." + channelId,
+                destination: "/pub/chat.message",
                 body: JSON.stringify(message),
             });
         } else {
