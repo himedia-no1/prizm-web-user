@@ -152,5 +152,7 @@ const finalizeResponse = ({ request, pathname, pathLocale, activeLocale, localeA
 };
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!_next|favicon.ico|.*\\.(?:png|jpg|jpeg|webp|gif|svg|ico|js|css|map)$).*)',
+  ],
 };

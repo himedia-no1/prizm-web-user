@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.js');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  experimental: {
+    allowedDevOrigins: ['http://localhost:3000', 'http://192.168.0.221:3000'],
+  },
 
   // 런타임 환경변수 주입
   // 프록시 설정: /api만 Spring Boot로 프록시
