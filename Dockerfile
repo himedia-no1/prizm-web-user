@@ -15,5 +15,5 @@ ENV NODE_ENV=production
 RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY --from=builder /app ./
 
-EXPOSE 3030
+EXPOSE 3000
 CMD ["pnpm", "start"]

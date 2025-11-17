@@ -4,7 +4,6 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.js');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/app',
   /* config options here */
 
   // 런타임 환경변수 주입
