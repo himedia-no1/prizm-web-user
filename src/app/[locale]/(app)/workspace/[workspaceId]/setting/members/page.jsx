@@ -1,13 +1,13 @@
-import { validateAndGetWorkspace } from '@/features/workspace/actions';
+import { validateWorkspaceAccess } from '@/features/workspace/actions';
 import WorkspaceSettingsClient from '../WorkspaceSettingsClient';
 
 export default async function MembersPage({ params }) {
   const { workspaceId } = (await params) ?? {};
-  const { workspace } = await validateAndGetWorkspace(workspaceId);
+  await validateWorkspaceAccess(workspaceId);
   return (
     <WorkspaceSettingsClient
       workspaceId={workspaceId}
-      workspaceName={workspace?.name ?? 'My Workspace'}
+      workspaceId={workspaceId}
       initialTab="members"
       basePath={`/workspace/${workspaceId}/setting`}
     />

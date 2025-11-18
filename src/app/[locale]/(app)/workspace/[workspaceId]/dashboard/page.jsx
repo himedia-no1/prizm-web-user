@@ -1,12 +1,12 @@
-import { validateAndGetWorkspace } from '@/features/workspace/actions';
-import { DashboardView } from '@/components/workspace/components/DashboardView';
+import { validateWorkspaceAccess } from '@/features/workspace/actions';
+import DashboardClient from './DashboardClient';
 
 export default async function DashboardPage({ params }) {
   const { workspaceId } = (await params) ?? {};
-  const { workspace } = await validateAndGetWorkspace(workspaceId);
 
-  // No dashboard statistics API available yet
-  const stats = [];
+  // 접근 권한만 검증 (403/404 시 리다이렉트)
+  await validateWorkspaceAccess(workspaceId);
 
-  return <DashboardView workspaceName={workspace?.name ?? 'My Workspace'} stats={stats} />;
+  // 데이터는 CSR에서 로드
+  return <DashboardClient workspaceId={workspaceId} />;
 }

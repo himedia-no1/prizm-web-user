@@ -18,7 +18,7 @@ import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
 import { useState, useMemo, useEffect } from 'react';
 import { useLocale } from 'next-intl';
 
-const ChannelPageClient = (props) => {
+const ChannelPageClient = ({ channelId, workspaceId }) => {
   useLastWorkspacePath();
   const locale = useLocale();
   const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
@@ -31,7 +31,7 @@ const ChannelPageClient = (props) => {
     return () => {
       closeSidebarPanel();
     };
-  }, [props.channelId, closeSidebarPanel]);
+  }, [channelId, closeSidebarPanel]);
 
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -57,7 +57,11 @@ const ChannelPageClient = (props) => {
     handleEmojiSelectForInput,
     closeThread,
     setMessages,
-  } = useChannelPageState(props);
+  } = useChannelPageState({
+    channelId,
+    workspaceId,
+    // SSR에서 initial 데이터를 받지 않음 - CSR에서 로드
+  });
 
   const currentUserId = 'u1';
 

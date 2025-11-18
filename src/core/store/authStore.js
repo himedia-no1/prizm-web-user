@@ -8,13 +8,37 @@ import { authService } from '@/core/api/services';
  */
 export const useAuthStore = create((set) => ({
     accessToken: null,
+    user: null,
+    isAuthenticated: false,
 
     setAccessToken: (accessToken) => {
-        set({ accessToken: accessToken ?? null });
+        set({
+            accessToken: accessToken ?? null,
+            isAuthenticated: Boolean(accessToken),
+        });
+    },
+
+    setAuthState: ({ accessToken = null, user = null } = {}) => {
+        set((state) => ({
+            accessToken: accessToken ?? state.accessToken ?? null,
+            user: user ?? state.user ?? null,
+            isAuthenticated: Boolean(accessToken ?? state.accessToken ?? user ?? state.user),
+        }));
+    },
+
+    setUser: (user) => {
+        set((state) => ({
+            user: user ?? null,
+            isAuthenticated: Boolean(state.accessToken || user),
+        }));
     },
 
     clearAccessToken: () => {
-        set({ accessToken: null });
+        set({ accessToken: null, isAuthenticated: false });
+    },
+
+    clearAuthState: () => {
+        set({ accessToken: null, user: null, isAuthenticated: false });
     },
 
     logout: async () => {
@@ -23,7 +47,7 @@ export const useAuthStore = create((set) => ({
         } catch (error) {
             console.warn('[AuthStore] logout failed:', error);
         } finally {
-            set({ accessToken: null });
+            set({ accessToken: null, user: null, isAuthenticated: false });
         }
     },
 }));

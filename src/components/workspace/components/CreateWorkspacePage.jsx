@@ -9,7 +9,11 @@ import { useRouter } from 'next/navigation';
 import UserProfileHeader from '@/components/common/UserProfileHeader';
 import styles from './CreateWorkspacePage.module.css';
 
-export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistingWorkspace = false }) => {
+export const CreateWorkspacePage = ({
+    onBack,
+    initialMode = 'create',
+    hasExistingWorkspace = false,
+}) => {
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
     const router = useRouter();
@@ -121,6 +125,12 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
         </div>
         {!hasExistingWorkspace && (
                 <div className={styles['bottom-left-actions']}>
+                    <button
+                        className={styles['workspace-cancel-button']}
+                        onClick={() => router.push('/me/setting/profile')}
+                    >
+                        {s?.mySettings ?? 'My Settings'}
+                    </button>
                     <button
                         className={styles['icon-button']}
                         title={s.notifications}

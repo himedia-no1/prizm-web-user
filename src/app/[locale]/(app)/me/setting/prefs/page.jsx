@@ -1,13 +1,5 @@
-import UserSettingsPage from '@/components/settings/UserSettingsPage';
-import { getUserSettingsContext } from '../getUserSettingsContext';
+import UserSettingsClient from '../UserSettingsClient';
 
-export default async function PreferencesSettingsPage() {
-  const context = await getUserSettingsContext();
-  return (
-    <UserSettingsPage
-      user={context.user}
-      activeTab="prefs"
-      basePath="/me/setting"
-    />
-  );
+export default function PreferencesSettingsPage() {
+  return <UserSettingsClient activeTab="prefs" />;
 }

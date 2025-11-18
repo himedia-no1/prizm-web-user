@@ -1,13 +1,13 @@
-import { validateAndGetWorkspace } from '@/features/workspace/actions';
+import { validateWorkspaceAccess } from '@/features/workspace/actions';
 import WorkspaceSettingsClient from '../WorkspaceSettingsClient';
 
 export default async function AiSearchSettingsPage({ params }) {
   const { workspaceId } = (await params) ?? {};
-  const { workspace } = await validateAndGetWorkspace(workspaceId);
+  await validateWorkspaceAccess(workspaceId);
   return (
     <WorkspaceSettingsClient
       workspaceId={workspaceId}
-      workspaceName={workspace?.name ?? 'My Workspace'}
+      workspaceId={workspaceId}
       initialTab="ai-search"
       basePath={`/workspace/${workspaceId}/setting`}
     />

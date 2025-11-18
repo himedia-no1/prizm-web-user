@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
-import { validateAndGetWorkspace } from '@/features/workspace/actions';
+import { validateWorkspaceAccess } from '@/features/workspace/actions';
 
 export default async function WorkspaceIndexPage({ params }) {
   const { workspaceId } = await params;
-  await validateAndGetWorkspace(workspaceId);
+  await validateWorkspaceAccess(workspaceId);
   redirect(`/workspace/${workspaceId}/channel/general`);
 }

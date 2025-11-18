@@ -36,24 +36,28 @@ async function refreshAccessToken() {
 }
 
 /**
- * 워크스페이스 검증 및 조회
+ * 워크스페이스 접근 권한 검증만 수행 (데이터는 CSR에서 로드)
  */
-export async function validateAndGetWorkspace(workspaceId) {
+export async function validateWorkspaceAccess(workspaceId) {
   const accessToken = await refreshAccessToken();
   if (!accessToken) {
     redirect('/login');
   }
 
   try {
-    const { data } = await axios.get(`${BACKEND_URL}/api/workspaces/${workspaceId}`, {
+    await axios.get(`${BACKEND_URL}/api/workspaces/${workspaceId}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    return { workspace: data };
+    // 검증만 수행, 데이터는 반환하지 않음 (CSR에서 로드)
   } catch (error) {
-    if (error.response?.status === 403 || error.response?.status === 404) {
+    const status = error.response?.status;
+
+    if (status === 403 || status === 404) {
       await redirectToFallbackWorkspace(accessToken);
     }
-    throw error;
+
+    // 500 에러 등은 그냥 통과 (CSR에서 처리)
+    console.error('[validateWorkspaceAccess] Error:', error.message);
   }
 }
 

@@ -107,9 +107,6 @@ export function middleware(request) {
   }
 
   if (!refreshToken) {
-    if (normalizedPathname === '/workspace') {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
     if (JOIN_PATH_REGEX.test(normalizedPathname)) {
       return finalizeResponse({
         request,

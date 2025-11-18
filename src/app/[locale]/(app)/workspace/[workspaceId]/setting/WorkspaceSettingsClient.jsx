@@ -25,7 +25,6 @@ import { workspaceService } from '@/core/api/services';
 
 export default function WorkspaceSettingsClient({
   workspaceId,
-  workspaceName = 'My Workspace',
   initialTab = 'overview',
   basePath,
 }) {
@@ -37,6 +36,7 @@ export default function WorkspaceSettingsClient({
   const [settingsData, setSettingsData] = useState(null);
   const [settingsLoading, setSettingsLoading] = useState(false);
   const [settingsError, setSettingsError] = useState(null);
+  const [workspaceName, setWorkspaceName] = useState('My Workspace');
 
   // Domain Stores
   const categories = useWorkspaceStore((state) => state.categories);
@@ -53,13 +53,18 @@ export default function WorkspaceSettingsClient({
     setActiveTab(initialTab);
   }, [initialTab]);
 
+  // Workspace 데이터 로드 (CSR)
   useEffect(() => {
-    if (!initialized) {
-      loadInitialData().catch((error) => {
-        console.error('Failed to load bootstrap data:', error);
+    if (!workspaceId) return;
+
+    workspaceService.getWorkspace(workspaceId)
+      .then(data => {
+        setWorkspaceName(data?.name ?? 'My Workspace');
+      })
+      .catch(error => {
+        console.error('Failed to load workspace:', error);
       });
-    }
-  }, [initialized, loadInitialData]);
+  }, [workspaceId]);
 
   useEffect(() => {
     if (!workspaceId) {

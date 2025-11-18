@@ -1,36 +1,12 @@
-import { validateAndGetChannel } from '@/features/channel/actions';
-import { channelService } from '@/core/api/services';
+import { validateChannelAccess } from '@/features/channel/actions';
 import ChannelPageClient from './ChannelPageClient';
 
 export default async function ChannelPage({ params }) {
   const { workspaceId, channelId } = await params;
-  const { channel } = await validateAndGetChannel(channelId, workspaceId);
 
-  // 채널 사용자 목록 로드
-  let users = {};
-  try {
-    const channelUsers = await channelService.getChannelUsers(workspaceId, channelId);
-    users = channelUsers.reduce((acc, user) => {
-      acc[user.id] = user;
-      return acc;
-    }, {});
-  } catch (error) {
-    console.error('Failed to load channel users:', error);
-  }
+  // 접근 권한만 검증 (403/404 시 리다이렉트)
+  await validateChannelAccess(channelId, workspaceId);
 
-  // TODO: 메시지, 스레드 API 구현 대기 (messageService)
-  const channelDetails = channel;
-  const channelMessages = [];
-  const threadReplies = {};
-
-  return (
-    <ChannelPageClient
-      channelId={channelId}
-      initialChannel={channel}
-      initialChannelDetails={channelDetails}
-      initialMessages={channelMessages}
-      users={users}
-      threadReplies={threadReplies}
-    />
-  );
+  // 데이터는 CSR에서 로드
+  return <ChannelPageClient channelId={channelId} workspaceId={workspaceId} />;
 }

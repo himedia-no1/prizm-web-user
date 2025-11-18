@@ -1,17 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Github } from 'lucide-react';
 import { SocialProviderList } from '@/components/auth/components/SocialProviderList';
 import { AuthLegalFooter } from '@/components/auth/components/AuthLegalFooter';
-import { useAuthStore } from '@/core/store/authStore';
 import { useUIStore } from '@/core/store/shared';
 import { useLocale, useMessages } from 'next-intl';
 import { setPreferredLocale } from '@/shared/lib/locale';
-import { inviteService } from '@/core/api/services';
-import { authenticateWithProvider } from './actions';
+import { refreshSession } from '@/shared/lib/authClient';
+import { getLastPathFromCookie, clearLastPathCookie } from '@/shared/lib/lastPath';
+import { workspaceService } from '@/core/api/services';
 import styles from './SocialAuthPage.module.css';
 
 const GoogleIcon = () => (
@@ -40,56 +40,81 @@ const providerOrder = ['Google', 'GitHub'];
 export default function SocialAuthPage({ searchParams }) {
   const router = useRouter();
   const isDarkMode = useUIStore((state) => state.isDarkMode);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const setAuthState = useAuthStore((state) => state.setAuthState);
-  const [error, setError] = useState(null);
-  const [isPending, startTransition] = useTransition();
-  const oauthHandledRef = useRef(false);
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
+  const sessionCheckStarted = useRef(false);
   const locale = useLocale();
   const messages = useMessages();
   const localeStrings = messages?.common ?? {};
   const authStrings = messages?.common?.auth ?? {};
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.replace('/workspace');
-    }
-  }, [isAuthenticated, router]);
+    console.log('[Login] useEffect triggered, sessionCheckStarted:', sessionCheckStarted.current);
 
-  useEffect(() => {
-    const provider = searchParams?.provider;
-    const code = searchParams?.code;
-    const inviteCode = searchParams?.inviteCode;
-
-    if (!provider || !code || oauthHandledRef.current) {
+    if (sessionCheckStarted.current) {
+      console.log('[Login] Session check already started, skipping');
       return;
     }
+    sessionCheckStarted.current = true;
 
-    oauthHandledRef.current = true;
+    console.log('[Login] Starting session check...');
 
-    startTransition(async () => {
+    const attemptSessionRestore = async () => {
       try {
-        const session = await authenticateWithProvider(provider);
-        setAuthState(session);
+        console.log('[Login] Attempting session restore...');
+        await refreshSession();
+        console.log('[Login] Session restored successfully');
 
-        // If there's an invite code, auto-join workspace
-        if (inviteCode) {
-          try {
-            const data = await inviteService.joinByInvite(inviteCode);
-            router.replace(`/workspace/${data.workspaceId}/dashboard`);
+        const navigate = (target) => {
+          if (typeof window === 'undefined') {
+            console.log('[Login] Window undefined, skipping navigation');
             return;
-          } catch (joinErr) {
-            console.error('Failed to join workspace after login:', joinErr);
           }
+          const normalized = target.startsWith('/') ? target : `/${target}`;
+          console.log('[Login] Navigating to:', normalized);
+          window.location.replace(normalized);
+        };
+
+        const lastPath = getLastPathFromCookie();
+        console.log('[Login] Last path from cookie:', lastPath);
+
+        if (lastPath) {
+          navigate(lastPath);
+          return;
         }
 
-        // Default redirect if no invite or join failed
-        router.replace('/workspace');
+        try {
+          console.log('[Login] Fetching workspaces...');
+          const workspaces = await workspaceService.getWorkspaces();
+          console.log('[Login] Workspaces:', workspaces);
+
+          if (Array.isArray(workspaces) && workspaces[0]?.id) {
+            navigate(`/workspace/${workspaces[0].id}/dashboard`);
+            return;
+          }
+        } catch (workspaceError) {
+          console.error('[Login] Failed to load workspaces:', workspaceError);
+        }
+
+        clearLastPathCookie();
+        navigate('/workspace/new');
       } catch (err) {
-        setError(authStrings.loginError || 'Login failed. Please try again.');
+        console.error('[Login] Session restore failed:', err);
+        console.error('[Login] Error details:', {
+          message: err.message,
+          status: err.response?.status,
+          statusText: err.response?.statusText,
+          data: err.response?.data
+        });
+
+        console.log('[Login] Setting isCheckingSession to false');
+        setIsCheckingSession(false);
+      } finally {
+        // no-op; navigation happens via window.location when successful
       }
-    });
-  }, [searchParams, router, setAuthState, authStrings.loginError]);
+    };
+
+    attemptSessionRestore();
+  }, [router]);
 
   const theme = isDarkMode ? 'dark' : 'light';
 
@@ -106,7 +131,6 @@ export default function SocialAuthPage({ searchParams }) {
   };
 
   const handleProviderLogin = (provider) => {
-    setError(null);
     const inviteCode = searchParams?.invite;
     const providerLower = provider.toLowerCase();
     const redirectUrl = inviteCode
@@ -124,22 +148,20 @@ export default function SocialAuthPage({ searchParams }) {
           <p>{localeStrings.startWithSocial}</p>
         </div>
 
-        <SocialProviderList
-          providers={providerOrder.map((provider) => ({
-            name: provider,
-            icon: provider === 'Google' ? <GoogleIcon /> : <Github size={24} />,
-          }))}
-          disabled={isPending}
-          onProviderClick={handleProviderLogin}
-        />
-
-        {error && <p className={styles.errorMessage}>{error}</p>}
-
-        {isPending && (
+        {isCheckingSession ? (
           <div className={styles.loadingState}>
             <div className="spinner" />
-            <span>{authStrings.loggingIn || 'Logging in...'}</span>
+            <span>{authStrings.checkingSession || 'Checking your session...'}</span>
           </div>
+        ) : (
+          <SocialProviderList
+            providers={providerOrder.map((provider) => ({
+              name: provider,
+              icon: provider === 'Google' ? <GoogleIcon /> : <Github size={24} />,
+            }))}
+            disabled={false}
+            onProviderClick={handleProviderLogin}
+          />
         )}
 
         <AuthLegalFooter

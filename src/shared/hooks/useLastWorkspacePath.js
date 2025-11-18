@@ -2,8 +2,7 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import axiosInstance from '@/core/api/axiosInstance';
-import { useAuthStore } from '@/core/store/authStore';
+import { saveLastPathCookie } from '@/shared/lib/lastPath';
 
 /**
  * 마지막 접속한 워크스페이스 경로를 서버에 저장하는 Hook
@@ -13,7 +12,6 @@ import { useAuthStore } from '@/core/store/authStore';
  */
 export function useLastWorkspacePath() {
   const pathname = usePathname();
-  const accessToken = useAuthStore((state) => state.accessToken);
 
   useEffect(() => {
     if (!pathname) {
@@ -25,20 +23,8 @@ export function useLastWorkspacePath() {
       /\/workspace\/[^/]+\/dashboard$/.test(normalizedPath) ||
       /\/workspace\/[^/]+\/channel\/[^/]+/.test(normalizedPath);
 
-    if (shouldSave && accessToken) {
-      axiosInstance
-        .post(
-          '/mock/workspaces/last-visited',
-          { path: pathname },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        )
-        .catch((err) => {
-          console.error('[useLastWorkspacePath] Failed to save:', err);
-        });
+    if (shouldSave) {
+      saveLastPathCookie(pathname);
     }
-  }, [pathname, accessToken]);
+  }, [pathname]);
 }

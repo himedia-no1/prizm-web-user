@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { userService } from '@/core/api/services';
+import { saveLastPathCookie } from '@/shared/lib/lastPath';
 
 /**
  * 대시보드 및 채널 페이지 방문 시 마지막 경로를 자동 저장하는 훅
@@ -25,11 +25,7 @@ export function useLastPathSaver() {
 
     if (isDashboard || isChannel) {
       lastSavedPath.current = pathname;
-
-      // 비동기로 저장 (실패해도 사용자 경험에 영향 없음)
-      userService.saveLastPath(pathname).catch((error) => {
-        console.error('Failed to save last path:', error);
-      });
+      saveLastPathCookie(pathname);
     }
   }, [pathname]);
 }

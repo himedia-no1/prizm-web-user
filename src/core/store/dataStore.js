@@ -24,30 +24,11 @@ const useDataStore = create((set, get) => ({
 
   /**
    * Bootstrap 데이터 로드
-   * - 앱 초기화 시 한 번만 호출됩니다
-   * - 데이터를 각 도메인 Store에 분산합니다
+   * @deprecated 목업 데이터 제거됨. 각 컴포넌트에서 필요한 데이터를 직접 로드하세요.
    */
   async loadInitialData() {
-    if (get().initialized || get().loading) {
-      return;
-    }
-
-    set({ loading: true, error: null });
-
-    try {
-      const response = await axiosInstance.get('/mock/bootstrap');
-      const data = response.data ?? {};
-
-      // 각 도메인 Store에 데이터 분산
-      useWorkspaceStore.getState().setBootstrapData(data);
-      useChatStore.getState().setBootstrapData(data);
-      useAIStore.getState().setBootstrapData(data);
-
-      set({ initialized: true, loading: false });
-    } catch (error) {
-      console.error('Failed to load initial data:', error);
-      set({ error: error.message, loading: false });
-    }
+    // 목업 데이터 제거 - 각 컴포넌트에서 실제 API 호출로 데이터 로드
+    set({ initialized: true, loading: false });
   },
 
   /**
