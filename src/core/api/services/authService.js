@@ -5,39 +5,27 @@ import axiosInstance from '../axiosInstance';
  */
 export const authService = {
   /**
-   * 소셜 로그인 (OAuth)
-   * @param {string} provider - 'Google' | 'GitHub' | 'Kakao'
-   * @param {string} code - OAuth 인증 코드
-   */
-  async login(provider, code) {
-    const response = await axiosInstance.post('/mock/auth/login', {
-      provider,
-      code,
-    });
-    return response.data;
-  },
-
-  /**
-   * 사용자 프로필 조회
-   */
-  async getProfile() {
-    const response = await axiosInstance.post('/mock/auth/refresh');
-    return response.data?.user ?? null;
-  },
-
-  /**
    * 토큰 갱신
-   * @param {string} refreshToken - 갱신 토큰
+   * POST /api/auth/refresh
    */
   async refreshToken() {
-    const response = await axiosInstance.post('/mock/auth/refresh');
+    const response = await axiosInstance.post('/api/auth/refresh');
     return response.data;
   },
 
   /**
    * 로그아웃
+   * POST /api/auth/logout
    */
   async logout() {
-    await axiosInstance.post('/mock/auth/logout');
+    await axiosInstance.post('/api/auth/logout');
+  },
+
+  /**
+   * 회원 탈퇴
+   * DELETE /api/auth/withdraw
+   */
+  async withdraw() {
+    await axiosInstance.delete('/api/auth/withdraw');
   },
 };

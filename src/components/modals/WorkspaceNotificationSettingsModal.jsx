@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { X, Bell, BellOff } from '@/components/common/icons';
+import { workspaceService } from '@/core/api/services';
 import styles from './NotificationSettingsModal.module.css';
 
 export const WorkspaceNotificationSettingsModal = ({
@@ -16,14 +17,26 @@ export const WorkspaceNotificationSettingsModal = ({
   const t = messages?.modals?.workspaceNotificationSettings;
 
   const [notificationLevel, setNotificationLevel] = useState(currentSettings.level || 'all');
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
-    // TODO: API 호출하여 워크스페이스 알림 설정 저장
-    console.log('Saving workspace notification settings:', {
-      workspaceId,
-      notificationLevel
-    });
-    onClose?.();
+  const handleSave = async () => {
+    if (!workspaceId) return;
+
+    setIsSaving(true);
+    try {
+      // Map UI level to API notifyType: all -> ON, mentions -> MENTION, nothing -> OFF
+      const notifyTypeMap = {
+        all: 'ON',
+        mentions: 'MENTION',
+        nothing: 'OFF'
+      };
+      await workspaceService.updateNotify(workspaceId, notifyTypeMap[notificationLevel]);
+      onClose?.();
+    } catch (error) {
+      console.error('Failed to save workspace notification settings:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -131,8 +144,9 @@ export const WorkspaceNotificationSettingsModal = ({
             onClick={handleSave}
             className={styles.saveButton}
             type="button"
+            disabled={isSaving}
           >
-            {t?.save || 'Save Settings'}
+            {isSaving ? (t?.saving || 'Saving...') : (t?.save || 'Save Settings')}
           </button>
         </div>
       </div>

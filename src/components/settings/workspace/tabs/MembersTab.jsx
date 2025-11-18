@@ -1,17 +1,38 @@
 'use client';
 
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
+import { workspaceService } from '@/core/api/services';
+import { useUIStore } from '@/core/store/shared';
 import styles from './MembersTab.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
-export const MembersTab = ({ 
-  blockedMembers, 
-  participants, 
-  membershipHistory 
+export const MembersTab = ({
+  blockedMembers,
+  participants,
+  membershipHistory,
+  onRefresh
 }) => {
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
+  const openModal = useUIStore((state) => state.openModal);
+
+  const handleUnblock = async (userId) => {
+    if (!workspaceId) return;
+    try {
+      await workspaceService.unbanUser(workspaceId, userId);
+      onRefresh?.();
+    } catch (error) {
+      console.error('Failed to unblock user:', error);
+    }
+  };
+
+  const handleInviteMember = () => {
+    openModal('inviteMember');
+  };
 
   const getHistoryMessage = (action) => {
     switch (action) {
@@ -53,7 +74,10 @@ export const MembersTab = ({
                     {blocked.reason} · {blocked.blockedAt}
                   </span>
                 </span>
-                <button className={`profile-action-button ${styles.unblockButton}`}>
+                <button
+                  className={`profile-action-button ${styles.unblockButton}`}
+                  onClick={() => handleUnblock(blocked.id)}
+                >
                   {s.workspaceManagement.membersBlockedUnblock}
                 </button>
               </div>
@@ -74,7 +98,10 @@ export const MembersTab = ({
           <button className={`profile-modal__save-button ${styles.actionButton} ${styles.secondaryButton}`}>
             {s.workspaceManagement.membersMoveToGroup}
           </button>
-          <button className={`profile-modal__save-button ${styles.actionButton}`}>
+          <button
+            className={`profile-modal__save-button ${styles.actionButton}`}
+            onClick={handleInviteMember}
+          >
             {s.workspaceManagement.inviteMember}
           </button>
         </div>

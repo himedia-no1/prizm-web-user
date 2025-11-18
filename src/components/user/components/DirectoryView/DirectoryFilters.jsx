@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './DirectoryView.module.css';
+import styles from '../DirectoryView.module.css';
 
 const DEFAULT_SORT_OPTIONS = [
   { value: 'nameAsc', label: 'Name A-Z' },

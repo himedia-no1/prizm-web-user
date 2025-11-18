@@ -1,20 +1,39 @@
 'use client';
 
 import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { X, Bell, BellOff } from '@/components/common/icons';
+import { channelService } from '@/core/api/services';
 import styles from './NotificationSettingsModal.module.css';
 
-export const NotificationSettingsModal = ({ isOpen, onClose, channelName, currentSettings = {} }) => {
+export const NotificationSettingsModal = ({ isOpen, onClose, channelId, channelName, currentSettings = {} }) => {
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
   const messages = useMessages();
   const t = messages?.modals?.notificationSettings;
 
   const [notificationLevel, setNotificationLevel] = useState(currentSettings.level || 'all');
+  const [isSaving, setIsSaving] = useState(false);
 
-  const handleSave = () => {
-    // TODO: API 호출하여 알림 설정 저장
-    console.log('Saving notification settings:', { notificationLevel });
-    onClose?.();
+  const handleSave = async () => {
+    if (!workspaceId || !channelId) return;
+
+    setIsSaving(true);
+    try {
+      // Map UI level to API notifyType: all -> ON, mentions -> MENTION, nothing -> OFF
+      const notifyTypeMap = {
+        all: 'ON',
+        mentions: 'MENTION',
+        nothing: 'OFF'
+      };
+      await channelService.updateChannelNotify(workspaceId, channelId, notifyTypeMap[notificationLevel]);
+      onClose?.();
+    } catch (error) {
+      console.error('Failed to save notification settings:', error);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -122,8 +141,9 @@ export const NotificationSettingsModal = ({ isOpen, onClose, channelName, curren
             onClick={handleSave}
             className={styles.saveButton}
             type="button"
+            disabled={isSaving}
           >
-            {t?.save || 'Save Settings'}
+            {isSaving ? (t?.saving || 'Saving...') : (t?.save || 'Save Settings')}
           </button>
         </div>
       </div>

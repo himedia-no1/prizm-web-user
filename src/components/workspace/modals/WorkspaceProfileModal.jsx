@@ -21,6 +21,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
     statusMessage: '',
     avatar: '',
   });
+  const [newAvatar, setNewAvatar] = useState(null);
 
   const loadProfile = useCallback(async () => {
     if (!workspaceId || !userId) return;
@@ -51,9 +52,22 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const result = await userService.updateWorkspaceProfile(workspaceId, userId, profile);
+      const formData = new FormData();
+      formData.append('displayName', profile.displayName);
+      formData.append('statusMessage', profile.statusMessage);
+
+      if (newAvatar) {
+        formData.append('avatar', newAvatar);
+      } else if (profile.avatar) {
+        // Keep existing avatar if not changed
+        const { urlToFile } = await import('@/shared/utils/imageUtils');
+        const avatarFile = await urlToFile(profile.avatar, 'avatar.jpg');
+        formData.append('avatar', avatarFile);
+      }
+
+      const result = await userService.updateWorkspaceProfile(workspaceId, userId, formData);
       if (result.success) {
-        setWorkspaceProfile(workspaceId, profile);
+        setWorkspaceProfile(workspaceId, { ...profile, avatar: result.avatar || profile.avatar });
         onClose();
       }
     } catch (error) {
@@ -87,16 +101,26 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
 
               <div className={styles.avatarSection}>
                 <Image
-                  src={avatarSrc}
+                  src={newAvatar ? URL.createObjectURL(newAvatar) : avatarSrc}
                   alt="Avatar"
                   width={72}
                   height={72}
                   className={styles.avatarPreview}
                 />
-                <button className={styles.avatarBtn}>
+                <label htmlFor="avatar-upload" className={styles.avatarBtn}>
                   <Upload size={16} />
                   {s.modals.workspaceProfile.avatar}
-                </button>
+                </label>
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) setNewAvatar(file);
+                  }}
+                />
               </div>
 
               <div className={styles.field}>

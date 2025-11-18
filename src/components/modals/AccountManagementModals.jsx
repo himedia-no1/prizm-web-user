@@ -1,20 +1,23 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { X, AlertTriangle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { userService } from '@/core/api/services';
+import { authService } from '@/core/api/services';
 import styles from './AccountManagementModals.module.css';
 
 export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
   const t = useTranslations('modals.deactivateAccount');
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleDeactivate = async () => {
     setLoading(true);
     try {
-      await userService.deactivateAccount(userId);
+      await authService.withdraw();
       onClose();
+      router.push('/login');
     } catch (error) {
       console.error('Failed to deactivate account:', error);
     } finally {
@@ -58,6 +61,7 @@ export const DeactivateAccountModal = ({ isOpen, onClose, userId }) => {
 
 export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
   const t = useTranslations('modals.deleteAccount');
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const confirmPlaceholder = t('confirmPlaceholder');
@@ -67,8 +71,9 @@ export const DeleteAccountModal = ({ isOpen, onClose, userId }) => {
     if (!isConfirmed) return;
     setLoading(true);
     try {
-      await userService.deleteAccount(userId, confirmText);
+      await authService.withdraw();
       onClose();
+      router.push('/login');
     } catch (error) {
       console.error('Failed to delete account:', error);
       alert(t('deleteFailed'));

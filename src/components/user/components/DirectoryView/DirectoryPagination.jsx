@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './DirectoryView.module.css';
+import styles from '../DirectoryView.module.css';
 
 export const DirectoryPagination = ({
   safePage,

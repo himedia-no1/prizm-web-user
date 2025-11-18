@@ -1,17 +1,17 @@
 import axiosInstance from '@/core/api/axiosInstance';
 import { useAuthStore } from '@/core/store/authStore';
 
+/**
+ * Access Token 갱신
+ * POST /api/auth/refresh
+ */
 export const refreshSession = async () => {
   try {
-    const { data } = await axiosInstance.post('/mock/auth/refresh');
-    useAuthStore.getState().setAuthState({
-      user: data?.user ?? null,
-      accessToken: data?.accessToken ?? null,
-      workspaceId: data?.workspaceId ?? null,
-    });
+    const { data } = await axiosInstance.post('/api/auth/refresh');
+    useAuthStore.getState().setAccessToken(data?.accessToken ?? null);
     return data;
   } catch (error) {
-    useAuthStore.getState().clearAuthState();
+    useAuthStore.getState().clearAccessToken();
     throw error;
   }
 };

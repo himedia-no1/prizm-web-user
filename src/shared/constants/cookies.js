@@ -1,7 +1,5 @@
 export const COOKIE_KEYS = {
   refreshToken: 'refresh_token',
-  mockUserId: 'mock_user_id',
-  mockUserRole: 'mock_user_role',
 };
 
 export const COOKIE_OPTIONS = {

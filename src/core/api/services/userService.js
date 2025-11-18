@@ -5,72 +5,58 @@ import axiosInstance from '../axiosInstance';
  */
 export const userService = {
   /**
-   * 사용자 목록 조회
-   * @param {string} workspaceId - 워크스페이스 ID
+   * 현재 사용자 프로필 조회
+   * GET /api/users/profile
    */
-  async fetchUsers() {
-    const response = await axiosInstance.get('/mock/users');
+  async getProfile() {
+    const response = await axiosInstance.get('/api/users/profile');
     return response.data;
   },
 
   /**
-   * 사용자 프로필 조회
-   * @param {string} userId - 사용자 ID
+   * 사용자 프로필 수정
+   * PATCH /api/users/profile
+   * @param {object} data - { profileImage: File, name: string }
    */
-  async fetchUser(userId) {
-    const response = await axiosInstance.get(`/mock/users/${userId}`);
-    return response.data;
-  },
-
-  /**
-   * 사용자 프로필 업데이트
-   * @param {string} userId - 사용자 ID
-   * @param {object} data - { name, email, avatar, bio }
-   */
-  async updateUser(userId, data) {
-    const response = await axiosInstance.put(`/mock/users/${userId}`, data);
-    return response.data;
-  },
-
-  /**
-   * 계정 비활성화
-   * @param {string} userId - 사용자 ID
-   */
-  async deactivateAccount(userId) {
-    const response = await axiosInstance.post(`/mock/users/${userId}/deactivate`);
-    return response.data;
-  },
-
-  async deleteAccount(userId, confirmText) {
-    const response = await axiosInstance.delete(`/mock/users/${userId}`, {
-      data: { confirmText },
+  async updateProfile(data) {
+    const formData = new FormData();
+    if (data.profileImage) {
+      formData.append('profileImage', data.profileImage);
+    }
+    if (data.name) {
+      formData.append('name', data.name);
+    }
+    const response = await axiosInstance.patch('/api/users/profile', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.data;
   },
 
   /**
-   * 워크스페이스 프로필 조회
-   * @param {string} workspaceId - 워크스페이스 ID
-   * @param {string} userId - 사용자 ID
+   * 사용자 언어 설정 변경
+   * PATCH /api/users/language
+   * @param {string} language - KO | EN | JA | FR
    */
-  async fetchWorkspaceProfile(workspaceId, userId) {
-    const response = await axiosInstance.get(
-      `/mock/workspaces/${workspaceId}/users/${userId}/profile`,
-    );
+  async updateLanguage(language) {
+    const response = await axiosInstance.patch('/api/users/language', { language });
     return response.data;
   },
 
   /**
-   * 워크스페이스 프로필 업데이트
-   * @param {string} workspaceId - 워크스페이스 ID
-   * @param {string} userId - 사용자 ID
-   * @param {object} profile - { displayName, statusMessage, avatar }
+   * 사용자 마지막 방문 경로 저장
+   * POST /api/users/last-path
+   * @param {string} path - 경로
    */
-  async updateWorkspaceProfile(workspaceId, userId, profile) {
-    const response = await axiosInstance.put(
-      `/mock/workspaces/${workspaceId}/users/${userId}/profile`,
-      profile,
-    );
+  async saveLastPath(path) {
+    await axiosInstance.post('/api/users/last-path', { path });
+  },
+
+  /**
+   * 사용자 마지막 방문 경로 조회
+   * GET /api/users/last-path
+   */
+  async getLastPath() {
+    const response = await axiosInstance.get('/api/users/last-path');
     return response.data;
   },
 };

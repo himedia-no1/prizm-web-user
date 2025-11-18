@@ -2,9 +2,16 @@ import axios from 'axios';
 import { useAuthStore } from '@/core/store/authStore';
 import { refreshSession } from '@/shared/lib/authClient';
 
-// baseURL 없음 - 절대 경로만 사용
-const axiosInstance = axios.create();
+/**
+ * CSR용 Axios 인스턴스
+ * - withCredentials: BACKEND_URL 환경변수가 있으면 true
+ * - 401 발생 시 자동으로 refresh 후 재시도
+ */
+const axiosInstance = axios.create({
+  withCredentials: !!process.env.NEXT_PUBLIC_BACKEND_URL,
+});
 
+// Request Interceptor
 axiosInstance.interceptors.request.use((config) => {
     const token = useAuthStore.getState().accessToken;
     if (token) {
@@ -13,6 +20,7 @@ axiosInstance.interceptors.request.use((config) => {
     return config;
 });
 
+// Response Interceptor (401 처리)
 let isRefreshing = false;
 let pendingRequests = [];
 
@@ -66,6 +74,10 @@ axiosInstance.interceptors.response.use(
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
                 resolvePendingRequests(null);
+                // Refresh 실패 시 로그인 페이지로 리다이렉트
+                if (typeof window !== 'undefined') {
+                    window.location.href = '/login';
+                }
                 return Promise.reject(refreshError);
             } finally {
                 isRefreshing = false;

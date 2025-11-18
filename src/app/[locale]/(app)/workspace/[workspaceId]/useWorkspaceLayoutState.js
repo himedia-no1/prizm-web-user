@@ -170,8 +170,9 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
 
   const handleLeaveWorkspace = async (workspaceIdToLeave) => {
     try {
-      // TODO: API 호출하여 워크스페이스 탈퇴 처리
-      console.log('Leaving workspace:', workspaceIdToLeave);
+      const { workspaceService } = await import('@/core/api/services');
+      await workspaceService.leaveWorkspace(workspaceIdToLeave);
+
       // 탈퇴 후 다른 워크스페이스로 이동
       const remainingWorkspaces = workspacesList.filter(ws => ws.id !== workspaceIdToLeave);
       if (remainingWorkspaces.length > 0) {

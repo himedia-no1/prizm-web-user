@@ -86,9 +86,6 @@ export const CategorySection = ({
                           event.stopPropagation();
                           onOpenModal?.('channelSettings', {
                             channelDetails: channel,
-                            onSave: async (data) => {
-                              console.log('Save channel settings:', data);
-                            },
                           });
                         }}
                       >

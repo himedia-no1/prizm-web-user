@@ -1,8 +1,10 @@
 export { authService } from './authService';
-export { messageService } from './messageService';
-export { workspaceService } from './workspaceService';
 export { userService } from './userService';
-export { notificationService } from './notificationService';
+export { workspaceService } from './workspaceService';
 export { channelService } from './channelService';
+export { inviteService } from './inviteService';
+export { groupService } from './groupService';
+export { notificationService } from './notificationService';
+export { messageService } from './messageService';
 export { searchService } from './searchService';
 export { aiService } from './aiService';

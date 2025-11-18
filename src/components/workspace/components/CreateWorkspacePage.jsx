@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { Inbox } from '@/components/common/icons';
-import { workspaceService } from '@/core/api/services';
+import { workspaceService, inviteService } from '@/core/api/services';
 import { useUIStore } from '@/core/store/shared';
 import { useRouter } from 'next/navigation';
 import UserProfileHeader from '@/components/common/UserProfileHeader';
@@ -36,8 +36,8 @@ export const CreateWorkspacePage = ({ onBack, initialMode = 'create', hasExistin
         if (!inviteCode.trim()) return;
         setLoading(true);
         try {
-            const result = await workspaceService.joinByInviteCode(inviteCode);
-            router.push(`/workspace/${result.workspaceId}/channel/general`);
+            const result = await inviteService.joinByInvite(inviteCode);
+            router.push(`/workspace/${result.workspaceId}/dashboard`);
         } catch (error) {
             console.error('Failed to join workspace:', error);
             alert(s.workspace.invalidInviteCode);

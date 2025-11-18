@@ -1,45 +1,52 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import axios from 'axios';
 import InviteLandingPage from '@/components/invite/InviteLandingPage';
+
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
 
 async function getInviteInfo(inviteCode) {
   try {
-    // Mock API call - replace with actual API
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3031'}/mock/invites/${inviteCode}`,
-      { cache: 'no-store' }
-    );
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
+    const { data } = await axios.get(`${BACKEND_URL}/api/invites/${inviteCode}`);
+    return data;
   } catch (error) {
-    console.error('Failed to fetch invite info:', error);
     return null;
+  }
+}
+
+async function checkLoginStatus() {
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get('refresh_token')?.value;
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  try {
+    await axios.post(`${BACKEND_URL}/api/auth/refresh`, null, {
+      headers: { Cookie: `refresh_token=${refreshToken}` },
+    });
+    return true;
+  } catch (error) {
+    return false;
   }
 }
 
 export default async function InvitePage({ params }) {
   const { inviteCode } = await params;
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get('refresh_token');
-  const isLoggedIn = !!refreshToken;
 
   const inviteInfo = await getInviteInfo(inviteCode);
 
   if (!inviteInfo) {
-    // Invalid invite code - redirect to login
-    redirect('/login');
+    redirect('/');
   }
+
+  const isLoggedIn = await checkLoginStatus();
 
   return (
     <InviteLandingPage
       inviteCode={inviteCode}
-      workspace={inviteInfo.workspace}
-      inviter={inviteInfo.inviter}
-      memberCount={inviteInfo.memberCount}
+      workspace={inviteInfo}
       isLoggedIn={isLoggedIn}
     />
   );

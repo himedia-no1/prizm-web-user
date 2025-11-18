@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { X, Edit } from '@/components/common/icons';
+import { userService } from '@/core/api/services';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 import styles from './ProfileSettingsModal.module.css';
 
@@ -17,13 +18,25 @@ export const ProfileSettingsModal = ({ user, onClose }) => {
     const [username, setUsername] = useState(user.name);
     const [realName, setRealName] = useState(user.realName || user.name);
     const [phone, setPhone] = useState(user.phone || '');
+    const [isSaving, setIsSaving] = useState(false);
 
     const avatarSrc = user.avatar || getPlaceholderImage(72, user?.name?.[0] ?? '?');
 
-    const handleSave = () => {
-        // TODO: API 호출하여 프로필 업데이트
-        console.log('Save profile:', { username, realName, phone, status });
-        setIsEditing(false);
+    const handleSave = async () => {
+        setIsSaving(true);
+        try {
+            const formData = new FormData();
+            formData.append('realName', realName);
+            if (phone) {
+                formData.append('phone', phone);
+            }
+            await userService.updateProfile(formData);
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Failed to save profile:', error);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     if (!t) {

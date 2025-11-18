@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { StatusIndicator } from '@/components/ui/StatusIndicator';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
-import styles from './DirectoryView.module.css';
+import styles from '../DirectoryView.module.css';
 
 export const DirectoryTable = ({ users, strings, onOpenUser, getStatusLabel }) => {
   return (

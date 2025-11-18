@@ -1,15 +1,29 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
-import { Hash, Users } from '@/components/common/icons';
+import { Hash, Users, Trash } from '@/components/common/icons';
 import { useWorkspaceSettingsStore } from '@/core/store/workspace';
+import { inviteService } from '@/core/api/services';
 import styles from './InviteManagementTab.module.css';
 
-export const InviteManagementTab = ({ invitations, inviteLinks }) => {
+export const InviteManagementTab = ({ invitations, inviteLinks, onRefresh }) => {
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
-  const { copiedLinkId, copyInviteLink, formatInviteTimestamp, getInviteStatusTone } = 
+  const { copiedLinkId, copyInviteLink, formatInviteTimestamp, getInviteStatusTone } =
     useWorkspaceSettingsStore();
+
+  const handleDeleteInvite = async (inviteCode) => {
+    if (!workspaceId || !confirm(s.workspaceManagement?.inviteManagementDeleteConfirm || 'Delete this invite?')) return;
+    try {
+      await inviteService.deleteInvite(workspaceId, inviteCode);
+      onRefresh?.();
+    } catch (error) {
+      console.error('Failed to delete invite:', error);
+    }
+  };
 
   return (
     <div>
@@ -103,15 +117,25 @@ export const InviteManagementTab = ({ invitations, inviteLinks }) => {
                       </div>
                     </div>
                   </div>
-                  <button
-                    type="button"
-                    className={`profile-action-button ${styles.copyButton}`}
-                    onClick={() => copyInviteLink(link.id, link.url)}
-                  >
-                    {copiedLinkId === link.id
-                      ? s.workspaceManagement.inviteManagementCopied
-                      : s.workspaceManagement.inviteManagementCopy}
-                  </button>
+                  <div className={styles.linkActions}>
+                    <button
+                      type="button"
+                      className={`profile-action-button ${styles.copyButton}`}
+                      onClick={() => copyInviteLink(link.id, link.url)}
+                    >
+                      {copiedLinkId === link.id
+                        ? s.workspaceManagement.inviteManagementCopied
+                        : s.workspaceManagement.inviteManagementCopy}
+                    </button>
+                    <button
+                      type="button"
+                      className={`profile-action-button ${styles.deleteButton}`}
+                      onClick={() => handleDeleteInvite(link.id)}
+                      title={s.workspaceManagement?.inviteManagementDelete || 'Delete'}
+                    >
+                      <Trash size={16} />
+                    </button>
+                  </div>
                 </div>
               );
             })}

@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
+import { channelService } from '@/core/api/services';
 import styles from './ChannelSettingsModalContent.module.css';
 
 export const ChannelSettingsModalContent = ({
@@ -9,6 +11,9 @@ export const ChannelSettingsModalContent = ({
   onSave,
   onClose
 }) => {
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
+  const channelId = params?.channelId || channelDetails?.id;
   const messages = useMessages();
   const t = messages?.modals?.channelSettings ?? {};
 
@@ -21,6 +26,9 @@ export const ChannelSettingsModalContent = ({
     setIsSaving(true);
 
     try {
+      if (workspaceId && channelId) {
+        await channelService.updateChannel(workspaceId, channelId, { name, topic });
+      }
       await onSave?.({ name, topic });
       onClose?.();
     } catch (error) {

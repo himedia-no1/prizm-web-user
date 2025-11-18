@@ -1,26 +1,45 @@
-import axiosInstance from '../axiosInstance';
-
+/**
+ * AI 관련 API 서비스
+ * TODO: AI 학습 데이터 및 로그 API 구현 대기
+ */
 export const aiService = {
+  /**
+   * AI 학습 데이터 조회
+   * TODO: API 구현 대기
+   */
   async fetchLearningData() {
-    const response = await axiosInstance.get('/mock/ai/learning-data');
-    return response.data;
+    return [];
   },
+
+  /**
+   * AI 학습 데이터 승인 상태 변경
+   * TODO: API 구현 대기
+   */
   async updateLearningDataApproval(id, approved) {
-    const response = await axiosInstance.patch('/mock/ai/learning-data', { id, approved });
-    return response.data;
+    return null;
   },
+
+  /**
+   * AI 학습 데이터 삭제
+   * TODO: API 구현 대기
+   */
   async deleteLearningData(id) {
-    const response = await axiosInstance.delete('/mock/ai/learning-data', {
-      data: { id },
-    });
-    return response.data;
+    return null;
   },
+
+  /**
+   * AI 학습 데이터 재검사
+   * TODO: API 구현 대기
+   */
   async reinspectLearningData(id) {
-    const response = await axiosInstance.post('/mock/ai/learning-data/reinspect', { id });
-    return response.data;
+    return null;
   },
+
+  /**
+   * AI 로그 조회
+   * TODO: API 구현 대기
+   */
   async fetchLogs() {
-    const response = await axiosInstance.get('/mock/ai/logs');
-    return response.data;
+    return [];
   },
 };

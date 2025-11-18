@@ -1,16 +1,46 @@
 'use client';
 
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
+import { groupService } from '@/core/api/services';
+import { useUIStore } from '@/core/store/shared';
 import styles from './GroupsTab.module.css';
 
-export const GroupsTab = ({ 
-  groups, 
-  workspaceChannels, 
-  groupPermissions, 
-  onToggleGroupChannel 
+export const GroupsTab = ({
+  groups,
+  workspaceChannels,
+  groupPermissions,
+  onToggleGroupChannel,
+  onRefresh
 }) => {
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
+  const openModal = useUIStore((state) => state.openModal);
+  const [savingGroupId, setSavingGroupId] = useState(null);
+
+  const handleCreateGroup = () => {
+    // TODO: 그룹 생성 모달 열기
+    console.log('Create group');
+  };
+
+  const handleSaveGroup = async (groupId) => {
+    if (!workspaceId) return;
+    setSavingGroupId(groupId);
+    try {
+      const assignedChannels = groupPermissions[groupId] || [];
+      await groupService.updateGroup(workspaceId, groupId, {
+        channelIds: assignedChannels,
+      });
+      onRefresh?.();
+    } catch (error) {
+      console.error('Failed to save group permissions:', error);
+    } finally {
+      setSavingGroupId(null);
+    }
+  };
 
   return (
     <div>
@@ -19,7 +49,7 @@ export const GroupsTab = ({
         {s.workspaceManagement.groupsDescription}
       </p>
 
-      <button className={styles.createButton}>
+      <button className={styles.createButton} onClick={handleCreateGroup}>
         {s.workspaceManagement.groupsCreate}
       </button>
 
@@ -66,8 +96,12 @@ export const GroupsTab = ({
               </div>
 
               <div className={styles.saveButtonContainer}>
-                <button className={styles.saveButton}>
-                  {s.workspaceManagement.groupsSave}
+                <button
+                  className={styles.saveButton}
+                  onClick={() => handleSaveGroup(group.id)}
+                  disabled={savingGroupId === group.id}
+                >
+                  {savingGroupId === group.id ? (s.workspaceManagement.groupsSaving || 'Saving...') : s.workspaceManagement.groupsSave}
                 </button>
               </div>
             </div>

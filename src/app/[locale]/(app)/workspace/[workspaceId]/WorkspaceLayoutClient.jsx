@@ -4,6 +4,7 @@ import { createContext } from 'react';
 import { LeftSidebar } from '@/components/layout/LeftSidebar';
 import { ChevronsRight } from '@/components/common/icons';
 import ModalManager from '@/components/modals/ModalManager';
+import { useLastPathSaver } from '@/shared/hooks/useLastPathSaver';
 import styles from './workspace-layout.module.css';
 
 export const WorkspaceContext = createContext(null);
@@ -11,6 +12,8 @@ export const WorkspaceContext = createContext(null);
 import { useWorkspaceLayoutState } from './useWorkspaceLayoutState';
 
 const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId }) => {
+  // 마지막 경로 자동 저장
+  useLastPathSaver();
   const {
     isLeftSidebarCollapsed,
     setIsLeftSidebarCollapsed,

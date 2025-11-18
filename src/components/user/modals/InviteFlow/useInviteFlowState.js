@@ -121,57 +121,81 @@ export const useInviteFlowState = ({ mode = 'member', channelId, channelName, wo
     setSelectedUsers((prev) => prev.filter((user) => user.id !== id));
   };
 
-  const handleSendInvites = () => {
-    if (selectedUsers.length === 0) return;
-    const invites = selectedUsers.map((user) => {
-      const link = buildInviteLink(mode, channelId);
-      return {
-        user,
-        link,
-        groups: selectedGroups.slice(),
-        channels: selectedChannels.slice(),
-        createdAt: new Date().toISOString(),
-      };
-    });
-    resetSelections();
-    openModal('generic', {
-      type: 'inviteResult',
-      mode,
-      resultType: 'direct',
-      entries: invites.map(({ user, link }) => ({
-        email: user.email,
-        name: user.name,
-        url: link.url,
-        code: link.id,
-      })),
-    });
+  const handleSendInvites = async () => {
+    if (selectedUsers.length === 0 || !workspaceId) return;
+
+    try {
+      const { inviteService } = await import('@/core/api/services');
+
+      // Send invites via API
+      const invitePromises = selectedUsers.map((user) =>
+        inviteService.createInvite(workspaceId, {
+          email: user.email,
+          channelId: mode === 'guest' ? channelId : null,
+          groupIds: mode === 'member' ? selectedGroups : [],
+        })
+      );
+
+      const results = await Promise.all(invitePromises);
+
+      resetSelections();
+      openModal('generic', {
+        type: 'inviteResult',
+        mode,
+        resultType: 'direct',
+        entries: results.map((result, idx) => ({
+          email: selectedUsers[idx].email,
+          name: selectedUsers[idx].name,
+          url: result.inviteUrl || `${window.location.origin}/invite/${result.code}`,
+          code: result.code,
+        })),
+      });
+    } catch (error) {
+      console.error('Failed to send invites:', error);
+    }
   };
 
-  const handleGenerateLink = () => {
-    const link = buildInviteLink(mode, channelId);
-    const record = {
-      id: link.id,
-      url: link.url,
-      code: link.code,
-      createdAt: new Date().toISOString(),
-      expiration: linkSettings.expiration,
-      usage: linkSettings.usage,
-      targets: selectedTargets.slice(),
-      origin: 'link',
-    };
-    setGeneratedLinks((prev) => [record, ...prev]);
-    openModal('generic', {
-      type: 'inviteResult',
-      mode,
-      resultType: 'link',
-      link: {
-        url: record.url,
-        code: record.id,
-        expiration: record.expiration,
-        usage: record.usage,
-        createdAt: record.createdAt,
-      },
-    });
+  const handleGenerateLink = async () => {
+    if (!workspaceId) return;
+
+    try {
+      const { inviteService } = await import('@/core/api/services');
+
+      // Create invite link via API
+      const result = await inviteService.createInvite(workspaceId, {
+        expiresAt: linkSettings.expiration === '7d' ? null : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        maxUses: linkSettings.usage === 'unlimited' ? null : parseInt(linkSettings.usage),
+        channelId: mode === 'guest' ? channelId : null,
+        groupIds: mode === 'member' ? selectedTargets : [],
+      });
+
+      const record = {
+        id: result.code,
+        url: result.inviteUrl || `${window.location.origin}/invite/${result.code}`,
+        code: result.code,
+        createdAt: new Date().toISOString(),
+        expiration: linkSettings.expiration,
+        usage: linkSettings.usage,
+        targets: selectedTargets.slice(),
+        origin: 'link',
+      };
+
+      setGeneratedLinks((prev) => [record, ...prev]);
+      openModal('generic', {
+        type: 'inviteResult',
+        mode,
+        resultType: 'link',
+        link: {
+          url: record.url,
+          code: record.id,
+          expiration: record.expiration,
+          usage: record.usage,
+          createdAt: record.createdAt,
+        },
+      });
+    } catch (error) {
+      console.error('Failed to generate invite link:', error);
+    }
   };
 
   return {

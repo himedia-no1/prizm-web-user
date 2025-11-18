@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
 import { ProfilePhotoUploadModal } from '@/components/modals/ProfilePhotoUploadModal';
+import { userService } from '@/core/api/services';
 import styles from './ProfileTab.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -22,10 +23,18 @@ export const ProfileTab = ({
   const avatarSrc = user.avatar || getPlaceholderImage(72, user?.realName?.[0] ?? '?');
   const [showPhotoUploadModal, setShowPhotoUploadModal] = useState(false);
 
-  const handlePhotoUpload = (file) => {
-    // TODO: API 호출하여 프로필 사진 업로드
-    console.log('Uploading photo:', file);
-    // 임시로 로컬 미리보기 처리 (실제는 API 응답으로 처리)
+  const handlePhotoUpload = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      if (username !== user.realName) {
+        formData.append('realName', username);
+      }
+      await userService.updateProfile(formData);
+      // TODO: Update user state after successful upload
+    } catch (error) {
+      console.error('Failed to upload profile photo:', error);
+    }
   };
 
   return (
@@ -69,7 +78,19 @@ export const ProfileTab = ({
           {user.socialProvider === 'Microsoft' && <Microsoft size={20} className={styles.providerIcon} />}
         </div>
       </div>
-      <button className="profile-modal__save-button">
+      <button
+        className="profile-modal__save-button"
+        onClick={async () => {
+          try {
+            const formData = new FormData();
+            formData.append('realName', username);
+            await userService.updateProfile(formData);
+            // TODO: Show success message
+          } catch (error) {
+            console.error('Failed to update profile:', error);
+          }
+        }}
+      >
         {s.userSettings?.profile?.saveButton}
       </button>
 

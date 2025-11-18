@@ -114,15 +114,12 @@ export default function SocialAuthPage({ searchParams }) {
 
   const handleProviderLogin = (provider) => {
     setError(null);
-    startTransition(async () => {
-      try {
-        const session = await authenticateWithProvider(provider);
-        setAuthState(session);
-        router.replace('/workspace');
-      } catch (err) {
-        setError(authStrings.loginError || 'Login failed. Please try again.');
-      }
-    });
+    const inviteCode = searchParams?.invite;
+    const providerLower = provider.toLowerCase();
+    const redirectUrl = inviteCode
+      ? `/api/auth/oauth2/${providerLower}?invite=${inviteCode}`
+      : `/api/auth/oauth2/${providerLower}`;
+    window.location.href = redirectUrl;
   };
 
   return (

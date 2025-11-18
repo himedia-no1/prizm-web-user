@@ -1,18 +1,51 @@
 'use server';
 
-import { callBff } from '@/shared/server/bffClient';
+import axios from 'axios';
+import { cookies } from 'next/headers';
+
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080';
+
+async function refreshAccessToken() {
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get('refresh_token')?.value;
+
+  if (!refreshToken) {
+    return null;
+  }
+
+  try {
+    const { data } = await axios.post(`${BACKEND_URL}/api/auth/refresh`, null, {
+      headers: { Cookie: `refresh_token=${refreshToken}` },
+    });
+    return data?.accessToken ?? null;
+  } catch (error) {
+    return null;
+  }
+}
 
 export async function getUserSettingsContext() {
-  const response = await callBff({ method: 'GET', url: '/mock/users/settings' });
-  if (response.status !== 200) {
+  const accessToken = await refreshAccessToken();
+
+  if (!accessToken) {
     return {
       user: null,
       deviceSessions: [],
     };
   }
 
-  return {
-    user: response.data?.user ?? null,
-    deviceSessions: Array.isArray(response.data?.deviceSessions) ? response.data.deviceSessions : [],
-  };
+  try {
+    const { data } = await axios.get(`${BACKEND_URL}/api/users/profile`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    return {
+      user: data ?? null,
+      deviceSessions: [], // TODO: 디바이스 세션 API 구현 대기
+    };
+  } catch (error) {
+    return {
+      user: null,
+      deviceSessions: [],
+    };
+  }
 }
