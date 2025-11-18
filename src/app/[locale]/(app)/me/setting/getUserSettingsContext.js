@@ -29,7 +29,6 @@ export async function getUserSettingsContext() {
   if (!accessToken) {
     return {
       user: null,
-      deviceSessions: [],
     };
   }
 
@@ -40,12 +39,10 @@ export async function getUserSettingsContext() {
 
     return {
       user: data ?? null,
-      deviceSessions: [], // TODO: 디바이스 세션 API 구현 대기
     };
   } catch (error) {
     return {
       user: null,
-      deviceSessions: [],
     };
   }
 }

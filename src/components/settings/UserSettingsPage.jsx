@@ -13,7 +13,6 @@ import styles from './UserSettingsPage.module.css';
 export const UserSettingsPage = ({
     onBack,
     user,
-    deviceSessions = [],
     activeTab = 'profile',
     basePath = '/me/setting',
 }) => {

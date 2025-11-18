@@ -6,7 +6,6 @@ export default async function PreferencesSettingsPage() {
   return (
     <UserSettingsPage
       user={context.user}
-      deviceSessions={context.deviceSessions}
       activeTab="prefs"
       basePath="/me/setting"
     />

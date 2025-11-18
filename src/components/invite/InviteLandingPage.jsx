@@ -6,6 +6,7 @@ import { useMessages, useLocale } from 'next-intl';
 import { Users, GitHub, Google } from '@/components/common/icons';
 import { authenticateWithProvider } from '@/components/auth/actions';
 import { useAuthStore } from '@/core/store/authStore';
+import { inviteService } from '@/core/api/services';
 import UserProfileHeader from '@/components/common/UserProfileHeader';
 import styles from './InviteLandingPage.module.css';
 
@@ -36,21 +37,11 @@ export default function InviteLandingPage({
     // User is logged in - join workspace directly
     setIsProcessing(true);
     try {
-      const response = await fetch(`/api/workspaces/join`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inviteCode })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        router.push(`/workspace/${data.workspaceId}/dashboard`);
-      } else {
-        console.error('Failed to join workspace');
-        setIsProcessing(false);
-      }
+      const data = await inviteService.joinByInvite(inviteCode);
+      router.push(`/workspace/${data.workspaceId}/dashboard`);
     } catch (error) {
       console.error('Error joining workspace:', error);
+      setError('Failed to join workspace. Please try again.');
       setIsProcessing(false);
     }
   };
@@ -65,17 +56,9 @@ export default function InviteLandingPage({
 
         // After login, join workspace
         try {
-          const joinResponse = await fetch('/api/workspaces/join', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ inviteCode })
-          });
-
-          if (joinResponse.ok) {
-            const data = await joinResponse.json();
-            router.push(`/workspace/${data.workspaceId}/dashboard`);
-            return;
-          }
+          const data = await inviteService.joinByInvite(inviteCode);
+          router.push(`/workspace/${data.workspaceId}/dashboard`);
+          return;
         } catch (joinErr) {
           console.error('Failed to join workspace after login:', joinErr);
         }

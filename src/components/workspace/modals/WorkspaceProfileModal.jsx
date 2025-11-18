@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useMessages } from 'next-intl';
 import { X, Upload } from 'lucide-react';
 import { useWorkspaceStore } from '@/core/store/workspace';
-import { userService } from '@/core/api/services';
+import { workspaceService } from '@/core/api/services';
 import styles from './WorkspaceProfileModal.module.css';
 import { getPlaceholderImage } from '@/shared/utils/imagePlaceholder';
 
@@ -32,7 +32,7 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
       if (cachedProfile) {
         setProfile(cachedProfile);
       } else {
-        const data = await userService.fetchWorkspaceProfile(workspaceId, userId);
+        const data = await workspaceService.getMyProfile(workspaceId);
         setProfile(data);
         setWorkspaceProfile(workspaceId, data);
       }
@@ -52,24 +52,18 @@ export const WorkspaceProfileModal = ({ isOpen, onClose, workspaceId, userId }) 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const formData = new FormData();
-      formData.append('displayName', profile.displayName);
-      formData.append('statusMessage', profile.statusMessage);
+      const updateData = {
+        name: profile.displayName,
+        introduction: profile.statusMessage,
+      };
 
       if (newAvatar) {
-        formData.append('avatar', newAvatar);
-      } else if (profile.avatar) {
-        // Keep existing avatar if not changed
-        const { urlToFile } = await import('@/shared/utils/imageUtils');
-        const avatarFile = await urlToFile(profile.avatar, 'avatar.jpg');
-        formData.append('avatar', avatarFile);
+        updateData.image = newAvatar;
       }
 
-      const result = await userService.updateWorkspaceProfile(workspaceId, userId, formData);
-      if (result.success) {
-        setWorkspaceProfile(workspaceId, { ...profile, avatar: result.avatar || profile.avatar });
-        onClose();
-      }
+      await workspaceService.updateMyProfile(workspaceId, updateData);
+      setWorkspaceProfile(workspaceId, profile);
+      onClose();
     } catch (error) {
       console.error('Failed to save workspace profile:', error);
     } finally {

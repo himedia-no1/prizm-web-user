@@ -6,7 +6,6 @@ export default async function ProfileSettingsPage() {
   return (
     <UserSettingsPage
       user={context.user}
-      deviceSessions={context.deviceSessions}
       activeTab="profile"
       basePath="/me/setting"
     />

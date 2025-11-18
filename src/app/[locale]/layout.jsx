@@ -1,20 +1,8 @@
 import { notFound } from 'next/navigation';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
-import '../globals.css';
+import { NextIntlClientProvider } from 'next-intl';
 import AppWrapper from '../AppWrapper';
 import { getMessagesForLocale } from '@/i18n/messages';
 import { SUPPORTED_LOCALES } from '@/i18n/config';
-import { Geist, Geist_Mono } from 'next/font/google';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -40,14 +28,10 @@ export default async function LocaleLayout({ children, params }) {
   const messages = await getMessagesForLocale(locale);
 
   return (
-    <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <AppWrapper>
-            <div id="root">{children}</div>
-          </AppWrapper>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <AppWrapper>
+        <div id="root">{children}</div>
+      </AppWrapper>
+    </NextIntlClientProvider>
   );
 }

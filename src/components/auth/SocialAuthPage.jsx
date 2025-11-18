@@ -10,6 +10,7 @@ import { useAuthStore } from '@/core/store/authStore';
 import { useUIStore } from '@/core/store/shared';
 import { useLocale, useMessages } from 'next-intl';
 import { setPreferredLocale } from '@/shared/lib/locale';
+import { inviteService } from '@/core/api/services';
 import { authenticateWithProvider } from './actions';
 import styles from './SocialAuthPage.module.css';
 
@@ -74,17 +75,9 @@ export default function SocialAuthPage({ searchParams }) {
         // If there's an invite code, auto-join workspace
         if (inviteCode) {
           try {
-            const joinResponse = await fetch('/api/workspaces/join', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ inviteCode })
-            });
-
-            if (joinResponse.ok) {
-              const data = await joinResponse.json();
-              router.replace(`/workspace/${data.workspaceId}/dashboard`);
-              return;
-            }
+            const data = await inviteService.joinByInvite(inviteCode);
+            router.replace(`/workspace/${data.workspaceId}/dashboard`);
+            return;
           } catch (joinErr) {
             console.error('Failed to join workspace after login:', joinErr);
           }

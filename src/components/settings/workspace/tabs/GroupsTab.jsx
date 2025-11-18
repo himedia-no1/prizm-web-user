@@ -21,9 +21,17 @@ export const GroupsTab = ({
   const openModal = useUIStore((state) => state.openModal);
   const [savingGroupId, setSavingGroupId] = useState(null);
 
-  const handleCreateGroup = () => {
-    // TODO: 그룹 생성 모달 열기
-    console.log('Create group');
+  const handleCreateGroup = async () => {
+    const groupName = prompt(s.workspaceManagement.groupsCreatePrompt || 'Enter group name:');
+    if (!groupName || !groupName.trim() || !workspaceId) return;
+
+    try {
+      await groupService.createGroup(workspaceId, { name: groupName.trim() });
+      onRefresh?.();
+    } catch (error) {
+      console.error('Failed to create group:', error);
+      alert(s.workspaceManagement.groupsCreateError || 'Failed to create group. Please try again.');
+    }
   };
 
   const handleSaveGroup = async (groupId) => {
