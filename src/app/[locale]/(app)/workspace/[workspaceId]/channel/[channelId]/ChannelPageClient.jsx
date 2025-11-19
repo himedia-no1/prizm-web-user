@@ -16,7 +16,7 @@ import { useWorkspaceStore } from '@/core/store/workspace';
 import { messageService } from '@/core/api/services';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
-import { useChat } from '@/shared/hooks/useChat';
+import { useChat } from '@/shared/hooks/useWebSocket';
 import { useState, useMemo, useEffect } from 'react';
 import { useLocale } from 'next-intl';
 
