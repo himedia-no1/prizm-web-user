@@ -1,3 +1,5 @@
+'use client';
+
 import { useMessages } from 'next-intl';
 import { useRef, useState, useEffect } from 'react';
 import { Paperclip, Smile, Send, X } from '@/components/common/icons';

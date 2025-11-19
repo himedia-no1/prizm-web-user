@@ -1,3 +1,5 @@
+'use client';
+
 import { ArrowLeft } from '@/components/common/icons';
 import styles from '../WorkspaceSettings.module.css';
 import { useMessages } from 'next-intl';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { useMessages } from 'next-intl';
 import { useRouter } from 'next/navigation';

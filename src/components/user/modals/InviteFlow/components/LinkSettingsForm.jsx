@@ -1,3 +1,5 @@
+'use client';
+
 import { EXPIRATION_OPTIONS, USAGE_OPTIONS } from '../utils/constants';
 import { optionLabel } from '../utils/helpers';
 import styles from '../InviteFlow.module.css';

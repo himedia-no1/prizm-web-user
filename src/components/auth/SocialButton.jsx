@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useMessages } from 'next-intl';
 import styles from './SocialButton.module.css';

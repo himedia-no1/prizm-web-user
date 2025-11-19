@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '../WorkspaceSettings.module.css';
 
 export const WorkspaceNav = ({ items, activeTab, onTabChange, strings }) => {

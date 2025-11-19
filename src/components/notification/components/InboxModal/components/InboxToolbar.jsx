@@ -1,3 +1,5 @@
+'use client';
+
 import { Check, Trash2, CheckCheck } from 'lucide-react';
 import styles from '../../InboxModal.module.css';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Hash as HashIcon } from '@/components/common/icons';
 import { DirectInviteTab } from './components/DirectInviteTab';
 import { LinkInviteTab } from './components/LinkInviteTab';

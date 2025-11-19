@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useMemo, useTransition } from 'react';
 import { useMessages } from 'next-intl';
 import { LayoutGrid, MessageSquare, FileText, Users as UsersIcon, Search as SearchIcon } from '@/components/common/icons';

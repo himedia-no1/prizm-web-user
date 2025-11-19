@@ -1,3 +1,5 @@
+'use client';
+
 import { useMessages } from 'next-intl';
 import Image from 'next/image';
 import { useRef, useState } from 'react';

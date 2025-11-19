@@ -1,3 +1,5 @@
+'use client';
+
 import { UserSearchField } from './UserSearchField';
 import { SearchResults } from './SearchResults';
 import { SelectedUsersList } from './SelectedUsersList';

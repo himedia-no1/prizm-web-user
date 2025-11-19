@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation';
+import AppRedirect from './AppRedirect';
 
 export default function AppPage() {
-  redirect('/login');
+  return <AppRedirect />;
 }

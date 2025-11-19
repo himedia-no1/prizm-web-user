@@ -1,3 +1,5 @@
+'use client';
+
 import { AIIcon } from '@/components/common/icons';
 import styles from './AIFab.module.css';
 

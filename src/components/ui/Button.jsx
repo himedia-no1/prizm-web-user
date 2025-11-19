@@ -1,3 +1,5 @@
+'use client';
+
 import './Button.module.css';
 
 export const Button = ({

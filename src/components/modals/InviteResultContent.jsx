@@ -1,3 +1,5 @@
+'use client';
+
 import { useMessages } from 'next-intl';
 import { Users as UsersIcon, Share } from '@/components/common/icons';
 import { CopyableLink } from './InviteFlowContent';

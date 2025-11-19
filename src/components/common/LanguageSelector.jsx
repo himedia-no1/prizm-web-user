@@ -1,3 +1,5 @@
+'use client';
+
 import { useMessages } from 'next-intl';
 import { useState, useRef, useEffect } from 'react';
 import { Globe } from 'lucide-react';

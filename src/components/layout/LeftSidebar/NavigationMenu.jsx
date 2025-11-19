@@ -1,3 +1,5 @@
+'use client';
+
 import { useMessages } from 'next-intl';
 import { LayoutDashboard, Search, Users } from '@/components/common/icons';
 

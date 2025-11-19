@@ -1,3 +1,5 @@
+'use client';
+
 import { Users as UsersIcon } from '@/components/common/icons';
 import styles from '../InviteFlow.module.css';
 

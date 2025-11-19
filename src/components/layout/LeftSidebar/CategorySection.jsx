@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { ChevronDown, Plus, Hash, Star, StarOff, Settings, UserPlus } from '@/components/common/icons';
 import { UnreadBadge } from '@/components/ui/UnreadBadge';

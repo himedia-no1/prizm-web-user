@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
+import WorkspaceRedirect from './WorkspaceRedirect';
 
 export default async function WorkspaceIndexPage({ params }) {
   const { workspaceId } = await params;
-  redirect(`/workspace/${workspaceId}/dashboard`);
+  return <WorkspaceRedirect workspaceId={workspaceId} />;
 }

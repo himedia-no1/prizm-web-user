@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '../InviteFlow.module.css';
 
 export const SearchResults = ({ users, onAddUser }) => {

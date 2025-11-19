@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Search as SearchIcon } from '@/components/common/icons';
 import styles from './SearchForm.module.css';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useEffect } from 'react';
 import { Message } from '@/components/channel/components/MessageList/Message';
 import styles from './MessageList.module.css';

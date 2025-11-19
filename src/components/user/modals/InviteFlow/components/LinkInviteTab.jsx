@@ -1,3 +1,5 @@
+'use client';
+
 import { Share } from '@/components/common/icons';
 import { TargetSelector } from './TargetSelector';
 import { LinkSettingsForm } from './LinkSettingsForm';

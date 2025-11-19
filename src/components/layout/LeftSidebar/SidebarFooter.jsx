@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { Settings, Inbox } from '@/components/common/icons';
