@@ -105,7 +105,7 @@ class ChatWebSocketService {
 
   /**
    * 메시지 전송
-   * WebSocket: /app/chat.send
+   * WebSocket: /pub/chat.send
    * @param {object} data - {
    *   channelId: number,
    *   workspaceUserId: number,
@@ -122,7 +122,7 @@ class ChatWebSocketService {
       return false;
     }
 
-    return stompClient.send('/app/chat.send', {
+    return stompClient.send('/pub/chat.send', {
       channelId,
       workspaceUserId,
       contentType,
@@ -132,7 +132,7 @@ class ChatWebSocketService {
 
   /**
    * 메시지 번역 요청 (WebSocket)
-   * WebSocket: /app/chat.translate
+   * WebSocket: /pub/chat.translate
    * 응답은 /user/queue/translate로 수신
    * @param {number} messageId - 번역할 메시지 ID
    * @param {string} targetLang - 대상 언어 (ko, en, ja, fr)
@@ -150,7 +150,7 @@ class ChatWebSocketService {
       this.onTranslateCallback = onTranslate;
     }
 
-    return stompClient.send('/app/chat.translate', {
+    return stompClient.send('/pub/chat.translate', {
       messageId,
       targetLang,
     });

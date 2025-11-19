@@ -12,20 +12,23 @@ import { MembersSidebar } from '@/components/channel/components/MembersSidebar';
 import { MessageSearchBar } from '@/components/channel/components/MessageSearchBar';
 import { AIFab } from '@/components/channel/components/AIAssistant/AIFab';
 import { useUIStore } from '@/core/store/shared';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import { messageService } from '@/core/api/services';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
+import { useChat } from '@/shared/hooks/useWebSocket';
 import { useState, useMemo, useEffect } from 'react';
 import { useLocale } from 'next-intl';
 
 const ChannelPageClient = ({ channelId, workspaceId }) => {
   useLastWorkspacePath();
   const locale = useLocale();
-  
+
   const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
   const sidebarPanelProps = useUIStore((state) => state.sidebarPanelProps);
   const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
   const closeSidebarPanel = useUIStore((state) => state.closeSidebarPanel);
+  const currentUserProfile = useWorkspaceStore((state) => state.currentUserProfile);
 
   // 채널 이동 시 사이드바 패널 자동 닫기
   useEffect(() => {
@@ -64,7 +67,22 @@ const ChannelPageClient = ({ channelId, workspaceId }) => {
     // SSR에서 initial 데이터를 받지 않음 - CSR에서 로드
   });
 
-  const currentUserId = 'u1';
+  // Real-time chat integration
+  const { messages: realTimeMessages, sendMessage, isConnected } = useChat(channelId);
+
+  useEffect(() => {
+    if (realTimeMessages.length > 0) {
+      setMessages(prev => {
+        const messageMap = new Map(prev.map(m => [m.id, m]));
+        realTimeMessages.forEach(m => messageMap.set(m.id, m));
+        // Sorting might be needed if order is not guaranteed
+        return Array.from(messageMap.values()).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      });
+    }
+  }, [realTimeMessages, setMessages]);
+
+
+  const currentUserId = currentUserProfile?.id || 'u1';
 
   const matchedMessages = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -220,18 +238,12 @@ const ChannelPageClient = ({ channelId, workspaceId }) => {
           replyingToUser={replyingTo ? resolvedUsers[replyingTo.userId] : null}
           onCancelReply={handleCancelReply}
           onSendMessage={(text) => {
-            // 메시지 전송 (목업)
-            const newMessage = {
-              id: `msg-${Date.now()}`,
-              userId: 'u1', // 현재 사용자
-              text: text,
-              timestamp: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-              reply_id: replyingTo?.id || null,
-              pinned: false,
-            };
-
-            // 메시지 목록에 추가
-            setMessages([...messages, newMessage]);
+            if (!currentUserProfile) {
+              console.error("Cannot send message: current user profile is not loaded.");
+              return;
+            }
+            // 메시지 전송 (WebSocket)
+            sendMessage(text, currentUserProfile);
 
             // 답글 모드 해제 및 입력창 초기화
             setReplyingTo(null);

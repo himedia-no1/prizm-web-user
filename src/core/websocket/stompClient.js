@@ -97,19 +97,19 @@ class StompClientManager {
     _getWebSocketURL() {
         // 환경 변수가 있으면 절대 경로 사용 (개발)
         if (process.env.NEXT_PUBLIC_BACKEND_URL) {
-            return `${ process.env.NEXT_PUBLIC_BACKEND_URL }/ws`;
+            return `${ process.env.NEXT_PUBLIC_BACKEND_URL }/ws-stomp`;
         }
 
         // 브라우저 환경인지 확인
         if (typeof window === 'undefined') {
             console.warn('WebSocket URL generation requires browser environment');
-            return '/ws';
+            return '/ws-stomp';
         }
 
         // 현재 페이지 기준 절대 경로 생성
         const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:';
         const host = window.location.host;
-        return `${ protocol }//${ host }/ws`;
+        return `${ protocol }//${ host }/ws-stomp`;
     }
 
     /**
