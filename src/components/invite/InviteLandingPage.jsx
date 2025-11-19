@@ -83,8 +83,8 @@ export default function InviteLandingPage({ inviteCode }) {
     };
   }, []);
 
-  const memberCount = useMemo(() => workspace?.memberCount ?? workspace?.members ?? 0, [workspace]);
-  const inviterName = workspace?.inviter?.name ?? workspace?.inviterName ?? 'Someone';
+  const memberCount = 0;
+  const inviterName = 'Someone';
 
   const handleJoinWorkspace = async () => {
     setError(null);
@@ -182,8 +182,8 @@ export default function InviteLandingPage({ inviteCode }) {
 
       <div className={styles.card}>
         <div className={styles.workspaceAvatar}>
-          {workspace?.avatar ? (
-            <img src={workspace.avatar} alt={workspace.name} />
+          {workspace?.imageUrl ? (
+            <img src={workspace.imageUrl} alt={workspace.name} />
           ) : (
             <div className={styles.workspaceAvatarPlaceholder}>
               {workspace?.name?.charAt(0)?.toUpperCase() || 'W'}

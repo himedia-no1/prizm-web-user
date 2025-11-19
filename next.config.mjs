@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.js');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
-    const proxyTarget = process.env.BACKEND_URL;
+    const proxyTarget = process.env.NEXT_PUBLIC_BACKEND_URL;
     if (proxyTarget) {
       return [
         {

@@ -116,6 +116,18 @@ export function middleware(request) {
         localeAware,
       });
     }
+    
+    // /login 페이지는 항상 접근 가능
+    if (normalizedPathname === '/login' || normalizedPathname.startsWith('/login/')) {
+      return finalizeResponse({
+        request,
+        pathname,
+        pathLocale,
+        activeLocale,
+        localeAware,
+      });
+    }
+    
     if (isProtected(normalizedPathname)) {
       return NextResponse.redirect(new URL('/login', request.url));
     }

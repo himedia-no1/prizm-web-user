@@ -99,17 +99,8 @@ export default function SocialAuthPage({ searchParams }) {
         navigate('/workspace/new');
       } catch (err) {
         console.error('[Login] Session restore failed:', err);
-        console.error('[Login] Error details:', {
-          message: err.message,
-          status: err.response?.status,
-          statusText: err.response?.statusText,
-          data: err.response?.data
-        });
-
-        console.log('[Login] Setting isCheckingSession to false');
+        console.log('[Login] Setting isCheckingSession to false - will render login form');
         setIsCheckingSession(false);
-      } finally {
-        // no-op; navigation happens via window.location when successful
       }
     };
 

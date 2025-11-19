@@ -41,22 +41,4 @@ export const userService = {
     const response = await axiosInstance.patch('/api/users/language', { language });
     return response.data;
   },
-
-  /**
-   * 사용자 마지막 방문 경로 저장
-   * POST /api/users/last-path
-   * @param {string} path - 경로
-   */
-  async saveLastPath(path) {
-    await axiosInstance.post('/api/users/last-path', { path });
-  },
-
-  /**
-   * 사용자 마지막 방문 경로 조회
-   * GET /api/users/last-path
-   */
-  async getLastPath() {
-    const response = await axiosInstance.get('/api/users/last-path');
-    return response.data;
-  },
 };
