@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { channelService } from '@/core/api/services';
 import { useUIStore } from '@/core/store/shared';
@@ -10,6 +10,7 @@ import styles from './CreateCategoryModalContent.module.css';
 
 export const CreateCategoryModalContent = (props) => {
     const params = useParams();
+    const router = useRouter();
     const workspaceId = params?.workspaceId;
     const messages = useMessages();
     const s = { ...(messages?.common ?? {}), ...messages };
@@ -24,7 +25,7 @@ export const CreateCategoryModalContent = (props) => {
         try {
             await channelService.createCategory(workspaceId, { name: categoryName });
             
-            // ✅ 카테고리 목록 갱신
+            // ✅ 카테고리 목록 갱신 (백엔드 캐시 무효화 후 새 데이터 가져오기)
             const channelsData = await channelService.getAccessibleChannels(workspaceId);
             useWorkspaceStore.getState().setCategories(channelsData.categories || []);
             
@@ -46,6 +47,11 @@ export const CreateCategoryModalContent = (props) => {
                     placeholder={s.modals.genericModal.categoryNamePlaceholder}
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && categoryName.trim()) {
+                            handleCreate();
+                        }
+                    }}
                 />
             </div>
             <button

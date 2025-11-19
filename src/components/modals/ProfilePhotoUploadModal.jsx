@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useMessages } from 'next-intl';
 import { Image as ImageIcon, X } from '@/components/common/icons';
-import Image from 'next/image';
 import styles from './ProfilePhotoUploadModal.module.css';
 
 export const ProfilePhotoUploadModal = ({ isOpen, onClose, onUpload, currentAvatar }) => {
@@ -63,7 +62,7 @@ export const ProfilePhotoUploadModal = ({ isOpen, onClose, onUpload, currentAvat
           {preview && selectedFile ? (
             <div className={styles.previewContainer}>
               <div className={styles.previewImageWrapper}>
-                <Image
+                <img
                   src={preview}
                   alt="Profile preview"
                   width={200}

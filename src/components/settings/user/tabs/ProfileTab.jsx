@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useMessages } from 'next-intl';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
 import { ProfilePhotoUploadModal } from '@/components/modals/ProfilePhotoUploadModal';
@@ -20,17 +19,16 @@ export const ProfileTab = ({
   const messages = useMessages();
   const s = { ...(messages?.common ?? {}), ...messages };
 
-  const avatarSrc = user.avatar || getPlaceholderImage(72, user?.realName?.[0] ?? '?');
+  const avatarSrc = user.profileImage || getPlaceholderImage(72, user?.name?.[0] ?? '?');
   const [showPhotoUploadModal, setShowPhotoUploadModal] = useState(false);
 
   const handlePhotoUpload = async (file) => {
     try {
-      const formData = new FormData();
-      formData.append('avatar', file);
-      if (username !== user.realName) {
-        formData.append('realName', username);
+      const updateData = { profileImage: file };
+      if (username !== user.name) {
+        updateData.name = username;
       }
-      await userService.updateProfile(formData);
+      await userService.updateProfile(updateData);
       // TODO: Update user state after successful upload
     } catch (error) {
       console.error('Failed to upload profile photo:', error);
@@ -46,9 +44,9 @@ export const ProfileTab = ({
       <div
         className={`profile-modal__avatar-section ${styles.avatarSection}`}
       >
-        <Image
+        <img
           src={avatarSrc}
-          alt={user.realName}
+          alt={user?.name || user?.email || 'Profile'}
           width={72}
           height={72}
           className={`profile-modal__avatar ${styles.avatar}`}
@@ -61,9 +59,9 @@ export const ProfileTab = ({
         </button>
       </div>
       <div className="settings-form-group">
-        <label htmlFor="realName">{s.userSettings?.profile?.nameLabel}</label>
+        <label htmlFor="name">{s.userSettings?.profile?.nameLabel}</label>
         <input
-          id="realName"
+          id="name"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -73,19 +71,17 @@ export const ProfileTab = ({
         <label htmlFor="email">{s.userSettings?.profile?.emailLabel}</label>
         <div className={styles.emailInputWrapper}>
           <input id="email" type="email" value={email} readOnly disabled />
-          {user.socialProvider === 'Google' && <Google size={20} className={styles.providerIcon} />}
-          {user.socialProvider === 'GitHub' && <GitHub size={20} className={styles.providerIcon} />}
-          {user.socialProvider === 'Microsoft' && <Microsoft size={20} className={styles.providerIcon} />}
+          {user.authProvider === 'GOOGLE' && <Google size={20} className={styles.providerIcon} />}
+          {user.authProvider === 'GITHUB' && <GitHub size={20} className={styles.providerIcon} />}
+          {user.authProvider === 'MICROSOFT' && <Microsoft size={20} className={styles.providerIcon} />}
         </div>
       </div>
       <button
         className="profile-modal__save-button"
         onClick={async () => {
           try {
-            const formData = new FormData();
-            formData.append('realName', username);
-            await userService.updateProfile(formData);
-            // TODO: Show success message
+            await userService.updateProfile({ name: username });
+            // TODO: Show success message and update user state
           } catch (error) {
             console.error('Failed to update profile:', error);
           }

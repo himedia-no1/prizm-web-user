@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { ProfileTab, PreferencesTab } from '@/components/settings/user/tabs';
@@ -16,24 +16,28 @@ export const UserSettingsPage = ({
     activeTab = 'profile',
     basePath = '/me/setting',
 }) => {
-    const fallbackUser = user ?? {
-        id: 'u1',
-        name: 'Prizm User',
-        realName: 'Prizm User',
-        email: 'user@example.com',
-    };
     const router = useRouter();
     const t = useTranslations('userSettings');
     const handleTabChange = useCallback((tab) => {
         const target = `${basePath}/${tab}`;
         router.replace(target);
     }, [router, basePath]);
-    const [username, setUsername] = useState(fallbackUser.realName);
-    const [email, setEmail] = useState(fallbackUser.email);
+    
+    const [username, setUsername] = useState(user?.name || '');
+    const [email, setEmail] = useState(user?.email || '');
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const logout = useAuthStore((state) => state.logout);
+    
+    // user prop이 변경되면 username과 email 업데이트
+    useEffect(() => {
+        if (user) {
+            setUsername(user.name || '');
+            setEmail(user.email || '');
+        }
+    }, [user]);
+    
     const handleBack = () => {
         if (onBack) {
             onBack();
@@ -58,11 +62,13 @@ export const UserSettingsPage = ({
     }, [isLoggingOut, logout, router]);
 
     const renderSettingContent = () => {
+        if (!user) return null;
+        
         switch (activeTab) {
             case 'profile':
                 return (
                     <ProfileTab
-                        user={fallbackUser}
+                        user={user}
                         username={username}
                         setUsername={setUsername}
                         email={email}
@@ -113,7 +119,7 @@ export const UserSettingsPage = ({
             <DeleteAccountModal
                 isOpen={showDeleteModal}
                 onClose={() => setShowDeleteModal(false)}
-                userId={fallbackUser.id}
+                userId={user?.id}
             />
         </div>
     );
