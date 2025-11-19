@@ -173,8 +173,9 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
       const { workspaceService } = await import('@/core/api/services');
       await workspaceService.leaveWorkspace(workspaceIdToLeave);
 
-      // 탈퇴 후 다른 워크스페이스로 이동
-      const remainingWorkspaces = workspacesList.filter(ws => ws.id !== workspaceIdToLeave);
+      // 탈퇴 후 서버에서 새로운 워크스페이스 목록 조회
+      const remainingWorkspaces = await workspaceService.getWorkspaces();
+      
       if (remainingWorkspaces.length > 0) {
         router.push(`/workspace/${remainingWorkspaces[0].id}/dashboard`);
       } else {
@@ -197,6 +198,7 @@ export const useWorkspaceLayoutState = ({ workspaceId, initialWorkspace, userId 
     users,
     safeCurrentUser,
     permissionFlags,
+    currentMembership,
     handleSelectChannel,
     handleSelectView,
     handleSwitchWorkspace,

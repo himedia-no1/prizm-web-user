@@ -14,6 +14,67 @@ const axiosInstance = axios.create({
   withCredentials: shouldUseCredentials,
 });
 
+// ===== IDE 콘솔 로그 (서버로 전송) =====
+let requestCounter = 0;
+
+// 서버로 로그 전송하는 헬퍼 함수
+const sendLogToServer = async (logData) => {
+  if (typeof window === 'undefined') return; // 서버 사이드에서는 실행 안 함
+  if (process.env.NODE_ENV !== 'development') return; // 개발 환경에서만
+  
+  try {
+    await fetch('/devlog/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(logData),
+    });
+  } catch (err) {
+    // 로그 전송 실패해도 무시 (무한 루프 방지)
+  }
+};
+
+// ===== Request Interceptor =====
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const reqId = ++requestCounter;
+    config.__reqId = reqId;
+    
+    // ✅ 토큰 설정
+    const token = useAuthStore.getState().accessToken;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    const fullUrl = config.baseURL 
+      ? `${config.baseURL}${config.url}` 
+      : config.url;
+    
+    // 서버로 로그 전송
+    sendLogToServer({
+      type: 'request',
+      data: {
+        id: reqId,
+        method: config.method?.toUpperCase(),
+        url: fullUrl,
+        origin: typeof window !== 'undefined' ? window.location.href : 'Server',
+        headers: {
+          'Content-Type': config.headers['Content-Type'],
+          'Authorization': config.headers?.Authorization ? `Bearer ${config.headers.Authorization.substring(7, 20)}...` : 'None',
+        },
+        params: config.params,
+        body: config.data,
+      },
+    });
+    
+    return config;
+  },
+  (error) => {
+    console.error('\n❌ [REQUEST ERROR]', error);
+    return Promise.reject(error);
+  }
+);
+// ===== Request Interceptor 끝 =====
+
 const extractWorkspaceIdFromUrl = (url = '') => {
   const match = url.match(/\/api\/workspaces\/([^/]+)/i);
   return match?.[1] ?? null;
@@ -62,16 +123,7 @@ const handleProtectedStatusRedirect = async (requestUrl = '') => {
   }
 };
 
-// Request Interceptor
-axiosInstance.interceptors.request.use((config) => {
-    const token = useAuthStore.getState().accessToken;
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
-// Response Interceptor (401 처리)
+// ===== Response Interceptor (401 처리 + 로그) =====
 let isRefreshing = false;
 let pendingRequests = [];
 
@@ -85,8 +137,50 @@ const resolvePendingRequests = (token) => {
 };
 
 axiosInstance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        // ✅ 성공 로그 전송
+        const reqId = response.config.__reqId;
+        const fullUrl = response.config.baseURL 
+          ? `${response.config.baseURL}${response.config.url}` 
+          : response.config.url;
+        
+        sendLogToServer({
+          type: 'response',
+          data: {
+            id: reqId,
+            status: response.status,
+            statusText: response.statusText,
+            url: fullUrl,
+            headers: {
+              'Content-Type': response.headers['content-type'],
+              'Set-Cookie': response.headers['set-cookie'] ? '✅ Has Cookie' : 'None',
+            },
+            body: response.data,
+          },
+        });
+        
+        return response;
+    },
     async (error) => {
+        // ✅ 에러 로그 전송
+        const reqId = error.config?.__reqId;
+        const fullUrl = error.config?.baseURL 
+          ? `${error.config.baseURL}${error.config.url}` 
+          : error.config?.url;
+        
+        sendLogToServer({
+          type: 'error',
+          data: {
+            id: reqId,
+            url: fullUrl,
+            message: error.message,
+            status: error.response?.status,
+            statusText: error.response?.statusText,
+            body: error.response?.data,
+            noResponse: !error.response && error.request,
+          },
+        });
+        
         const { response, config } = error;
         const originalRequest = config || {};
 

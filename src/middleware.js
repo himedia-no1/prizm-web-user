@@ -7,7 +7,7 @@ import {
 } from '@/i18n/config';
 
 const REFRESH_TOKEN_COOKIE = 'refresh_token';
-const PUBLIC_PREFIXES = ['/api', '/mock', '/_next', '/favicon.ico'];
+const PUBLIC_PREFIXES = ['/api', '/mock', '/_next', '/devlog', '/favicon.ico'];
 const STATIC_FILE_REGEX = /\.(?:png|jpg|jpeg|webp|gif|svg|ico)$/i;
 const JOIN_PATH_REGEX = /^\/workspace\/[^/]+\/join/;
 const PROTECTED_PREFIXES = ['/workspace', '/me'];

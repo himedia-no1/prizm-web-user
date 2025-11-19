@@ -21,6 +21,7 @@ import { useLocale } from 'next-intl';
 const ChannelPageClient = ({ channelId, workspaceId }) => {
   useLastWorkspacePath();
   const locale = useLocale();
+  
   const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
   const sidebarPanelProps = useUIStore((state) => state.sidebarPanelProps);
   const openSidebarPanel = useUIStore((state) => state.openSidebarPanel);
@@ -163,6 +164,15 @@ const ChannelPageClient = ({ channelId, workspaceId }) => {
     }
     handleStartThread(selectedMessage);
   };
+
+  // 채널 정보가 로드되지 않았으면 로딩 상태 표시
+  if (!channel) {
+    return (
+      <main className="main-chat-area" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div>Loading channel...</div>
+      </main>
+    );
+  }
 
   return (
     <>

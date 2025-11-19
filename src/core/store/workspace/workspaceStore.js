@@ -23,6 +23,7 @@ export const useWorkspaceStore = create((set, get) => ({
   users: {},
   workspaceGroups: {},
   workspaceMembers: {},
+  currentUserProfile: null, // 워크스페이스 간단 프로필
 
   // Bootstrap Loader
   setBootstrapData: (data) =>
@@ -33,6 +34,15 @@ export const useWorkspaceStore = create((set, get) => ({
       workspaceGroups: data.workspaceGroups ?? {},
       workspaceMembers: data.workspaceMembers ?? {},
     }),
+
+  // Workspaces (워크스페이스 목록)
+  setWorkspaces: (workspaces) => set({ workspaces: workspaces ?? [] }),
+
+  // Categories (채널 목록)
+  setCategories: (categories) => set({ categories }),
+
+  // Current User Profile (워크스페이스 간단 프로필)
+  setCurrentUserProfile: (profile) => set({ currentUserProfile: profile }),
 
   // Workspace Memberships
   setWorkspaceMemberships: (workspaceId, memberships) =>

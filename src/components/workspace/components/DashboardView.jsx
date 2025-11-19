@@ -11,7 +11,7 @@ const trendClassMap = {
   red: 'trendNegative',
 };
 
-export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialStats = [] }) => {
+export const DashboardView = ({ stats: initialStats = [] }) => {
   useLastWorkspacePath();
 
   const messages = useMessages();
@@ -22,7 +22,7 @@ export const DashboardView = ({ workspaceName = 'My Workspace', stats: initialSt
   return (
     <main className={`main-view ${styles.dashboardView}`}>
       <header className="view-header">
-        <h2>{workspaceName} {t.title ?? 'Dashboard'}</h2>
+        <h2>{t.title ?? 'Dashboard'}</h2>
       </header>
       <div className="view-content">
         <section className={styles.statsSection}>

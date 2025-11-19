@@ -7,6 +7,7 @@ import { Github } from 'lucide-react';
 import { SocialProviderList } from '@/components/auth/components/SocialProviderList';
 import { AuthLegalFooter } from '@/components/auth/components/AuthLegalFooter';
 import { useUIStore } from '@/core/store/shared';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import { useLocale, useMessages } from 'next-intl';
 import { setPreferredLocale } from '@/shared/lib/locale';
 import { refreshSession } from '@/shared/lib/authClient';
@@ -40,6 +41,7 @@ const providerOrder = ['Google', 'GitHub'];
 export default function SocialAuthPage({ searchParams }) {
   const router = useRouter();
   const isDarkMode = useUIStore((state) => state.isDarkMode);
+  const setWorkspaces = useWorkspaceStore((state) => state.setWorkspaces);
   const [isCheckingSession, setIsCheckingSession] = useState(true);
   const sessionCheckStarted = useRef(false);
   const locale = useLocale();
@@ -85,11 +87,21 @@ export default function SocialAuthPage({ searchParams }) {
         try {
           console.log('[Login] Fetching workspaces...');
           const workspaces = await workspaceService.getWorkspaces();
-          console.log('[Login] Workspaces:', workspaces);
+          console.log('[Login] Workspaces received:', JSON.stringify(workspaces, null, 2));
+          console.log('[Login] Workspaces type:', typeof workspaces);
+          console.log('[Login] Is array:', Array.isArray(workspaces));
+          console.log('[Login] Length:', workspaces?.length);
+          console.log('[Login] First workspace:', workspaces?.[0]);
+          
+          // Store에 저장
+          setWorkspaces(workspaces);
 
           if (Array.isArray(workspaces) && workspaces[0]?.id) {
+            console.log('[Login] Navigating to workspace:', workspaces[0].id);
             navigate(`/workspace/${workspaces[0].id}/dashboard`);
             return;
+          } else {
+            console.warn('[Login] No valid workspace found, going to /workspace/new');
           }
         } catch (workspaceError) {
           console.error('[Login] Failed to load workspaces:', workspaceError);
@@ -105,7 +117,7 @@ export default function SocialAuthPage({ searchParams }) {
     };
 
     attemptSessionRestore();
-  }, [router]);
+  }, [router, setWorkspaces]);
 
   const theme = isDarkMode ? 'dark' : 'light';
 

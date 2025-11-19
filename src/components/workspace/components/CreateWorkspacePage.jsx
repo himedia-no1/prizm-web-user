@@ -28,7 +28,9 @@ export const CreateWorkspacePage = ({
         setLoading(true);
         try {
             const result = await workspaceService.createWorkspace({ name: workspaceName });
-            router.push(`/workspace/${result.id}/channel/general`);
+            console.log('Workspace created:', result);
+            // 워크스페이스 생성 후 대시보드로 이동
+            router.push(`/workspace/${result.id}/dashboard`);
         } catch (error) {
             console.error('Failed to create workspace:', error);
         } finally {

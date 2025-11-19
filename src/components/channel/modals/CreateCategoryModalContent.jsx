@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { channelService } from '@/core/api/services';
 import { useUIStore } from '@/core/store/shared';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import styles from './CreateCategoryModalContent.module.css';
 
 export const CreateCategoryModalContent = (props) => {
@@ -22,8 +23,12 @@ export const CreateCategoryModalContent = (props) => {
         setIsCreating(true);
         try {
             await channelService.createCategory(workspaceId, { name: categoryName });
+            
+            // ✅ 카테고리 목록 갱신
+            const channelsData = await channelService.getAccessibleChannels(workspaceId);
+            useWorkspaceStore.getState().setCategories(channelsData.categories || []);
+            
             closeModal();
-            // TODO: Refresh category list
         } catch (error) {
             console.error('Failed to create category:', error);
         } finally {

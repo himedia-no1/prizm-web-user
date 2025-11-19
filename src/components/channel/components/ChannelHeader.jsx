@@ -23,7 +23,8 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleS
   const { toggleChannelNotifications, isChannelNotificationsEnabled } = useChatStore();
   const [showNotificationSettings, setShowNotificationSettings] = useState(false);
 
-  if (!channel) return null;
+  // 채널 데이터가 없거나 이름이 없으면 렌더링하지 않음
+  if (!channel?.name) return null;
 
   const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
   const notificationsEnabled = isChannelNotificationsEnabled(channel.id);

@@ -1,9 +1,10 @@
 'use client';
 
-import { useContext, useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useChatStore } from '@/core/store/chat';
 import { useWorkspaceStore } from '@/core/store/workspace';
-import { WorkspaceContext } from '@/app/[locale]/(app)/workspace/[workspaceId]/WorkspaceLayoutClient';
+import { useParams } from 'next/navigation';
+import { channelService } from '@/core/api/services';
 
 /**
  * Channel 데이터 관리 Hook
@@ -20,8 +21,8 @@ export const useChannelData = ({
   users = {},
   threadReplies = {},
 }) => {
-  const workspaceContext = useContext(WorkspaceContext);
-  const workspaceId = workspaceContext?.currentWorkspace?.id;
+  const params = useParams();
+  const workspaceId = params?.workspaceId;
 
   const fallbackChannelDetails = useChatStore((state) => state.getChannelDetails(channelId));
   const fallbackUsers = useWorkspaceStore((state) => state.users ?? {});
@@ -29,11 +30,35 @@ export const useChannelData = ({
   // Local State
   const [messages, setMessages] = useState(initialMessages);
   const [threadRepliesState, setThreadRepliesState] = useState(threadReplies);
+  const [channelInfo, setChannelInfo] = useState(initialChannelDetails);
+
+  // CSR에서만 채널 정보 로드
+  useEffect(() => {
+    if (!channelId || !workspaceId || initialChannelDetails) return;
+
+    let isMounted = true;
+    const fetchChannelInfo = async () => {
+      try {
+        const data = await channelService.getChannel(workspaceId, channelId);
+        if (isMounted) {
+          setChannelInfo(data);
+        }
+      } catch (error) {
+        console.error('[Channel] Failed to fetch channel info:', error);
+      }
+    };
+    
+    fetchChannelInfo();
+    
+    return () => {
+      isMounted = false;
+    };
+  }, [channelId, workspaceId, initialChannelDetails]);
 
   // Channel Details
   const channelDetails = useMemo(
-    () => initialChannelDetails ?? fallbackChannelDetails ?? null,
-    [initialChannelDetails, fallbackChannelDetails],
+    () => channelInfo ?? initialChannelDetails ?? fallbackChannelDetails ?? null,
+    [channelInfo, initialChannelDetails, fallbackChannelDetails],
   );
 
   // Users
@@ -64,17 +89,8 @@ export const useChannelData = ({
         workspaceId: channelDetails.workspaceId ?? workspaceId,
       };
     }
-    const isDm = channelId.startsWith('dm-');
-    return {
-      id: channelId,
-      name: channelId,
-      displayName: isDm ? `DM ${channelId.replace('dm-', '')}` : `#${channelId}`,
-      topic: null,
-      description: null,
-      members: [],
-      type: isDm ? 'dm' : 'channel',
-      workspaceId,
-    };
+    // 채널 정보가 로드되기 전에는 null 반환하여 깜빡임 방지
+    return null;
   }, [initialChannel, channelDetails, channelId, workspaceId]);
 
   // Computed Values

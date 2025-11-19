@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { channelService } from '@/core/api/services';
 import { useUIStore } from '@/core/store/shared';
+import { useWorkspaceStore } from '@/core/store/workspace';
 import styles from './AddChannelModalContent.module.css';
 
 export const AddChannelModalContent = ({ categoryId }) => {
@@ -22,14 +23,19 @@ export const AddChannelModalContent = ({ categoryId }) => {
     }
 
     const handleCreate = async () => {
-        if (!channelName.trim() || !workspaceId) return;
+        if (!channelName.trim() || !workspaceId || !categoryId) return;
 
         setIsCreating(true);
         try {
-            const result = await channelService.createChannel(workspaceId, {
-                name: channelName,
-                categoryId: categoryId || null,
+            const result = await channelService.createChannel(workspaceId, categoryId, {
+                name: channelName.trim(),
+                type: 'CHAT',
             });
+            
+            // 채널 목록 새로고침
+            const channelsData = await channelService.getAccessibleChannels(workspaceId);
+            useWorkspaceStore.getState().setCategories(channelsData.categories || []);
+            
             closeModal();
             router.push(`/workspace/${workspaceId}/channel/${result.id}`);
         } catch (error) {

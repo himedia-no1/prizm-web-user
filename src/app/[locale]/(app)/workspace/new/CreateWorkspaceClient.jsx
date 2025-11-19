@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { CreateWorkspacePage } from '@/components/workspace/components/CreateWorkspacePage';
 import ModalManager from '@/components/modals/ModalManager';
 import { workspaceService } from '@/core/api/services';
+import { useWorkspaceStore } from '@/core/store/workspace';
 
 export default function CreateWorkspaceClient({ initialMode }) {
   const [hasExistingWorkspace, setHasExistingWorkspace] = useState(false);
+  const setWorkspaces = useWorkspaceStore((state) => state.setWorkspaces);
 
   useEffect(() => {
     let cancelled = false;
@@ -15,6 +17,8 @@ export default function CreateWorkspaceClient({ initialMode }) {
       try {
         const workspaces = await workspaceService.getWorkspaces();
         if (!cancelled) {
+          // Store에 저장
+          setWorkspaces(workspaces);
           setHasExistingWorkspace(Array.isArray(workspaces) && workspaces.length > 0);
         }
       } catch (error) {
@@ -29,7 +33,7 @@ export default function CreateWorkspaceClient({ initialMode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [setWorkspaces]);
 
   return (
     <>

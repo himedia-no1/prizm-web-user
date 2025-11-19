@@ -3,6 +3,11 @@
 import { ChevronsLeft } from '@/components/common/icons';
 
 export const SidebarHeader = ({ currentWorkspace, onCollapse, onToggleDropdown }) => {
+    // 워크스페이스 이름이 없으면 아무것도 렌더링하지 않음
+    if (!currentWorkspace?.name) {
+        return null;
+    }
+
     return (
         <header
             className="sidebar-header"

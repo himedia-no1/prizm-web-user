@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useMessages } from 'next-intl';
+import { useRouter } from 'next/navigation';
 import { Settings, Plus, Mail, AlertTriangle, Bell } from '@/components/common/icons';
+import { workspaceService } from '@/core/api/services';
 
 export const WorkspaceDropdown = ({
   currentWorkspace,
@@ -12,14 +14,41 @@ export const WorkspaceDropdown = ({
   onNavigateToCreateWorkspace,
   onOpenModal,
   permissions = {},
+  currentMembership = {},
 }) => {
   const messages = useMessages();
   const s = messages?.common ?? {};
   const { canManageWorkspace = false, canInviteMembers = false } = permissions;
   const [hoveredWorkspace, setHoveredWorkspace] = useState(null);
   const [isCurrentWsHovered, setIsCurrentWsHovered] = useState(false);
+  const router = useRouter();
 
   if (!isOpen) return null;
+
+  // OWNER는 탈퇴 불가능
+  const canLeaveWorkspace = currentMembership?.role && currentMembership.role !== 'OWNER';
+
+  const handleLeaveWorkspace = async () => {
+    try {
+      await workspaceService.leaveWorkspace(currentWorkspace.id);
+      
+      // 탈퇴 후 서버에서 새로운 워크스페이스 목록 조회
+      const remainingWorkspaces = await workspaceService.getWorkspaces();
+      
+      if (remainingWorkspaces.length > 0) {
+        // 첫 번째 워크스페이스의 대시보드로 이동
+        router.push(`/workspace/${remainingWorkspaces[0].id}/dashboard`);
+      } else {
+        // 워크스페이스가 없으면 새 워크스페이스 생성 페이지로 이동
+        router.push('/workspace/new');
+      }
+      
+      onClose();
+    } catch (error) {
+      console.error('Failed to leave workspace:', error);
+      throw error;
+    }
+  };
 
   return (
     <div className="ws-dropdown">
@@ -58,21 +87,25 @@ export const WorkspaceDropdown = ({
         )}
       </div>
 
-      <button
-        className="ws-dropdown__button ws-dropdown__leave-button"
-        onClick={() => {
-          onOpenModal('leaveWorkspace', {
-            workspaceName: currentWorkspace.name,
-            onConfirm: () => onOpenModal('__LEAVE_WORKSPACE__', { workspaceId: currentWorkspace.id })
-          });
-          onClose();
-        }}
-      >
-        <AlertTriangle size={16} />
-        <span>{s.leaveWorkspace || '워크스페이스 탈퇴'}</span>
-      </button>
+      {canLeaveWorkspace && (
+        <>
+          <button
+            className="ws-dropdown__button ws-dropdown__leave-button"
+            onClick={() => {
+              onOpenModal('leaveWorkspace', {
+                workspaceName: currentWorkspace.name,
+                onConfirm: handleLeaveWorkspace
+              });
+              onClose();
+            }}
+          >
+            <AlertTriangle size={16} />
+            <span>{s.leaveWorkspace || '워크스페이스 탈퇴'}</span>
+          </button>
 
-      <div className="ws-dropdown__divider"></div>
+          <div className="ws-dropdown__divider"></div>
+        </>
+      )}
 
       {canInviteMembers && (
         <button

@@ -33,5 +33,5 @@ export default function DashboardClient({ workspaceId }) {
 
   const stats = [];
 
-  return <DashboardView workspaceName={workspace?.name ?? 'My Workspace'} stats={stats} />;
+  return <DashboardView stats={stats} />;
 }

@@ -26,6 +26,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
     users,
     safeCurrentUser,
     permissionFlags,
+    currentMembership,
     handleSelectChannel,
     handleSelectView,
     handleSwitchWorkspace,
@@ -58,6 +59,7 @@ const WorkspaceLayoutClient = ({ children, workspaceId, initialWorkspace, userId
           currentChannelId={currentChannelId}
           currentView={currentView}
           permissions={permissionFlags}
+          currentMembership={currentMembership}
           onSelectChannel={handleSelectChannel}
           onSelectView={handleSelectView}
           onSwitchWorkspace={handleSwitchWorkspace}

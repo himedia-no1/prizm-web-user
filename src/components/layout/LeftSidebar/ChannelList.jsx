@@ -11,8 +11,12 @@ export const ChannelList = ({
   currentChannelId,
   currentView,
   onSelectChannel,
+  onOpenModal,
+  favoriteChannels,
+  onToggleFavorite,
 }) => {
   const categories = useWorkspaceStore((state) => state.categories);
+  const currentWorkspaceRole = useWorkspaceStore((state) => state.currentWorkspaceRole);
   const loadInitialData = useDataStore((state) => state.loadInitialData);
   const initialized = useDataStore((state) => state.initialized);
 
@@ -25,6 +29,7 @@ export const ChannelList = ({
   }, [initialized, loadInitialData]);
 
   const categoryList = categories ?? [];
+  const canManage = currentWorkspaceRole === 'OWNER' || currentWorkspaceRole === 'MANAGER';
 
   return (
     <nav className={styles.sidebarNav}>
@@ -39,6 +44,10 @@ export const ChannelList = ({
             currentChannelId={currentChannelId}
             currentView={currentView}
             onSelectChannel={onSelectChannel}
+            onOpenModal={onOpenModal}
+            favoriteChannels={favoriteChannels}
+            onToggleFavorite={onToggleFavorite}
+            canManage={canManage}
           />
         ))}
       </div>

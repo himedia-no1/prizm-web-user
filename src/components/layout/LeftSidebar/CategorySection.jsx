@@ -21,7 +21,7 @@ export const CategorySection = ({
   const [isOpen, setIsOpen] = useState(true);
   const { unreadCounts } = useChatStore();
   const currentWorkspaceRole = useWorkspaceStore((state) => state.currentWorkspaceRole);
-  const isManager = currentWorkspaceRole === 'owner' || currentWorkspaceRole === 'manager';
+  const isManager = currentWorkspaceRole === 'OWNER' || currentWorkspaceRole === 'MANAGER';
 
   return (
     <div className="nav-category">
@@ -41,10 +41,7 @@ export const CategorySection = ({
             className="nav-category__add-channel-button"
             onClick={(e) => {
               e.stopPropagation();
-              onOpenModal?.('addChannel', {
-                categoryId: category.id,
-                categoryName: category.name,
-              });
+              onOpenModal?.('addChannel', { categoryId: category.id });
             }}
           >
             <Plus size={12} />

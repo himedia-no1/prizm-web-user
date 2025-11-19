@@ -24,6 +24,7 @@ export const LeftSidebar = ({
   currentChannelId,
   currentView,
   permissions = {},
+  currentMembership = {},
   onSelectChannel,
   onSelectView,
   onSwitchWorkspace,
@@ -63,13 +64,27 @@ export const LeftSidebar = ({
     return map;
   }, [channelCategories]);
 
+  // 워크스페이스 데이터가 없으면 로딩 상태 표시
+  if (!currentWorkspace) {
+    return (
+      <aside className="left-sidebar">
+        <header className="sidebar-header">
+          <h1 className="sidebar-header__title">{'\u00A0'}</h1>
+          <button onClick={onCollapse} className="sidebar-header__collapse-button">
+            <ChevronsLeft size={18} />
+          </button>
+        </header>
+      </aside>
+    );
+  }
+
   return (
     <aside className="left-sidebar">
       <header
         className="sidebar-header"
         onClick={() => setIsWorkspaceDropdownOpen(!isWorkspaceDropdownOpen)}
       >
-        <h1 className="sidebar-header__title">{currentWorkspace.name}</h1>
+        <h1 className="sidebar-header__title">{currentWorkspace?.name || '\u00A0'}</h1>
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -91,6 +106,7 @@ export const LeftSidebar = ({
         onNavigateToCreateWorkspace={onNavigateToCreateWorkspace}
         onOpenModal={onOpenModal}
         permissions={{ canManageWorkspace, canInviteMembers }}
+        currentMembership={currentMembership}
       />
 
       <NavigationMenu currentView={currentView} onSelectView={onSelectView} />
