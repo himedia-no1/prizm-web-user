@@ -41,6 +41,13 @@ export const Message = ({
   replyToUser = null,
   onReplyClick
 }) => {
+  const fallbackUser = {
+    id: 'unknown-user',
+    name: 'Unknown User',
+    avatar: null,
+  };
+  const displayUser = user || fallbackUser;
+  
   const hasThread = message.threadId;
   const threadCount = message.threadCount || 0;
   const { autoTranslateEnabled } = useUIStore();
@@ -127,7 +134,7 @@ export const Message = ({
     setInlineActionsState({ visible: false, position: null });
   };
 
-  const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
+  const avatarSrc = displayUser.avatar || getPlaceholderImage(40, displayUser.name?.[0] ?? '?');
 
   return (
     <div
@@ -138,13 +145,13 @@ export const Message = ({
     >
       <Image
         src={avatarSrc}
-        alt={user.name}
+        alt={displayUser.name}
         width={40}
         height={40}
         className={`${styles.avatar} ${styles.clickable}`}
         onClick={(e) => {
           e.stopPropagation();
-          onOpenUserProfile(user.id);
+          onOpenUserProfile(displayUser.id);
         }}
       />
       <div className={styles.content}>
@@ -153,10 +160,10 @@ export const Message = ({
             className={`${styles.username} ${styles.clickable}`}
             onClick={(e) => {
               e.stopPropagation();
-              onOpenUserProfile(user.id);
+              onOpenUserProfile(displayUser.id);
             }}
           >
-            {user.name}
+            {displayUser.name}
           </span>
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>
