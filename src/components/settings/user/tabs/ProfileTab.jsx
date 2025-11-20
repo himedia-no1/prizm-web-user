@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useMessages } from 'next-intl';
+import Image from 'next/image';
 import { Google, GitHub, Microsoft } from '@/components/common/icons';
 import { ProfilePhotoUploadModal } from '@/components/modals/ProfilePhotoUploadModal';
 import { userService } from '@/core/api/services';
@@ -44,7 +45,7 @@ export const ProfileTab = ({
       <div
         className={`profile-modal__avatar-section ${styles.avatarSection}`}
       >
-        <img
+        <Image
           src={avatarSrc}
           alt={user?.name || user?.email || 'Profile'}
           width={72}

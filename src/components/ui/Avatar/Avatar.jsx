@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './Avatar.module.css';
 
 /**
@@ -12,6 +13,15 @@ import styles from './Avatar.module.css';
  * @param {boolean} props.showStatus - 상태 표시 여부
  * @param {string} props.className - 추가 클래스
  */
+
+const SIZE_MAP = {
+  xs: 24,
+  sm: 32,
+  md: 40,
+  lg: 48,
+  xl: 64,
+};
+
 export const Avatar = ({
   src,
   alt = 'Avatar',
@@ -30,17 +40,17 @@ export const Avatar = ({
     .filter(Boolean)
     .join(' ');
 
+  const pixelSize = SIZE_MAP[size] || SIZE_MAP.md;
+
   return (
     <div className={styles.avatar__container} {...props}>
       {src ? (
-        <img
+        <Image
           src={src}
           alt={alt}
+          width={pixelSize}
+          height={pixelSize}
           className={classNames}
-          onError={(e) => {
-            // 이미지 로드 실패 시 fallback 처리
-            e.target.style.display = 'none';
-          }}
         />
       ) : fallback ? (
         <div className={`${classNames} ${styles.avatar__fallback}`}>

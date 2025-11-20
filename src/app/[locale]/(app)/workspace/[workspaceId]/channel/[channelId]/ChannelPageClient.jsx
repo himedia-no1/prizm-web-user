@@ -16,13 +16,23 @@ import { useWorkspaceStore } from '@/core/store/workspace';
 import { messageService } from '@/core/api/services';
 import useChannelPageState from './useChannelPageState';
 import { useLastWorkspacePath } from '@/shared/hooks/useLastWorkspacePath';
-import { useChat } from '@/shared/hooks/useWebSocket';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useContext } from 'react';
 import { useLocale } from 'next-intl';
+import { WorkspaceContext } from '../../WorkspaceLayoutClient';
 
 const ChannelPageClient = ({ channelId, workspaceId }) => {
   useLastWorkspacePath();
   const locale = useLocale();
+  
+  // WorkspaceContext에서 currentMembership 가져오기
+  const workspaceContext = useContext(WorkspaceContext);
+  const currentMembership = workspaceContext?.currentMembership;
+  
+  // 디버깅: currentMembership 확인
+  useEffect(() => {
+    console.log('🔍 DEBUG - currentMembership:', currentMembership);
+    console.log('🔍 DEBUG - workspaceContext:', workspaceContext);
+  }, [currentMembership, workspaceContext]);
 
   const sidebarPanelType = useUIStore((state) => state.sidebarPanelType);
   const sidebarPanelProps = useUIStore((state) => state.sidebarPanelProps);
@@ -66,21 +76,6 @@ const ChannelPageClient = ({ channelId, workspaceId }) => {
     workspaceId,
     // SSR에서 initial 데이터를 받지 않음 - CSR에서 로드
   });
-
-  // Real-time chat integration
-  const { messages: realTimeMessages, sendMessage, isConnected } = useChat(channelId);
-
-  useEffect(() => {
-    if (realTimeMessages.length > 0) {
-      setMessages(prev => {
-        const messageMap = new Map(prev.map(m => [m.id, m]));
-        realTimeMessages.forEach(m => messageMap.set(m.id, m));
-        // Sorting might be needed if order is not guaranteed
-        return Array.from(messageMap.values()).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      });
-    }
-  }, [realTimeMessages, setMessages]);
-
 
   const currentUserId = currentUserProfile?.id || 'u1';
 
@@ -242,12 +237,28 @@ const ChannelPageClient = ({ channelId, workspaceId }) => {
               console.error("Cannot send message: current user profile is not loaded.");
               return;
             }
-            // 메시지 전송 (WebSocket)
-            sendMessage(text, currentUserProfile);
+            
+            console.log('📤 Sending message:', {
+              channelId,
+              workspaceUserId: currentMembership?.id,
+              contentType: 'TEXT',
+              content: text,
+            });
+            
+            // 메시지 전송 (WebSocket via messageService)
+            const success = messageService.sendMessage(channelId, {
+              workspaceUserId: currentMembership?.id,
+              contentType: 'TEXT',
+              content: text,
+            });
 
-            // 답글 모드 해제 및 입력창 초기화
-            setReplyingTo(null);
-            setMessage('');
+            if (success) {
+              // 답글 모드 해제 및 입력창 초기화
+              setReplyingTo(null);
+              setMessage('');
+            } else {
+              console.error('❌ Message send failed');
+            }
           }}
         />
 

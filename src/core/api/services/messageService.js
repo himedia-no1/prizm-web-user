@@ -7,11 +7,18 @@ import chatWebSocketService from '@/core/websocket/chatWebSocketService';
 export const messageService = {
   /**
    * 채널의 메시지 목록 조회
-   * TODO: API 구현 대기 (백엔드 API 명세에 없음)
+   * GET /api/messages?channelId={channelId}&limit={limit}
    */
-  async fetchMessages(channelId) {
-    // TODO: 백엔드 API가 제공되면 구현
-    return [];
+  async fetchMessages(channelId, limit = 50) {
+    try {
+      const response = await axiosInstance.get('/api/messages', {
+        params: { channelId, limit }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch messages:', error);
+      return [];
+    }
   },
 
   /**

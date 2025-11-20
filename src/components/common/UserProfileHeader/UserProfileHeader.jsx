@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuthStore } from '@/core/store/authStore';
 import { useMessages } from 'next-intl';
 import { ChevronDown, Settings, User, ArrowLeft } from '@/components/common/icons';
@@ -54,7 +55,13 @@ export default function UserProfileHeader() {
       >
         <div className={styles.avatar}>
           {user.avatar ? (
-            <img src={user.avatar} alt={user.name} />
+            <Image 
+              src={user.avatar} 
+              alt={user.name}
+              width={40}
+              height={40}
+              className={styles.avatarImage}
+            />
           ) : (
             <span>{userInitial}</span>
           )}

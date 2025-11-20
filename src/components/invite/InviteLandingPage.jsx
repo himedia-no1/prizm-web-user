@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessages, useLocale } from 'next-intl';
+import Image from 'next/image';
 import { Users, GitHub, Google } from '@/components/common/icons';
 import { inviteService } from '@/core/api/services';
 import { refreshSession } from '@/shared/lib/authClient';
@@ -183,7 +184,13 @@ export default function InviteLandingPage({ inviteCode }) {
       <div className={styles.card}>
         <div className={styles.workspaceAvatar}>
           {workspace?.imageUrl ? (
-            <img src={workspace.imageUrl} alt={workspace.name} />
+            <Image 
+              src={workspace.imageUrl} 
+              alt={workspace.name}
+              width={80}
+              height={80}
+              className={styles.workspaceImage}
+            />
           ) : (
             <div className={styles.workspaceAvatarPlaceholder}>
               {workspace?.name?.charAt(0)?.toUpperCase() || 'W'}

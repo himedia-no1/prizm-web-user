@@ -8,3 +8,4 @@ export { notificationService } from './notificationService';
 export { messageService } from './messageService';
 export { searchService } from './searchService';
 export { aiService } from './aiService';
+export { fileService } from './fileService';

@@ -124,11 +124,22 @@ export const useWorkspaceResolvedData = ({ workspaceId, initialWorkspace, userId
   }, [currentUserProfile, users, userId, defaultUserName]);
 
   const currentMembership = useMemo(() => {
-    // 워크스페이스 간단 프로필에서 role 가져오기
-    if (currentUserProfile?.role) {
-      return { role: currentUserProfile.role };
+    // 워크스페이스 멤버십 정보 가져오기 (id 포함)
+    const membership = workspaceMembersMap?.[userId];
+    
+    if (membership) {
+      return membership; // id, role 등 모든 필드 포함
     }
-    return workspaceMembersMap?.[userId] ?? { role: 'MEMBER' };
+    
+    // currentUserProfile에서 role 가져오기 (fallback)
+    if (currentUserProfile?.role) {
+      return { 
+        id: currentUserProfile.id,
+        role: currentUserProfile.role 
+      };
+    }
+    
+    return { role: 'MEMBER' };
   }, [workspaceMembersMap, userId, currentUserProfile]);
 
   const permissionFlags = useMemo(() => {

@@ -40,6 +40,7 @@ export const useChannelHandlers = ({
   const permissions = workspaceContext?.permissions ?? {};
   const workspaceId = workspaceContext?.currentWorkspace?.id;
   const workspaceMembers = workspaceContext?.workspaceMembers ?? {};
+  const currentMembership = workspaceContext?.currentMembership;
 
   const handleOpenUserProfile = (userId) => {
     openModal('userProfile', { userId });
@@ -147,6 +148,14 @@ export const useChannelHandlers = ({
             ...enhancedProps,
             files: channelFiles,
             users: resolvedUsers,
+          };
+          break;
+        case 'fileUpload':
+          // 파일 업로드에 필요한 channelId와 workspaceUserId 전달
+          enhancedProps = {
+            ...enhancedProps,
+            channelId: channel?.id,
+            workspaceUserId: currentMembership?.id,
           };
           break;
         default:

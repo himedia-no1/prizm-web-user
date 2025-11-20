@@ -27,7 +27,10 @@ class StompClientManager {
      */
     connect(onConnect, onError) {
         if (this.isConnected || this.isConnecting) {
-            console.warn('WebSocket is already connected or connecting');
+            console.warn('⚠️ WebSocket is already connected or connecting');
+            if (this.isConnected && onConnect) {
+                onConnect();
+            }
             return;
         }
 
@@ -35,6 +38,7 @@ class StompClientManager {
 
         // 현재 브라우저 URL 기준으로 WebSocket URL 생성
         const wsURL = this._getWebSocketURL();
+        console.log('🔌 Connecting to WebSocket:', wsURL);
 
         this.client = new Client({
             webSocketFactory: () => new SockJS(wsURL),
@@ -52,7 +56,7 @@ class StompClientManager {
             heartbeatOutgoing: 10000,
 
             onConnect: (frame) => {
-                console.log('✅ WebSocket Connected:', frame);
+                console.log('✅ WebSocket Connected');
                 this.isConnected = true;
                 this.isConnecting = false;
                 this.reconnectAttempts = 0;
@@ -63,7 +67,7 @@ class StompClientManager {
             },
 
             onStompError: (frame) => {
-                console.error('❌ STOMP Error:', frame);
+                console.error('❌ STOMP Error:', frame?.headers?.message || 'Unknown error', frame);
                 this.isConnected = false;
                 this.isConnecting = false;
 
@@ -96,8 +100,8 @@ class StompClientManager {
      */
     _getWebSocketURL() {
         // 환경 변수가 있으면 절대 경로 사용 (개발)
-        if (process.env.NEXT_PUBLIC_BACKEND_URL) {
-            return `${ process.env.NEXT_PUBLIC_BACKEND_URL }/ws-stomp`;
+        if (process.env.NEXT_PUBLIC_PRIZM_SERVICE_CORE_URL) {
+            return `${ process.env.NEXT_PUBLIC_PRIZM_SERVICE_CORE_URL }/ws-stomp`;
         }
 
         // 브라우저 환경인지 확인
@@ -125,12 +129,16 @@ class StompClientManager {
      */
     _handleReconnect() {
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-            console.error('Max reconnect attempts reached. Giving up.');
+            console.error(`❌ WebSocket 재연결 실패: 최대 시도 횟수(${this.maxReconnectAttempts})를 초과했습니다.`);
+            console.error('해결 방법:');
+            console.error('1. 백엔드 서버가 실행 중인지 확인하세요 (http://localhost:8080)');
+            console.error('2. RabbitMQ STOMP 플러그인이 활성화되어 있는지 확인하세요');
+            console.error('   - docker exec prizm-infra-rabbitmq rabbitmq-plugins enable rabbitmq_stomp');
             return;
         }
 
         this.reconnectAttempts++;
-        console.log(`🔄 Reconnecting... (Attempt ${ this.reconnectAttempts }/${ this.maxReconnectAttempts })`);
+        console.log(`🔄 WebSocket 재연결 중... (${this.reconnectAttempts}/${this.maxReconnectAttempts})`);
     }
 
     /**
@@ -144,6 +152,9 @@ class StompClientManager {
             console.error('Cannot subscribe: WebSocket is not connected');
             return null;
         }
+
+        console.log(`🔍 [STOMP] Attempting to subscribe to: "${destination}" (type: ${typeof destination})`);
+        console.warn(`🚨 STOMP SUBSCRIBE TO: ${destination}`); // 명확한 경고 로그
 
         const subscription = this.client.subscribe(destination, (message) => {
             try {

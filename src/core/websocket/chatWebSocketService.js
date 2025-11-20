@@ -21,19 +21,31 @@ class ChatWebSocketService {
    * @param {function} onError - 에러 발생 시 콜백
    */
   initialize(onConnect, onError) {
+    // 이미 연결되어 있으면 즉시 onConnect 콜백 실행
+    if (stompClient.isActive()) {
+      console.log('✅ WebSocket already connected');
+      if (onConnect) {
+        onConnect();
+      }
+      return;
+    }
+
+    // 연결 중이면 대기
+    if (stompClient.isConnecting) {
+      console.log('⏳ WebSocket is connecting...');
+      return;
+    }
+
     stompClient.connect(
       (frame) => {
-        console.log('Chat WebSocket initialized');
-
-        // 사용자 전용 큐 구독 (번역 응답 수신용)
-        this._subscribeUserQueue();
+        console.log('✅ Chat WebSocket initialized');
 
         if (onConnect) {
           onConnect(frame);
         }
       },
       (error) => {
-        console.error('Chat WebSocket initialization failed:', error);
+        console.error('❌ Chat WebSocket initialization failed:', error?.headers?.message || error?.message || 'Unknown error');
         if (onError) {
           onError(error);
         }
@@ -43,21 +55,28 @@ class ChatWebSocketService {
 
   /**
    * 사용자 전용 큐 구독 (/user/queue/translate)
+   * 번역 기능 사용 시 호출
    */
   _subscribeUserQueue() {
     if (this.userQueueSubscription) {
       return;
     }
 
-    this.userQueueSubscription = stompClient.subscribe(
-      '/user/queue/translate',
-      (message) => {
-        console.log('📨 Translation received:', message);
-        if (this.onTranslateCallback) {
-          this.onTranslateCallback(message);
+    try {
+      this.userQueueSubscription = stompClient.subscribe(
+        '/user/queue/translate',
+        (message) => {
+          console.log('📨 Translation received:', message);
+          if (this.onTranslateCallback) {
+            this.onTranslateCallback(message);
+          }
         }
-      }
-    );
+      );
+      console.log('✅ Subscribed to user queue: /user/queue/translate');
+    } catch (error) {
+      console.warn('⚠️ Failed to subscribe to user queue (번역 기능 사용 불가):', error);
+      this.userQueueSubscription = null;
+    }
   }
 
   /**
@@ -71,7 +90,17 @@ class ChatWebSocketService {
       return;
     }
 
+    // WebSocket이 연결되지 않았으면 에러
+    if (!stompClient.isActive()) {
+      console.error(`Cannot subscribe to channel ${channelId}: WebSocket is not connected`);
+      return;
+    }
+
+    // RabbitMQ STOMP topic destination
     const destination = `/topic/channel/${channelId}`;
+    console.log(`🔍 [DEBUG] Subscribing with channelId: "${channelId}", destination: "${destination}"`);
+    console.log(`📍 SUBSCRIBE DESTINATION: ${destination}`);
+    
     const subscriptionId = stompClient.subscribe(destination, (message) => {
       console.log(`📨 Message received in channel ${channelId}:`, message);
       if (onMessage) {
@@ -85,8 +114,12 @@ class ChatWebSocketService {
       }
     });
 
-    this.channelSubscriptions.set(channelId, subscriptionId);
-    console.log(`✅ Subscribed to channel ${channelId}`);
+    if (subscriptionId) {
+      this.channelSubscriptions.set(channelId, subscriptionId);
+      console.log(`✅ Subscribed to channel ${channelId}`);
+    } else {
+      console.error(`Failed to subscribe to channel ${channelId}`);
+    }
   }
 
   /**
@@ -105,7 +138,7 @@ class ChatWebSocketService {
 
   /**
    * 메시지 전송
-   * WebSocket: /pub/chat.send
+   * WebSocket: /app/chat.send
    * @param {object} data - {
    *   channelId: number,
    *   workspaceUserId: number,
@@ -117,22 +150,28 @@ class ChatWebSocketService {
   sendMessage(data) {
     const { channelId, workspaceUserId, contentType, content } = data;
 
+    // 데이터 검증
     if (!channelId || !workspaceUserId || !contentType || !content) {
-      console.error('Invalid message data:', data);
+      console.error('❌ Invalid message data:', data);
+      console.error('Required fields: channelId, workspaceUserId, contentType, content');
       return false;
     }
 
-    return stompClient.send('/pub/chat.send', {
-      channelId,
-      workspaceUserId,
+    const messageData = {
+      channelId: String(channelId),  // 문자열로 전송 (JavaScript BigInt 정밀도 문제 방지)
+      workspaceUserId: String(workspaceUserId),
       contentType,
-      content,
-    });
+      content: content.trim(),
+    };
+
+    console.log('📤 Sending message:', messageData);
+
+    return stompClient.send('/app/chat.send', messageData);
   }
 
   /**
    * 메시지 번역 요청 (WebSocket)
-   * WebSocket: /pub/chat.translate
+   * WebSocket: /app/chat.translate
    * 응답은 /user/queue/translate로 수신
    * @param {number} messageId - 번역할 메시지 ID
    * @param {string} targetLang - 대상 언어 (ko, en, ja, fr)
@@ -145,12 +184,17 @@ class ChatWebSocketService {
       return false;
     }
 
+    // 첫 번역 요청 시 user queue 구독
+    if (!this.userQueueSubscription) {
+      this._subscribeUserQueue();
+    }
+
     // 번역 응답 콜백 설정
     if (onTranslate) {
       this.onTranslateCallback = onTranslate;
     }
 
-    return stompClient.send('/pub/chat.translate', {
+    return stompClient.send('/app/chat.translate', {
       messageId,
       targetLang,
     });

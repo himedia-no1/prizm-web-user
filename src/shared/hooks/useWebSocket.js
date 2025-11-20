@@ -32,7 +32,7 @@ export function useWebSocket(channelId = null, onMessage = null, options = {}) {
     };
 
     const handleError = (error) => {
-      console.error('❌ WebSocket connection error:', error);
+      console.error('❌ WebSocket connection error:', error?.headers?.message || error?.message || 'Unknown error', error);
       isConnectedRef.current = false;
     };
 

@@ -8,7 +8,7 @@ import { clearLastPathCookie } from '@/shared/lib/lastPath';
  * - withCredentials: BACKEND_URL 환경변수가 있으면 true
  * - 401 발생 시 자동으로 refresh 후 재시도
  */
-const shouldUseCredentials = Boolean(process.env.NEXT_PUBLIC_BACKEND_URL);
+const shouldUseCredentials = Boolean(process.env.NEXT_PUBLIC_PRIZM_SERVICE_CORE_URL);
 
 const axiosInstance = axios.create({
   withCredentials: shouldUseCredentials,
