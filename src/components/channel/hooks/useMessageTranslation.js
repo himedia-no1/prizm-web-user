@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import { messageService } from '@/core/api/services';
 
 export const getTranslationText = (translation) => {
@@ -28,6 +28,7 @@ export const useMessageTranslation = ({
   const [translationState, setTranslationState] = useState('none'); // 'none' | 'loading' | 'done'
   const [translatedText, setTranslatedText] = useState('');
   const [isOriginalVisible, setIsOriginalVisible] = useState(false);
+  const isTranslatingRef = useRef(false); // ref로 변경하여 무한 루프 방지
 
   const manualTranslatedText = useMemo(
     () => getTranslationText(message.manualTranslations?.[locale]),
@@ -35,6 +36,13 @@ export const useMessageTranslation = ({
   );
 
   const requestAutoTranslation = useCallback(async () => {
+    // ref로 중복 요청 체크 (의존성 배열 문제 해결)
+    if (isTranslatingRef.current) {
+      console.log('⚠️ Translation already in progress for message:', message.id);
+      return;
+    }
+
+    isTranslatingRef.current = true;
     setTranslationState('loading');
 
     setTimeout(async () => {
@@ -46,9 +54,11 @@ export const useMessageTranslation = ({
       } catch (error) {
         console.error('Translation failed:', error);
         setTranslationState('none');
+      } finally {
+        isTranslatingRef.current = false;
       }
     }, 500);
-  }, [message.id, locale]);
+  }, [message.id, locale]); // translationState 제거
 
   useEffect(() => {
     setIsOriginalVisible(false);
@@ -91,6 +101,14 @@ export const useMessageTranslation = ({
     async (event) => {
       event?.stopPropagation?.();
       if (!manualTranslateCallback) return;
+      
+      // ref로 중복 요청 체크 (의존성 배열 문제 해결)
+      if (isTranslatingRef.current) {
+        console.log('⚠️ Translation already in progress for message:', message.id);
+        return;
+      }
+      
+      isTranslatingRef.current = true;
       setTranslationState('loading');
       try {
         const result = await manualTranslateCallback(message);
@@ -104,9 +122,11 @@ export const useMessageTranslation = ({
         console.error('Manual translation failed:', error);
         setTranslationState('none');
         throw error;
+      } finally {
+        isTranslatingRef.current = false;
       }
     },
-    [manualTranslateCallback, message],
+    [manualTranslateCallback, message], // translationState 제거
   );
 
   const toggleOriginalVisibility = useCallback((event) => {

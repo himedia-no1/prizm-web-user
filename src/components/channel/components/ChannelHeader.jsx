@@ -7,16 +7,6 @@ import { useChatStore } from '@/core/store/chat';
 import { NotificationSettingsModal } from '@/components/modals/NotificationSettingsModal';
 import styles from './ChannelHeader.module.css';
 
-const buildSubtitle = ({ members = [], topic, description, type, fallbackTopic, t }) => {
-  const memberCount = members.length;
-  const topicText = topic || fallbackTopic || (description ? description : '');
-  const memberLabel = memberCount > 0 ? `${memberCount} ${memberCount === 1 ? t.member : t.members}` : null;
-  if (memberLabel && topicText) {
-    return `${memberLabel} • ${topicText}`;
-  }
-  return memberLabel || topicText || (type === 'dm' ? t.directConversation : t.teamConversation);
-};
-
 export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleSearch }) => {
   const messages = useMessages();
   const t = messages.workspace;
@@ -28,14 +18,7 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleS
 
   const isDirectMessage = channel.type === 'dm' || channel.id?.startsWith('dm-');
   const notificationsEnabled = isChannelNotificationsEnabled(channel.id);
-  const subtitle = buildSubtitle({
-    members: channel.members,
-    topic: channel.topic,
-    description: channel.description,
-    type: channel.type,
-    fallbackTopic: channel.fallbackTopic,
-    t,
-  });
+  // subtitle 제거 - 더 이상 필요 없음
 
   return (
     <header className="chat-header">
@@ -44,7 +27,7 @@ export const ChatHeader = ({ channel, onOpenModal, onOpenSidebarPanel, onToggleS
           {isDirectMessage ? <Users size={20} /> : <Hash size={20} />}
           <span>{channel.displayName || channel.name || t.unknownChannel}</span>
         </h2>
-        <p className="chat-header__meta">{subtitle}</p>
+        {/* subtitle 제거 - 채널명만 표시 */}
       </div>
 
       <div className="chat-header__actions">

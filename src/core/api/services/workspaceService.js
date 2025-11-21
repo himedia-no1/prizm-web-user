@@ -184,19 +184,37 @@ export const workspaceService = {
    */
   async fetchSettings(workspaceId) {
     try {
-      const [workspace, users, groups, invites] = await Promise.all([
+      console.log('🔍 Fetching workspace settings:', workspaceId);
+      
+      // Promise.allSettled로 변경하여 일부 실패해도 계속 진행
+      const results = await Promise.allSettled([
         this.getWorkspace(workspaceId),
         this.getWorkspaceUsers(workspaceId),
         import('./groupService').then(({ groupService }) => groupService.getGroups(workspaceId)),
         import('./inviteService').then(({ inviteService }) => inviteService.getInvites(workspaceId)),
       ]);
 
+      console.log('📊 Settings fetch results:', results.map((r, i) => ({
+        index: i,
+        status: r.status,
+        hasValue: r.status === 'fulfilled'
+      })));
+
+      // 성공한 결과만 추출
+      const [workspaceResult, usersResult, groupsResult, invitesResult] = results;
+
       return {
-        workspace,
-        users,
-        groups: groups || [],
-        invites: invites || [],
-        // TODO: Add more settings data as needed
+        workspace: workspaceResult.status === 'fulfilled' ? workspaceResult.value : null,
+        users: usersResult.status === 'fulfilled' ? usersResult.value : [],
+        groups: groupsResult.status === 'fulfilled' ? (groupsResult.value || []) : [],
+        invites: invitesResult.status === 'fulfilled' ? (invitesResult.value || []) : [],
+        // 실패한 API들 기록
+        errors: {
+          workspace: workspaceResult.status === 'rejected' ? workspaceResult.reason?.message : null,
+          users: usersResult.status === 'rejected' ? usersResult.reason?.message : null,
+          groups: groupsResult.status === 'rejected' ? groupsResult.reason?.message : null,
+          invites: invitesResult.status === 'rejected' ? invitesResult.reason?.message : null,
+        }
       };
     } catch (error) {
       console.error('Failed to fetch workspace settings:', error);

@@ -149,11 +149,46 @@ export default function WorkspaceSettingsClient({
 
   const renderTabContent = () => {
     if (settingsLoading) {
-      return <div className={styles.loadingState}>{workspaceStrings?.settingsLoading}</div>;
+      return <div className={styles.loadingState}>{workspaceStrings?.settingsLoading || 'Loading settings...'}</div>;
     }
 
     if (settingsError) {
-      return <div className={styles.errorState}>{settingsError}</div>;
+      return (
+        <div className={styles.errorState}>
+          <h3>설정 데이터 로드 실패</h3>
+          <p>{settingsError}</p>
+          {settingsData?.errors && (
+            <details style={{ marginTop: '10px', fontSize: '12px', color: '#666' }}>
+              <summary>상세 에러 정보</summary>
+              <pre style={{ marginTop: '5px', whiteSpace: 'pre-wrap' }}>
+                {JSON.stringify(settingsData.errors, null, 2)}
+              </pre>
+            </details>
+          )}
+          <button 
+            onClick={() => window.location.reload()} 
+            style={{ marginTop: '10px', padding: '8px 16px', cursor: 'pointer' }}
+          >
+            새로고침
+          </button>
+        </div>
+      );
+    }
+
+    // settingsData가 있지만 일부만 로드된 경우에도 표시
+    if (!settingsData) {
+      return (
+        <div className={styles.errorState}>
+          <h3>설정 데이터가 없습니다</h3>
+          <p>워크스페이스 설정을 불러올 수 없습니다.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            style={{ marginTop: '10px', padding: '8px 16px', cursor: 'pointer' }}
+          >
+            새로고침
+          </button>
+        </div>
+      );
     }
 
     const settingsStrings = workspaceStrings ?? {};
