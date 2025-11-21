@@ -40,7 +40,7 @@ export const useMessageTranslation = ({
     setTimeout(async () => {
       try {
         const result = await messageService.translateMessage(message.id, locale);
-        setTranslatedText(result.translatedText);
+        setTranslatedText(result.translatedMessage || result.translatedText);
         setTranslationState('done');
         setIsOriginalVisible(false);
       } catch (error) {
@@ -64,6 +64,7 @@ export const useMessageTranslation = ({
       return;
     }
 
+    // 자동 번역 활성화 상태
     const cachedTranslation = getTranslationText(message.translations?.[locale]);
 
     if (cachedTranslation) {
@@ -73,16 +74,15 @@ export const useMessageTranslation = ({
       setTranslatedText('');
       setTranslationState('none');
 
-      if (message.language && message.language !== locale) {
-        requestAutoTranslation();
-      }
+      // 자동 번역: message.language 체크 제거 (항상 번역 시도)
+      // 내 메시지가 아니면 자동 번역 시도
+      requestAutoTranslation();
     }
   }, [
     autoTranslateEnabled,
     locale,
     manualTranslatedText,
     message.id,
-    message.language,
     message.translations,
     requestAutoTranslation,
   ]);
