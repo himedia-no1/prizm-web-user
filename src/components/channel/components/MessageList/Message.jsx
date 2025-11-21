@@ -127,7 +127,7 @@ export const Message = ({
     setInlineActionsState({ visible: false, position: null });
   };
 
-  const avatarSrc = user.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
+  const avatarSrc = user?.avatar || getPlaceholderImage(40, user?.name?.[0] ?? '?');
 
   return (
     <div
@@ -138,13 +138,13 @@ export const Message = ({
     >
       <Image
         src={avatarSrc}
-        alt={user.name}
+        alt={user?.name ?? 'Alice'}
         width={40}
         height={40}
         className={`${styles.avatar} ${styles.clickable}`}
         onClick={(e) => {
           e.stopPropagation();
-          onOpenUserProfile(user.id);
+          if (user?.id) onOpenUserProfile(user.id);
         }}
       />
       <div className={styles.content}>
@@ -153,10 +153,10 @@ export const Message = ({
             className={`${styles.username} ${styles.clickable}`}
             onClick={(e) => {
               e.stopPropagation();
-              onOpenUserProfile(user.id);
+              if (user?.id) onOpenUserProfile(user.id);
             }}
           >
-            {user.name}
+            {user?.name ?? 'Alice Johnson'}
           </span>
           <span className={styles.timestamp}>{message.timestamp}</span>
         </div>

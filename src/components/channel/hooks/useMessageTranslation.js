@@ -93,8 +93,15 @@ export const useMessageTranslation = ({
       if (!manualTranslateCallback) return;
       setTranslationState('loading');
       try {
-        await manualTranslateCallback(message);
+        const result = await manualTranslateCallback(message);
+        if (result?.translatedMessage) {
+          setTranslatedText(result.translatedMessage);
+          setTranslationState('done');
+        } else {
+          setTranslationState('none');
+        }
       } catch (error) {
+        console.error('Manual translation failed:', error);
         setTranslationState('none');
         throw error;
       }
