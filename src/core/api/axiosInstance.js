@@ -233,7 +233,8 @@ axiosInstance.interceptors.response.use(
             (response?.status === 403 || response?.status === 404);
 
         if (shouldHandleProtected) {
-            await handleProtectedStatusRedirect(originalRequest.url);
+            console.warn(`[DEV MODE] Suppressed ${response?.status} error for ${originalRequest.url}. App will proceed with empty data.`);
+            return Promise.resolve({ data: {}, __DEV_MODE_SUPPRESSED__: true });
         }
 
         return Promise.reject(error);

@@ -113,7 +113,32 @@ export const useChannelData = ({
             threadId: msg.threadId,
           }));
           
-          setMessages(formattedMessages);
+          // 목업 메시지 추가
+          const mockMessages = [
+            {
+              id: 'mock_msg_1',
+              text: 'Thanks for inviting me!',
+              userId: 'user_alice',
+              timestamp: new Date(Date.now() - 30000).toISOString(),
+              channelId: channelId,
+            },
+            {
+              id: 'mock_msg_2',
+              text: '환영합니다! Alice 씨!',
+              userId: 'user_chulsu',
+              timestamp: new Date(Date.now() - 20000).toISOString(),
+              channelId: channelId,
+            },
+            {
+              id: 'mock_msg_3',
+              text: '공지 채널을 확인해주세요 😀',
+              userId: 'user_chulsu',
+              timestamp: new Date(Date.now() - 10000).toISOString(),
+              channelId: channelId,
+            },
+          ];
+          
+          setMessages([...mockMessages, ...formattedMessages]);
           setMessagesLoaded(true);
           console.log(`✅ Loaded ${formattedMessages.length} messages for channel ${channelId}`);
         }
@@ -201,13 +226,19 @@ export const useChannelData = ({
 
   // Users
   const resolvedUsers = useMemo(() => {
+    const mockUsers = {
+      'user_alice': { id: 'user_alice', name: 'Alice Johnson', avatar: 'https://via.placeholder.com/40/FF0000/FFFFFF?text=AJ' },
+      'user_chulsu': { id: 'user_chulsu', name: '김철수', avatar: 'https://via.placeholder.com/40/0000FF/FFFFFF?text=CS' },
+    };
+
+    let baseUsers = {};
     if (users && Object.keys(users).length > 0) {
-      return users;
+      baseUsers = users;
+    } else if (Object.keys(fallbackUsers).length > 0) {
+      baseUsers = fallbackUsers;
     }
-    if (Object.keys(fallbackUsers).length > 0) {
-      return fallbackUsers;
-    }
-    return {};
+    
+    return { ...baseUsers, ...mockUsers };
   }, [users, fallbackUsers]);
 
   // Channel Object
