@@ -43,7 +43,10 @@ export const useChannelData = ({
     const formattedMessage = {
       id: message.id,
       text: message.content,
-      userId: message.userId || `u${message.workspaceUserId}`,
+      workspaceUserId: message.workspaceUserId, // workspaceUserId 저장
+      userId: message.userId, // 실제 userId (백엔드에서 제공)
+      username: message.username, // 워크스페이스 유저 이름
+      userAvatar: message.userAvatar, // 워크스페이스 유저 아바타
       channelId: message.channelId,
       timestamp: message.createdAt,
       edited: message.edited,
@@ -101,7 +104,10 @@ export const useChannelData = ({
           const formattedMessages = fetchedMessages.map(msg => ({
             id: msg.id,
             text: msg.content,
-            userId: msg.userId || `u${msg.workspaceUserId}`,
+            workspaceUserId: msg.workspaceUserId, // workspaceUserId 저장
+            userId: msg.userId, // 실제 userId (백엔드에서 제공)
+            username: msg.username, // 워크스페이스 유저 이름
+            userAvatar: msg.userAvatar, // 워크스페이스 유저 아바타
             channelId: msg.channelId,
             timestamp: msg.createdAt,
             edited: msg.edited,

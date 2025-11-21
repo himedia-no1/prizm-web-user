@@ -56,12 +56,48 @@ export const MessageList = ({
       }, 1500);
     }
   };
+  
+  // workspaceUserId로 사용자 정보 찾기
+  const getUserByWorkspaceId = (workspaceUserId, message) => {
+    // 메시지에 username이 있으면 직접 사용 (워크스페이스 유저 프로필)
+    if (message.username) {
+      return {
+        id: message.userId || message.workspaceUserId,
+        name: message.username,
+        avatar: message.userAvatar || null,
+      };
+    }
+    
+    // users 객체에서 찾기 (userId나 workspaceUserId로)
+    const userById = users[message.userId];
+    if (userById) return userById;
+    
+    const userByWorkspaceId = users[workspaceUserId];
+    if (userByWorkspaceId) return userByWorkspaceId;
+    
+    // users 배열인 경우 (구버전 호환)
+    if (Array.isArray(users)) {
+      const found = users.find(u => 
+        u.id === message.userId || 
+        u.id === workspaceUserId ||
+        u.workspaceUserId === workspaceUserId
+      );
+      if (found) return found;
+    }
+    
+    // 찾지 못한 경우 기본값
+    return null;
+  };
 
   return (
     <div className={styles.messageList} ref={messageListRef}>
       {messages.map(msg => {
         // 답글인 경우 원본 메시지 찾기
         const replyToMessage = msg.reply_id ? messages.find(m => m.id === msg.reply_id) : null;
+        
+        // 사용자 정보 조회
+        const user = getUserByWorkspaceId(msg.workspaceUserId, msg);
+        const replyToUser = replyToMessage ? getUserByWorkspaceId(replyToMessage.workspaceUserId, replyToMessage) : null;
 
         return (
           <div
@@ -70,7 +106,7 @@ export const MessageList = ({
           >
             <Message
               message={msg}
-              user={users[msg.userId]}
+              user={user}
               onStartThread={onStartThread}
               onOpenUserProfile={onOpenUserProfile}
               onOpenContextMenu={onOpenContextMenu}
@@ -80,7 +116,7 @@ export const MessageList = ({
               currentUserId={currentUserId}
               searchQuery={searchQuery}
               replyToMessage={replyToMessage}
-              replyToUser={replyToMessage ? users[replyToMessage.userId] : null}
+              replyToUser={replyToUser}
               onReplyClick={handleReplyClick}
             />
           </div>
